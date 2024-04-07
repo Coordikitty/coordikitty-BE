@@ -26,6 +26,6 @@ public class ClothEntity {
     private String pictureURL;
 
     @ManyToOne  // Many = Cloth, One = User
-    @Column(name = "email", nullable = false)
+    @JoinColumn(name = "email", nullable = false)
     private UserEntity userEntity;
 }
