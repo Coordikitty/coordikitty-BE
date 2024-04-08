@@ -11,21 +11,21 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-@ToString
-@Entity(name = "post")
+//@Getter
+//@Setter
+//@AllArgsConstructor
+//@NoArgsConstructor
+//@Builder
+//@ToString
+//@Entity(name = "post")
 public class PostEntity {
-    @Id
-    private UUID postId;
-    @OneToMany(mappedBy = "cloth")
-    private List<TagEntity> tagList;
-    private String title;
-    @Column(columnDefinition = "TEXT")
-    private String content;
+//    @Id
+//    private UUID postId;
+//    @OneToMany(mappedBy = "cloth")
+//    private List<TagEntity> tagList;
+//    private String title;
+//    @Column(columnDefinition = "TEXT")
+//    private String content;
 
 
 }
