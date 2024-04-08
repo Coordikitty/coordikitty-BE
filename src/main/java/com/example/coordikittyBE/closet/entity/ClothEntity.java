@@ -6,16 +6,16 @@ import lombok.*;
 
 import java.util.UUID;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-@ToString
-@Entity(name = "cloth")
+//@Getter
+//@Setter
+//@AllArgsConstructor
+//@NoArgsConstructor
+//@Builder
+//@ToString
+//@Entity(name = "cloth")
 public class ClothEntity {
-    private UUID clothId;
-    private String category;
-    private String pictureURL;
-    private UserEntity userEntity;
+//    private UUID clothId;
+//    private String category;
+//    private String pictureURL;
+//    private UserEntity userEntity;
 }
