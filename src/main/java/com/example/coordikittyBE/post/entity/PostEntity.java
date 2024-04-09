@@ -1,31 +1,32 @@
 package com.example.coordikittyBE.post.entity;
 
-import com.example.coordikittyBE.tag.TagEntity;
+import com.example.coordikittyBE.page.alarm.entity.AlarmEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.*;
 
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-//@Getter
-//@Setter
-//@AllArgsConstructor
-//@NoArgsConstructor
-//@Builder
-//@ToString
-//@Entity(name = "post")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@ToString
+@Entity(name = "post")
 public class PostEntity {
-//    @Id
-//    private UUID postId;
-//    @OneToMany(mappedBy = "cloth")
-//    private List<TagEntity> tagList;
-//    private String title;
-//    @Column(columnDefinition = "TEXT")
-//    private String content;
+    @Id
+    @Column(name="id", nullable = false)
+    private UUID postId;
+    @Column(name="likeCount", nullable = false)
+    private int likeCount;
+    @Column(columnDefinition = "TEXT")
+    private String content;
+
+    @OneToMany(mappedBy="postEntity")
+    private List<AlarmEntity> alarmEntities;
 
 
 }
