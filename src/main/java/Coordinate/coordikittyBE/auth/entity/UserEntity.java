@@ -2,6 +2,7 @@ package Coordinate.coordikittyBE.auth.entity;
 
 import Coordinate.coordikittyBE.bookmark.entity.BookmarkEntity;
 import Coordinate.coordikittyBE.closet.entity.ClothEntity;
+import Coordinate.coordikittyBE.history.HistoryRDBEntity;
 import Coordinate.coordikittyBE.page.alarm.entity.AlarmEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,7 +12,6 @@ import jakarta.validation.constraints.Email;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Data
@@ -51,6 +51,9 @@ public class UserEntity {
 
     @OneToMany(mappedBy = "userEntity")
     private List<BookmarkEntity> bookmarkEntities;
+
+    @OneToMany(mappedBy = "userEntity")
+    private List<HistoryRDBEntity> historyRDBEntities;
 }
 
 
