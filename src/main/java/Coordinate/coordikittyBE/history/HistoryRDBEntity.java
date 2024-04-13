@@ -26,9 +26,9 @@ public class HistoryRDBEntity {
     @JoinColumn(name = "post_id")
     private PostEntity postEntity;
 
-    @Column(name = "isBookmarked", nullable = false)
+    @Column(name = "is_Bookmarked", nullable = false)
     private Boolean isBookmarked;
 
-    @Column(name = "isLiked", nullable = false)
+    @Column(name = "is_Liked", nullable = false)
     private Boolean isLiked;
 }
