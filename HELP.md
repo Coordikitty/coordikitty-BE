@@ -1,7 +1,7 @@
 # Read Me First
 The following was discovered as part of building this project:
 
-* The original package name 'com.example.coordikitty-BE' is invalid and this project uses 'com.example.coordikittyBE' instead.
+* The original package name 'Coordinate.coordikitty-BE' is invalid and this project uses 'Coordinate.coordikittyBE' instead.
 
 # Getting Started
 
