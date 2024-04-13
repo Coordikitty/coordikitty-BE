@@ -1,5 +1,6 @@
 package Coordinate.coordikittyBE.post.entity;
 
+import Coordinate.coordikittyBE.attach.AttachEntity;
 import Coordinate.coordikittyBE.bookmark.entity.BookmarkEntity;
 import Coordinate.coordikittyBE.page.alarm.entity.AlarmEntity;
 import jakarta.persistence.Column;
@@ -31,4 +32,7 @@ public class PostEntity {
 
     @OneToMany(mappedBy = "postEntity")
     private List<BookmarkEntity> bookmarkEntities;
+
+    @OneToMany(mappedBy = "postEntity")
+    private List<AttachEntity> attachEntities;
 }

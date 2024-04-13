@@ -1,9 +1,11 @@
 package Coordinate.coordikittyBE.closet.entity;
 
+import Coordinate.coordikittyBE.attach.AttachEntity;
 import Coordinate.coordikittyBE.auth.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -27,5 +29,6 @@ public class ClothEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity userEntity;
 
-
+    @OneToMany(mappedBy = "clothEntity")
+    private List<AttachEntity> attachEntities;
 }
