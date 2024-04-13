@@ -1,5 +1,6 @@
 package Coordinate.coordikittyBE.post.entity;
 
+import Coordinate.coordikittyBE.bookmark.entity.BookmarkEntity;
 import Coordinate.coordikittyBE.page.alarm.entity.AlarmEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,9 +19,9 @@ import java.util.UUID;
 @Entity(name = "post")
 public class PostEntity {
     @Id
-    @Column(name="id", nullable = false)
+    @Column(name="post_id", nullable = false)
     private UUID postId;
-    @Column(name="likeCount", nullable = false)
+    @Column(name="like_Count", nullable = false)
     private int likeCount;
     @Column(columnDefinition = "TEXT")
     private String content;
@@ -28,5 +29,6 @@ public class PostEntity {
     @OneToMany(mappedBy="postEntity")
     private List<AlarmEntity> alarmEntities;
 
-
+    @OneToMany(mappedBy = "postEntity")
+    private List<BookmarkEntity> bookmarkEntities;
 }

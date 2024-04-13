@@ -1,5 +1,6 @@
 package Coordinate.coordikittyBE.auth.entity;
 
+import Coordinate.coordikittyBE.bookmark.entity.BookmarkEntity;
 import Coordinate.coordikittyBE.closet.entity.ClothEntity;
 import Coordinate.coordikittyBE.page.alarm.entity.AlarmEntity;
 import jakarta.persistence.Column;
@@ -22,7 +23,7 @@ import java.util.List;
 public class UserEntity {
     @Id
     @Email
-    @Column(name="id", nullable = false)
+    @Column(name="user_id", nullable = false)
     private String email;
     @Column(name="name", nullable = false)
     private String name;
@@ -47,6 +48,9 @@ public class UserEntity {
 
     @OneToMany(mappedBy = "userEntity")
     private List<AlarmEntity> alarmEntities;
+
+    @OneToMany(mappedBy = "userEntity")
+    private List<BookmarkEntity> bookmarkEntities;
 }
 
 

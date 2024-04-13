@@ -15,7 +15,7 @@ import java.util.UUID;
 @Builder
 public class AlarmEntity {
     @Id
-    @Column(name="id", nullable = false)
+    @Column(name="alarm_id", nullable = false)
     private UUID alarmId;
 
     @Column(name = "type", nullable = false)
@@ -25,10 +25,10 @@ public class AlarmEntity {
     private String time;
 
     @ManyToOne  // Many = Alarm, One = User
-    @JoinColumn(name = "email", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private UserEntity userEntity;
 
     @ManyToOne
-    @JoinColumn(name="post_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name="post_id", nullable = false)
     private PostEntity postEntity;
 }
