@@ -1,3 +1,7 @@
+<<<<<<<< HEAD:src/main/resources/CoordikittyBeApplication.java
+
+========
+>>>>>>>> feature/SCRUM-35:src/main/java/Coordinate/coordikittyBE/CoordikittyBeApplication.java
 package Coordinate.coordikittyBE;
 
 import org.springframework.boot.SpringApplication;
