@@ -11,7 +11,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString
 @Entity(name = "bookmark")
 public class BookmarkEntity {
     @Id
