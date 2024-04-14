@@ -10,7 +10,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString
 @Entity(name = "follow")
 public class FollowEntity {
     @Id
