@@ -56,10 +56,10 @@ public class UserEntity {
     @OneToMany(mappedBy = "userEntity")
     private List<HistoryRDBEntity> historyRDBEntities;
 
-    @OneToMany(mappedBy = "followerEntity")
+    @OneToMany(mappedBy = "fromUser")
     private List<FollowEntity> followerEntities;
 
-    @OneToMany(mappedBy = "followingEntity")
+    @OneToMany(mappedBy = "toUser")
     private List<FollowEntity> followingEntities;
 }
 

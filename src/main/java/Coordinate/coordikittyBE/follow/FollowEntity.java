@@ -18,10 +18,10 @@ public class FollowEntity {
     private UUID followId;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity followerEntity;
+    @JoinColumn(name = "from_user")
+    private UserEntity fromUser;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity followingEntity;
+    @JoinColumn(name = "to_user")
+    private UserEntity toUser;
 }
