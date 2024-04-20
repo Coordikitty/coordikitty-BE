@@ -25,23 +25,36 @@ public class UserEntity {
     @Email
     @Column(name="user_id", nullable = false)
     private String email;
+
+    @Column(name = "password", nullable = false)
+    private String password;
+
     @Column(name="name", nullable = false)
     private String name;
+
     @Column(name="age", nullable = false)
     private int age;
+
     @Column(name="nickname", nullable = false, length = 10)
     private String nickname;
 
     @Column(name="birth", nullable = false)
     private LocalDate birth;
+
     @Column(name="phone_number", nullable = false)
     private String phoneNumber;
+
     @Column(name="tall", nullable = false)
     private int tall;
+
     @Column(name="shoesize", nullable = false)
     private int shoeSize;
+
     @Column(name="weight", nullable = false)
     private int weight;
+
+    @Column(name = "profile_url", nullable = true)
+    private String profileUrl;
 
     @OneToMany(mappedBy = "userEntity")
     private List<ClothEntity> clothEntities;

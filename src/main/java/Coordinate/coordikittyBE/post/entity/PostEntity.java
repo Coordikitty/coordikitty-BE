@@ -2,6 +2,9 @@ package Coordinate.coordikittyBE.post.entity;
 
 import Coordinate.coordikittyBE.attach.AttachEntity;
 import Coordinate.coordikittyBE.bookmark.entity.BookmarkEntity;
+import Coordinate.coordikittyBE.closet.enums.Season;
+import Coordinate.coordikittyBE.post.enums.Situation;
+import Coordinate.coordikittyBE.closet.enums.Style;
 import Coordinate.coordikittyBE.history.HistoryRDBEntity;
 import Coordinate.coordikittyBE.page.alarm.entity.AlarmEntity;
 import jakarta.persistence.Column;
@@ -22,11 +25,21 @@ public class PostEntity {
     @Id
     @Column(name="post_id", nullable = false)
     private UUID postId;
+
     @Column(name="like_Count", nullable = false)
     private int likeCount;
+
     @Column(columnDefinition = "TEXT")
     private String content;
 
+    @Column(name = "season", nullable = true)
+    private Season season;
+
+    @Column(name = "situation", nullable = true)
+    private Situation situation;
+
+    @Column(name = "style", nullable = true)
+    private Style style;
     @OneToMany(mappedBy="postEntity")
     private List<AlarmEntity> alarmEntities;
 
