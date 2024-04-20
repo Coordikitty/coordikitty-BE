@@ -40,8 +40,6 @@ public class PostEntity {
 
     @Column(name = "style", nullable = true)
     private Style style;
-    @OneToMany(mappedBy="postEntity")
-    private List<AlarmEntity> alarmEntities;
 
     @OneToMany(mappedBy = "postEntity")
     private List<BookmarkEntity> bookmarkEntities;

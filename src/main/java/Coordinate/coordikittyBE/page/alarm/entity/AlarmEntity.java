@@ -20,14 +20,10 @@ public class AlarmEntity {
     @Column(name = "type", nullable = false)
     private String type;
 
-    @Column(name = "time", nullable = false)
-    private String time;
+    @Column(name = "actived", nullable = false)
+    private Boolean actived;
 
     @ManyToOne  // Many = Alarm, One = User
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity userEntity;
-
-    @ManyToOne
-    @JoinColumn(name="post_id", nullable = false)
-    private PostEntity postEntity;
 }
