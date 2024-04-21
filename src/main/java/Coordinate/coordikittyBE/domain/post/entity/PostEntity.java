@@ -7,12 +7,14 @@ import Coordinate.coordikittyBE.domain.post.enums.Situation;
 import Coordinate.coordikittyBE.domain.closet.enums.Style;
 import Coordinate.coordikittyBE.domain.history.HistoryRDBEntity;
 import Coordinate.coordikittyBE.domain.page.alarm.entity.AlarmEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,6 +23,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 @Entity(name = "post")
+@EnableJpaAuditing
+@EntityListeners(AuditingEntityListener.class)
 public class PostEntity {
     @Id
     @Column(name="post_id", nullable = false)
@@ -40,8 +44,12 @@ public class PostEntity {
 
     @Column(name = "style", nullable = true)
     private Style style;
-    @OneToMany(mappedBy="postEntity")
-    private List<AlarmEntity> alarmEntities;
+
+    @CreatedDate
+    private Timestamp createdAt;
+
+    @LastModifiedDate
+    private Timestamp modifiedAt;
 
     @OneToMany(mappedBy = "postEntity")
     private List<BookmarkEntity> bookmarkEntities;
