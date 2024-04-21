@@ -3,7 +3,7 @@ package Coordinate.coordikittyBE.domain.auth.entity;
 import Coordinate.coordikittyBE.domain.bookmark.entity.BookmarkEntity;
 import Coordinate.coordikittyBE.domain.closet.entity.ClothEntity;
 import Coordinate.coordikittyBE.domain.follow.FollowEntity;
-import Coordinate.coordikittyBE.domain.history.HistoryRDBEntity;
+import Coordinate.coordikittyBE.domain.history.HistoryEntity;
 import Coordinate.coordikittyBE.domain.page.alarm.entity.AlarmEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -66,7 +66,7 @@ public class UserEntity {
     private List<BookmarkEntity> bookmarkEntities;
 
     @OneToMany(mappedBy = "userEntity")
-    private List<HistoryRDBEntity> historyRDBEntities;
+    private List<HistoryEntity> historyRDBEntities;
 
     @OneToMany(mappedBy = "fromUser")
     private List<FollowEntity> followerEntities;

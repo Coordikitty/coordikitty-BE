@@ -12,7 +12,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 @Entity(name = "history")
-public class HistoryRDBEntity {
+public class HistoryEntity {
     @Id
     @Column(name = "history_id", nullable = false)
     private UUID historyId;

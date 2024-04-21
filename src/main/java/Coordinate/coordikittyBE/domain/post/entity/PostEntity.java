@@ -5,8 +5,7 @@ import Coordinate.coordikittyBE.domain.bookmark.entity.BookmarkEntity;
 import Coordinate.coordikittyBE.domain.closet.enums.Season;
 import Coordinate.coordikittyBE.domain.post.enums.Situation;
 import Coordinate.coordikittyBE.domain.closet.enums.Style;
-import Coordinate.coordikittyBE.domain.history.HistoryRDBEntity;
-import Coordinate.coordikittyBE.domain.page.alarm.entity.AlarmEntity;
+import Coordinate.coordikittyBE.domain.history.HistoryEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -58,5 +57,5 @@ public class PostEntity {
     private List<AttachEntity> attachEntities;
 
     @OneToMany(mappedBy = "postEntity")
-    private List<HistoryRDBEntity> historyRDBEntities;
+    private List<HistoryEntity> historyRDBEntities;
 }
