@@ -29,10 +29,7 @@ public class ClothEntity {
     private Large large;
 
     @Column(name = "medium", nullable = false)
-    private Medium medium;
-
-    @Column(name = "small", nullable = false)
-    private Small small;
+    private String medium;
 
     @Column(name = "fit", nullable = false)
     private Fit fit;
