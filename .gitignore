@@ -1,0 +1,12 @@
+# Default ignored files
+/.idea/shelf/
+
+/workspace.xml
+
+/src/main/resources/application.yaml
+build.gradle
+Docker-compose.yaml
+build
+.gradle
+.idea
+gradle
