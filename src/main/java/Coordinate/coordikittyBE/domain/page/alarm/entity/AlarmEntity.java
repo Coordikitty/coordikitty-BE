@@ -27,11 +27,11 @@ public class AlarmEntity {
     @TimeToLive
     private long ttl;
 
-    @ManyToOne  // Many = Alarm, One = User
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity userEntity;
+//    @ManyToOne  // Many = Alarm, One = User
+//    @JoinColumn(name = "user_id", nullable = false)
+//    private UserEntity userEntity;
 
-    @ManyToOne
-    @JoinColumn(name="post_id", nullable = false)
-    private PostEntity postEntity;
+//    @ManyToOne
+//    @JoinColumn(name="post_id", nullable = false)
+//    private PostEntity postEntity;
 }

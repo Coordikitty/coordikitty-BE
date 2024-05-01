@@ -59,8 +59,8 @@ public class UserEntity {
     @OneToMany(mappedBy = "userEntity")
     private List<ClothEntity> clothEntities;
 
-    @OneToMany(mappedBy = "userEntity")
-    private List<AlarmEntity> alarmEntities;
+//    @OneToMany(mappedBy = "userEntity")
+//    private List<AlarmEntity> alarmEntities;
 
     @OneToMany(mappedBy = "userEntity")
     private List<BookmarkEntity> bookmarkEntities;

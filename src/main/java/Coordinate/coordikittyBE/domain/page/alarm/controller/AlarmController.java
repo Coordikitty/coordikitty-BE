@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,13 +20,12 @@ public class AlarmController {
     private final AlarmRepository alarmRepository;
     @PostMapping ("")
     public void create(){
-        AlarmEntity alarm = AlarmEntity.builder().alarmId(UUID.randomUUID()).type("follow").actived(true).ttl(200).build();
+        AlarmEntity alarm = AlarmEntity.builder().alarmId(UUID.randomUUID()).type("follow").actived(true).ttl(1000).build();
         alarmRepository.save(alarm);
         log.info("저장");
     }
     @PostMapping("hi")
-    public AlarmEntity find(){
-        AlarmEntity foundedAlarm = alarmRepository.findById("6fdbd4b8-3c1f-4943-8276-e22b9e0dcc7f").get();
-        return foundedAlarm;
+    public AlarmEntity find(@RequestBody String id){
+        return alarmRepository.findById(id).isPresent() ? alarmRepository.findById(id).get() : null;
     }
 }
