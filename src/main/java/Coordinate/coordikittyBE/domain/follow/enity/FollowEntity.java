@@ -1,4 +1,4 @@
-package Coordinate.coordikittyBE.domain.follow;
+package Coordinate.coordikittyBE.domain.follow.enity;
 
 import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
 import jakarta.persistence.*;
