@@ -2,9 +2,8 @@ package Coordinate.coordikittyBE.domain.auth.entity;
 
 import Coordinate.coordikittyBE.domain.bookmark.entity.BookmarkEntity;
 import Coordinate.coordikittyBE.domain.closet.entity.ClothEntity;
-import Coordinate.coordikittyBE.domain.follow.FollowEntity;
+import Coordinate.coordikittyBE.domain.follow.enity.FollowEntity;
 import Coordinate.coordikittyBE.domain.history.HistoryEntity;
-import Coordinate.coordikittyBE.domain.page.alarm.entity.AlarmEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
