@@ -1,4 +1,4 @@
-package Coordinate.coordikittyBE.domain.closet.data.dto;
+package Coordinate.coordikittyBE.domain.closet.dto;
 
 import Coordinate.coordikittyBE.domain.closet.enums.Fit;
 import Coordinate.coordikittyBE.domain.closet.enums.Gender;
