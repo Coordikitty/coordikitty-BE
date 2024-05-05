@@ -1,4 +1,4 @@
-package Coordinate.coordikittyBE.domain.settings.image.data.dto;
+package Coordinate.coordikittyBE.domain.settings.image.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

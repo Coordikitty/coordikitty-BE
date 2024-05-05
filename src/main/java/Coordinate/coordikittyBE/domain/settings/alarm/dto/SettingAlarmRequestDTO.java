@@ -1,4 +1,4 @@
-package Coordinate.coordikittyBE.domain.settings.alarm.data.dto;
+package Coordinate.coordikittyBE.domain.settings.alarm.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
