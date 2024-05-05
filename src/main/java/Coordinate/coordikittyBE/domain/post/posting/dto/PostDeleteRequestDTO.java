@@ -1,4 +1,4 @@
-package Coordinate.coordikittyBE.domain.post.postlike.data.dto;
+package Coordinate.coordikittyBE.domain.post.posting.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +9,6 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-public class PostLikeRequestDTO {
+public class PostDeleteRequestDTO {
     private UUID postId;
 }

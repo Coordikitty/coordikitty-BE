@@ -1,4 +1,4 @@
-package Coordinate.coordikittyBE.domain.post.postbookmark.data.dto;
+package Coordinate.coordikittyBE.domain.post.postbookmark.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

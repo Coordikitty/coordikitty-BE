@@ -1,4 +1,4 @@
-package Coordinate.coordikittyBE.domain.post.posting.data.dto;
+package Coordinate.coordikittyBE.domain.post.posting.dto;
 
 import Coordinate.coordikittyBE.domain.closet.enums.Style;
 import Coordinate.coordikittyBE.domain.post.enums.Situation;
