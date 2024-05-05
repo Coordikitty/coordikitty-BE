@@ -1,6 +1,6 @@
 package Coordinate.coordikittyBE.domain.page.alarm.controller;
 
-import Coordinate.coordikittyBE.domain.page.alarm.data.repository.AlarmRepository;
+import Coordinate.coordikittyBE.domain.page.alarm.repository.AlarmRepository;
 import Coordinate.coordikittyBE.domain.page.alarm.entity.AlarmEntity;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
