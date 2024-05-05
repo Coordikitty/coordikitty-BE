@@ -1,4 +1,4 @@
-package Coordinate.coordikittyBE.domain.auth.signup.data.dto;
+package Coordinate.coordikittyBE.domain.auth.signup.dto;
 
 import Coordinate.coordikittyBE.domain.closet.enums.Style;
 import lombok.Getter;

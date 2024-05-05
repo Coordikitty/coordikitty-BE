@@ -1,4 +1,4 @@
-package Coordinate.coordikittyBE.domain.auth.login.data.dto;
+package Coordinate.coordikittyBE.domain.auth.withdraw.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,7 +7,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class LoginRequestDTO {
-    private String email;
+public class WithdrawRequestDTO {
     private String password;
 }
