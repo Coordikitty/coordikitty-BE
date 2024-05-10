@@ -3,8 +3,8 @@
 
 /workspace.xml
 
-#/src/main/resources/application.yaml
-#build.gradle
+/src/main/resources/application.yaml
+build.gradle
 Docker-compose.yaml
 build
 .gradle

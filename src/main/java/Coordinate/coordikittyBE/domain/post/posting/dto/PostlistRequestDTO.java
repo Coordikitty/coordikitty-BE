@@ -7,6 +7,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class PostRequestDTO {
+public class PostlistRequestDTO {
     private int page;
 }
