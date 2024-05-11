@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
@@ -21,5 +22,5 @@ public class ClosetPostRequestDTO {
     private Style style;
     private Thickness thickness;
 
-    private String clothURL;
+    private MultipartFile clothImg;
 }
