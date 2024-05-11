@@ -55,6 +55,15 @@ public class UserEntity {
     @Column(name = "profile_url", nullable = true)
     private String profileUrl;
 
+    @Column(name = "alarm_like", nullable = false)
+    private boolean alarm_like;
+
+    @Column(name = "alarm_feed", nullable = false)
+    private boolean alarm_feed;
+
+    @Column(name = "alarm_follow", nullable = false)
+    private boolean alarm_follow;
+
     @OneToMany(mappedBy = "userEntity")
     private List<ClothEntity> clothEntities;
 
