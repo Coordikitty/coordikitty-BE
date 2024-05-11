@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/closet")
@@ -53,7 +54,7 @@ public class ClosetController {
     @DeleteMapping(value = "")
     public ResponseEntity<String> deleteCloth(
             @RequestHeader("Authorization") String token,
-            @RequestBody ClosetDeleteRequestDTO closetDeleteRequestDTO
+            @RequestParam(value = "clothId") UUID clothId
     ) {
         // token authentication
         // User Entity : user id 반환
