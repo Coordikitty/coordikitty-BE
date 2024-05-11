@@ -1,19 +1,19 @@
 package Coordinate.coordikittyBE.domain.closet.dto;
 
 import Coordinate.coordikittyBE.domain.closet.enums.*;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.UUID;
-
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
 @NoArgsConstructor
-public class ClosetGetResponseDto {
-    private UUID clothId;
-
-    private Category large;
-    private Category medium;
-    private Category small;
+public class ClosetPostRequestDTO {
+    private Category.Large large;
+    private Category.Medium medium;
+    private Category.Small small;
 
     private Fit fit;
     private Gender gender;
