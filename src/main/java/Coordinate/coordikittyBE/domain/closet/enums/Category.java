@@ -1,0 +1,32 @@
+package Coordinate.coordikittyBE.domain.closet.enums;
+
+public class Category {
+    // 대분류
+    enum Large {OUTER, TOPS, BOTTOMS, SKIRTS, ONEPIECE, SHOES}
+
+    // 중분류
+    enum OUTER {HOODED_ZIP_UP, BLOUSON, BLAZER, CARDIGAN, COAT, WIND_BREAKER, PADDING}
+    enum TOPS {LONG, SHORT, LESS}
+    enum BOTTOMS {LONG, SHORT}
+    enum SKIRTS {LONG, MIDI, MINI}
+
+    // 소분류
+    enum HOODED_ZIP_UP {HOODED_ZIP_UP}
+    enum BLOUSON {BLOUSON}
+    enum BLAZER {BLAZER}
+    enum CARDIGAN {CARDIGAN}
+    enum COAT {SINGLE, TRENCH}
+    enum WIND_BREAKER {WIND_BREAKER}
+    enum PADDING {LONG, SHORT}
+
+    enum TOPS_LONG {NEAT, HOODED, SWEAT, SHIRTS, T_SHIRTS, SPORTS}
+    enum TOPS_SHORT {POLO, SHIRTS, SWEAT, T_SHIRT, SPORTS}
+    enum LESS {LESS}
+
+    enum BOTTOMS_LONG {DENIM, SLACKS, SWEAT, CARGO, LEGGINGS, COTTON, SPORTS}
+    enum BOTTOMS_SHORT {DENIM, SWEAT, COTTON, SPORTS}
+
+    enum SKIRTS_LONG {LAB, FLARE, MERMAID}
+    enum MIDI {H, A, PLEATS, FLARE, K}
+    enum MINI {H, A, LAB, FLARE}
+}
