@@ -1,6 +1,5 @@
 package Coordinate.coordikittyBE.domain.settings.alarm.dto;
 
-import Coordinate.coordikittyBE.domain.settings.alarm.enums.AlarmType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,6 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class SettingAlarmRequestDTO {
-    private AlarmType type;
+public class SettingAlarmResponseDTO {
+    private boolean alarm_like;
+    private boolean alarm_feed;
+    private boolean alarm_follow;
 }

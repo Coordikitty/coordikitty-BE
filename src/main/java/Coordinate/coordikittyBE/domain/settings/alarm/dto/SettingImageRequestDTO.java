@@ -1,13 +1,13 @@
 package Coordinate.coordikittyBE.domain.settings.alarm.dto;
 
-import Coordinate.coordikittyBE.domain.settings.alarm.enums.AlarmType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class SettingAlarmRequestDTO {
-    private AlarmType type;
+public class SettingImageRequestDTO {
+    private MultipartFile profileImg;
 }
