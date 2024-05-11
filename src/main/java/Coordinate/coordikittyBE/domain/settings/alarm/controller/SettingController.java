@@ -3,6 +3,7 @@ package Coordinate.coordikittyBE.domain.settings.alarm.controller;
 import Coordinate.coordikittyBE.domain.settings.alarm.dto.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/setting")
@@ -43,7 +44,7 @@ public class SettingController {
     @PostMapping(value = "/image")
     public ResponseEntity<String> setSettingImage(
             @RequestHeader("Authorization") String token,
-            @RequestBody SettingImageRequestDTO profileImg
+            @RequestBody MultipartFile profileImg
     ) {
         // token authentication
         // User Entity : user id 반환
