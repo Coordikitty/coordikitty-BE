@@ -11,9 +11,9 @@ import java.util.UUID;
 public class ClosetGetResponseDto {
     private UUID clothId;
 
-    private Category large;
-    private Category medium;
-    private Category small;
+    private Category.Large large;
+    private Category.Medium medium;
+    private Category.Small small;
 
     private Fit fit;
     private Gender gender;

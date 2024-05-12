@@ -1,20 +1,23 @@
 package Coordinate.coordikittyBE.domain.closet.controller;
 
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetCategorizationResponseDTO;
-import Coordinate.coordikittyBE.domain.closet.dto.ClosetDeleteRequestDTO;
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetGetResponseDto;
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetPostRequestDTO;
+import Coordinate.coordikittyBE.domain.closet.service.ClosetService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/closet")
+@RequiredArgsConstructor
 public class ClosetController {
+
+    private final ClosetService closetService;
 
     @GetMapping(value = "")
     public ResponseEntity<List<ClosetGetResponseDto>> getAllClothes(
@@ -22,10 +25,9 @@ public class ClosetController {
             @RequestParam(value = "email") String email
     ) {
         // token authentication
-        // User Entity : query string email 에 해당하는 user id 반환
-        // Cloth Entity : user id가 일치하는 tuple 반환
+        // Cloth Entity : query string email 과 user id가 일치하는 tuple 반환
         // 찾은 tuple 리스트로 만들어서 반환
-        List<ClosetGetResponseDto> closetGetResponseDtos = new ArrayList<>();
+        List<ClosetGetResponseDto> closetGetResponseDtos = closetService.getAllClothes(email);
         return ResponseEntity.ok().body(closetGetResponseDtos);
     }
 
