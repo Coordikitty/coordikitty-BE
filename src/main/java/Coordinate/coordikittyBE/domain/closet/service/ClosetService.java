@@ -3,10 +3,12 @@ package Coordinate.coordikittyBE.domain.closet.service;
 import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
 import Coordinate.coordikittyBE.domain.auth.repository.AuthRepository;
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetGetResponseDto;
+import Coordinate.coordikittyBE.domain.closet.dto.ClosetPostRequestDTO;
 import Coordinate.coordikittyBE.domain.closet.entity.ClothEntity;
 import Coordinate.coordikittyBE.domain.closet.repository.ClothRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,29 +23,63 @@ public class ClosetService {
 
     public List<ClosetGetResponseDto> getAllClothes(String email) {
         // email 과 일치하는 cloth 반환
-        Optional<UserEntity> userEntity = authRepository.findById(email);
-        List<ClothEntity> temp = clothRepository.findAllByUserEntity(userEntity.orElse(null));
+        Optional<UserEntity> userEntityOptional = authRepository.findById(email);
 
+        if (userEntityOptional.isEmpty()) return new ArrayList<>();
+        UserEntity userEntity = userEntityOptional.get();
+
+        List<ClothEntity> temp = clothRepository.findAllByUserEntity(userEntity);
         List<ClosetGetResponseDto> closetGetResponseDtos = new ArrayList<>();
         for (ClothEntity clothEntity : temp) {
-            ClosetGetResponseDto closetGetResponseDto = new ClosetGetResponseDto();
-            closetGetResponseDto.setClothId(clothEntity.getClothId());
-
-            closetGetResponseDto.setLarge(clothEntity.getLarge());
-            closetGetResponseDto.setMedium(clothEntity.getMedium());
-            closetGetResponseDto.setSmall(clothEntity.getSmall());
-
-            closetGetResponseDto.setFit(clothEntity.getFit());
-            closetGetResponseDto.setGender(clothEntity.getGender());
-            closetGetResponseDto.setSeason(clothEntity.getSeason());
-            closetGetResponseDto.setStyle(clothEntity.getStyle());
-            closetGetResponseDto.setThickness(clothEntity.getThickness());
-
-            closetGetResponseDto.setClothURL(clothEntity.getPictureURL());
-
+            ClosetGetResponseDto closetGetResponseDto = getClosetGetResponseDto(clothEntity);
             closetGetResponseDtos.add(closetGetResponseDto);
         }
 
         return closetGetResponseDtos;
+    }
+
+    private static ClosetGetResponseDto getClosetGetResponseDto(ClothEntity clothEntity) {
+        ClosetGetResponseDto closetGetResponseDto = new ClosetGetResponseDto();
+        closetGetResponseDto.setClothId(clothEntity.getClothId());
+
+        closetGetResponseDto.setLarge(clothEntity.getLarge());
+        closetGetResponseDto.setMedium(clothEntity.getMedium());
+        closetGetResponseDto.setSmall(clothEntity.getSmall());
+
+        closetGetResponseDto.setFit(clothEntity.getFit());
+        closetGetResponseDto.setGender(clothEntity.getGender());
+        closetGetResponseDto.setSeason(clothEntity.getSeason());
+        closetGetResponseDto.setStyle(clothEntity.getStyle());
+        closetGetResponseDto.setThickness(clothEntity.getThickness());
+
+        closetGetResponseDto.setClothURL(clothEntity.getPictureURL());
+        return closetGetResponseDto;
+    }
+
+    public boolean postCloth(String email, ClosetPostRequestDTO closetPostRequestDTO) {
+        Optional<UserEntity> userEntityOptional = authRepository.findById(email);
+
+        if (userEntityOptional.isEmpty()) return false;
+        UserEntity userEntity = userEntityOptional.get();
+
+        ClothEntity clothEntity = new ClothEntity();
+        clothEntity.setUserEntity(userEntity);
+
+        clothEntity.setLarge(closetPostRequestDTO.getLarge());
+        clothEntity.setMedium(closetPostRequestDTO.getMedium());
+        clothEntity.setSmall(closetPostRequestDTO.getSmall());
+
+        clothEntity.setFit(closetPostRequestDTO.getFit());
+        clothEntity.setGender(closetPostRequestDTO.getGender());
+        clothEntity.setSeason(closetPostRequestDTO.getSeason());
+        clothEntity.setStyle(closetPostRequestDTO.getStyle());
+        clothEntity.setThickness(closetPostRequestDTO.getThickness());
+
+        MultipartFile file = closetPostRequestDTO.getClothImg();
+        // file firebase 에 저장 -> url 반환
+        clothEntity.setPictureURL("url");
+
+        clothRepository.save(clothEntity);
+        return true;
     }
 }
