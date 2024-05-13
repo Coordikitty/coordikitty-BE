@@ -1,9 +1,12 @@
 package Coordinate.coordikittyBE.domain.post.posting.dto;
 
+import Coordinate.coordikittyBE.domain.attach.AttachEntity;
 import Coordinate.coordikittyBE.domain.closet.entity.ClothEntity;
 import Coordinate.coordikittyBE.domain.closet.enums.Season;
 import Coordinate.coordikittyBE.domain.closet.enums.Style;
 import Coordinate.coordikittyBE.domain.post.enums.Situation;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,7 +14,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
+@Builder
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
 public class PostResponseDto {
     private UUID postId;
@@ -23,8 +28,8 @@ public class PostResponseDto {
     private String uploaderEmail;
     private String uploaderNickname;
     private String uploaderProfileImg;
-    private List<String> postImgs;
-    private List<ClothEntity> cloth;
+   // private List<String> postImgs;
+    private List<AttachEntity> cloth;
     private Boolean isLiked;
     private Boolean isBookmarked;
 }

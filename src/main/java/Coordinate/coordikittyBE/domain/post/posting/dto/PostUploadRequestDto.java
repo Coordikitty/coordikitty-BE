@@ -13,7 +13,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-public class PostUploadRequestDTO {
+public class PostUploadRequestDto {
     private String content;
     private Situation situation;
     private Style style;
