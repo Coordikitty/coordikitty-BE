@@ -9,13 +9,15 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class RecommendGetResponseDTO {
-    private Category large;
-    private Category medium;
-    private Category small;
+    private Category.Large large;
+    private Category.Medium medium;
+    private Category.Small small;
 
     private Fit fit;
     private Gender gender;
     private Season season;
     private Style style;
     private Thickness thickness;
+
+    private String clothURL;
 }
