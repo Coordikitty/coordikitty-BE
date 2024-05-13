@@ -4,6 +4,7 @@ import Coordinate.coordikittyBE.domain.bookmark.entity.BookmarkEntity;
 import Coordinate.coordikittyBE.domain.closet.entity.ClothEntity;
 import Coordinate.coordikittyBE.domain.follow.enity.FollowEntity;
 import Coordinate.coordikittyBE.domain.history.HistoryEntity;
+import Coordinate.coordikittyBE.domain.post.entity.PostEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -81,6 +82,9 @@ public class UserEntity {
 
     @OneToMany(mappedBy = "toUser")
     private List<FollowEntity> followingEntities;
+
+    @OneToMany(mappedBy = "userEntity")
+    private List<PostEntity> postEntities;
 }
 
 

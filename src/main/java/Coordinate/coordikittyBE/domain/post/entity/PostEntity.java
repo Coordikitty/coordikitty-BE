@@ -1,6 +1,7 @@
 package Coordinate.coordikittyBE.domain.post.entity;
 
 import Coordinate.coordikittyBE.domain.attach.AttachEntity;
+import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
 import Coordinate.coordikittyBE.domain.bookmark.entity.BookmarkEntity;
 import Coordinate.coordikittyBE.domain.closet.enums.Season;
 import Coordinate.coordikittyBE.domain.post.enums.Situation;
@@ -12,8 +13,10 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -45,10 +48,10 @@ public class PostEntity {
     private Style style;
 
     @CreatedDate
-    private Timestamp createdAt;
+    private LocalDate createdAt;
 
     @LastModifiedDate
-    private Timestamp modifiedAt;
+    private LocalDate modifiedAt;
 
     @OneToMany(mappedBy = "postEntity")
     private List<BookmarkEntity> bookmarkEntities;
@@ -58,4 +61,8 @@ public class PostEntity {
 
     @OneToMany(mappedBy = "postEntity")
     private List<HistoryEntity> historyRDBEntities;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity userEntity;
 }
