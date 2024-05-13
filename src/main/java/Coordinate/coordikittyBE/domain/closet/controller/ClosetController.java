@@ -55,7 +55,8 @@ public class ClosetController {
         // token authentication
         // DL 서버에 파일 전송, 분류 결과 반환
         // 분류 결과 클라이언트에 반환
-        return ResponseEntity.ok().body(new ClosetCategorizationResponseDTO());
+        ClosetCategorizationResponseDTO closetCategorizationResponseDTO = closetService.clothCategorization(file);
+        return ResponseEntity.ok().body(closetCategorizationResponseDTO);
     }
 
     @DeleteMapping(value = "")
@@ -66,6 +67,10 @@ public class ClosetController {
         // token authentication
         // User Entity : user id 반환
         // Cloth Entity : cloth id 튜플 삭제 (Cascade -> attach)
-        return ResponseEntity.ok().body("옷 삭제 성공");
+
+        if (closetService.deleteCloth(clothId))
+            return ResponseEntity.ok().body("옷 삭제 성공");
+        else
+            return ResponseEntity.ok().body("옷 삭제 실패");
     }
 }

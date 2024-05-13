@@ -2,6 +2,7 @@ package Coordinate.coordikittyBE.domain.closet.service;
 
 import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
 import Coordinate.coordikittyBE.domain.auth.repository.AuthRepository;
+import Coordinate.coordikittyBE.domain.closet.dto.ClosetCategorizationResponseDTO;
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetGetResponseDto;
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetPostRequestDTO;
 import Coordinate.coordikittyBE.domain.closet.entity.ClothEntity;
@@ -13,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -80,6 +82,19 @@ public class ClosetService {
         clothEntity.setPictureURL("url");
 
         clothRepository.save(clothEntity);
+        return true;
+    }
+
+    public ClosetCategorizationResponseDTO clothCategorization(MultipartFile file) {
+        // file DL 서버에 전송
+        // 반환 값 DTO 에 저장
+        return new ClosetCategorizationResponseDTO();
+    }
+
+    public boolean deleteCloth(UUID clothId) {
+        if (!clothRepository.existsById(clothId)) return false;
+
+        clothRepository.deleteById(clothId);
         return true;
     }
 }

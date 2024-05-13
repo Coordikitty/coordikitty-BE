@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class ClosetCategorizationResponseDTO {
-    private Category large;
-    private Category medium;
-    private Category small;
+    private Category.Large large;
+    private Category.Medium medium;
+    private Category.Small small;
 
     private Fit fit;
     private Gender gender;
