@@ -23,4 +23,8 @@ public class PostingService {
             throw new RuntimeException("게시글 없음");
         }
     }
+
+    public void delete(UUID postId) {
+        postRepository.deleteById(postId);
+    }
 }

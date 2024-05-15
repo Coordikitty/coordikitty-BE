@@ -41,4 +41,13 @@ public class PostingController {
 
         return ResponseEntity.ok("게시글 업로드 성공");
     }
+
+    @PostMapping("/delete")
+    public ResponseEntity<String> deletePost(
+            @RequestHeader("Authorization") String token,
+            @RequestBody UUID postId
+    ){
+        postingService.delete(postId);
+        return ResponseEntity.ok("게시글 삭제 성공");
+    }
 }
