@@ -2,6 +2,7 @@ package Coordinate.coordikittyBE.domain.post.posting.controller;
 
 
 import Coordinate.coordikittyBE.domain.post.posting.dto.PostResponseDto;
+import Coordinate.coordikittyBE.domain.post.posting.dto.PostUploadRequestDto;
 import Coordinate.coordikittyBE.domain.post.posting.dto.PostlistResponseDto;
 import Coordinate.coordikittyBE.domain.post.posting.service.PostingService;
 import lombok.RequiredArgsConstructor;
@@ -37,8 +38,11 @@ public class PostingController {
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadPost(){
-
+    public ResponseEntity<String> uploadPost(
+            @RequestHeader("Authorization") String token,
+            @RequestBody PostUploadRequestDto postUploadRequestDto
+    ){
+        postingService.upload(postUploadRequestDto);
         return ResponseEntity.ok("게시글 업로드 성공");
     }
 

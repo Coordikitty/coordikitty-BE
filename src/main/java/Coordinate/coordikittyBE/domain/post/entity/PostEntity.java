@@ -38,9 +38,6 @@ public class PostEntity {
     @Column(columnDefinition = "TEXT")
     private String content;
 
-    @Column(name = "season", nullable = true)
-    private Season season;
-
     @Column(name = "situation", nullable = true)
     private Situation situation;
 
