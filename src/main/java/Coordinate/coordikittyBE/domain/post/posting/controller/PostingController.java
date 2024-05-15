@@ -2,6 +2,7 @@ package Coordinate.coordikittyBE.domain.post.posting.controller;
 
 
 import Coordinate.coordikittyBE.domain.post.posting.dto.PostResponseDto;
+import Coordinate.coordikittyBE.domain.post.posting.dto.PostUpdateRequestDto;
 import Coordinate.coordikittyBE.domain.post.posting.dto.PostUploadRequestDto;
 import Coordinate.coordikittyBE.domain.post.posting.dto.PostlistResponseDto;
 import Coordinate.coordikittyBE.domain.post.posting.service.PostingService;
@@ -26,7 +27,15 @@ public class PostingController {
         List<PostlistResponseDto> postlistResponseDtos = new ArrayList<>();
         return ResponseEntity.ok(postlistResponseDtos);
     }
-
+    @PutMapping(value = "/{postId}")
+    public ResponseEntity<String> updatePost(
+            @RequestHeader("Authorization") String token,
+            @PathVariable("postId") UUID postId,
+            @RequestBody PostUpdateRequestDto postUpdateRequestDto
+    ){
+        postingService.update(postId, postUpdateRequestDto);
+        return ResponseEntity.ok("게시글 수정 완료");
+    }
     @GetMapping(value = "/{postId}")
     public ResponseEntity<PostResponseDto> getPostListByPostId(
             @RequestHeader("Authorization") String token,

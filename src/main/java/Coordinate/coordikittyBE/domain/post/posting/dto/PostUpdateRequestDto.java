@@ -13,8 +13,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-public class PostUpdateRequestDTO {
-    private UUID postId;
+public class PostUpdateRequestDto {
     private String content;
     private Situation situation;
     private Style style;

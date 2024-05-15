@@ -7,6 +7,7 @@ import Coordinate.coordikittyBE.domain.closet.enums.Season;
 import Coordinate.coordikittyBE.domain.post.enums.Situation;
 import Coordinate.coordikittyBE.domain.closet.enums.Style;
 import Coordinate.coordikittyBE.domain.history.HistoryEntity;
+import Coordinate.coordikittyBE.domain.post.posting.dto.PostUpdateRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -15,6 +16,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.channels.MulticastChannel;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.List;
@@ -62,4 +64,18 @@ public class PostEntity {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
+
+    public PostEntity update(PostUpdateRequestDto postUpdateRequestDto) {
+        return PostEntity.builder()
+                .postId(this.postId)
+                .likeCount(this.likeCount)
+                .content(postUpdateRequestDto.getContent())
+                .style(postUpdateRequestDto.getStyle())
+                .createdAt(this.createdAt)
+                .modifiedAt(LocalDate.now())
+                .bookmarkEntities(this.bookmarkEntities)
+                .attachEntities(this.attachEntities)
+                .historyRDBEntities(this.historyRDBEntities)
+                .build();
+    }
 }
