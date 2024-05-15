@@ -1,13 +1,18 @@
 package Coordinate.coordikittyBE.domain.settings.image.controller;
 
 import Coordinate.coordikittyBE.domain.settings.image.dto.SettingImageResponseDTO;
+import Coordinate.coordikittyBE.domain.settings.image.service.SettingImageService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/setting")
+@RequiredArgsConstructor
 public class SettingImageController {
+
+    private final SettingImageService settingImageService;
 
     @GetMapping(value = "/image")
     public ResponseEntity<SettingImageResponseDTO> getSettingImage(
@@ -17,7 +22,9 @@ public class SettingImageController {
         // User Entity : user id 반환
         // User Entity : profileURL 찾기
         // profileURL 반환
-        return ResponseEntity.ok().body(new SettingImageResponseDTO());
+        String email = "userId";
+        SettingImageResponseDTO settingImageResponseDTO = settingImageService.getSettingImage(email);
+        return ResponseEntity.ok().body(settingImageResponseDTO);
     }
 
     @PostMapping(value = "/image")
@@ -28,6 +35,11 @@ public class SettingImageController {
         // token authentication
         // User Entity : user id 반환
         // profileImg 업로드 후에 url 저장
-        return ResponseEntity.ok().body("OK");
+        String email = "userId";
+
+        if (settingImageService.setSettingImage(email, profileImg))
+            return ResponseEntity.ok().body("success");
+        else
+            return ResponseEntity.ok().body("프로필 이미지 변경 실패");
     }
 }
