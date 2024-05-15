@@ -18,8 +18,11 @@ public class PostlikeController {
             @RequestHeader("Authoriztion") String token,
             @RequestBody UUID postId
     ){
-        postlikeService.like(postId);
-        return ResponseEntity.ok("좋아요 성공");
+        try{
+            return postlikeService.like(postId);
+        } catch(Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
     @DeleteMapping("like")
     public ResponseEntity<String> dislike(
@@ -27,7 +30,10 @@ public class PostlikeController {
             @RequestBody UUID postId
     )
     {
-        postlikeService.dislike(postId);
-        return ResponseEntity.ok("좋아요 취소");
+        try{
+            return postlikeService.like(postId);
+        } catch(Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
