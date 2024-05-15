@@ -1,7 +1,7 @@
 package Coordinate.coordikittyBE.domain.settings.alarm.controller;
 
 import Coordinate.coordikittyBE.domain.settings.alarm.dto.*;
-import Coordinate.coordikittyBE.domain.settings.alarm.service.SettingService;
+import Coordinate.coordikittyBE.domain.settings.alarm.service.SettingAlarmService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class SettingAlarmController {
 
-    private final SettingService settingService;
+    private final SettingAlarmService settingService;
 
     @GetMapping(value = "/alarm")
     public ResponseEntity<SettingAlarmResponseDTO> getSettingAlarm(

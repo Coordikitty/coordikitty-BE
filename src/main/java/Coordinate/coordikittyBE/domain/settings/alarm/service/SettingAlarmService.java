@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class SettingService {
+public class SettingAlarmService {
 
     private final AuthRepository authRepository;
 
