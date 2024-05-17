@@ -1,6 +1,8 @@
 package Coordinate.coordikittyBE.domain.post.posting.service;
 
 
+import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
+import Coordinate.coordikittyBE.domain.history.HistoryEntity;
 import Coordinate.coordikittyBE.domain.post.entity.PostEntity;
 import Coordinate.coordikittyBE.domain.post.posting.dto.PostResponseDto;
 import Coordinate.coordikittyBE.domain.post.posting.dto.PostUpdateRequestDto;
@@ -34,6 +36,11 @@ public class PostingService {
     }
 
     public void upload(PostUploadRequestDto postUploadRequestDto) {
+        HistoryEntity historyEntity = HistoryEntity.builder()
+                .historyId(UUID.randomUUID())
+                .postEntity(new PostEntity())// 수정 필요
+                .userEntity(new UserEntity())// 수정 필요
+                .build();
         PostEntity entity = PostEntity.builder()
                 .postId(UUID.randomUUID())
                 .likeCount(0)
@@ -41,9 +48,9 @@ public class PostingService {
                 .style(postUploadRequestDto.getStyle())
                 .createdAt(LocalDate.now())
                 .modifiedAt(null)
-                .bookmarkEntities(null)
-                .attachEntities(null)
-                .historyEntities(null)
+                .bookmarkId(null)//수정필요
+                .attachId(null)
+                .historyId(null)
                 .build();
         postRepository.save(entity);
 

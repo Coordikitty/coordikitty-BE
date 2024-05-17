@@ -1,13 +1,17 @@
 package Coordinate.coordikittyBE.domain.post.posting.service;
 
 
+import Coordinate.coordikittyBE.domain.closet.entity.ClothEntity;
 import Coordinate.coordikittyBE.domain.post.entity.PostEntity;
 import Coordinate.coordikittyBE.domain.post.posting.dto.PostResponseDto;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
+@RequiredArgsConstructor
 public class PostConverter {
     public PostResponseDto toDto(PostEntity post){
         return PostResponseDto.builder()
@@ -21,7 +25,7 @@ public class PostConverter {
                 .uploaderNickname(post.getUserEntity().getNickname())
                 .uploaderProfileImg(post.getUserEntity().getProfileUrl())
                 //.postImgs(post.getPostImgs())
-                .cloth(post.getAttachEntities())
+                .cloth(null)
                 .isLiked(true)
                 .isBookmarked(true)
                 .build();
