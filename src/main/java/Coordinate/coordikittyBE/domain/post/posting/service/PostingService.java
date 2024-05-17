@@ -34,7 +34,7 @@ public class PostingService {
     }
 
     public void upload(PostUploadRequestDto postUploadRequestDto) {
-        var entity = PostEntity.builder()
+        PostEntity entity = PostEntity.builder()
                 .postId(UUID.randomUUID())
                 .likeCount(0)
                 .content(postUploadRequestDto.getContent())

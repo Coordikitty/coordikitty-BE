@@ -11,11 +11,11 @@ import java.util.UUID;
 @RequestMapping("/post")
 @RequiredArgsConstructor
 public class PostlikeController {
-    PostlikeService postlikeService;
+    private final PostlikeService postlikeService;
 
     @PostMapping("like")
     public ResponseEntity<String> like(
-            @RequestHeader("Authoriztion") String token,
+            @RequestHeader("Authorization") String token,
             @RequestBody UUID postId
     ){
         try{
@@ -31,7 +31,7 @@ public class PostlikeController {
     )
     {
         try{
-            return postlikeService.like(postId);
+            return postlikeService.dislike(postId);
         } catch(Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
