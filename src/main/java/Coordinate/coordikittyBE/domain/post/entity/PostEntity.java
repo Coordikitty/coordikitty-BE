@@ -59,7 +59,7 @@ public class PostEntity {
     private List<AttachEntity> attachEntities;
 
     @OneToMany(mappedBy = "postEntity")
-    private List<HistoryEntity> historyRDBEntities;
+    private List<HistoryEntity> historyEntities;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -75,7 +75,7 @@ public class PostEntity {
                 .modifiedAt(LocalDate.now())
                 .bookmarkEntities(this.bookmarkEntities)
                 .attachEntities(this.attachEntities)
-                .historyRDBEntities(this.historyRDBEntities)
+                .historyEntities(this.historyEntities)
                 .build();
     }
 }

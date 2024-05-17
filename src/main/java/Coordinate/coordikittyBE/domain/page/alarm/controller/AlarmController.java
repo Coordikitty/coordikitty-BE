@@ -20,7 +20,12 @@ public class AlarmController {
     private final AlarmRepository alarmRepository;
     @PostMapping ("")
     public void create(){
-        AlarmEntity alarm = AlarmEntity.builder().alarmId(UUID.randomUUID()).type("follow").actived(true).ttl(1000).build();
+        AlarmEntity alarm = AlarmEntity.builder()
+                .alarmId(UUID.randomUUID())
+                .type("follow")
+                .actived(true)
+                .ttl(1000)
+                .build();
         alarmRepository.save(alarm);
         log.info("저장");
     }

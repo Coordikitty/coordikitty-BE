@@ -43,7 +43,7 @@ public class PostingService {
                 .modifiedAt(null)
                 .bookmarkEntities(null)
                 .attachEntities(null)
-                .historyRDBEntities(null)
+                .historyEntities(null)
                 .build();
         postRepository.save(entity);
 
