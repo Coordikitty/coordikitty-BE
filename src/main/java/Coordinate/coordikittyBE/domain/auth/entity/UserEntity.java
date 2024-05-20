@@ -1,24 +1,27 @@
 package Coordinate.coordikittyBE.domain.auth.entity;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
-@Data
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@NoArgsConstructor
 @Builder
+@EqualsAndHashCode(of = "id")
 @Entity(name="user")
-public class UserEntity {
+public class UserEntity implements UserDetails {
     @Id
     @Email
     @Column(name="id", nullable = false)
@@ -54,34 +57,70 @@ public class UserEntity {
     @Column(name = "profile_url", nullable = true)
     private String profileUrl;
 
-    @Column(name = "alarm_like", nullable = false)
+    @Column(name = "alarm_like", nullable = true)
     private boolean alarm_like;
 
-    @Column(name = "alarm_feed", nullable = false)
+    @Column(name = "alarm_feed", nullable = true)
     private boolean alarm_feed;
 
-    @Column(name = "alarm_follow", nullable = false)
+    @Column(name = "alarm_follow", nullable = true)
     private boolean alarm_follow;
 
-    @Column(name = "cloth_id")
+    @Column(name = "cloth_id", nullable = true)
     private UUID clothId;
 
 //    @OneToMany(mappedBy = "userEntity")
 //    private List<AlarmEntity> alarmEntities;
-    @Column(name = "bookmark_user_id")
+    @Column(name = "bookmark_user_id", nullable = true)
     private UUID bookmarkId;
 
-    @Column(name = "history_user_id")
+    @Column(name = "history_user_id", nullable = true)
     private UUID historyId;
 
-    @Column(name = "follower_id")
+    @Column(name = "follower_id", nullable = true)
     private UUID followerId;
 
-    @Column(name = "following_id")
+    @Column(name = "following_id", nullable = true)
     private UUID followingId;
 
-    @Column(name = "post_id")
+    @Column(name = "post_id", nullable = true)
     private UUID postId;
+
+    @Builder.Default
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> roles = new ArrayList<>();
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.roles.stream()
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public String getUsername() {
+        return this.getEmail();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
 
 
