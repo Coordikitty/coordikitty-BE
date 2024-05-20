@@ -16,7 +16,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode(of = "id")
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 public class UserEntity implements UserDetails {
     @Id
     @Email
-    @Column(name="id", nullable = false)
+    @Column(name="email", nullable = false)
     private String email;
 
     @Column(name = "password", nullable = false)

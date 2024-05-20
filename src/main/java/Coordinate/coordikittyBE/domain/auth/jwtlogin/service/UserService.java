@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Slf4j
+
 public class UserService {
     private final AuthRepository authRepository;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;

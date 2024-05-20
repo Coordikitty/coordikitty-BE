@@ -1,4 +1,4 @@
-package Coordinate.coordikittyBE.domain.auth.login.dto;
+package Coordinate.coordikittyBE.domain.auth.jwtlogin.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

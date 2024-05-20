@@ -37,12 +37,12 @@ public class SettingAlarmService {
         if(userEntityOptional.isEmpty()) return false;
         UserEntity userEntity = userEntityOptional.get();
 
-        switch (type.getType()) {
-            case FEED -> userEntity.setAlarm_feed(!userEntity.isAlarm_feed());
-            case FOLLOW -> userEntity.setAlarm_follow(!userEntity.isAlarm_follow());
-            case LIKE -> userEntity.setAlarm_like(!userEntity.isAlarm_like());
-            default -> throw new IllegalStateException("Unexpected value: " + type.getType());
-        }
+//        switch (type.getType()) {
+//            case FEED -> userEntity.setAlarm_feed(!userEntity.isAlarm_feed());
+//            case FOLLOW -> userEntity.setAlarm_follow(!userEntity.isAlarm_follow());
+//            case LIKE -> userEntity.setAlarm_like(!userEntity.isAlarm_like());
+//            default -> throw new IllegalStateException("Unexpected value: " + type.getType());
+//        }
 
         authRepository.save(userEntity);
 
