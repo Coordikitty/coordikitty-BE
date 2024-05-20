@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/login")
 public class JwtLoginController {
     private final UserService userService;
+
     @PostMapping("")
     public JwtTokenDto signIn(@RequestBody LoginRequestDto loginRequestDto){
         String email = loginRequestDto.getEmail();
