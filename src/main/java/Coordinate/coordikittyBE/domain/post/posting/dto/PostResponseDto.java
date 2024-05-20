@@ -29,7 +29,7 @@ public class PostResponseDto {
     private String uploaderNickname;
     private String uploaderProfileImg;
    // private List<String> postImgs;
-    private List<AttachEntity> cloth;
+    private List<ClothEntity> cloth;
     private Boolean isLiked;
     private Boolean isBookmarked;
 }

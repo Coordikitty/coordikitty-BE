@@ -20,6 +20,7 @@ public class BookmarkController {
         // user Entity : user id 반환
         // history Entity : user id가 일치하며, is_bookmarked = true 인 post id 반환
         // post Entity : post id로 검색해서 반환
+        //레포지토리에서 북마크 찾고 -> 안에 게시글리스트들 쫙 있을거고 맞나(?) 그러면 for each문으로 싹돌면서 userid, postid 검색해서 가져온다.)가 되겠네요
         List<BookmarkResponseDto> bookmarkResponseDtos = new ArrayList<>();
         return ResponseEntity.ok().body(bookmarkResponseDtos);
     }

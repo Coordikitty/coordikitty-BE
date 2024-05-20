@@ -3,7 +3,10 @@ package Coordinate.coordikittyBE.domain.attach;
 import Coordinate.coordikittyBE.domain.closet.entity.ClothEntity;
 import Coordinate.coordikittyBE.domain.post.entity.PostEntity;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
@@ -14,14 +17,14 @@ import java.util.UUID;
 @Entity(name = "attach")
 public class AttachEntity {
     @Id
-    @Column(name = "attach_id", nullable = false)
+    @Column(name = "id", nullable = false)
     private UUID attachId;
 
     @ManyToOne
-    @JoinColumn(name = "post_id")
+    @JoinColumn(name = "attach_post_id")
     private PostEntity postEntity;
 
     @ManyToOne
-    @JoinColumn(name = "cloth_id")
+    @JoinColumn(name = "attach_cloth_id")
     private ClothEntity clothEntity;
 }

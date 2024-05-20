@@ -1,19 +1,17 @@
 package Coordinate.coordikittyBE.domain.auth.entity;
 
-import Coordinate.coordikittyBE.domain.bookmark.entity.BookmarkEntity;
-import Coordinate.coordikittyBE.domain.closet.entity.ClothEntity;
-import Coordinate.coordikittyBE.domain.follow.enity.FollowEntity;
-import Coordinate.coordikittyBE.domain.history.HistoryEntity;
-import Coordinate.coordikittyBE.domain.post.entity.PostEntity;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Email;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -23,7 +21,7 @@ import java.util.List;
 public class UserEntity {
     @Id
     @Email
-    @Column(name="user_id", nullable = false)
+    @Column(name="id", nullable = false)
     private String email;
 
     @Column(name = "password", nullable = false)
@@ -65,26 +63,25 @@ public class UserEntity {
     @Column(name = "alarm_follow", nullable = false)
     private boolean alarm_follow;
 
-    @OneToMany(mappedBy = "userEntity")
-    private List<ClothEntity> clothEntities;
+    @Column(name = "cloth_id")
+    private UUID clothId;
 
 //    @OneToMany(mappedBy = "userEntity")
 //    private List<AlarmEntity> alarmEntities;
+    @Column(name = "bookmark_user_id")
+    private UUID bookmarkId;
 
-    @OneToMany(mappedBy = "userEntity")
-    private List<BookmarkEntity> bookmarkEntities;
+    @Column(name = "history_user_id")
+    private UUID historyId;
 
-    @OneToMany(mappedBy = "userEntity")
-    private List<HistoryEntity> historyRDBEntities;
+    @Column(name = "follower_id")
+    private UUID followerId;
 
-    @OneToMany(mappedBy = "fromUser")
-    private List<FollowEntity> followerEntities;
+    @Column(name = "following_id")
+    private UUID followingId;
 
-    @OneToMany(mappedBy = "toUser")
-    private List<FollowEntity> followingEntities;
-
-    @OneToMany(mappedBy = "userEntity")
-    private List<PostEntity> postEntities;
+    @Column(name = "post_id")
+    private UUID postId;
 }
 
 
