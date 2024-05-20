@@ -19,31 +19,39 @@ public class ClothEntity {
     @Column(name = "cloth_id", nullable = false)
     private UUID clothId;
 
-    @Column(name = "category", nullable = false)
-    private String category;
-
     @Column(name = "pictureURL", nullable = false)
     private String pictureURL;
 
     @Column(name = "large", nullable = false)
-    private Large large;
+    @Enumerated(EnumType.STRING)
+    private Category.Large large;
 
     @Column(name = "medium", nullable = false)
-    private String medium;
+    @Enumerated(EnumType.STRING)
+    private Category.Medium medium;
+
+    @Column(name = "small", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Category.Small small;
 
     @Column(name = "fit", nullable = false)
+    @Enumerated(EnumType.STRING)
     private Fit fit;
 
     @Column(name = "gender", nullable = false)
+    @Enumerated(EnumType.STRING)
     private Gender gender;
 
     @Column(name = "season", nullable = false)
+    @Enumerated(EnumType.STRING)
     private Season season;
 
-    @Column(name = "color", nullable = false)
-    private Color color;
+    @Column(name = "thickness", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Thickness thickness;
 
     @Column(name = "style", nullable = false)
+    @Enumerated(EnumType.STRING)
     private Style style;
 
     @ManyToOne  // Many = Cloth, One = User

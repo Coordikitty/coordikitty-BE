@@ -1,20 +1,23 @@
 package Coordinate.coordikittyBE.domain.closet.controller;
 
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetCategorizationResponseDTO;
-import Coordinate.coordikittyBE.domain.closet.dto.ClosetDeleteRequestDTO;
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetGetResponseDto;
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetPostRequestDTO;
+import Coordinate.coordikittyBE.domain.closet.service.ClosetService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/closet")
+@RequiredArgsConstructor
 public class ClosetController {
+
+    private final ClosetService closetService;
 
     @GetMapping(value = "")
     public ResponseEntity<List<ClosetGetResponseDto>> getAllClothes(
@@ -22,10 +25,9 @@ public class ClosetController {
             @RequestParam(value = "email") String email
     ) {
         // token authentication
-        // User Entity : query string email 에 해당하는 user id 반환
-        // Cloth Entity : user id가 일치하는 tuple 반환
+        // Cloth Entity : query string email 과 user id가 일치하는 tuple 반환
         // 찾은 tuple 리스트로 만들어서 반환
-        List<ClosetGetResponseDto> closetGetResponseDtos = new ArrayList<>();
+        List<ClosetGetResponseDto> closetGetResponseDtos = closetService.getAllClothes(email);
         return ResponseEntity.ok().body(closetGetResponseDtos);
     }
 
@@ -37,7 +39,12 @@ public class ClosetController {
         // token authentication
         // User Entity : user id 반환
         // Cloth Entity 에 옷 정보 추가, Firebase 에 옷 사진 업로드
-        return ResponseEntity.ok().body("옷 추가 성공");
+
+        String email = "user id";
+        if (closetService.postCloth(email, closetPostRequestDTO))
+            return ResponseEntity.ok().body("옷 추가 성공");
+        else
+            return ResponseEntity.ok().body("옷 추가 실패");
     }
 
     @PostMapping(value = "/categorization")
@@ -48,7 +55,8 @@ public class ClosetController {
         // token authentication
         // DL 서버에 파일 전송, 분류 결과 반환
         // 분류 결과 클라이언트에 반환
-        return ResponseEntity.ok().body(new ClosetCategorizationResponseDTO());
+        ClosetCategorizationResponseDTO closetCategorizationResponseDTO = closetService.clothCategorization(file);
+        return ResponseEntity.ok().body(closetCategorizationResponseDTO);
     }
 
     @DeleteMapping(value = "")
@@ -59,6 +67,10 @@ public class ClosetController {
         // token authentication
         // User Entity : user id 반환
         // Cloth Entity : cloth id 튜플 삭제 (Cascade -> attach)
-        return ResponseEntity.ok().body("옷 삭제 성공");
+
+        if (closetService.deleteCloth(clothId))
+            return ResponseEntity.ok().body("옷 삭제 성공");
+        else
+            return ResponseEntity.ok().body("옷 삭제 실패");
     }
 }
