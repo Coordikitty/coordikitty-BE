@@ -2,6 +2,7 @@ package Coordinate.coordikittyBE.domain.auth.jwtlogin.service;
 
 
 import Coordinate.coordikittyBE.domain.auth.jwtlogin.dto.JwtTokenDto;
+import Coordinate.coordikittyBE.domain.auth.jwtlogin.dto.SignUpRequestDto;
 import Coordinate.coordikittyBE.domain.auth.jwtlogin.middleware.JwtTokenProvider;
 import Coordinate.coordikittyBE.domain.auth.repository.AuthRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,10 @@ public class UserService {
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 //        SecurityContextHolder.getContext().setAuthentication(authentication);
         return jwtTokenProvider.generateToken(authentication);
+
+    }
+
+    public void signUp(SignUpRequestDto signUpRequestDto) {
 
     }
 }
