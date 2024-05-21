@@ -1,10 +1,12 @@
 package Coordinate.coordikittyBE.domain.closet.controller;
 
+import Coordinate.coordikittyBE.domain.auth.jwtlogin.middleware.JwtTokenProvider;
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetCategorizationResponseDTO;
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetGetResponseDto;
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetPostRequestDTO;
 import Coordinate.coordikittyBE.domain.closet.service.ClosetService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +19,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ClosetController {
 
+    private final JwtTokenProvider jwtTokenProvider;
     private final ClosetService closetService;
 
     @GetMapping(value = "")
@@ -27,6 +30,10 @@ public class ClosetController {
         // token authentication
         // Cloth Entity : query string email 과 user id가 일치하는 tuple 반환
         // 찾은 tuple 리스트로 만들어서 반환
+
+        if (!jwtTokenProvider.validateToken(token))
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+
         List<ClosetGetResponseDto> closetGetResponseDtos = closetService.getAllClothes(email);
         return ResponseEntity.ok().body(closetGetResponseDtos);
     }
