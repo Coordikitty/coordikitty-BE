@@ -1,5 +1,6 @@
 package Coordinate.coordikittyBE.domain.closet.entity;
 
+import Coordinate.coordikittyBE.domain.attach.AttachEntity;
 import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
 import Coordinate.coordikittyBE.domain.closet.enums.*;
 import jakarta.persistence.*;
@@ -8,6 +9,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -56,9 +59,9 @@ public class ClothEntity {
     private Style style;
 
     @ManyToOne  // Many = Cloth, One = User
-    @JoinColumn(name = "cloth_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private UserEntity userEntity;
 
-    @Column(name = "attach_cloth_id")
-    private UUID attachId;
+    @OneToMany(mappedBy = "clothEntity")
+    private List<AttachEntity> attaches = new ArrayList<>();
 }

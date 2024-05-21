@@ -7,6 +7,7 @@ import Coordinate.coordikittyBE.domain.auth.jwtlogin.middleware.JwtTokenProvider
 import Coordinate.coordikittyBE.domain.auth.repository.AuthRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -32,7 +33,8 @@ public class UserService {
 
     }
 
-    public void signUp(SignUpRequestDto signUpRequestDto) {
+    public ResponseEntity<String> signUp(SignUpRequestDto signUpRequestDto) {
 
+        return ResponseEntity.ok("회원가입 완료");
     }
 }

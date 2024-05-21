@@ -23,7 +23,7 @@ public class JwtLoginController {
     @PostMapping("/signup")
     public ResponseEntity<String> signUp(@RequestBody final SignUpRequestDto signUpRequestDto) {
         try {
-            userService.signUp(signUpRequestDto);
+            return userService.signUp(signUpRequestDto);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -33,8 +33,6 @@ public class JwtLoginController {
         String email = loginRequestDto.getEmail();
         String password = loginRequestDto.getPassword();
         JwtTokenDto jwtTokenDto = userService.signIn(email, password);
-        log.info("request username = {}, password = {}", email, password);
-        log.info("jwtToken accessToken = {}, refreshToken = {}", jwtTokenDto.getAccessToken(),jwtTokenDto.getRefreshToken());
         return jwtTokenDto;
     }
 

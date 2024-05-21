@@ -1,8 +1,11 @@
 package Coordinate.coordikittyBE.domain.post.entity;
 
+import Coordinate.coordikittyBE.domain.attach.AttachEntity;
 import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
+import Coordinate.coordikittyBE.domain.bookmark.entity.BookmarkEntity;
 import Coordinate.coordikittyBE.domain.closet.enums.Season;
 import Coordinate.coordikittyBE.domain.closet.enums.Style;
+import Coordinate.coordikittyBE.domain.history.HistoryEntity;
 import Coordinate.coordikittyBE.domain.post.enums.Situation;
 import Coordinate.coordikittyBE.domain.post.posting.dto.PostUpdateRequestDto;
 import jakarta.persistence.*;
@@ -16,6 +19,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -51,14 +56,14 @@ public class PostEntity {
     @LastModifiedDate
     private LocalDate modifiedAt;
 
-    @Column(name="bookmark_post_id")
-    private UUID bookmarkId;
+    @OneToMany(mappedBy = "postEntity")
+    private List<BookmarkEntity> bookmarks = new ArrayList<>();
 
-    @Column(name = "attach_post_id")
-    private UUID attachId;
+    @OneToMany(mappedBy = "postEntity")
+    private List<AttachEntity> attaches = new ArrayList<>();
 
-    @Column(name="history_post_id")
-    private UUID historyId;
+    @OneToMany(mappedBy = "postEntity")
+    private List<HistoryEntity> historys = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -72,9 +77,9 @@ public class PostEntity {
                 .style(postUpdateRequestDto.getStyle())
                 .createdAt(this.createdAt)
                 .modifiedAt(LocalDate.now())
-                .bookmarkId(this.bookmarkId)
-                .attachId(this.attachId)
-                .historyId(this.historyId)
+                .bookmarks(this.bookmarks)
+                .attaches(this.attaches)
+                .historys(this.historys)
                 .build();
     }
 }

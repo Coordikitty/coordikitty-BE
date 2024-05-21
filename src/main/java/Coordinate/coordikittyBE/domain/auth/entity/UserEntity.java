@@ -1,6 +1,11 @@
 package Coordinate.coordikittyBE.domain.auth.entity;
 
 
+import Coordinate.coordikittyBE.domain.bookmark.entity.BookmarkEntity;
+import Coordinate.coordikittyBE.domain.closet.entity.ClothEntity;
+import Coordinate.coordikittyBE.domain.follow.enity.FollowEntity;
+import Coordinate.coordikittyBE.domain.history.HistoryEntity;
+import Coordinate.coordikittyBE.domain.post.entity.PostEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
@@ -66,25 +71,23 @@ public class UserEntity implements UserDetails {
     @Column(name = "alarm_follow", nullable = true)
     private Boolean alarm_follow;
 
-    @Column(name = "cloth_id", nullable = true)
-    private UUID clothId;
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    private List<ClothEntity> clothes = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "userEntity")
-//    private List<AlarmEntity> alarmEntities;
-    @Column(name = "bookmark_user_id", nullable = true)
-    private UUID bookmarkId;
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    private List<BookmarkEntity> bookmarks = new ArrayList<>();
 
-    @Column(name = "history_user_id", nullable = true)
-    private UUID historyId;
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    private List<HistoryEntity> historys = new ArrayList<>();
 
-    @Column(name = "follower_id", nullable = true)
-    private UUID followerId;
+    @OneToMany(mappedBy = "fromUser", cascade = CascadeType.ALL)
+    private List<FollowEntity> followers = new ArrayList<>();
 
-    @Column(name = "following_id", nullable = true)
-    private UUID followingId;
+    @OneToMany(mappedBy = "toUser", cascade = CascadeType.ALL)
+    private List<FollowEntity> followings = new ArrayList<>();
 
-    @Column(name = "post_id", nullable = true)
-    private UUID postId;
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    private List<PostEntity> posts = new ArrayList<>();
 
     @Builder.Default
     @ElementCollection(fetch = FetchType.EAGER)
