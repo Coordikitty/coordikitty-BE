@@ -24,6 +24,7 @@ public class JwtLoginController {
     public ResponseEntity<String> signUp(@RequestBody final SignUpRequestDto signUpRequestDto) {
         try {
             userService.signUp(signUpRequestDto);
+            return ResponseEntity.ok("Sign up successful");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
