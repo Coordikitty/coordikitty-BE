@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @Component
 public class JwtTokenProvider {
     private final Key key;
-    private final int fiveMin = 300000;
+    private final int fiveMin = 86400000;
 
     public JwtTokenProvider(@Value("${jwt.secret_key}") String secretKey) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);

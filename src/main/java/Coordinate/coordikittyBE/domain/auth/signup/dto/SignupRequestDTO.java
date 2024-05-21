@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +17,8 @@ public class SignupRequestDTO {
     private String password;
     private String nickname;
     private String name;
-    private Date birth;
+    private int age;
+    private LocalDate birth;
     private String phoneNumber;
     private int tall;
     private int weight;

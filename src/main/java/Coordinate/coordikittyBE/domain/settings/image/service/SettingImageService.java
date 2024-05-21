@@ -1,7 +1,7 @@
 package Coordinate.coordikittyBE.domain.settings.image.service;
 
 import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
-import Coordinate.coordikittyBE.domain.auth.repository.AuthRepository;
+import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
 import Coordinate.coordikittyBE.domain.settings.image.dto.SettingImageResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class SettingImageService {
 
-    private final AuthRepository authRepository;
+    private final UserRepository authRepository;
 
     public SettingImageResponseDTO getSettingImage(String email) {
         // user id 로 profile_url 찾기

@@ -2,12 +2,10 @@ package Coordinate.coordikittyBE.domain.auth.jwtlogin.service;
 
 
 import Coordinate.coordikittyBE.domain.auth.jwtlogin.dto.JwtTokenDto;
-import Coordinate.coordikittyBE.domain.auth.jwtlogin.dto.SignUpRequestDto;
 import Coordinate.coordikittyBE.domain.auth.jwtlogin.middleware.JwtTokenProvider;
-import Coordinate.coordikittyBE.domain.auth.repository.AuthRepository;
+import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -19,8 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 @Slf4j
 
-public class UserService {
-    private final AuthRepository authRepository;
+public class JwtLoginService {
+    private final UserRepository userRepository;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtTokenProvider jwtTokenProvider;
 
@@ -28,13 +26,8 @@ public class UserService {
     public JwtTokenDto signIn(String email, String password){
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(email, password);
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
+
         return jwtTokenProvider.generateToken(authentication);
 
-    }
-
-    public ResponseEntity<String> signUp(SignUpRequestDto signUpRequestDto) {
-
-        return ResponseEntity.ok("회원가입 완료");
     }
 }

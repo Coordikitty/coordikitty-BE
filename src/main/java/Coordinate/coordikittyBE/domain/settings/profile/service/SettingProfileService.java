@@ -1,7 +1,7 @@
 package Coordinate.coordikittyBE.domain.settings.profile.service;
 
 import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
-import Coordinate.coordikittyBE.domain.auth.repository.AuthRepository;
+import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
 import Coordinate.coordikittyBE.domain.settings.profile.dto.SettingProfileRequestDTO;
 import Coordinate.coordikittyBE.domain.settings.profile.dto.SettingProfileResponseDTO;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class SettingProfileService {
 
-    private final AuthRepository authRepository;
+    private final UserRepository authRepository;
 
     public SettingProfileResponseDTO getSettingProfile(String email) {
         // user id 로 회원정보 조회
