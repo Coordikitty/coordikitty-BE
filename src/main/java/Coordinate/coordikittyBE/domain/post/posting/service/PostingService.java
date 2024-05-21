@@ -2,6 +2,7 @@ package Coordinate.coordikittyBE.domain.post.posting.service;
 
 
 import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
+import Coordinate.coordikittyBE.domain.bookmark.entity.BookmarkEntity;
 import Coordinate.coordikittyBE.domain.history.HistoryEntity;
 import Coordinate.coordikittyBE.domain.post.entity.PostEntity;
 import Coordinate.coordikittyBE.domain.post.posting.dto.PostResponseDto;
@@ -36,31 +37,35 @@ public class PostingService {
     }
 
     public void upload(PostUploadRequestDto postUploadRequestDto) {
-        HistoryEntity historyEntity = HistoryEntity.builder()
-                .historyId(UUID.randomUUID())
-                .postEntity(new PostEntity())// 수정 필요
-                .userEntity(new UserEntity())// 수정 필요
-                .build();
-        PostEntity entity = PostEntity.builder()
+        PostEntity post = PostEntity.builder()
                 .postId(UUID.randomUUID())
                 .likeCount(0)
                 .content(postUploadRequestDto.getContent())
                 .style(postUploadRequestDto.getStyle())
                 .createdAt(LocalDate.now())
                 .modifiedAt(null)
-                .bookmarkId(null)//수정필요
-                .attachId(null)
-                .historyId(null)
+                .bookmarks(null)//수정필요
+                .attaches(null)
+                .historys(null)
                 .build();
-        postRepository.save(entity);
+        post.getBookmarks().add(
+                BookmarkEntity.builder()
+                    .bookmarkId(UUID.randomUUID())
+                    .userEntity(new UserEntity())
+                    .postEntity(post).build());
+        post.getHistorys().add(HistoryEntity.builder()
+            .historyId(UUID.randomUUID())
+            .postEntity(post)
+            .userEntity(new UserEntity())
+            .build());
+        postRepository.save(post);
 
     }
 
     public void update(UUID postId, PostUpdateRequestDto postUpdateRequestDto) {
         Optional<PostEntity> findPost = postRepository.findById(postId);
         if (findPost.isPresent()) {
-            PostEntity post = findPost.get().update(postUpdateRequestDto);
-            postRepository.save(post);
+            findPost.get().update(postUpdateRequestDto);
         }
         else{
             throw new RuntimeException("게시글 없음");
