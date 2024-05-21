@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/login")
+@RequiredArgsConstructor
 public class JwtLoginController {
     private final UserService userService;
 

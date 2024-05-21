@@ -23,9 +23,9 @@ public class SettingAlarmService {
         if(userEntityOptional.isEmpty()) return settingAlarmResponseDTO;
         UserEntity userEntity = userEntityOptional.get();
 
-        settingAlarmResponseDTO.setAlarm_feed(userEntity.isAlarm_feed());
-        settingAlarmResponseDTO.setAlarm_follow(userEntity.isAlarm_follow());
-        settingAlarmResponseDTO.setAlarm_like(userEntity.isAlarm_like());
+        //settingAlarmResponseDTO.setAlarm_feed(userEntity.isAlarm_feed());
+        //settingAlarmResponseDTO.setAlarm_follow(userEntity.isAlarm_follow());
+        //settingAlarmResponseDTO.setAlarm_like(userEntity.isAlarm_like());
 
         return settingAlarmResponseDTO;
     }

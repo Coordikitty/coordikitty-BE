@@ -45,8 +45,7 @@ public class SecurityConfig {
                         authz -> authz
                                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                                 .requestMatchers("/login/**").permitAll()
-                                .requestMatchers("/members/sign-in").permitAll()
-                                .requestMatchers("/members/test").hasRole("USER")
+                                .requestMatchers("/login/test").hasRole("USER")
                                 .anyRequest().authenticated()
                 )
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)

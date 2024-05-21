@@ -58,13 +58,13 @@ public class UserEntity implements UserDetails {
     private String profileUrl;
 
     @Column(name = "alarm_like", nullable = true)
-    private boolean alarm_like;
+    private Boolean alarm_like;
 
     @Column(name = "alarm_feed", nullable = true)
-    private boolean alarm_feed;
+    private Boolean alarm_feed;
 
     @Column(name = "alarm_follow", nullable = true)
-    private boolean alarm_follow;
+    private Boolean alarm_follow;
 
     @Column(name = "cloth_id", nullable = true)
     private UUID clothId;
