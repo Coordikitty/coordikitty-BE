@@ -8,6 +8,8 @@ import Coordinate.coordikittyBE.domain.closet.service.ClosetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -47,7 +49,13 @@ public class ClosetController {
         // User Entity : user id 반환
         // Cloth Entity 에 옷 정보 추가, Firebase 에 옷 사진 업로드
 
-        String email = "user id";
+        if (!jwtTokenProvider.validateToken(token))
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+
+        Authentication authentication = jwtTokenProvider.getAuthentication(token);
+        UserDetails userDetails = (UserDetails) authentication.getDetails();
+
+        String email = userDetails.getUsername();
         if (closetService.postCloth(email, closetPostRequestDTO))
             return ResponseEntity.ok().body("옷 추가 성공");
         else
