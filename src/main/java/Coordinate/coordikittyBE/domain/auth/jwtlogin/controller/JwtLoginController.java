@@ -32,8 +32,7 @@ public class JwtLoginController {
     public JwtTokenDto signIn(@RequestBody LoginRequestDto loginRequestDto){
         String email = loginRequestDto.getEmail();
         String password = loginRequestDto.getPassword();
-        JwtTokenDto jwtTokenDto = userService.signIn(email, password);
-        return jwtTokenDto;
+        return userService.signIn(email, password);
     }
 
     @PostMapping("/test")
