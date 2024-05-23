@@ -53,7 +53,10 @@ public class ClosetController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
         Authentication authentication = jwtTokenProvider.getAuthentication(token);
-        UserDetails userDetails = (UserDetails) authentication.getDetails();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        // test print
+        System.out.println("User authenticated postCloth: " + userDetails.getUsername());
 
         String email = userDetails.getUsername();
         if (closetService.postCloth(email, closetPostRequestDTO))
