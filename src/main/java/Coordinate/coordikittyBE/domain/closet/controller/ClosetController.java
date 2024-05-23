@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,7 +22,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ClosetController {
 
-    private final JwtTokenProvider jwtTokenProvider;
+//    private final JwtTokenProvider jwtTokenProvider;
     private final ClosetService closetService;
 
     @GetMapping(value = "")
@@ -33,9 +34,6 @@ public class ClosetController {
         // Cloth Entity : query string email 과 user id가 일치하는 tuple 반환
         // 찾은 tuple 리스트로 만들어서 반환
 
-        if (!jwtTokenProvider.validateToken(token))
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-
         List<ClosetGetResponseDto> closetGetResponseDtos = closetService.getAllClothes(email);
         return ResponseEntity.ok().body(closetGetResponseDtos);
     }
@@ -43,23 +41,19 @@ public class ClosetController {
     @PostMapping(value = "")
     public ResponseEntity<String> postCloth(
             @RequestHeader("Authorization") String token,
-            @RequestBody ClosetPostRequestDTO closetPostRequestDTO
+//            @RequestBody ClosetPostRequestDTO closetPostRequestDTO,
+//            @RequestBody MultipartFile clothImg,
+            @RequestPart("closetPostRequestDTO") ClosetPostRequestDTO closetPostRequestDTO,
+            @RequestPart("clothImg") MultipartFile clothImg,
+            @AuthenticationPrincipal UserDetails userDetails
     ) {
         // token authentication
         // User Entity : user id 반환
         // Cloth Entity 에 옷 정보 추가, Firebase 에 옷 사진 업로드
 
-        if (!jwtTokenProvider.validateToken(token))
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-
-        Authentication authentication = jwtTokenProvider.getAuthentication(token);
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
-        // test print
-        System.out.println("User authenticated postCloth: " + userDetails.getUsername());
-
         String email = userDetails.getUsername();
-        if (closetService.postCloth(email, closetPostRequestDTO))
+        System.out.println("email: " + email);
+        if (closetService.postCloth(email, closetPostRequestDTO, clothImg))
             return ResponseEntity.ok().body("옷 추가 성공");
         else
             return ResponseEntity.ok().body("옷 추가 실패");

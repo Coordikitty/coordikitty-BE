@@ -21,20 +21,12 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         // 1. Request Header에서 JWT 토큰 추출
         String token = resolveToken((HttpServletRequest) request);
 
-        // for test
-        System.out.println("token: " + token);
-
         // 2. validateToken으로 토큰 유효성 검사
         if (token != null && jwtTokenProvider.validateToken(token)) {
             // 토큰이 유효할 경우 토큰에서 Authentication 객체를 가지고 와서 SecurityContext에 저장
             Authentication authentication = jwtTokenProvider.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
-
-            // for test
-            System.out.println("User authenticated doFilter: " + authentication.getName());
         }
-        // for test
-        else System.out.println("JWT Token is not valid: " + token);
         chain.doFilter(request, response);
     }
 

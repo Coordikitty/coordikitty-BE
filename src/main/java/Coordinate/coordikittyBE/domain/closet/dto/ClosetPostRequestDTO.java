@@ -22,5 +22,5 @@ public class ClosetPostRequestDTO {
     private Style style;
     private Thickness thickness;
 
-    private MultipartFile clothImg;
+//    private MultipartFile clothImg;
 }

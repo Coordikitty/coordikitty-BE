@@ -26,7 +26,7 @@ public class JwtLoginController {
         String password = loginRequestDto.getPassword();
         JwtTokenDto jwtTokenDto = jwtLoginService.signIn(email, password);
         return ResponseEntity.ok()
-                .header(HttpHeaders.AUTHORIZATION, "Bearer" + jwtTokenDto.getAccessToken()).build();
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + jwtTokenDto.getAccessToken()).build();
     }
 
     @PostMapping("/test")

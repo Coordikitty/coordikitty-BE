@@ -9,6 +9,7 @@ import Coordinate.coordikittyBE.domain.closet.entity.ClothEntity;
 import Coordinate.coordikittyBE.domain.closet.repository.ClothRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -20,12 +21,12 @@ import java.util.UUID;
 @Service
 public class ClosetService {
 
-    private final UserRepository authRepository;
+    private final UserRepository userRepository;
     private final ClothRepository clothRepository;
 
     public List<ClosetGetResponseDto> getAllClothes(String email) {
         // email 과 일치하는 cloth 반환
-        Optional<UserEntity> userEntityOptional = authRepository.findById(email);
+        Optional<UserEntity> userEntityOptional = userRepository.findById(email);
 
         if (userEntityOptional.isEmpty()) return new ArrayList<>();
         UserEntity userEntity = userEntityOptional.get();
@@ -58,31 +59,47 @@ public class ClosetService {
         return closetGetResponseDto;
     }
 
-    public boolean postCloth(String email, ClosetPostRequestDTO closetPostRequestDTO) {
-        Optional<UserEntity> userEntityOptional = authRepository.findById(email);
+    @Transactional
+    public boolean postCloth(String email, ClosetPostRequestDTO closetPostRequestDTO, MultipartFile clothImg) {
+        try {
+            // for test
+            System.out.println("1");
 
-        if (userEntityOptional.isEmpty()) return false;
-        UserEntity userEntity = userEntityOptional.get();
+            Optional<UserEntity> userEntityOptional = userRepository.findById(email);
 
-        ClothEntity clothEntity = new ClothEntity();
-        clothEntity.setUserEntity(userEntity);
+            if (userEntityOptional.isEmpty()) return false;
 
-        clothEntity.setLarge(closetPostRequestDTO.getLarge());
-        clothEntity.setMedium(closetPostRequestDTO.getMedium());
-        clothEntity.setSmall(closetPostRequestDTO.getSmall());
+            UserEntity userEntity = userEntityOptional.get();
+            ClothEntity clothEntity = new ClothEntity();
 
-        clothEntity.setFit(closetPostRequestDTO.getFit());
-        clothEntity.setGender(closetPostRequestDTO.getGender());
-        clothEntity.setSeason(closetPostRequestDTO.getSeason());
-        clothEntity.setStyle(closetPostRequestDTO.getStyle());
-        clothEntity.setThickness(closetPostRequestDTO.getThickness());
+            clothEntity.setUserEntity(userEntity);
 
-        MultipartFile file = closetPostRequestDTO.getClothImg();
-        // file firebase 에 저장 -> url 반환
-        clothEntity.setPictureURL("url");
+            clothEntity.setLarge(closetPostRequestDTO.getLarge());
+            clothEntity.setMedium(closetPostRequestDTO.getMedium());
+            clothEntity.setSmall(closetPostRequestDTO.getSmall());
 
-        clothRepository.save(clothEntity);
-        return true;
+            clothEntity.setFit(closetPostRequestDTO.getFit());
+            clothEntity.setGender(closetPostRequestDTO.getGender());
+            clothEntity.setSeason(closetPostRequestDTO.getSeason());
+            clothEntity.setStyle(closetPostRequestDTO.getStyle());
+            clothEntity.setThickness(closetPostRequestDTO.getThickness());
+
+//            MultipartFile file = closetPostRequestDTO.getClothImg();
+            // file firebase 에 저장 -> url 반환
+            clothEntity.setPictureURL("url");
+
+            // for test
+            System.out.println("print 2");
+
+            clothRepository.save(clothEntity);
+
+            // for test
+            System.out.println("print 3");
+
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public ClosetCategorizationResponseDTO clothCategorization(MultipartFile file) {
