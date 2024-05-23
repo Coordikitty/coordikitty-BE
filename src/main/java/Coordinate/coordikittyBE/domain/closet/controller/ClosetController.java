@@ -56,7 +56,7 @@ public class ClosetController {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
         // test print
-        System.out.println("User authenticated: " + userDetails.getUsername());
+        System.out.println("User authenticated postCloth: " + userDetails.getUsername());
 
         String email = userDetails.getUsername();
         if (closetService.postCloth(email, closetPostRequestDTO))
