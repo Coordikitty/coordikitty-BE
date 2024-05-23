@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 @Component
 public class JwtTokenProvider {
     private final Key key;
-    private final int fiveMin = 300000;
 
     public JwtTokenProvider(@Value("${jwt.secret_key}") String secretKey) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
@@ -39,6 +38,7 @@ public class JwtTokenProvider {
         long now = (new Date()).getTime();
 
         // Access Token 생성
+        int fiveMin = 300000;
         Date accessTokenExpiresIn = new Date(now + fiveMin);
         String accessToken = Jwts.builder()
                 .setSubject(authentication.getName())
@@ -110,6 +110,8 @@ public class JwtTokenProvider {
                     .parseClaimsJws(accessToken)
                     .getBody();
         } catch (ExpiredJwtException e) {
+            // for test
+            System.out.println("parseClaim" + e);
             return e.getClaims();
         }
     }
