@@ -56,7 +56,7 @@ public class ClosetController {
         if (closetService.postCloth(email, closetPostRequestDTO, clothImg))
             return ResponseEntity.ok().body("옷 추가 성공");
         else
-            return ResponseEntity.ok().body("옷 추가 실패");
+            return ResponseEntity.badRequest().body("옷 추가 실패");
     }
 
     @PostMapping(value = "/categorization")

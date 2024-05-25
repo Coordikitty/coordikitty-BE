@@ -62,9 +62,6 @@ public class ClosetService {
     @Transactional
     public boolean postCloth(String email, ClosetPostRequestDTO closetPostRequestDTO, MultipartFile clothImg) {
         try {
-            // for test
-            System.out.println("1");
-
             Optional<UserEntity> userEntityOptional = userRepository.findById(email);
 
             if (userEntityOptional.isEmpty()) return false;
@@ -88,13 +85,7 @@ public class ClosetService {
             // file firebase 에 저장 -> url 반환
             clothEntity.setPictureURL("url");
 
-            // for test
-            System.out.println("print 2");
-
             clothRepository.save(clothEntity);
-
-            // for test
-            System.out.println("print 3");
 
             return true;
         } catch (Exception e) {
