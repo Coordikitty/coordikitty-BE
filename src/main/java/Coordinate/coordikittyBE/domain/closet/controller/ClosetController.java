@@ -52,7 +52,6 @@ public class ClosetController {
         // Cloth Entity 에 옷 정보 추가, Firebase 에 옷 사진 업로드
 
         String email = userDetails.getUsername();
-        System.out.println("email: " + email);
         if (closetService.postCloth(email, closetPostRequestDTO, clothImg))
             return ResponseEntity.ok().body("옷 추가 성공");
         else
@@ -62,13 +61,21 @@ public class ClosetController {
     @PostMapping(value = "/categorization")
     public ResponseEntity<ClosetCategorizationResponseDTO> clothCategorization(
             @RequestHeader("Authorization") String token,
-            @RequestBody MultipartFile file
+//            @RequestParam(value = "clothId") UUID clothId
+//            @RequestBody MultipartFile file
+            @RequestPart("clothImg") MultipartFile clothImg
     ) {
         // token authentication
         // DL 서버에 파일 전송, 분류 결과 반환
         // 분류 결과 클라이언트에 반환
-        ClosetCategorizationResponseDTO closetCategorizationResponseDTO = closetService.clothCategorization(file);
-        return ResponseEntity.ok().body(closetCategorizationResponseDTO);
+
+        ClosetCategorizationResponseDTO closetCategorizationResponseDTO = null;
+        try {
+            closetCategorizationResponseDTO = closetService.clothCategorization(clothImg);
+            return ResponseEntity.ok().body(closetCategorizationResponseDTO);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(closetCategorizationResponseDTO);
+        }
     }
 
     @DeleteMapping(value = "")
@@ -83,6 +90,6 @@ public class ClosetController {
         if (closetService.deleteCloth(clothId))
             return ResponseEntity.ok().body("옷 삭제 성공");
         else
-            return ResponseEntity.ok().body("옷 삭제 실패");
+            return ResponseEntity.badRequest().body("옷 삭제 실패");
     }
 }

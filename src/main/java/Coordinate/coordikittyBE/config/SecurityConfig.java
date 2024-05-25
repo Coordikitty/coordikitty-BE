@@ -31,7 +31,7 @@ public class SecurityConfig {
                                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                                 .requestMatchers("/auth/login").permitAll()
                                 .requestMatchers("/login/test").hasRole("USER")
-                                .requestMatchers("/closet/**").permitAll()
+                                .requestMatchers("/closet/**").hasRole("USER")
                                 .anyRequest().authenticated()
                 )
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
