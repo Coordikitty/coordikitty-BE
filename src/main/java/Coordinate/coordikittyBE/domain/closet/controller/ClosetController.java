@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,7 +22,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ClosetController {
 
-    private final JwtTokenProvider jwtTokenProvider;
+//    private final JwtTokenProvider jwtTokenProvider;
     private final ClosetService closetService;
 
     @GetMapping(value = "")
@@ -33,9 +34,6 @@ public class ClosetController {
         // Cloth Entity : query string email 과 user id가 일치하는 tuple 반환
         // 찾은 tuple 리스트로 만들어서 반환
 
-        if (!jwtTokenProvider.validateToken(token))
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-
         List<ClosetGetResponseDto> closetGetResponseDtos = closetService.getAllClothes(email);
         return ResponseEntity.ok().body(closetGetResponseDtos);
     }
@@ -43,35 +41,41 @@ public class ClosetController {
     @PostMapping(value = "")
     public ResponseEntity<String> postCloth(
             @RequestHeader("Authorization") String token,
-            @RequestBody ClosetPostRequestDTO closetPostRequestDTO
+//            @RequestBody ClosetPostRequestDTO closetPostRequestDTO,
+//            @RequestBody MultipartFile clothImg,
+            @RequestPart("closetPostRequestDTO") ClosetPostRequestDTO closetPostRequestDTO,
+            @RequestPart("clothImg") MultipartFile clothImg,
+            @AuthenticationPrincipal UserDetails userDetails
     ) {
         // token authentication
         // User Entity : user id 반환
         // Cloth Entity 에 옷 정보 추가, Firebase 에 옷 사진 업로드
 
-        if (!jwtTokenProvider.validateToken(token))
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-
-        Authentication authentication = jwtTokenProvider.getAuthentication(token);
-        UserDetails userDetails = (UserDetails) authentication.getDetails();
-
         String email = userDetails.getUsername();
-        if (closetService.postCloth(email, closetPostRequestDTO))
+        if (closetService.postCloth(email, closetPostRequestDTO, clothImg))
             return ResponseEntity.ok().body("옷 추가 성공");
         else
-            return ResponseEntity.ok().body("옷 추가 실패");
+            return ResponseEntity.badRequest().body("옷 추가 실패");
     }
 
     @PostMapping(value = "/categorization")
     public ResponseEntity<ClosetCategorizationResponseDTO> clothCategorization(
             @RequestHeader("Authorization") String token,
-            @RequestBody MultipartFile file
+//            @RequestParam(value = "clothId") UUID clothId
+//            @RequestBody MultipartFile file
+            @RequestPart("clothImg") MultipartFile clothImg
     ) {
         // token authentication
         // DL 서버에 파일 전송, 분류 결과 반환
         // 분류 결과 클라이언트에 반환
-        ClosetCategorizationResponseDTO closetCategorizationResponseDTO = closetService.clothCategorization(file);
-        return ResponseEntity.ok().body(closetCategorizationResponseDTO);
+
+        ClosetCategorizationResponseDTO closetCategorizationResponseDTO = null;
+        try {
+            closetCategorizationResponseDTO = closetService.clothCategorization(clothImg);
+            return ResponseEntity.ok().body(closetCategorizationResponseDTO);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(closetCategorizationResponseDTO);
+        }
     }
 
     @DeleteMapping(value = "")
@@ -86,6 +90,6 @@ public class ClosetController {
         if (closetService.deleteCloth(clothId))
             return ResponseEntity.ok().body("옷 삭제 성공");
         else
-            return ResponseEntity.ok().body("옷 삭제 실패");
+            return ResponseEntity.badRequest().body("옷 삭제 실패");
     }
 }

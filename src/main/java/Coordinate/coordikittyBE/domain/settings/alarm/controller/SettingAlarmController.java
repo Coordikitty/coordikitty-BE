@@ -4,6 +4,8 @@ import Coordinate.coordikittyBE.domain.settings.alarm.dto.*;
 import Coordinate.coordikittyBE.domain.settings.alarm.service.SettingAlarmService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,14 +17,15 @@ public class SettingAlarmController {
 
     @GetMapping(value = "/alarm")
     public ResponseEntity<SettingAlarmResponseDTO> getSettingAlarm(
-            @RequestHeader("Authorization") String token
+            @RequestHeader("Authorization") String token,
+            @AuthenticationPrincipal UserDetails userDetails
     ) {
         // token authorization
         // User Entity : user id 반환
         // user id 에 해당하는 alarm type 반환
 
-        String userId = "user id";
-        SettingAlarmResponseDTO settingAlarmResponseDTO = settingService.getSettingAlarm(userId);
+        String email = userDetails.getUsername();
+        SettingAlarmResponseDTO settingAlarmResponseDTO = settingService.getSettingAlarm(email);
 
         return ResponseEntity.ok().body(settingAlarmResponseDTO);
     }
@@ -30,15 +33,16 @@ public class SettingAlarmController {
     @PostMapping(value = "/alarm")
     public ResponseEntity<String> setSettingAlarm(
             @RequestHeader("Authorization") String token,
-            @RequestBody SettingAlarmRequestDTO type
+            @RequestBody SettingAlarmRequestDTO type,
+            @AuthenticationPrincipal UserDetails userDetails
     ) {
         // token authorization
         // User Entity : user id 반환
         // alarm type 수정
 
-        String userId = "user id";
+        String userId = userDetails.getUsername();
         if (settingService.setSettingAlarm(userId, type))
-            return ResponseEntity.ok().body("OK");
+            return ResponseEntity.ok().body("타입 변환 성공");
         else
             return ResponseEntity.badRequest().body("타입 변환 실패");
     }

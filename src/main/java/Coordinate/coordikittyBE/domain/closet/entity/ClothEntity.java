@@ -20,7 +20,8 @@ import java.util.UUID;
 @Entity(name = "cloth")
 public class ClothEntity {
     @Id
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false, updatable = false)
     private UUID clothId;
 
     @Column(name = "pictureURL", nullable = false)

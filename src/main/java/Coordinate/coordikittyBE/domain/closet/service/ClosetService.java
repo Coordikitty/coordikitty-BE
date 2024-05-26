@@ -1,7 +1,7 @@
 package Coordinate.coordikittyBE.domain.closet.service;
 
 import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
-import Coordinate.coordikittyBE.domain.auth.repository.AuthRepository;
+import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetCategorizationResponseDTO;
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetGetResponseDto;
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetPostRequestDTO;
@@ -9,6 +9,7 @@ import Coordinate.coordikittyBE.domain.closet.entity.ClothEntity;
 import Coordinate.coordikittyBE.domain.closet.repository.ClothRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -20,12 +21,12 @@ import java.util.UUID;
 @Service
 public class ClosetService {
 
-    private final AuthRepository authRepository;
+    private final UserRepository userRepository;
     private final ClothRepository clothRepository;
 
     public List<ClosetGetResponseDto> getAllClothes(String email) {
         // email 과 일치하는 cloth 반환
-        Optional<UserEntity> userEntityOptional = authRepository.findById(email);
+        Optional<UserEntity> userEntityOptional = userRepository.findById(email);
 
         if (userEntityOptional.isEmpty()) return new ArrayList<>();
         UserEntity userEntity = userEntityOptional.get();
@@ -58,31 +59,38 @@ public class ClosetService {
         return closetGetResponseDto;
     }
 
-    public boolean postCloth(String email, ClosetPostRequestDTO closetPostRequestDTO) {
-        Optional<UserEntity> userEntityOptional = authRepository.findById(email);
+    @Transactional
+    public boolean postCloth(String email, ClosetPostRequestDTO closetPostRequestDTO, MultipartFile clothImg) {
+        try {
+            Optional<UserEntity> userEntityOptional = userRepository.findById(email);
 
-        if (userEntityOptional.isEmpty()) return false;
-        UserEntity userEntity = userEntityOptional.get();
+            if (userEntityOptional.isEmpty()) return false;
 
-        ClothEntity clothEntity = new ClothEntity();
-        clothEntity.setUserEntity(userEntity);
+            UserEntity userEntity = userEntityOptional.get();
+            ClothEntity clothEntity = new ClothEntity();
 
-        clothEntity.setLarge(closetPostRequestDTO.getLarge());
-        clothEntity.setMedium(closetPostRequestDTO.getMedium());
-        clothEntity.setSmall(closetPostRequestDTO.getSmall());
+            clothEntity.setUserEntity(userEntity);
 
-        clothEntity.setFit(closetPostRequestDTO.getFit());
-        clothEntity.setGender(closetPostRequestDTO.getGender());
-        clothEntity.setSeason(closetPostRequestDTO.getSeason());
-        clothEntity.setStyle(closetPostRequestDTO.getStyle());
-        clothEntity.setThickness(closetPostRequestDTO.getThickness());
+            clothEntity.setLarge(closetPostRequestDTO.getLarge());
+            clothEntity.setMedium(closetPostRequestDTO.getMedium());
+            clothEntity.setSmall(closetPostRequestDTO.getSmall());
 
-        MultipartFile file = closetPostRequestDTO.getClothImg();
-        // file firebase 에 저장 -> url 반환
-        clothEntity.setPictureURL("url");
+            clothEntity.setFit(closetPostRequestDTO.getFit());
+            clothEntity.setGender(closetPostRequestDTO.getGender());
+            clothEntity.setSeason(closetPostRequestDTO.getSeason());
+            clothEntity.setStyle(closetPostRequestDTO.getStyle());
+            clothEntity.setThickness(closetPostRequestDTO.getThickness());
 
-        clothRepository.save(clothEntity);
-        return true;
+//            MultipartFile file = closetPostRequestDTO.getClothImg();
+            // file firebase 에 저장 -> url 반환
+            clothEntity.setPictureURL("url");
+
+            clothRepository.save(clothEntity);
+
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public ClosetCategorizationResponseDTO clothCategorization(MultipartFile file) {

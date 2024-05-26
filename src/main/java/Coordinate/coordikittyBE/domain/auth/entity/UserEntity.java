@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
