@@ -1,4 +1,4 @@
-package Coordinate.coordikittyBE.domain.auth.jwtlogin.dto;
+package Coordinate.coordikittyBE.domain.auth.login.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -6,6 +6,5 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class LoginResponseDto {
-    private String email;
-    private String nickname;
+    private String accessToken;
 }

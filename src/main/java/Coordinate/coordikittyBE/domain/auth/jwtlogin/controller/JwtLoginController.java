@@ -1,42 +1,35 @@
 package Coordinate.coordikittyBE.domain.auth.jwtlogin.controller;
 
-
-import Coordinate.coordikittyBE.domain.auth.jwtlogin.dto.JwtTokenDto;
-import Coordinate.coordikittyBE.domain.auth.jwtlogin.dto.LoginRequestDto;
-import Coordinate.coordikittyBE.domain.auth.jwtlogin.dto.SignUpRequestDto;
-import Coordinate.coordikittyBE.domain.auth.jwtlogin.service.UserService;
+import Coordinate.coordikittyBE.domain.auth.jwtlogin.dto.JwtTokenRequestDto;
+import Coordinate.coordikittyBE.domain.auth.jwtlogin.dto.TokenDto;
+import Coordinate.coordikittyBE.domain.auth.login.dto.LoginRequestDto;
+import Coordinate.coordikittyBE.domain.auth.jwtlogin.middleware.JwtTokenProvider;
+import Coordinate.coordikittyBE.domain.auth.jwtlogin.service.TokenService;
+import Coordinate.coordikittyBE.domain.auth.service.UserService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Slf4j
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/auth")
-@RequiredArgsConstructor
 public class JwtLoginController {
+    private final TokenService tokenService;
+    private final JwtTokenProvider jwtTokenProvider;
     private final UserService userService;
-
-    @PostMapping("/signup")
-    public ResponseEntity<String> signUp(@RequestBody final SignUpRequestDto signUpRequestDto) {
-        try {
-            return userService.signUp(signUpRequestDto);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    @PostMapping("/token")
+    public ResponseEntity<TokenDto> createNewAccessToken(@RequestBody JwtTokenRequestDto tokenRequestDto) {
+        TokenDto newAccessToken = tokenService.createNewAccessToken(tokenRequestDto.getRefreshToken());
+        return ResponseEntity.status(HttpStatus.CREATED).body(newAccessToken);
     }
+
     @PostMapping("/login")
-    public JwtTokenDto signIn(@RequestBody LoginRequestDto loginRequestDto){
-        String email = loginRequestDto.getEmail();
-        String password = loginRequestDto.getPassword();
-        return userService.signIn(email, password);
-    }
-
-    @PostMapping("/test")
-    public String test() {
-        return "success";
+    public ResponseEntity<TokenDto> signIn(@RequestBody LoginRequestDto loginRequestDto){
+        TokenDto tokenDto = userService.signIn(loginRequestDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(tokenDto);
     }
 }

@@ -22,7 +22,6 @@ public class PostingController {
 
     @GetMapping(value = "")
     public ResponseEntity<List<PostlistResponseDto>> getPosts(
-            @RequestHeader("Authorization") String token
     ){
         List<PostlistResponseDto> postlistResponseDtos = new ArrayList<>();
         return ResponseEntity.ok(postlistResponseDtos);

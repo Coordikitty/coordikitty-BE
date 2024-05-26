@@ -1,11 +1,12 @@
 package Coordinate.coordikittyBE.domain.auth.jwtlogin.middleware;
 
-import Coordinate.coordikittyBE.domain.auth.jwtlogin.dto.JwtTokenDto;
+import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
+import Coordinate.coordikittyBE.domain.auth.jwtlogin.dto.TokenDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.Authentication;
@@ -13,7 +14,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-
 import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
@@ -24,36 +24,28 @@ import java.util.stream.Collectors;
 @Component
 public class JwtTokenProvider {
     private final Key key;
-    private final int fiveMin = 300000;
 
     public JwtTokenProvider(@Value("${jwt.secret_key}") String secretKey) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
     // Member 정보를 가지고 AccessToken, RefreshToken을 생성하는 메서드
-    public JwtTokenDto generateToken(Authentication authentication) {
-        String authorities = authentication.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(","));
-
+    public TokenDto generateToken(UserEntity user) {
         long now = (new Date()).getTime();
-
+        int Day = 20000;
+        Date accessTokenExpiresIn = new Date(now + Day);
         // Access Token 생성
-        Date accessTokenExpiresIn = new Date(now + fiveMin);
         String accessToken = Jwts.builder()
-                .setSubject(authentication.getName())
-                .claim("auth", authorities)
                 .setExpiration(accessTokenExpiresIn)
+                .setSubject(user.getEmail())
+                .claim("auth", user.getEmail())
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
-
-        // Refresh Token 생성
         String refreshToken = Jwts.builder()
-                .setExpiration(new Date(now + fiveMin))
+                .setExpiration(new Date(now+86400000))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
-
-        return JwtTokenDto.builder()
+        return TokenDto.builder()
                 .grantType("Bearer")
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
@@ -88,7 +80,6 @@ public class JwtTokenProvider {
         if (claims.get("auth") == null) {
             throw new RuntimeException("권한 정보가 없는 토큰입니다.");
         }
-
         // 클레임에서 권한 정보 가져오기
         Collection<? extends GrantedAuthority> authorities = Arrays.stream(claims.get("auth").toString().split(","))
                 .map(SimpleGrantedAuthority ::new)
@@ -97,10 +88,14 @@ public class JwtTokenProvider {
         // UserDetails 객체를 만들어서 Authentication return
         // UserDetails: interface, User: UserDetails를 구현한 class
         UserDetails principal = new User(claims.getSubject(), "", authorities);
-        return new UsernamePasswordAuthenticationToken(principal, "", authorities);
+        return new UsernamePasswordAuthenticationToken(principal, accessToken, authorities);
     }
 
 
+    public String getUserId(String token){
+        Claims claims = parseClaims(token);
+        return claims.get("email", String.class);
+    }
     // accessToken
     private Claims parseClaims(String accessToken) {
         try {

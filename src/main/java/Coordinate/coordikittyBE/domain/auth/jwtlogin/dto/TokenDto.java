@@ -5,9 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 
 @Builder
-@AllArgsConstructor
 @Data
-public class JwtTokenDto {
+@AllArgsConstructor
+public class TokenDto {
     private String grantType;
     private String accessToken;
     private String refreshToken;
