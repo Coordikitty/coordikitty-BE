@@ -23,9 +23,28 @@ public class SettingAlarmService {
         if(userEntityOptional.isEmpty()) return settingAlarmResponseDTO;
         UserEntity userEntity = userEntityOptional.get();
 
-        //settingAlarmResponseDTO.setAlarm_feed(userEntity.isAlarm_feed());
-        //settingAlarmResponseDTO.setAlarm_follow(userEntity.isAlarm_follow());
-        //settingAlarmResponseDTO.setAlarm_like(userEntity.isAlarm_like());
+        if (userEntity.getAlarm_feed() != null)
+            settingAlarmResponseDTO.setAlarm_feed(userEntity.getAlarm_feed());
+        else {
+            userEntity.setAlarm_feed(false);
+            settingAlarmResponseDTO.setAlarm_feed(false);
+        }
+
+        if (userEntity.getAlarm_follow() != null)
+            settingAlarmResponseDTO.setAlarm_follow(userEntity.getAlarm_follow());
+        else {
+            userEntity.setAlarm_follow(false);
+            settingAlarmResponseDTO.setAlarm_follow(false);
+        }
+
+        if (userEntity.getAlarm_like() != null)
+            settingAlarmResponseDTO.setAlarm_like(userEntity.getAlarm_like());
+        else {
+            userEntity.setAlarm_like(false);
+            settingAlarmResponseDTO.setAlarm_like(false);
+        }
+
+        authRepository.save(userEntity);
 
         return settingAlarmResponseDTO;
     }
@@ -37,12 +56,22 @@ public class SettingAlarmService {
         if(userEntityOptional.isEmpty()) return false;
         UserEntity userEntity = userEntityOptional.get();
 
-//        switch (type.getType()) {
-//            case FEED -> userEntity.setAlarm_feed(!userEntity.isAlarm_feed());
-//            case FOLLOW -> userEntity.setAlarm_follow(!userEntity.isAlarm_follow());
-//            case LIKE -> userEntity.setAlarm_like(!userEntity.isAlarm_like());
-//            default -> throw new IllegalStateException("Unexpected value: " + type.getType());
-//        }
+        boolean newValue;
+        switch (type.getType()) {
+            case FEED -> {
+                newValue = userEntity.getAlarm_feed() == null ? false : !userEntity.getAlarm_feed();
+                userEntity.setAlarm_feed(newValue);
+            }
+            case FOLLOW -> {
+                newValue = userEntity.getAlarm_follow() == null ? false : !userEntity.getAlarm_follow();
+                userEntity.setAlarm_follow(newValue);
+            }
+            case LIKE -> {
+                newValue = userEntity.getAlarm_like() == null ? false : !userEntity.getAlarm_like();
+                userEntity.setAlarm_like(newValue);
+            }
+            default -> throw new IllegalStateException("Unexpected value: " + type.getType());
+        }
 
         authRepository.save(userEntity);
 
