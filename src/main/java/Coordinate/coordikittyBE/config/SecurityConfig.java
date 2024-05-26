@@ -32,6 +32,7 @@ public class SecurityConfig {
                                 .requestMatchers("/auth/login").permitAll()
                                 .requestMatchers("/auth/login/test").hasRole("USER")
                                 .requestMatchers("/closet/**").hasRole("USER")
+                                .requestMatchers("/recommend/**").hasRole("USER")
                                 .requestMatchers("/setting/**").hasRole("USER")
                                 .anyRequest().authenticated()
                 )
