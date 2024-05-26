@@ -36,7 +36,8 @@ public class SettingProfileService {
         if (userEntityOptional.isEmpty()) return false;
         UserEntity userEntity = userEntityOptional.get();
 
-        //userEntity.setNickname(nickname.getNickname());
+        userEntity.setNickname(nickname.getNickname());
+
         authRepository.save(userEntity);
 
         return true;
