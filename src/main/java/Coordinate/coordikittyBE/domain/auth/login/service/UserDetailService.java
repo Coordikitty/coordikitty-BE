@@ -1,4 +1,4 @@
-package Coordinate.coordikittyBE.domain.auth.service;
+package Coordinate.coordikittyBE.domain.auth.login.service;
 
 import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
 import Coordinate.coordikittyBE.domain.auth.repository.AuthRepository;

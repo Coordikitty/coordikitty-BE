@@ -1,7 +1,6 @@
-package Coordinate.coordikittyBE.domain.auth.jwtlogin.middleware;
-
+package Coordinate.coordikittyBE.domain.auth.login.middleware;
 import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
-import Coordinate.coordikittyBE.domain.auth.jwtlogin.dto.TokenDto;
+import Coordinate.coordikittyBE.domain.auth.login.dto.TokenDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;

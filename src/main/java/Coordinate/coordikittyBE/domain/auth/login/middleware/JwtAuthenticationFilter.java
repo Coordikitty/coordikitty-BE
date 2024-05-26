@@ -1,4 +1,4 @@
-package Coordinate.coordikittyBE.domain.auth.jwtlogin.middleware;
+package Coordinate.coordikittyBE.domain.auth.login.middleware;
 
 import java.io.IOException;
 import jakarta.servlet.FilterChain;

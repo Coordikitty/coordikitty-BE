@@ -1,8 +1,8 @@
 package Coordinate.coordikittyBE.config;
 
-import Coordinate.coordikittyBE.domain.auth.jwtlogin.middleware.JwtAuthenticationFilter;
-import Coordinate.coordikittyBE.domain.auth.jwtlogin.middleware.JwtTokenProvider;
-import Coordinate.coordikittyBE.domain.auth.service.UserDetailService;
+import Coordinate.coordikittyBE.domain.auth.login.middleware.JwtAuthenticationFilter;
+import Coordinate.coordikittyBE.domain.auth.login.middleware.JwtTokenProvider;
+import Coordinate.coordikittyBE.domain.auth.login.service.UserDetailService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -48,7 +48,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder, UserDetailService userDetailService) throws Exception {
+    public AuthenticationManager authenticationManager(BCryptPasswordEncoder bCryptPasswordEncoder, UserDetailService userDetailService) throws Exception {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailService);
         authProvider.setPasswordEncoder(bCryptPasswordEncoder);

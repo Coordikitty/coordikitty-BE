@@ -1,13 +1,11 @@
-package Coordinate.coordikittyBE.domain.auth.service;
+package Coordinate.coordikittyBE.domain.auth.login.service;
 
 import Coordinate.coordikittyBE.domain.auth.entity.RefreshToken;
 import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
-import Coordinate.coordikittyBE.domain.auth.jwtlogin.dto.TokenDto;
-import Coordinate.coordikittyBE.domain.auth.jwtlogin.service.RefreshTokenService;
+import Coordinate.coordikittyBE.domain.auth.login.dto.TokenDto;
 import Coordinate.coordikittyBE.domain.auth.login.dto.LoginRequestDto;
-import Coordinate.coordikittyBE.domain.auth.jwtlogin.middleware.JwtTokenProvider;
+import Coordinate.coordikittyBE.domain.auth.login.middleware.JwtTokenProvider;
 import Coordinate.coordikittyBE.domain.auth.repository.AuthRepository;
-import Coordinate.coordikittyBE.domain.auth.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

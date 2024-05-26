@@ -1,4 +1,4 @@
-package Coordinate.coordikittyBE.domain.auth.jwtlogin.service;
+package Coordinate.coordikittyBE.domain.auth.login.service;
 
 import Coordinate.coordikittyBE.domain.auth.entity.RefreshToken;
 import Coordinate.coordikittyBE.domain.auth.repository.RefreshTokenRepository;
