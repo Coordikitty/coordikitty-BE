@@ -1,7 +1,7 @@
 package Coordinate.coordikittyBE.domain.recommend.service;
 
 import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
-import Coordinate.coordikittyBE.domain.auth.repository.AuthRepository;
+import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
 import Coordinate.coordikittyBE.domain.closet.entity.ClothEntity;
 import Coordinate.coordikittyBE.domain.closet.repository.ClothRepository;
 import Coordinate.coordikittyBE.domain.recommend.dto.RecommendGetResponseDTO;
@@ -16,7 +16,7 @@ import java.util.Optional;
 @Service
 public class RecommendService {
 
-    private final AuthRepository userRepository;
+    private final UserRepository userRepository;
     private final ClothRepository clothRepository;
 
     public Double getTemperature() {

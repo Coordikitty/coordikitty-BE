@@ -1,7 +1,7 @@
 package Coordinate.coordikittyBE.domain.settings.profile.service;
 
 import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
-import Coordinate.coordikittyBE.domain.auth.repository.AuthRepository;
+import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
 import Coordinate.coordikittyBE.domain.settings.profile.dto.SettingProfileRequestDTO;
 import Coordinate.coordikittyBE.domain.settings.profile.dto.SettingProfileResponseDTO;
 import lombok.RequiredArgsConstructor;
@@ -13,11 +13,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class SettingProfileService {
 
-    private final AuthRepository authRepository;
+    private final UserRepository userRepository;
 
     public SettingProfileResponseDTO getSettingProfile(String email) {
         // user id 로 회원정보 조회
-        Optional<UserEntity> userEntityOptional = authRepository.findById(email);
+        Optional<UserEntity> userEntityOptional = userRepository.findById(email);
         SettingProfileResponseDTO settingProfileResponseDTO = new SettingProfileResponseDTO();
 
         if (userEntityOptional.isEmpty()) return settingProfileResponseDTO;
@@ -31,14 +31,14 @@ public class SettingProfileService {
     }
 
     public boolean setSettingProfile(String email, SettingProfileRequestDTO nickname) {
-        Optional<UserEntity> userEntityOptional = authRepository.findById(email);
+        Optional<UserEntity> userEntityOptional = userRepository.findById(email);
 
         if (userEntityOptional.isEmpty()) return false;
         UserEntity userEntity = userEntityOptional.get();
 
         userEntity.setNickname(nickname.getNickname());
 
-        authRepository.save(userEntity);
+        userRepository.save(userEntity);
 
         return true;
     }

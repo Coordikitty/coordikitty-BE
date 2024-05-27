@@ -1,7 +1,7 @@
 package Coordinate.coordikittyBE.config.oauth;
 
 import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
-import Coordinate.coordikittyBE.domain.auth.repository.AuthRepository;
+import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -16,7 +16,7 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class OAuth2UserCustomService extends DefaultOAuth2UserService {
-    private final AuthRepository authRepository;
+    private final UserRepository userRepository;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -28,9 +28,9 @@ public class OAuth2UserCustomService extends DefaultOAuth2UserService {
         Map<String, Object> attributes = user.getAttributes();
         String email = (String) attributes.get("email");
         String name = (String) attributes.get("name");
-        UserEntity userEntity = authRepository.findByEmail(email)
+        UserEntity userEntity = userRepository.findByEmail(email)
                 .map(entity->entity.update(name))
                 .orElse(UserEntity.builder().email(email).nickname(name).build());
-        return authRepository.save(userEntity);
+        return userRepository.save(userEntity);
     }
 }

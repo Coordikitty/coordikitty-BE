@@ -2,7 +2,7 @@ package Coordinate.coordikittyBE.domain.settings.image.service;
 
 import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
 
-import Coordinate.coordikittyBE.domain.auth.repository.AuthRepository;
+import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
 import Coordinate.coordikittyBE.domain.settings.image.dto.SettingImageResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,11 +14,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class SettingImageService {
 
-    private final AuthRepository authRepository;
+    private final UserRepository userRepository;
 
     public SettingImageResponseDTO getSettingImage(String email) {
         // user id 로 profile_url 찾기
-        Optional<UserEntity> userEntityOptional = authRepository.findById(email);
+        Optional<UserEntity> userEntityOptional = userRepository.findById(email);
         SettingImageResponseDTO settingImageResponseDTO = new SettingImageResponseDTO();
 
         if (userEntityOptional.isEmpty()) return settingImageResponseDTO;
@@ -31,7 +31,7 @@ public class SettingImageService {
 
     public boolean setSettingImage(String email, MultipartFile profileImg) {
         // user id 로 찾아서 profile Img 변경
-        Optional<UserEntity> userEntityOptional = authRepository.findById(email);
+        Optional<UserEntity> userEntityOptional = userRepository.findById(email);
 
         if (userEntityOptional.isEmpty()) return false;
         UserEntity userEntity = userEntityOptional.get();
@@ -40,7 +40,7 @@ public class SettingImageService {
         String profileUrl = "www.firebase.com/profileUrl";
         userEntity.setProfileUrl(profileUrl);
 
-        authRepository.save(userEntity);
+        userRepository.save(userEntity);
 
         return true;
     }

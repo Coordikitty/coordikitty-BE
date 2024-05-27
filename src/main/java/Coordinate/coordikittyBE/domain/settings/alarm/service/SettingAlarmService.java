@@ -1,7 +1,7 @@
 package Coordinate.coordikittyBE.domain.settings.alarm.service;
 
 import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
-import Coordinate.coordikittyBE.domain.auth.repository.AuthRepository;
+import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
 import Coordinate.coordikittyBE.domain.settings.alarm.dto.SettingAlarmRequestDTO;
 import Coordinate.coordikittyBE.domain.settings.alarm.dto.SettingAlarmResponseDTO;
 import lombok.RequiredArgsConstructor;
@@ -13,11 +13,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class SettingAlarmService {
 
-    private final AuthRepository authRepository;
+    private final UserRepository userRepository;
 
     public SettingAlarmResponseDTO getSettingAlarm(String email) {
         // user id 로 현재 유저의 알람 설정 상태 반환
-        Optional<UserEntity> userEntityOptional = authRepository.findById(email);
+        Optional<UserEntity> userEntityOptional = userRepository.findById(email);
         SettingAlarmResponseDTO settingAlarmResponseDTO = new SettingAlarmResponseDTO();
 
         if(userEntityOptional.isEmpty()) return settingAlarmResponseDTO;
@@ -44,14 +44,14 @@ public class SettingAlarmService {
             settingAlarmResponseDTO.setAlarm_like(false);
         }
 
-        authRepository.save(userEntity);
+        userRepository.save(userEntity);
 
         return settingAlarmResponseDTO;
     }
 
     public boolean setSettingAlarm(String email, SettingAlarmRequestDTO type) {
         // user id 로 타입에 맞는 유저의 알람 설정 변경
-        Optional<UserEntity> userEntityOptional = authRepository.findById(email);
+        Optional<UserEntity> userEntityOptional = userRepository.findById(email);
 
         if(userEntityOptional.isEmpty()) return false;
         UserEntity userEntity = userEntityOptional.get();
@@ -73,7 +73,7 @@ public class SettingAlarmService {
             default -> throw new IllegalStateException("Unexpected value: " + type.getType());
         }
 
-        authRepository.save(userEntity);
+        userRepository.save(userEntity);
 
         return true;
     }
