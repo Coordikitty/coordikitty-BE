@@ -33,28 +33,25 @@ public class UserEntity implements UserDetails {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name="name", nullable = false)
+    @Column(name="name", nullable = true)
     private String name;
 
-    @Column(name="age", nullable = false)
-    private int age;
-
-    @Column(name="nickname", nullable = false, length = 10)
+    @Column(name="nickname", nullable = true, length = 10)
     private String nickname;
 
-    @Column(name="birth", nullable = false)
+    @Column(name="birth", nullable = true)
     private LocalDate birth;
 
-    @Column(name="phone_number", nullable = false)
+    @Column(name="phone_number", nullable = true)
     private String phoneNumber;
 
-    @Column(name="tall", nullable = false)
+    @Column(name="tall", nullable = true)
     private int tall;
 
-    @Column(name="shoesize", nullable = false)
+    @Column(name="shoesize", nullable = true)
     private int shoeSize;
 
-    @Column(name="weight", nullable = false)
+    @Column(name="weight", nullable = true)
     private int weight;
 
     @Column(name = "profile_url", nullable = true)
@@ -86,6 +83,11 @@ public class UserEntity implements UserDetails {
 
     @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
     private List<PostEntity> posts = new ArrayList<>();
+
+    public UserEntity update(String nickname){
+        this.nickname = nickname;
+        return this;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

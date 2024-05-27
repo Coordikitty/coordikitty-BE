@@ -1,6 +1,7 @@
 package Coordinate.coordikittyBE.domain.settings.image.service;
 
 import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
+
 import Coordinate.coordikittyBE.domain.auth.repository.AuthRepository;
 import Coordinate.coordikittyBE.domain.settings.image.dto.SettingImageResponseDTO;
 import lombok.RequiredArgsConstructor;

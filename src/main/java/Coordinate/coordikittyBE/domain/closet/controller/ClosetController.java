@@ -1,14 +1,11 @@
 package Coordinate.coordikittyBE.domain.closet.controller;
 
-import Coordinate.coordikittyBE.domain.auth.jwtlogin.middleware.JwtTokenProvider;
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetCategorizationResponseDTO;
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetGetResponseDto;
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetPostRequestDTO;
 import Coordinate.coordikittyBE.domain.closet.service.ClosetService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;

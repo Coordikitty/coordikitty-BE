@@ -23,12 +23,12 @@ public class PostingController {
     @GetMapping(value = "")
     public ResponseEntity<List<PostlistResponseDto>> getPosts(
     ){
+
         List<PostlistResponseDto> postlistResponseDtos = new ArrayList<>();
         return ResponseEntity.ok(postlistResponseDtos);
     }
     @PutMapping(value = "/{postId}")
     public ResponseEntity<String> updatePost(
-            @RequestHeader("Authorization") String token,
             @PathVariable("postId") UUID postId,
             @RequestBody PostUpdateRequestDto postUpdateRequestDto
     ){
@@ -37,7 +37,6 @@ public class PostingController {
     }
     @GetMapping(value = "/{postId}")
     public ResponseEntity<PostResponseDto> getPostListByPostId(
-            @RequestHeader("Authorization") String token,
             @PathVariable("postId") UUID postId
     ){
         //게시글 찾기
@@ -47,7 +46,6 @@ public class PostingController {
 
     @PostMapping("/upload")
     public ResponseEntity<String> uploadPost(
-            @RequestHeader("Authorization") String token,
             @RequestBody PostUploadRequestDto postUploadRequestDto
     ){
         postingService.upload(postUploadRequestDto);
@@ -56,7 +54,6 @@ public class PostingController {
 
     @PostMapping("/delete")
     public ResponseEntity<String> deletePost(
-            @RequestHeader("Authorization") String token,
             @RequestBody UUID postId
     ){
         postingService.delete(postId);

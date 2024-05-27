@@ -21,12 +21,12 @@ import java.util.UUID;
 @Service
 public class ClosetService {
 
-    private final AuthRepository authRepository;
+    private final AuthRepository userRepository;
     private final ClothRepository clothRepository;
 
     public List<ClosetGetResponseDto> getAllClothes(String email) {
         // email 과 일치하는 cloth 반환
-        Optional<UserEntity> userEntityOptional = authRepository.findById(email);
+        Optional<UserEntity> userEntityOptional = userRepository.findById(email);
 
         if (userEntityOptional.isEmpty()) return new ArrayList<>();
         UserEntity userEntity = userEntityOptional.get();
@@ -62,7 +62,7 @@ public class ClosetService {
     @Transactional
     public boolean postCloth(String email, ClosetPostRequestDTO closetPostRequestDTO, MultipartFile clothImg) {
         try {
-            Optional<UserEntity> userEntityOptional = authRepository.findById(email);
+            Optional<UserEntity> userEntityOptional = userRepository.findById(email);
 
             if (userEntityOptional.isEmpty()) return false;
 

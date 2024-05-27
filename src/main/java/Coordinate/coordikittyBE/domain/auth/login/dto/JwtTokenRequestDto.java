@@ -1,4 +1,4 @@
-package Coordinate.coordikittyBE.domain.auth.jwtlogin.dto;
+package Coordinate.coordikittyBE.domain.auth.login.dto;
 
 import lombok.*;
 
