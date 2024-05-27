@@ -1,7 +1,7 @@
 package Coordinate.coordikittyBE.domain.settings.alarm.service;
 
 import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
-import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
+import Coordinate.coordikittyBE.domain.auth.repository.AuthRepository;
 import Coordinate.coordikittyBE.domain.settings.alarm.dto.SettingAlarmRequestDTO;
 import Coordinate.coordikittyBE.domain.settings.alarm.dto.SettingAlarmResponseDTO;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class SettingAlarmService {
 
-    private final UserRepository authRepository;
+    private final AuthRepository authRepository;
 
     public SettingAlarmResponseDTO getSettingAlarm(String email) {
         // user id 로 현재 유저의 알람 설정 상태 반환

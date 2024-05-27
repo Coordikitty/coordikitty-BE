@@ -16,7 +16,7 @@ public class UserService {
     private final JwtTokenProvider jwtTokenProvider;
     private final RefreshTokenService refreshTokenService;
     public UserEntity findById(String email){
-        return authRepository.findByEmail(email).orElseThrow(()-> new IllegalArgumentException("Unexpected User"));
+        return authRepository.findById(email).orElse(null);
     }
 
     public TokenDto signIn(LoginRequestDto loginRequestDto) {
@@ -29,6 +29,5 @@ public class UserService {
             return tokenDto;
         }
         return tokenDto;
-
     }
 }

@@ -1,7 +1,7 @@
 package Coordinate.coordikittyBE.domain.closet.service;
 
 import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
-import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
+import Coordinate.coordikittyBE.domain.auth.repository.AuthRepository;
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetCategorizationResponseDTO;
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetGetResponseDto;
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetPostRequestDTO;
@@ -21,7 +21,7 @@ import java.util.UUID;
 @Service
 public class ClosetService {
 
-    private final UserRepository userRepository;
+    private final AuthRepository userRepository;
     private final ClothRepository clothRepository;
 
     public List<ClosetGetResponseDto> getAllClothes(String email) {

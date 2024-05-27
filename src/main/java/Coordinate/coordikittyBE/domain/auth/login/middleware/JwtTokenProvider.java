@@ -31,7 +31,7 @@ public class JwtTokenProvider {
     // Member 정보를 가지고 AccessToken, RefreshToken을 생성하는 메서드
     public TokenDto generateToken(UserEntity user) {
         long now = (new Date()).getTime();
-        int Day = 20000;
+        int Day = 86400000;
         Date accessTokenExpiresIn = new Date(now + Day);
         // Access Token 생성
         String accessToken = Jwts.builder()
@@ -41,7 +41,7 @@ public class JwtTokenProvider {
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
         String refreshToken = Jwts.builder()
-                .setExpiration(new Date(now+86400000))
+                .setExpiration(accessTokenExpiresIn)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
         return TokenDto.builder()
