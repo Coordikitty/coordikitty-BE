@@ -1,7 +1,7 @@
 package Coordinate.coordikittyBE.domain.settings.alarm.service;
 
 import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
-import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
+import Coordinate.coordikittyBE.domain.auth.repository.AuthRepository;
 import Coordinate.coordikittyBE.domain.settings.alarm.dto.SettingAlarmRequestDTO;
 import Coordinate.coordikittyBE.domain.settings.alarm.dto.SettingAlarmResponseDTO;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class SettingAlarmService {
 
-    private final UserRepository authRepository;
+    private final AuthRepository authRepository;
 
     public SettingAlarmResponseDTO getSettingAlarm(String email) {
         // user id 로 현재 유저의 알람 설정 상태 반환
@@ -59,15 +59,15 @@ public class SettingAlarmService {
         boolean newValue;
         switch (type.getType()) {
             case FEED -> {
-                newValue = userEntity.getAlarm_feed() == null ? false : !userEntity.getAlarm_feed();
+                newValue = userEntity.getAlarm_feed() != null && !userEntity.getAlarm_feed();
                 userEntity.setAlarm_feed(newValue);
             }
             case FOLLOW -> {
-                newValue = userEntity.getAlarm_follow() == null ? false : !userEntity.getAlarm_follow();
+                newValue = userEntity.getAlarm_follow() != null && !userEntity.getAlarm_follow();
                 userEntity.setAlarm_follow(newValue);
             }
             case LIKE -> {
-                newValue = userEntity.getAlarm_like() == null ? false : !userEntity.getAlarm_like();
+                newValue = userEntity.getAlarm_like() != null && !userEntity.getAlarm_like();
                 userEntity.setAlarm_like(newValue);
             }
             default -> throw new IllegalStateException("Unexpected value: " + type.getType());

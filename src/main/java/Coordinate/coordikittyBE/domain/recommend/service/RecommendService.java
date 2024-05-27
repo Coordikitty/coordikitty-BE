@@ -1,7 +1,7 @@
 package Coordinate.coordikittyBE.domain.recommend.service;
 
 import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
-import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
+import Coordinate.coordikittyBE.domain.auth.repository.AuthRepository;
 import Coordinate.coordikittyBE.domain.closet.entity.ClothEntity;
 import Coordinate.coordikittyBE.domain.closet.repository.ClothRepository;
 import Coordinate.coordikittyBE.domain.recommend.dto.RecommendGetResponseDTO;
@@ -16,7 +16,7 @@ import java.util.Optional;
 @Service
 public class RecommendService {
 
-    private final UserRepository userRepository;
+    private final AuthRepository authRepository;
     private final ClothRepository clothRepository;
 
     public Double getTemperature() {
@@ -28,7 +28,7 @@ public class RecommendService {
         // Situation 추천 ML 에 user id, situation 전송
         // 코디 = 옷 List 반환
 
-        Optional<UserEntity> optionalUserEntity = userRepository.findById(email);
+        Optional<UserEntity> optionalUserEntity = authRepository.findById(email);
         List<RecommendGetResponseDTO> recommendGetResponseDTOS = new ArrayList<>();
 
         if (optionalUserEntity.isEmpty()) return recommendGetResponseDTOS;
@@ -51,7 +51,7 @@ public class RecommendService {
     public List<RecommendGetResponseDTO> getStyle(String email, String style) {
         // Style 추천 ML 에 user id, style 전송
         // 코디 = 옷 List 반환
-        Optional<UserEntity> optionalUserEntity = userRepository.findById(email);
+        Optional<UserEntity> optionalUserEntity = authRepository.findById(email);
         List<RecommendGetResponseDTO> recommendGetResponseDTOS = new ArrayList<>();
 
         if (optionalUserEntity.isEmpty()) return recommendGetResponseDTOS;

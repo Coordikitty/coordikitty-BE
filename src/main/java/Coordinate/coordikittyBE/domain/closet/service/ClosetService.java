@@ -1,7 +1,7 @@
 package Coordinate.coordikittyBE.domain.closet.service;
 
 import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
-import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
+import Coordinate.coordikittyBE.domain.auth.repository.AuthRepository;
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetCategorizationResponseDTO;
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetGetResponseDto;
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetPostRequestDTO;
@@ -21,12 +21,12 @@ import java.util.UUID;
 @Service
 public class ClosetService {
 
-    private final UserRepository userRepository;
+    private final AuthRepository authRepository;
     private final ClothRepository clothRepository;
 
     public List<ClosetGetResponseDto> getAllClothes(String email) {
         // email 과 일치하는 cloth 반환
-        Optional<UserEntity> userEntityOptional = userRepository.findById(email);
+        Optional<UserEntity> userEntityOptional = authRepository.findById(email);
 
         if (userEntityOptional.isEmpty()) return new ArrayList<>();
         UserEntity userEntity = userEntityOptional.get();
@@ -62,7 +62,7 @@ public class ClosetService {
     @Transactional
     public boolean postCloth(String email, ClosetPostRequestDTO closetPostRequestDTO, MultipartFile clothImg) {
         try {
-            Optional<UserEntity> userEntityOptional = userRepository.findById(email);
+            Optional<UserEntity> userEntityOptional = authRepository.findById(email);
 
             if (userEntityOptional.isEmpty()) return false;
 
