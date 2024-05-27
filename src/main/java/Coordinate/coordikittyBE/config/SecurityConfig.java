@@ -27,8 +27,6 @@ import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
-
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -38,16 +36,17 @@ public class SecurityConfig {
     private final RefreshTokenRepository refreshTokenRepository;
     private final UserService userService;
     private final SignUpService signUpService;
-    //@Bean
-    //public WebSecurityCustomizer configure(){
-    //    return (web) -> web.ignoring()
-    //            .requestMatchers(toH2Console())
-    //            .requestMatchers(
-    //                    new AntPathRequestMatcher("/img/**"),
-    //                    new AntPathRequestMatcher("/css/**"),
-    //                    new AntPathRequestMatcher("/js/**")
-    //            );
-    //}
+
+    @Bean
+    public WebSecurityCustomizer configure(){
+        return (web) -> web.ignoring()
+                .requestMatchers(
+                        new AntPathRequestMatcher("/img/**"),
+                        new AntPathRequestMatcher("/css/**"),
+                        new AntPathRequestMatcher("/js/**")
+                );
+    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
@@ -65,7 +64,8 @@ public class SecurityConfig {
                         "/auth/login",
                         "/auth/token",
                         "/auth/**",
-                        "closet/**"
+                        "closet/**",
+                        "/post"
                         ).permitAll()
                 .anyRequest().authenticated()
                 )
