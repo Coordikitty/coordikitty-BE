@@ -64,7 +64,8 @@ public class SecurityConfig {
                         "/auth/login",
                         "/auth/token",
                         "/auth/**",
-                        "closet/**"
+                        "/closet/**",
+                        "/post/**"
                         ).permitAll()
                 .anyRequest().authenticated()
                 )
