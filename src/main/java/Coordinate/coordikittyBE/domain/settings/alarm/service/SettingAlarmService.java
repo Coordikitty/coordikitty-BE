@@ -2,8 +2,8 @@ package Coordinate.coordikittyBE.domain.settings.alarm.service;
 
 import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
 import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
-import Coordinate.coordikittyBE.domain.settings.alarm.dto.SettingAlarmRequestDTO;
-import Coordinate.coordikittyBE.domain.settings.alarm.dto.SettingAlarmResponseDTO;
+import Coordinate.coordikittyBE.domain.settings.alarm.dto.SettingAlarmRequestDto;
+import Coordinate.coordikittyBE.domain.settings.alarm.dto.SettingAlarmResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +15,10 @@ public class SettingAlarmService {
 
     private final UserRepository userRepository;
 
-    public SettingAlarmResponseDTO getSettingAlarm(String email) {
+    public SettingAlarmResponseDto getSettingAlarm(String email) {
         // user id 로 현재 유저의 알람 설정 상태 반환
         Optional<UserEntity> userEntityOptional = userRepository.findById(email);
-        SettingAlarmResponseDTO settingAlarmResponseDTO = new SettingAlarmResponseDTO();
+        SettingAlarmResponseDto settingAlarmResponseDTO = new SettingAlarmResponseDto();
 
         if(userEntityOptional.isEmpty()) return settingAlarmResponseDTO;
         UserEntity userEntity = userEntityOptional.get();
@@ -49,7 +49,7 @@ public class SettingAlarmService {
         return settingAlarmResponseDTO;
     }
 
-    public boolean setSettingAlarm(String email, SettingAlarmRequestDTO type) {
+    public boolean setSettingAlarm(String email, SettingAlarmRequestDto type) {
         // user id 로 타입에 맞는 유저의 알람 설정 변경
         Optional<UserEntity> userEntityOptional = userRepository.findById(email);
 

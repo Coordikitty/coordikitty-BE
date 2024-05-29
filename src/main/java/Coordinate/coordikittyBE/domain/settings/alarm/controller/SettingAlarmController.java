@@ -16,7 +16,7 @@ public class SettingAlarmController {
     private final SettingAlarmService settingService;
 
     @GetMapping(value = "/alarm")
-    public ResponseEntity<SettingAlarmResponseDTO> getSettingAlarm(
+    public ResponseEntity<SettingAlarmResponseDto> getSettingAlarm(
             @RequestHeader("Authorization") String token,
             @AuthenticationPrincipal UserDetails userDetails
     ) {
@@ -25,7 +25,7 @@ public class SettingAlarmController {
         // user id 에 해당하는 alarm type 반환
 
         String email = userDetails.getUsername();
-        SettingAlarmResponseDTO settingAlarmResponseDTO = settingService.getSettingAlarm(email);
+        SettingAlarmResponseDto settingAlarmResponseDTO = settingService.getSettingAlarm(email);
 
         return ResponseEntity.ok().body(settingAlarmResponseDTO);
     }
@@ -33,7 +33,7 @@ public class SettingAlarmController {
     @PostMapping(value = "/alarm")
     public ResponseEntity<String> setSettingAlarm(
             @RequestHeader("Authorization") String token,
-            @RequestBody SettingAlarmRequestDTO type,
+            @RequestBody SettingAlarmRequestDto type,
             @AuthenticationPrincipal UserDetails userDetails
     ) {
         // token authorization

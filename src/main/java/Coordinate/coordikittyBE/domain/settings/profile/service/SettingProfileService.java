@@ -2,8 +2,8 @@ package Coordinate.coordikittyBE.domain.settings.profile.service;
 
 import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
 import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
-import Coordinate.coordikittyBE.domain.settings.profile.dto.SettingProfileRequestDTO;
-import Coordinate.coordikittyBE.domain.settings.profile.dto.SettingProfileResponseDTO;
+import Coordinate.coordikittyBE.domain.settings.profile.dto.SettingProfileRequestDto;
+import Coordinate.coordikittyBE.domain.settings.profile.dto.SettingProfileResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +15,10 @@ public class SettingProfileService {
 
     private final UserRepository userRepository;
 
-    public SettingProfileResponseDTO getSettingProfile(String email) {
+    public SettingProfileResponseDto getSettingProfile(String email) {
         // user id 로 회원정보 조회
         Optional<UserEntity> userEntityOptional = userRepository.findById(email);
-        SettingProfileResponseDTO settingProfileResponseDTO = new SettingProfileResponseDTO();
+        SettingProfileResponseDto settingProfileResponseDTO = new SettingProfileResponseDto();
 
         if (userEntityOptional.isEmpty()) return settingProfileResponseDTO;
         UserEntity userEntity = userEntityOptional.get();
@@ -30,7 +30,7 @@ public class SettingProfileService {
         return settingProfileResponseDTO;
     }
 
-    public boolean setSettingProfile(String email, SettingProfileRequestDTO nickname) {
+    public boolean setSettingProfile(String email, SettingProfileRequestDto nickname) {
         Optional<UserEntity> userEntityOptional = userRepository.findById(email);
 
         if (userEntityOptional.isEmpty()) return false;

@@ -2,7 +2,7 @@ package Coordinate.coordikittyBE.domain.closet.controller;
 
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetCategorizationResponseDTO;
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetGetResponseDto;
-import Coordinate.coordikittyBE.domain.closet.dto.ClosetPostRequestDTO;
+import Coordinate.coordikittyBE.domain.closet.dto.ClosetPostRequestDto;
 import Coordinate.coordikittyBE.domain.closet.service.ClosetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +40,7 @@ public class ClosetController {
             @RequestHeader("Authorization") String token,
 //            @RequestBody ClosetPostRequestDTO closetPostRequestDTO,
 //            @RequestBody MultipartFile clothImg,
-            @RequestPart("closetPostRequestDTO") ClosetPostRequestDTO closetPostRequestDTO,
+            @RequestPart("closetPostRequestDTO") ClosetPostRequestDto closetPostRequestDTO,
             @RequestPart("clothImg") MultipartFile clothImg,
             @AuthenticationPrincipal UserDetails userDetails
     ) {

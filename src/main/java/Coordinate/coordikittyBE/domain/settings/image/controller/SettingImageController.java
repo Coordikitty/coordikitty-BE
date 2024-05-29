@@ -1,6 +1,6 @@
 package Coordinate.coordikittyBE.domain.settings.image.controller;
 
-import Coordinate.coordikittyBE.domain.settings.image.dto.SettingImageResponseDTO;
+import Coordinate.coordikittyBE.domain.settings.image.dto.SettingImageResponseDto;
 import Coordinate.coordikittyBE.domain.settings.image.service.SettingImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ public class SettingImageController {
     private final SettingImageService settingImageService;
 
     @GetMapping(value = "/image")
-    public ResponseEntity<SettingImageResponseDTO> getSettingImage(
+    public ResponseEntity<SettingImageResponseDto> getSettingImage(
             @RequestHeader("Authorization") String token,
             @AuthenticationPrincipal UserDetails userDetails
             ) {
@@ -26,7 +26,7 @@ public class SettingImageController {
         // User Entity : profileURL 찾기
         // profileURL 반환
         String email = userDetails.getUsername();
-        SettingImageResponseDTO settingImageResponseDTO = settingImageService.getSettingImage(email);
+        SettingImageResponseDto settingImageResponseDTO = settingImageService.getSettingImage(email);
         return ResponseEntity.ok().body(settingImageResponseDTO);
     }
 

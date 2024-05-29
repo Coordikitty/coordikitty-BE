@@ -9,6 +9,6 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ClosetDeleteRequestDTO {
+public class ClosetDeleteRequestDto {
     private UUID clothId;
 }

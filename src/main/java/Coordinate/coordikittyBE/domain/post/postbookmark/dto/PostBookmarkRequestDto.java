@@ -9,6 +9,6 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-public class PostBookmarkRequestDTO {
+public class PostBookmarkRequestDto {
     private UUID postId;
 }

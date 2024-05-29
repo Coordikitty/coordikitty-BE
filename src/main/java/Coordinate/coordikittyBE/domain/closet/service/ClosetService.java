@@ -4,7 +4,7 @@ import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
 import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetCategorizationResponseDTO;
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetGetResponseDto;
-import Coordinate.coordikittyBE.domain.closet.dto.ClosetPostRequestDTO;
+import Coordinate.coordikittyBE.domain.closet.dto.ClosetPostRequestDto;
 import Coordinate.coordikittyBE.domain.closet.entity.ClothEntity;
 import Coordinate.coordikittyBE.domain.closet.repository.ClothRepository;
 import lombok.RequiredArgsConstructor;
@@ -60,7 +60,7 @@ public class ClosetService {
     }
 
     @Transactional
-    public boolean postCloth(String email, ClosetPostRequestDTO closetPostRequestDTO, MultipartFile clothImg) {
+    public boolean postCloth(String email, ClosetPostRequestDto closetPostRequestDTO, MultipartFile clothImg) {
         try {
             Optional<UserEntity> userEntityOptional = userRepository.findById(email);
 

@@ -13,12 +13,8 @@ public class SignUpController {
     private final SignUpService signUpService;
 
     @PostMapping("/signup")
-    public String signup(@RequestBody SignUpRequestDto signUpRequestDto){
+    public ResponseEntity<String> signup(@RequestBody SignUpRequestDto signUpRequestDto){
         signUpService.signUp(signUpRequestDto);
-        return "redirect:/auth/login";
-    }
-    @GetMapping("/social/signup")
-    public String signup(){
-        return "hi";
+        return ResponseEntity.ok("회원가입 성공");
     }
 }

@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class SettingProfileResponseDTO {
+public class SettingProfileResponseDto {
     private String name;
     private String number;
     private String nickname;

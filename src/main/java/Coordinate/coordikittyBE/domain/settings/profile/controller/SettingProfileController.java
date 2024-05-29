@@ -1,7 +1,7 @@
 package Coordinate.coordikittyBE.domain.settings.profile.controller;
 
-import Coordinate.coordikittyBE.domain.settings.profile.dto.SettingProfileRequestDTO;
-import Coordinate.coordikittyBE.domain.settings.profile.dto.SettingProfileResponseDTO;
+import Coordinate.coordikittyBE.domain.settings.profile.dto.SettingProfileRequestDto;
+import Coordinate.coordikittyBE.domain.settings.profile.dto.SettingProfileResponseDto;
 import Coordinate.coordikittyBE.domain.settings.profile.service.SettingProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ public class SettingProfileController {
     private final SettingProfileService settingProfileService;
 
     @GetMapping(value = "/profile")
-    public ResponseEntity<SettingProfileResponseDTO> getSettingProfile(
+    public ResponseEntity<SettingProfileResponseDto> getSettingProfile(
             @RequestHeader("Authorization") String token,
             @AuthenticationPrincipal UserDetails userDetails
     ) {
@@ -25,14 +25,14 @@ public class SettingProfileController {
         // User Entity : user id 반환
         // user id 에서 profile Data 반환
         String email = userDetails.getUsername();
-        SettingProfileResponseDTO settingProfileResponseDTO = settingProfileService.getSettingProfile(email);
+        SettingProfileResponseDto settingProfileResponseDTO = settingProfileService.getSettingProfile(email);
         return ResponseEntity.ok().body(settingProfileResponseDTO);
     }
 
     @PostMapping(value = "/profile")
     public ResponseEntity<String> setSettingProfile(
             @RequestHeader("Authorization") String token,
-            @RequestBody SettingProfileRequestDTO nickname,
+            @RequestBody SettingProfileRequestDto nickname,
             @AuthenticationPrincipal UserDetails userDetails
     ) {
         // token Authentication

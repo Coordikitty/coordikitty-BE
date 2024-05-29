@@ -7,6 +7,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class SettingProfileRequestDTO {
+public class SettingProfileRequestDto {
     private String nickname;
 }
