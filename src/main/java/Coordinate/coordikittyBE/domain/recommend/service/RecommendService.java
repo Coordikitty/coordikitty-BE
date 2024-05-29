@@ -4,7 +4,7 @@ import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
 import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
 import Coordinate.coordikittyBE.domain.closet.entity.ClothEntity;
 import Coordinate.coordikittyBE.domain.closet.repository.ClothRepository;
-import Coordinate.coordikittyBE.domain.recommend.dto.RecommendGetResponseDTO;
+import Coordinate.coordikittyBE.domain.recommend.dto.RecommendGetResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,14 +24,14 @@ public class RecommendService {
         return 36.5;
     }
 
-    public List<RecommendGetResponseDTO> getSituation(String email, String situation) {
+    public List<RecommendGetResponseDto> getSituation(String email, String situation) {
         // Situation 추천 ML 에 user id, situation 전송
         // 코디 = 옷 List 반환
 
         Optional<UserEntity> optionalUserEntity = userRepository.findById(email);
-        List<RecommendGetResponseDTO> recommendGetResponseDTOS = new ArrayList<>();
+        List<RecommendGetResponseDto> recommendGetResponseDtos = new ArrayList<>();
 
-        if (optionalUserEntity.isEmpty()) return recommendGetResponseDTOS;
+        if (optionalUserEntity.isEmpty()) return recommendGetResponseDtos;
         UserEntity userEntity = optionalUserEntity.get();
 
         List<ClothEntity> clothEntities = clothRepository.findAllByUserEntity(userEntity);
@@ -40,21 +40,21 @@ public class RecommendService {
         // 추천 옷 리스트 반환 -> clothes
 
         for (ClothEntity clothEntity : clothEntities) {
-            RecommendGetResponseDTO recommendGetResponseDTO = getRecommendGetResponseDTO(clothEntity);
+            RecommendGetResponseDto recommendGetResponseDTO = getRecommendGetResponseDTO(clothEntity);
 
-            recommendGetResponseDTOS.add(recommendGetResponseDTO);
+            recommendGetResponseDtos.add(recommendGetResponseDTO);
         }
 
-        return recommendGetResponseDTOS;
+        return recommendGetResponseDtos;
     }
 
-    public List<RecommendGetResponseDTO> getStyle(String email, String style) {
+    public List<RecommendGetResponseDto> getStyle(String email, String style) {
         // Style 추천 ML 에 user id, style 전송
         // 코디 = 옷 List 반환
         Optional<UserEntity> optionalUserEntity = userRepository.findById(email);
-        List<RecommendGetResponseDTO> recommendGetResponseDTOS = new ArrayList<>();
+        List<RecommendGetResponseDto> recommendGetResponseDtos = new ArrayList<>();
 
-        if (optionalUserEntity.isEmpty()) return recommendGetResponseDTOS;
+        if (optionalUserEntity.isEmpty()) return recommendGetResponseDtos;
         UserEntity userEntity = optionalUserEntity.get();
 
         List<ClothEntity> clothEntities = clothRepository.findAllByUserEntity(userEntity);
@@ -63,16 +63,16 @@ public class RecommendService {
         // 추천 옷 리스트 반환 -> clothes
 
         for (ClothEntity clothEntity : clothEntities) {
-            RecommendGetResponseDTO recommendGetResponseDTO = getRecommendGetResponseDTO(clothEntity);
+            RecommendGetResponseDto recommendGetResponseDTO = getRecommendGetResponseDTO(clothEntity);
 
-            recommendGetResponseDTOS.add(recommendGetResponseDTO);
+            recommendGetResponseDtos.add(recommendGetResponseDTO);
         }
 
-        return recommendGetResponseDTOS;
+        return recommendGetResponseDtos;
     }
 
-    private static RecommendGetResponseDTO getRecommendGetResponseDTO(ClothEntity clothEntity) {
-        RecommendGetResponseDTO recommendGetResponseDTO  = new RecommendGetResponseDTO();
+    private static RecommendGetResponseDto getRecommendGetResponseDTO(ClothEntity clothEntity) {
+        RecommendGetResponseDto recommendGetResponseDTO  = new RecommendGetResponseDto();
 
         recommendGetResponseDTO.setLarge(clothEntity.getLarge());
         recommendGetResponseDTO.setMedium(clothEntity.getMedium());

@@ -1,6 +1,6 @@
 package Coordinate.coordikittyBE.domain.recommend.controller;
 
-import Coordinate.coordikittyBE.domain.recommend.dto.RecommendGetResponseDTO;
+import Coordinate.coordikittyBE.domain.recommend.dto.RecommendGetResponseDto;
 import Coordinate.coordikittyBE.domain.recommend.service.RecommendService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +18,7 @@ public class RecommendController {
     private final RecommendService recommendService;
 
     @GetMapping(value = "")
-    public ResponseEntity<List<RecommendGetResponseDTO>> getRecommend(
-            @RequestHeader("Authorization") String token,
+    public ResponseEntity<List<RecommendGetResponseDto>> getRecommend(
             @RequestParam(value = "situation", required = false) String situation,
             @RequestParam(value = "style", required = false) String style,
             @AuthenticationPrincipal UserDetails userDetails
@@ -37,12 +36,12 @@ public class RecommendController {
         if (style == null && situation == null)
             return ResponseEntity.badRequest().body(null);
 
-        List<RecommendGetResponseDTO> recommendGetResponseDTOs;
+        List<RecommendGetResponseDto> recommendGetResponseDtos;
         if (style == null)
-            recommendGetResponseDTOs = recommendService.getSituation(email, situation);
+            recommendGetResponseDtos = recommendService.getSituation(email, situation);
         else
-            recommendGetResponseDTOs = recommendService.getStyle(email, style);
+            recommendGetResponseDtos = recommendService.getStyle(email, style);
 
-        return ResponseEntity.ok().body(recommendGetResponseDTOs);
+        return ResponseEntity.ok().body(recommendGetResponseDtos);
     }
 }

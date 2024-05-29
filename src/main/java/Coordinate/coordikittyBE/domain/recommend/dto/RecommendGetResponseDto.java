@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class RecommendGetResponseDTO {
+public class RecommendGetResponseDto {
     private Category.Large large;
     private Category.Medium medium;
     private Category.Small small;
