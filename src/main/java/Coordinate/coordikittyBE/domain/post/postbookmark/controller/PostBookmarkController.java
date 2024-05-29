@@ -14,7 +14,6 @@ public class PostBookmarkController {
     private final PostBookmarkService postBookmarkService;
     @PostMapping("/bookmark")
     public ResponseEntity<String> addBookmark(
-            @RequestHeader("Authorization") String token,
             @RequestBody UUID postId
     ){
         try{
@@ -25,7 +24,6 @@ public class PostBookmarkController {
     }
     @DeleteMapping("/bookmark")
     public ResponseEntity<String> deleteBookmark(
-            @RequestHeader("Authorization") String token,
             @RequestBody UUID postId
     ){
         try{

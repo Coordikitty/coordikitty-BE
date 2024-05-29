@@ -18,7 +18,6 @@ public class SettingImageController {
 
     @GetMapping(value = "/image")
     public ResponseEntity<SettingImageResponseDto> getSettingImage(
-            @RequestHeader("Authorization") String token,
             @AuthenticationPrincipal UserDetails userDetails
             ) {
         // token authorization
@@ -32,7 +31,6 @@ public class SettingImageController {
 
     @PostMapping(value = "/image")
     public ResponseEntity<String> setSettingImage(
-            @RequestHeader("Authorization") String token,
             @RequestPart("profileImg") MultipartFile profileImg,           // setting image request 사용 불가
             @AuthenticationPrincipal UserDetails userDetails
     ) {

@@ -17,7 +17,6 @@ public class SettingAlarmController {
 
     @GetMapping(value = "/alarm")
     public ResponseEntity<SettingAlarmResponseDto> getSettingAlarm(
-            @RequestHeader("Authorization") String token,
             @AuthenticationPrincipal UserDetails userDetails
     ) {
         // token authorization
@@ -32,7 +31,6 @@ public class SettingAlarmController {
 
     @PostMapping(value = "/alarm")
     public ResponseEntity<String> setSettingAlarm(
-            @RequestHeader("Authorization") String token,
             @RequestBody SettingAlarmRequestDto type,
             @AuthenticationPrincipal UserDetails userDetails
     ) {

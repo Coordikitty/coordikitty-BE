@@ -24,7 +24,6 @@ public class ClosetController {
 
     @GetMapping(value = "")
     public ResponseEntity<List<ClosetGetResponseDto>> getAllClothes(
-            @RequestHeader("Authorization") String token,
             @RequestParam(value = "email") String email
     ) {
         // token authentication
@@ -37,7 +36,6 @@ public class ClosetController {
 
     @PostMapping(value = "")
     public ResponseEntity<String> postCloth(
-            @RequestHeader("Authorization") String token,
 //            @RequestBody ClosetPostRequestDTO closetPostRequestDTO,
 //            @RequestBody MultipartFile clothImg,
             @RequestPart("closetPostRequestDTO") ClosetPostRequestDto closetPostRequestDTO,
@@ -57,7 +55,6 @@ public class ClosetController {
 
     @PostMapping(value = "/categorization")
     public ResponseEntity<ClosetCategorizationResponseDTO> clothCategorization(
-            @RequestHeader("Authorization") String token,
 //            @RequestParam(value = "clothId") UUID clothId
 //            @RequestBody MultipartFile file
             @RequestPart("clothImg") MultipartFile clothImg

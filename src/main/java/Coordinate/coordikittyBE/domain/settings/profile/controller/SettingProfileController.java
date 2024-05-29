@@ -18,7 +18,6 @@ public class SettingProfileController {
 
     @GetMapping(value = "/profile")
     public ResponseEntity<SettingProfileResponseDto> getSettingProfile(
-            @RequestHeader("Authorization") String token,
             @AuthenticationPrincipal UserDetails userDetails
     ) {
         // token Authentication
@@ -31,7 +30,6 @@ public class SettingProfileController {
 
     @PostMapping(value = "/profile")
     public ResponseEntity<String> setSettingProfile(
-            @RequestHeader("Authorization") String token,
             @RequestBody SettingProfileRequestDto nickname,
             @AuthenticationPrincipal UserDetails userDetails
     ) {
