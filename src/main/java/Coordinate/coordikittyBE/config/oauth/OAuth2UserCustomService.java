@@ -28,7 +28,7 @@ public class OAuth2UserCustomService extends DefaultOAuth2UserService {
         Map<String, Object> attributes = user.getAttributes();
         String email = (String) attributes.get("email");
         String name = (String) attributes.get("name");
-        UserEntity userEntity = userRepository.findByEmail(email)
+        UserEntity userEntity = userRepository.findById(email)
                 .map(entity->entity.update(name))
                 .orElse(UserEntity.builder().email(email).nickname(name).build());
         return userRepository.save(userEntity);

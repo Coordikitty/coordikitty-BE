@@ -20,7 +20,7 @@ public class UserService {
     }
 
     public TokenDto signIn(LoginRequestDto loginRequestDto) {
-        UserEntity user = userRepository.findByEmail(loginRequestDto.getEmail()).orElseThrow(()-> new IllegalArgumentException("Unexpected User"));
+        UserEntity user = userRepository.findById(loginRequestDto.getEmail()).orElseThrow(()-> new IllegalArgumentException("Unexpected User"));
         TokenDto tokenDto = jwtTokenProvider.generateToken(user);
         RefreshToken refreshTokenInfo = refreshTokenService.findByUserId(user.getEmail());
         if(refreshTokenInfo != null){
