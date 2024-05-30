@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 public class SignUpController {
     private final SignUpService signUpService;
 
-    @PostMapping("/signup")
+    @PostMapping("/signUp")
     public ResponseEntity<String> signup(@RequestBody SignUpRequestDto signUpRequestDto){
         signUpService.signUp(signUpRequestDto);
         return ResponseEntity.ok("회원가입 성공");
