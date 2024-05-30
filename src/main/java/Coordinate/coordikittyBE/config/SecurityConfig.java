@@ -65,8 +65,7 @@ public class SecurityConfig {
                         "/auth/signUp/dupCheck",
                         "/auth/login",
                         "/auth/token",
-                        "/auth/login/google",
-                        "/oauth2/authorization/google"
+                        "/auth/login/google"
                         ).permitAll()
                 .anyRequest().authenticated()
                 )
