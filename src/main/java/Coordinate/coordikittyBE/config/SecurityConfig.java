@@ -1,6 +1,5 @@
 package Coordinate.coordikittyBE.config;
 
-import Coordinate.coordikittyBE.config.oauth.OAuth2AuthorizationRequestBasedOnCookieRepository;
 import Coordinate.coordikittyBE.config.oauth.OAuth2SuccessHandler;
 import Coordinate.coordikittyBE.config.oauth.OAuth2UserCustomService;
 import Coordinate.coordikittyBE.domain.auth.login.middleware.JwtAuthenticationFilter;
@@ -9,7 +8,6 @@ import Coordinate.coordikittyBE.domain.auth.login.service.UserDetailService;
 import Coordinate.coordikittyBE.domain.auth.login.service.UserService;
 import Coordinate.coordikittyBE.domain.auth.repository.RefreshTokenRepository;
 import Coordinate.coordikittyBE.domain.auth.signup.service.SignUpService;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -23,7 +21,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -36,7 +33,7 @@ public class SecurityConfig {
     private final RefreshTokenRepository refreshTokenRepository;
     private final UserService userService;
     private final SignUpService signUpService;
-
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     @Bean
     public WebSecurityCustomizer configure(){
         return (web) -> web.ignoring()
@@ -57,28 +54,23 @@ public class SecurityConfig {
                         .invalidateHttpSession(true))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
+                .oauth2Login(oauth2 -> oauth2
+                        .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint.userService(oAuth2UserCustomService))
+                        .successHandler(oAuth2SuccessHandler())
+                )
                 .authorizeHttpRequests(authz -> authz
                 .requestMatchers("/swagger-ui/**",
                         "/v3/api-docs/**",
                         "/auth/signUp",
+                        "/auth/signUp/dupCheck",
                         "/auth/login",
                         "/auth/token",
-                        "/auth/**",
-                        "/closet/**",
-                        "/post/**"
+                        "/auth/login/google",
+                        "/oauth2/authorization/google"
                         ).permitAll()
                 .anyRequest().authenticated()
                 )
-                .oauth2Login(oauth2 -> oauth2
-                        .authorizationEndpoint(authorizationEndpoint ->
-                                authorizationEndpoint.authorizationRequestRepository(oAuth2AuthorizationRequestBasedOnCookieRepository()))
-                        .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint.userService(oAuth2UserCustomService))
-                        .successHandler(oAuth2SuccessHandler())
-                )
-                .exceptionHandling(exceptionHandling -> exceptionHandling.defaultAuthenticationEntryPointFor(
-                        new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED),
-                        new AntPathRequestMatcher("/api/**")
-                ))
+                .exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(customAuthenticationEntryPoint))
                 .build();
     }
 
@@ -87,7 +79,6 @@ public class SecurityConfig {
         return new OAuth2SuccessHandler(
                 jwtTokenProvider,
                 refreshTokenRepository,
-                oAuth2AuthorizationRequestBasedOnCookieRepository(),
                 userService,
                 signUpService
         );
@@ -96,11 +87,6 @@ public class SecurityConfig {
     @Bean
     public JwtAuthenticationFilter tokenAuthenticationFilter(){
         return new JwtAuthenticationFilter(jwtTokenProvider);
-    }
-
-    @Bean
-    public OAuth2AuthorizationRequestBasedOnCookieRepository oAuth2AuthorizationRequestBasedOnCookieRepository(){
-        return new OAuth2AuthorizationRequestBasedOnCookieRepository();
     }
 
     @Bean

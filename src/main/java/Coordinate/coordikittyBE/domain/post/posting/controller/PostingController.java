@@ -52,7 +52,7 @@ public class PostingController {
         return ResponseEntity.ok("게시글 업로드 성공");
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     public ResponseEntity<String> deletePost(
             @RequestBody UUID postId
     ){

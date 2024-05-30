@@ -35,7 +35,11 @@ public class JwtLoginController {
     @GetMapping("/login/google")
     public ResponseEntity<?> googleLogin(){
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create("oauth2/authorization/google"));
+        headers.setLocation(URI.create("http://localhost:8080/oauth2/authorization/google"));
         return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
+    }
+    @GetMapping("/test")
+    public String test(){
+        return "hi";
     }
 }
