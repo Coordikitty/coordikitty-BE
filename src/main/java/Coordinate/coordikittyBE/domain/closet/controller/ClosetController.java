@@ -74,7 +74,6 @@ public class ClosetController {
 
     @DeleteMapping(value = "")
     public ResponseEntity<String> deleteCloth(
-            @RequestHeader("Authorization") String token,
             @RequestParam(value = "clothId") UUID clothId
     ) {
         // token authentication
