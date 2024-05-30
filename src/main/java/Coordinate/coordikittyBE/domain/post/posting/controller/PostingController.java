@@ -8,6 +8,8 @@ import Coordinate.coordikittyBE.domain.post.posting.dto.PostlistResponseDto;
 import Coordinate.coordikittyBE.domain.post.posting.service.PostingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -22,11 +24,12 @@ public class PostingController {
 
     @GetMapping(value = "")
     public ResponseEntity<List<PostlistResponseDto>> getPosts(
-            @RequestParam(value = "page") int page
-    ){
+            @RequestParam(value = "page") int page,
+            @AuthenticationPrincipal UserDetails userDetails
+            ){
         // 페이지에 맞는 게시글 반환
 
-        List<PostlistResponseDto> postlistResponseDtos = postingService.getPosts(page);
+        List<PostlistResponseDto> postlistResponseDtos = postingService.getPosts(page, userDetails);
         return ResponseEntity.ok(postlistResponseDtos);
     }
 
