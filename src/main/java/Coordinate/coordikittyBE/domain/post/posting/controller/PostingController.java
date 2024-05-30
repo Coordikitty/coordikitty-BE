@@ -8,9 +8,10 @@ import Coordinate.coordikittyBE.domain.post.posting.dto.PostlistResponseDto;
 import Coordinate.coordikittyBE.domain.post.posting.service.PostingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,11 +23,15 @@ public class PostingController {
 
     @GetMapping(value = "")
     public ResponseEntity<List<PostlistResponseDto>> getPosts(
-    ){
+            @RequestParam(value = "page") int page,
+            @AuthenticationPrincipal UserDetails userDetails
+            ){
+        // 페이지에 맞는 게시글 반환
 
-        List<PostlistResponseDto> postlistResponseDtos = new ArrayList<>();
+        List<PostlistResponseDto> postlistResponseDtos = postingService.getPosts(page, userDetails);
         return ResponseEntity.ok(postlistResponseDtos);
     }
+
     @PutMapping(value = "/{postId}")
     public ResponseEntity<String> updatePost(
             @PathVariable("postId") UUID postId,
@@ -35,6 +40,7 @@ public class PostingController {
         postingService.update(postId, postUpdateRequestDto);
         return ResponseEntity.ok("게시글 수정 완료");
     }
+
     @GetMapping(value = "/{postId}")
     public ResponseEntity<PostResponseDto> getPostListByPostId(
             @PathVariable("postId") UUID postId
@@ -48,6 +54,9 @@ public class PostingController {
     public ResponseEntity<String> uploadPost(
             @RequestBody PostUploadRequestDto postUploadRequestDto
     ){
+        // upload 수정 필요
+        // 1. upload 할 이미지 Dto 에서 따로 분리해서 받기
+        // 2. post upload 시에 설정해준 clothId, postId attach 에 등록 후 post Entity 에 attach 등록?? 고민 해보자
         postingService.upload(postUploadRequestDto);
         return ResponseEntity.ok("게시글 업로드 성공");
     }

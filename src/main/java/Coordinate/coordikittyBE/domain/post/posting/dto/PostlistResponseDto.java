@@ -4,12 +4,16 @@ import Coordinate.coordikittyBE.domain.closet.enums.Season;
 import Coordinate.coordikittyBE.domain.closet.enums.Style;
 import Coordinate.coordikittyBE.domain.post.enums.Situation;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
 @Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class PostlistResponseDto {
     private UUID postId;
