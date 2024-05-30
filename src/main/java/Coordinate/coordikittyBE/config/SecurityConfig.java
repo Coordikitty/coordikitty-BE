@@ -54,22 +54,22 @@ public class SecurityConfig {
                         .invalidateHttpSession(true))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
+                .oauth2Login(oauth2 -> oauth2
+                        .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint.userService(oAuth2UserCustomService))
+                        .successHandler(oAuth2SuccessHandler())
+                )
                 .authorizeHttpRequests(authz -> authz
-                                .requestMatchers("/swagger-ui/**",
+                        .requestMatchers("/swagger-ui/**",
                         "/v3/api-docs/**",
                         "/auth/signUp",
                         "/auth/signUp/dupCheck",
                         "/auth/login",
                         "/auth/token",
                         "/auth/login/google"
-                                ).permitAll()
+                        ).permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(customAuthenticationEntryPoint))
-                .oauth2Login(oauth2 -> oauth2
-                        .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint.userService(oAuth2UserCustomService))
-                        .successHandler(oAuth2SuccessHandler())
-                )
                 .build();
     }
 
