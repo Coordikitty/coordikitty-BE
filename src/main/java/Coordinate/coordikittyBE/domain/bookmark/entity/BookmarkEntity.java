@@ -21,11 +21,11 @@ public class BookmarkEntity {
     private UUID bookmarkId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bookmark_user_id")
+    @JoinColumn(name = "user_id")
     private UserEntity userEntity;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bookmark_post_id")
+    @JoinColumn(name = "post_id")
     private PostEntity postEntity;
 
 }

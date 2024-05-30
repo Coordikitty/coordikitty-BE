@@ -14,19 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class DupCheckController {
     private final DupCheckService dupCheckService;
 
-    @PostMapping("/dupcheck")
-    public ResponseEntity<String> emailDupCheck(@RequestParam final String email) {
+    @PostMapping("/dupCheck")
+    public ResponseEntity<String> DupCheck(@RequestParam(required = false) final String email, @RequestParam final String nickname) {
         try {
-            return ResponseEntity.ok(dupCheckService.emailDupCheck(email));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
-
-    @PostMapping("/dupcheck")
-    public ResponseEntity<String> nicknameDupCheck(@RequestParam final String nickname) {
-        try {
-            return ResponseEntity.ok(dupCheckService.nicknameDupCheck(nickname));
+            if(email != null && nickname == null) {
+                return ResponseEntity.ok(dupCheckService.emailDupCheck(email));
+            }
+            else if(nickname != null && email == null) {
+                return ResponseEntity.ok(dupCheckService.nicknameDupCheck(nickname));
+            }
+            return ResponseEntity.badRequest().body("bad params");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

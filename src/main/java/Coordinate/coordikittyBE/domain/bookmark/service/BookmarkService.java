@@ -21,7 +21,7 @@ public class BookmarkService {
     public List<BookmarkResponseDto> getBookmarksAll(String email) {
         UserEntity user = userRepository.findById(email)
                 .orElseThrow(() -> new IllegalArgumentException("유저 이메일 오류"));
-        List<HistoryEntity> historyEntities= historyRepository.findAllByUserEntityIdAndIsBookmarkedTrue(email)
+        List<HistoryEntity> historyEntities= historyRepository.findAllByUserIdandIsBookmaredTrue(email)
                 .orElseThrow(() -> new IllegalArgumentException("기록 오류"));
 
         List<BookmarkResponseDto> bookmarkResponses = new ArrayList<>();

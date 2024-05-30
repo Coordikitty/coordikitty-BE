@@ -20,12 +20,12 @@ public class HistoryEntity {
     @Column(name = "id", nullable = false)
     private UUID historyId;
 
-    @ManyToOne
-    @JoinColumn(name = "history_user_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
     private UserEntity userEntity;
 
-    @ManyToOne
-    @JoinColumn(name = "history_post_Id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "post_id")
     private PostEntity postEntity;
 
     @Column(name = "is_Bookmarked", nullable = false)

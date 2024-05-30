@@ -1,12 +1,14 @@
 package Coordinate.coordikittyBE.domain.history.repository;
 
 import Coordinate.coordikittyBE.domain.history.HistoryEntity;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface HistoryRepository extends CrudRepository<HistoryEntity, UUID> {
-    Optional<List<HistoryEntity>> findAllByUserEntityIdAndIsBookmarkedTrue(String userEntityId);
+public interface HistoryRepository extends JpaRepository<HistoryEntity, UUID> {
+    @Query("SELECT h FROM history h WHERE h.userEntity = :userId and h.isBookmarked = true")
+    Optional<List<HistoryEntity>> findAllByUserIdandIsBookmaredTrue(String userId);
 }
