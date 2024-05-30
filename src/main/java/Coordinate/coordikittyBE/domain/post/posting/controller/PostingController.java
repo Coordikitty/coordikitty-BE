@@ -22,11 +22,14 @@ public class PostingController {
 
     @GetMapping(value = "")
     public ResponseEntity<List<PostlistResponseDto>> getPosts(
+            @RequestParam(value = "page") int page
     ){
+        // 페이지에 맞는 게시글 반환
 
-        List<PostlistResponseDto> postlistResponseDtos = new ArrayList<>();
+        List<PostlistResponseDto> postlistResponseDtos = postingService.getPosts(page);
         return ResponseEntity.ok(postlistResponseDtos);
     }
+
     @PutMapping(value = "/{postId}")
     public ResponseEntity<String> updatePost(
             @PathVariable("postId") UUID postId,
@@ -35,6 +38,7 @@ public class PostingController {
         postingService.update(postId, postUpdateRequestDto);
         return ResponseEntity.ok("게시글 수정 완료");
     }
+
     @GetMapping(value = "/{postId}")
     public ResponseEntity<PostResponseDto> getPostListByPostId(
             @PathVariable("postId") UUID postId
