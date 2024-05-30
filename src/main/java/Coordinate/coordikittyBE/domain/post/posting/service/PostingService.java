@@ -24,7 +24,6 @@ import java.util.*;
 public class PostingService {
     private final PostRepository postRepository;
     private final PostConverter postConverter;
-    private final HistoryRepository historyRepository;
     private final PostListBuilder postListBuilder;
 
     public List<PostlistResponseDto> getPosts(int page, UserDetails userDetails) {

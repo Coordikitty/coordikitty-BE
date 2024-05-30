@@ -40,8 +40,8 @@ public class PostListBuilder {
 
             Optional<List<HistoryEntity>> historyEntities = historyRepository.findAllByPostIdandUserId(postEntity.getPostId(), email);
             if (historyEntities.isPresent()) {
-                postlistResponseDto.setIsLiked(historyEntities.get().get(0).getIsLiked());
-                postlistResponseDto.setIsBookmarked(historyEntities.get().get(0).getIsBookmarked());
+                postlistResponseDto.setIsLiked(historyEntities.get().getFirst().getIsLiked());
+                postlistResponseDto.setIsBookmarked(historyEntities.get().getFirst().getIsBookmarked());
 
                 posts.add(postlistResponseDto);
             }
