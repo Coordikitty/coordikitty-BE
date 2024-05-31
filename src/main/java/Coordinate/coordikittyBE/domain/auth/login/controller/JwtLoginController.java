@@ -1,6 +1,7 @@
 package Coordinate.coordikittyBE.domain.auth.login.controller;
 
 import Coordinate.coordikittyBE.domain.auth.login.dto.JwtTokenRequestDto;
+import Coordinate.coordikittyBE.domain.auth.login.dto.LoginResponseDto;
 import Coordinate.coordikittyBE.domain.auth.login.dto.TokenDto;
 import Coordinate.coordikittyBE.domain.auth.login.dto.LoginRequestDto;
 import Coordinate.coordikittyBE.domain.auth.login.service.TokenService;
@@ -27,9 +28,8 @@ public class JwtLoginController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<TokenDto> signIn(@RequestBody LoginRequestDto loginRequestDto){
-        TokenDto tokenDto = userService.signIn(loginRequestDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(tokenDto);
+    public ResponseEntity<LoginResponseDto> signIn(@RequestBody LoginRequestDto loginRequestDto){
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.signIn(loginRequestDto));
     }
 
     @GetMapping("/login/google")
