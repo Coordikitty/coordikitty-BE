@@ -1,5 +1,7 @@
 package Coordinate.coordikittyBE.domain.post.posting.service;
 
+import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
+import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
 import Coordinate.coordikittyBE.domain.history.HistoryEntity;
 import Coordinate.coordikittyBE.domain.history.repository.HistoryRepository;
 import Coordinate.coordikittyBE.domain.post.entity.PostEntity;
@@ -14,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostListBuilder {
     private final HistoryRepository historyRepository;
-
+    private final UserRepository userRepository;
     public void listBuilder(
             Comparator<PostEntity> comparator,
             List<PostlistResponseDto> postResponses,
@@ -25,6 +27,7 @@ public class PostListBuilder {
 
         for (PostEntity postEntity : posts) {
             List<HistoryEntity> historys = historyRepository.findAllByPostIdandUserId(postEntity.getPostId(), email);
+            UserEntity user = userRepository.findById(email).orElseThrow(()-> new IllegalArgumentException("user not found"));
             if (!historys.isEmpty()) {
                 PostlistResponseDto postlistResponseDto = PostlistResponseDto.builder()
                                             .postId(postEntity.getPostId())
@@ -33,9 +36,9 @@ public class PostListBuilder {
                                             .style(postEntity.getStyle())
                                             .postLike(postEntity.getLikeCount())
                                             .uploadDate(postEntity.getCreatedAt())
-                                            .uploaderEmail(postEntity.getUserEntity().getEmail())
-                                            .uploaderNickname(postEntity.getUserEntity().getNickname())
-                                            .uploaderProfileImg(postEntity.getUserEntity().getProfileUrl())
+                                            .uploaderEmail(user.getEmail())
+                                            .uploaderNickname(user.getNickname())
+                                            .uploaderProfileImg(user.getProfileUrl())
                                             .thumbnail("thumbnail")
                                             .isLiked(historys.getFirst().getIsLiked())
                                             .isBookmarked(historys.getFirst().getIsBookmarked())
