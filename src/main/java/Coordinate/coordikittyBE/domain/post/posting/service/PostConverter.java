@@ -1,6 +1,7 @@
 package Coordinate.coordikittyBE.domain.post.posting.service;
 
 
+import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
 import Coordinate.coordikittyBE.domain.post.entity.PostEntity;
 import Coordinate.coordikittyBE.domain.post.posting.dto.PostResponseDto;
 import Coordinate.coordikittyBE.domain.post.posting.dto.PostUploadRequestDto;
@@ -31,12 +32,13 @@ public class PostConverter {
                 .build();
     }
 
-    public PostEntity fromDto(PostUploadRequestDto postUploadRequestDto){
+    public PostEntity fromDto(PostUploadRequestDto postUploadRequestDto, UserEntity user){
         return PostEntity.builder()
                 .postId(UUID.randomUUID())
                 .likeCount(0)
                 .content(postUploadRequestDto.getContent())
                 .style(postUploadRequestDto.getStyle())
+                .userEntity(user)
                 .bookmarks(new ArrayList<>())
                 .attaches(new ArrayList<>())
                 .historys(new ArrayList<>())

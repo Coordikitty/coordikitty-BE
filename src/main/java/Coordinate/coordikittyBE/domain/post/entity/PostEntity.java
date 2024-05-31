@@ -65,7 +65,7 @@ public class PostEntity {
     @OneToMany(mappedBy = "postEntity")
     private List<HistoryEntity> historys = new ArrayList<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
 

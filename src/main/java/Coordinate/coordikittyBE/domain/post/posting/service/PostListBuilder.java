@@ -27,7 +27,7 @@ public class PostListBuilder {
 
         for (PostEntity postEntity : posts) {
             List<HistoryEntity> historys = historyRepository.findAllByPostIdandUserId(postEntity.getPostId(), email);
-            UserEntity user = userRepository.findById(email).orElseThrow(()-> new IllegalArgumentException("user not found"));
+            UserEntity user = postEntity.getUserEntity();
             if (!historys.isEmpty()) {
                 PostlistResponseDto postlistResponseDto = PostlistResponseDto.builder()
                                             .postId(postEntity.getPostId())

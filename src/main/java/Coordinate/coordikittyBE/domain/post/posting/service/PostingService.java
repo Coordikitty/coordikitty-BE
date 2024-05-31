@@ -76,7 +76,7 @@ public class PostingService {
     @Transactional
     public void upload(PostUploadRequestDto postUploadRequestDto, String email) {
         UserEntity user = userRepository.findById(email).orElse(null);
-        PostEntity post = postConverter.fromDto(postUploadRequestDto);
+        PostEntity post = postConverter.fromDto(postUploadRequestDto, user);
         postRepository.save(post);
 
         BookmarkEntity bookmark = BookmarkEntity.of(user, post);
