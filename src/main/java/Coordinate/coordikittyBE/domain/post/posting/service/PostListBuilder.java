@@ -26,24 +26,23 @@ public class PostListBuilder {
 
         for (PostEntity postEntity : postEntities) {
             PostlistResponseDto postlistResponseDto = new PostlistResponseDto();
-
-            PostlistResponseDto.builder()
-                    .postId(postEntity.getPostId())
-                    .season(postEntity.getSeason())
-                    .situation(postEntity.getSituation())
-                    .style(postEntity.getStyle())
-                    .postLike(postEntity.getLikeCount())
-                    .uploadDate(postEntity.getCreatedAt())
-                    .uploaderEmail(postEntity.getUserEntity().getEmail())
-                    .uploaderNickname(postEntity.getUserEntity().getNickname())
-                    .uploaderProfileImg(postEntity.getUserEntity().getProfileUrl())
-                    .thumbnail("thumbnail")
-                    .build();
-
             Optional<List<HistoryEntity>> historyEntities = historyRepository.findAllByPostIdandUserId(postEntity.getPostId(), email);
+
             if (historyEntities.isPresent()) {
-                postlistResponseDto.setIsLiked(historyEntities.get().getFirst().getIsLiked());
-                postlistResponseDto.setIsBookmarked(historyEntities.get().getFirst().getIsBookmarked());
+                PostlistResponseDto.builder()
+                        .postId(postEntity.getPostId())
+                        .season(postEntity.getSeason())
+                        .situation(postEntity.getSituation())
+                        .style(postEntity.getStyle())
+                        .postLike(postEntity.getLikeCount())
+                        .uploadDate(postEntity.getCreatedAt())
+                        .uploaderEmail(postEntity.getUserEntity().getEmail())
+                        .uploaderNickname(postEntity.getUserEntity().getNickname())
+                        .uploaderProfileImg(postEntity.getUserEntity().getProfileUrl())
+                        .thumbnail("thumbnail")
+                        .isLiked(historyEntities.get().getFirst().getIsLiked())
+                        .isBookmarked(historyEntities.get().getFirst().getIsBookmarked())
+                        .build();
 
                 posts.add(postlistResponseDto);
             }
