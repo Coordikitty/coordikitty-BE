@@ -27,16 +27,18 @@ public class PostListBuilder {
         for (PostEntity postEntity : postEntities) {
             PostlistResponseDto postlistResponseDto = new PostlistResponseDto();
 
-            postlistResponseDto.setPostId(postEntity.getPostId());
-            postlistResponseDto.setSeason(postEntity.getSeason());
-            postlistResponseDto.setSituation(postEntity.getSituation());
-            postlistResponseDto.setStyle(postEntity.getStyle());
-            postlistResponseDto.setPostLike(postEntity.getLikeCount());
-            postlistResponseDto.setUploadDate(postEntity.getCreatedAt());
-            postlistResponseDto.setUploaderEmail(postEntity.getUserEntity().getEmail());
-            postlistResponseDto.setUploaderNickname(postEntity.getUserEntity().getNickname());
-            postlistResponseDto.setUploaderProfileImg(postEntity.getUserEntity().getProfileUrl());
-            postlistResponseDto.setThumbnail("thumbnail");
+            PostlistResponseDto.builder()
+                    .postId(postEntity.getPostId())
+                    .season(postEntity.getSeason())
+                    .situation(postEntity.getSituation())
+                    .style(postEntity.getStyle())
+                    .postLike(postEntity.getLikeCount())
+                    .uploadDate(postEntity.getCreatedAt())
+                    .uploaderEmail(postEntity.getUserEntity().getEmail())
+                    .uploaderNickname(postEntity.getUserEntity().getNickname())
+                    .uploaderProfileImg(postEntity.getUserEntity().getProfileUrl())
+                    .thumbnail("thumbnail")
+                    .build();
 
             Optional<List<HistoryEntity>> historyEntities = historyRepository.findAllByPostIdandUserId(postEntity.getPostId(), email);
             if (historyEntities.isPresent()) {
