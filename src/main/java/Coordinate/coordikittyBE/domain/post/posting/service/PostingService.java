@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -86,6 +87,7 @@ public class PostingService {
         historyRepository.save(history);
         post.getHistorys().add(history);
         post.getAttaches().addAll(findAttaches(postUploadRequestDto, post));
+        postRepository.save(post);
 
     }
 

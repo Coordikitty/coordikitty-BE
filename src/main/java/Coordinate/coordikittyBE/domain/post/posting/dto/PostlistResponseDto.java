@@ -27,4 +27,5 @@ public class PostlistResponseDto {
     private String thumbnail;
     private Boolean isLiked;
     private Boolean isBookmarked;
+
 }

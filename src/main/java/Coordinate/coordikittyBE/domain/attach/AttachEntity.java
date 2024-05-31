@@ -21,11 +21,11 @@ public class AttachEntity {
     private UUID attachId;
 
     @ManyToOne
-    @JoinColumn(name = "attach_post_id")
+    @JoinColumn(name = "post_id")
     private PostEntity postEntity;
 
     @ManyToOne
-    @JoinColumn(name = "attach_cloth_id")
+    @JoinColumn(name = "cloth_id")
     private ClothEntity clothEntity;
 
     public static AttachEntity of(ClothEntity cloth, PostEntity post) {

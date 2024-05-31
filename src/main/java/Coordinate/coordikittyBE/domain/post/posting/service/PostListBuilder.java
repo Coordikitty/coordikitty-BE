@@ -24,25 +24,25 @@ public class PostListBuilder {
         posts.sort(comparator);
 
         for (PostEntity postEntity : posts) {
-            PostlistResponseDto postlistResponseDto = new PostlistResponseDto();
             List<HistoryEntity> historys = historyRepository.findAllByPostIdandUserId(postEntity.getPostId(), email);
-            if (historys.isEmpty()) {
-                PostlistResponseDto.builder()
-                        .postId(postEntity.getPostId())
-                        .season(postEntity.getSeason())
-                        .situation(postEntity.getSituation())
-                        .style(postEntity.getStyle())
-                        .postLike(postEntity.getLikeCount())
-                        .uploadDate(postEntity.getCreatedAt())
-                        .uploaderEmail(postEntity.getUserEntity().getEmail())
-                        .uploaderNickname(postEntity.getUserEntity().getNickname())
-                        .uploaderProfileImg(postEntity.getUserEntity().getProfileUrl())
-                        .thumbnail("thumbnail")
-                        .isLiked(historys.getFirst().getIsLiked())
-                        .isBookmarked(historys.getFirst().getIsBookmarked())
-                        .build();
+            if (!historys.isEmpty()) {
+                PostlistResponseDto postlistResponseDto = PostlistResponseDto.builder()
+                                            .postId(postEntity.getPostId())
+                                            .season(postEntity.getSeason())
+                                            .situation(postEntity.getSituation())
+                                            .style(postEntity.getStyle())
+                                            .postLike(postEntity.getLikeCount())
+                                            .uploadDate(postEntity.getCreatedAt())
+                                            .uploaderEmail(postEntity.getUserEntity().getEmail())
+                                            .uploaderNickname(postEntity.getUserEntity().getNickname())
+                                            .uploaderProfileImg(postEntity.getUserEntity().getProfileUrl())
+                                            .thumbnail("thumbnail")
+                                            .isLiked(historys.getFirst().getIsLiked())
+                                            .isBookmarked(historys.getFirst().getIsBookmarked())
+                                            .build();
                 postResponses.add(postlistResponseDto);
             }
         }
+        System.out.println(postResponses.isEmpty());
     }
 }
