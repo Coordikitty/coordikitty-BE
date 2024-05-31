@@ -1,8 +1,6 @@
 package Coordinate.coordikittyBE.domain.post.posting.dto;
 
-import Coordinate.coordikittyBE.domain.attach.AttachEntity;
 import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
-import Coordinate.coordikittyBE.domain.closet.entity.ClothEntity;
 import Coordinate.coordikittyBE.domain.closet.enums.Season;
 import Coordinate.coordikittyBE.domain.closet.enums.Style;
 import Coordinate.coordikittyBE.domain.history.HistoryEntity;
@@ -14,7 +12,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.UUID;
 
 @Builder

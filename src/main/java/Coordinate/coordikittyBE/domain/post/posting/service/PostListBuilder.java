@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,17 +17,16 @@ public class PostListBuilder {
 
     public void listBuilder(
             Comparator<PostEntity> comparator,
-            List<PostlistResponseDto> posts,
-            List<PostEntity> postEntities,
+            List<PostlistResponseDto> postResponses,
+            List<PostEntity> posts,
             String email
     ) {
-        postEntities.sort(comparator);
+        posts.sort(comparator);
 
-        for (PostEntity postEntity : postEntities) {
+        for (PostEntity postEntity : posts) {
             PostlistResponseDto postlistResponseDto = new PostlistResponseDto();
-            Optional<List<HistoryEntity>> historyEntities = historyRepository.findAllByPostIdandUserId(postEntity.getPostId(), email);
-
-            if (historyEntities.isPresent()) {
+            List<HistoryEntity> historys = historyRepository.findAllByPostIdandUserId(postEntity.getPostId(), email);
+            if (historys.isEmpty()) {
                 PostlistResponseDto.builder()
                         .postId(postEntity.getPostId())
                         .season(postEntity.getSeason())
@@ -40,11 +38,10 @@ public class PostListBuilder {
                         .uploaderNickname(postEntity.getUserEntity().getNickname())
                         .uploaderProfileImg(postEntity.getUserEntity().getProfileUrl())
                         .thumbnail("thumbnail")
-                        .isLiked(historyEntities.get().getFirst().getIsLiked())
-                        .isBookmarked(historyEntities.get().getFirst().getIsBookmarked())
+                        .isLiked(historys.getFirst().getIsLiked())
+                        .isBookmarked(historys.getFirst().getIsBookmarked())
                         .build();
-
-                posts.add(postlistResponseDto);
+                postResponses.add(postlistResponseDto);
             }
         }
     }

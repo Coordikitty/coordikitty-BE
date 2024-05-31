@@ -1,8 +1,14 @@
 package Coordinate.coordikittyBE.domain.post.posting.service;
 
 
+import Coordinate.coordikittyBE.domain.attach.AttachEntity;
+import Coordinate.coordikittyBE.domain.attach.repository.AttachRepository;
 import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
+import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
 import Coordinate.coordikittyBE.domain.bookmark.entity.BookmarkEntity;
+import Coordinate.coordikittyBE.domain.bookmark.repository.BookmarkRepository;
+import Coordinate.coordikittyBE.domain.closet.entity.ClothEntity;
+import Coordinate.coordikittyBE.domain.closet.repository.ClothRepository;
 import Coordinate.coordikittyBE.domain.history.HistoryEntity;
 import Coordinate.coordikittyBE.domain.history.repository.HistoryRepository;
 import Coordinate.coordikittyBE.domain.post.entity.PostEntity;
@@ -15,8 +21,8 @@ import Coordinate.coordikittyBE.domain.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.*;
 
 @Service
@@ -25,6 +31,11 @@ public class PostingService {
     private final PostRepository postRepository;
     private final PostConverter postConverter;
     private final PostListBuilder postListBuilder;
+    private final ClothRepository clothRepository;
+    private final AttachRepository attachRepository;
+    private final BookmarkRepository bookmarkRepository;
+    private final HistoryRepository historyRepository;
+    private final UserRepository userRepository;
 
     public List<PostlistResponseDto> getPosts(int page, UserDetails userDetails) {
         // 페이지 번호에 맞는 게시글 반환
@@ -61,29 +72,20 @@ public class PostingService {
         postRepository.deleteById(postId);
     }
 
-    public void upload(PostUploadRequestDto postUploadRequestDto) {
-        PostEntity post = PostEntity.builder()
-                .postId(UUID.randomUUID())
-                .likeCount(0)
-                .content(postUploadRequestDto.getContent())
-                .style(postUploadRequestDto.getStyle())
-                .createdAt(LocalDate.now())
-                .modifiedAt(null)
-                .bookmarks(null)//수정필요
-                .attaches(null)
-                .historys(null)
-                .build();
-        post.getBookmarks().add(
-                BookmarkEntity.builder()
-                    .bookmarkId(UUID.randomUUID())
-                    .userEntity(new UserEntity())
-                    .postEntity(post).build());
-        post.getHistorys().add(HistoryEntity.builder()
-            .historyId(UUID.randomUUID())
-            .postEntity(post)
-            .userEntity(new UserEntity())
-            .build());
+    @Transactional
+    public void upload(PostUploadRequestDto postUploadRequestDto, String email) {
+        UserEntity user = userRepository.findById(email).orElse(null);
+        PostEntity post = postConverter.fromDto(postUploadRequestDto);
         postRepository.save(post);
+
+        BookmarkEntity bookmark = BookmarkEntity.of(user, post);
+        post.getBookmarks().add(bookmark);
+        bookmarkRepository.save(bookmark);
+
+        HistoryEntity history = HistoryEntity.of(user, post);
+        historyRepository.save(history);
+        post.getHistorys().add(history);
+        post.getAttaches().addAll(findAttaches(postUploadRequestDto, post));
 
     }
 
@@ -95,5 +97,17 @@ public class PostingService {
         else{
             throw new RuntimeException("게시글 없음");
         }
+    }
+
+    private List<AttachEntity> findAttaches(PostUploadRequestDto postUploadRequestDto, PostEntity post) {
+        List<AttachEntity> attaches = new ArrayList<>();
+        for (UUID clothId : postUploadRequestDto.getClothIds()) {
+            ClothEntity cloth = clothRepository.findById(clothId)
+                    .orElseThrow(() -> new IllegalArgumentException("해당 옷 없음."));
+            AttachEntity attach = AttachEntity.of(cloth, post);
+            attachRepository.save(attach);
+            attaches.add(attach);
+        }
+        return attaches;
     }
 }

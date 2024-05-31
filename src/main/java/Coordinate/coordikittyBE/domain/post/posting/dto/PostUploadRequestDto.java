@@ -17,6 +17,6 @@ public class PostUploadRequestDto {
     private String content;
     private Situation situation;
     private Style style;
-    private List<MultipartFile> postImgs;
+    private List<String> postImgs;
     private List<UUID> clothIds;
 }

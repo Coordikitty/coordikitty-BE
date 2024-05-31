@@ -27,4 +27,12 @@ public class AttachEntity {
     @ManyToOne
     @JoinColumn(name = "attach_cloth_id")
     private ClothEntity clothEntity;
+
+    public static AttachEntity of(ClothEntity cloth, PostEntity post) {
+        return AttachEntity.builder()
+                .attachId(UUID.randomUUID())
+                .clothEntity(cloth)
+                .postEntity(post)
+                .build();
+    }
 }

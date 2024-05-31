@@ -1,5 +1,6 @@
 package Coordinate.coordikittyBE.domain.history;
 
+import Coordinate.coordikittyBE.domain.attach.AttachEntity;
 import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
 import Coordinate.coordikittyBE.domain.post.entity.PostEntity;
 import jakarta.persistence.*;
@@ -33,4 +34,14 @@ public class HistoryEntity {
 
     @Column(name = "is_Liked", nullable = false)
     private Boolean isLiked;
+
+    public static HistoryEntity of(UserEntity user, PostEntity post) {
+        return HistoryEntity.builder()
+                .historyId(UUID.randomUUID())
+                .userEntity(user)
+                .postEntity(post)
+                .isBookmarked(false)
+                .isLiked(false)
+                .build();
+    }
 }

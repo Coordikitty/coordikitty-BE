@@ -22,14 +22,15 @@ public class PostingController {
     private final PostingService postingService;
 
     @GetMapping(value = "")
-    public ResponseEntity<List<PostlistResponseDto>> getPosts(
+    public ResponseEntity<?> getPosts(
             @RequestParam(value = "page") int page,
             @AuthenticationPrincipal UserDetails userDetails
             ){
-        // 페이지에 맞는 게시글 반환
-
-        List<PostlistResponseDto> postlistResponseDtos = postingService.getPosts(page, userDetails);
-        return ResponseEntity.ok(postlistResponseDtos);
+        try {
+            return ResponseEntity.ok(postingService.getPosts(page, userDetails));
+        }catch(Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PutMapping(value = "/{postId}")
@@ -53,11 +54,12 @@ public class PostingController {
     @PostMapping("/upload")
     public ResponseEntity<String> uploadPost(
             @RequestBody PostUploadRequestDto postUploadRequestDto
+//            @AuthenticationPrincipal UserDetails userDetails
     ){
         // upload 수정 필요
         // 1. upload 할 이미지 Dto 에서 따로 분리해서 받기
         // 2. post upload 시에 설정해준 clothId, postId attach 에 등록 후 post Entity 에 attach 등록?? 고민 해보자
-        postingService.upload(postUploadRequestDto);
+        postingService.upload(postUploadRequestDto, "lth8905@gmail.com");
         return ResponseEntity.ok("게시글 업로드 성공");
     }
 

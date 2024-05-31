@@ -20,12 +20,19 @@ public class BookmarkEntity {
     @Column(name = "id", nullable = false)
     private UUID bookmarkId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "post_id")
     private PostEntity postEntity;
 
+    public static BookmarkEntity of(UserEntity user, PostEntity post) {
+        return BookmarkEntity.builder()
+                .bookmarkId(UUID.randomUUID())
+                .userEntity(user)
+                .postEntity(post)
+                .build();
+    }
 }
