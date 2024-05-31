@@ -1,6 +1,5 @@
 package Coordinate.coordikittyBE.domain.history;
 
-import Coordinate.coordikittyBE.domain.attach.AttachEntity;
 import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
 import Coordinate.coordikittyBE.domain.post.entity.PostEntity;
 import jakarta.persistence.*;
