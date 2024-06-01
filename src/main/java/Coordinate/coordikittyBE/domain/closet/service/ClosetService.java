@@ -32,21 +32,7 @@ public class ClosetService {
         List<ClothEntity> temp = clothRepository.findAllByUserEntity(userEntity);
         List<ClosetGetResponseDto> closetGetResponseDtos = new ArrayList<>();
         for (ClothEntity clothEntity : temp) {
-            ClosetGetResponseDto closetGetResponseDto = new ClosetGetResponseDto();
-
-            ClosetGetResponseDto.builder()
-                    .clothId(clothEntity.getClothId())
-                    .large(clothEntity.getLarge())
-                    .medium(clothEntity.getMedium())
-                    .small(clothEntity.getSmall())
-                    .fit(clothEntity.getFit())
-                    .gender(clothEntity.getGender())
-                    .season(clothEntity.getSeason())
-                    .style(clothEntity.getStyle())
-                    .thickness(clothEntity.getThickness())
-                    .clothURL(clothEntity.getPictureURL())
-                    .build();
-
+            ClosetGetResponseDto closetGetResponseDto = ClosetGetResponseDto.fromCloset(clothEntity);
             closetGetResponseDtos.add(closetGetResponseDto);
         }
 
