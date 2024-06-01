@@ -23,6 +23,7 @@ public class ClosetService {
 
     private final UserRepository userRepository;
     private final ClothRepository clothRepository;
+    private final ClothImageService clothImageService;
 
     public List<ClosetGetResponseDto> getAllClothes(String email) {
         // email 과 일치하는 cloth 반환
@@ -60,30 +61,29 @@ public class ClosetService {
     }
 
     @Transactional
-    public boolean postCloth(String email, ClosetPostRequestDto closetPostRequestDTO, MultipartFile clothImg) {
+    public boolean postCloth(String email, ClosetPostRequestDto closetPostRequestDto, MultipartFile clothImg) {
         try {
-            Optional<UserEntity> userEntityOptional = userRepository.findById(email);
+            UserEntity userEntity = userRepository.findById(email).orElse(null);
+            if (userEntity == null) return false;
 
-            if (userEntityOptional.isEmpty()) return false;
+            String url = clothImageService.storeImgToFirebase(clothImg);
+            if (url == null) return false;
 
-            UserEntity userEntity = userEntityOptional.get();
             ClothEntity clothEntity = new ClothEntity();
 
-            clothEntity.setUserEntity(userEntity);
-
-            clothEntity.setLarge(closetPostRequestDTO.getLarge());
-            clothEntity.setMedium(closetPostRequestDTO.getMedium());
-            clothEntity.setSmall(closetPostRequestDTO.getSmall());
-
-            clothEntity.setFit(closetPostRequestDTO.getFit());
-            clothEntity.setGender(closetPostRequestDTO.getGender());
-            clothEntity.setSeason(closetPostRequestDTO.getSeason());
-            clothEntity.setStyle(closetPostRequestDTO.getStyle());
-            clothEntity.setThickness(closetPostRequestDTO.getThickness());
-
-//            MultipartFile file = closetPostRequestDTO.getClothImg();
-            // file firebase 에 저장 -> url 반환
-            clothEntity.setPictureURL("url");
+            ClothEntity.builder()
+                    .clothId(UUID.randomUUID())
+                    .userEntity(userEntity)
+                    .large(closetPostRequestDto.getLarge())
+                    .medium(closetPostRequestDto.getMedium())
+                    .small(closetPostRequestDto.getSmall())
+                    .fit(closetPostRequestDto.getFit())
+                    .gender(closetPostRequestDto.getGender())
+                    .season(closetPostRequestDto.getSeason())
+                    .style(closetPostRequestDto.getStyle())
+                    .thickness(closetPostRequestDto.getThickness())
+                    .pictureURL(url)
+                    .build();
 
             clothRepository.save(clothEntity);
 

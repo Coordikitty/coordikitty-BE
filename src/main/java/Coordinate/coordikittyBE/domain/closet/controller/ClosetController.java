@@ -31,7 +31,7 @@ public class ClosetController {
         // 찾은 tuple 리스트로 만들어서 반환
 
         List<ClosetGetResponseDto> closetGetResponseDtos = closetService.getAllClothes(email);
-        return ResponseEntity.ok().body(closetGetResponseDtos);
+        return ResponseEntity.ok(closetGetResponseDtos);
     }
 
     @PostMapping(value = "")
@@ -48,7 +48,7 @@ public class ClosetController {
 
         String email = userDetails.getUsername();
         if (closetService.postCloth(email, closetPostRequestDTO, clothImg))
-            return ResponseEntity.ok().body("옷 추가 성공");
+            return ResponseEntity.ok("옷 추가 성공");
         else
             return ResponseEntity.badRequest().body("옷 추가 실패");
     }
