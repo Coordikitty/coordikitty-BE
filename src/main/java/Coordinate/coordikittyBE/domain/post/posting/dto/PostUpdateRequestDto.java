@@ -5,6 +5,7 @@ import Coordinate.coordikittyBE.domain.post.enums.Situation;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.channels.MulticastChannel;
 import java.util.List;
@@ -17,5 +18,6 @@ public class PostUpdateRequestDto {
     private String content;
     private Situation situation;
     private Style style;
-    private List<MulticastChannel> postImgs;
+    private List<MultipartFile> postImgs;
+    private List<UUID> clothIds;
 }

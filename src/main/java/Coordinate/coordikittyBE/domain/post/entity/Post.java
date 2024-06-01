@@ -67,17 +67,12 @@ public class Post {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Post update(PostUpdateRequestDto postUpdateRequestDto) {
-        return Post.builder()
-                .id(this.id)
-                .likeCount(this.likeCount)
-                .content(postUpdateRequestDto.getContent())
-                .style(postUpdateRequestDto.getStyle())
-                .createdAt(this.createdAt)
-                .modifiedAt(LocalDate.now())
-                .bookmarks(this.bookmarks)
-                .attaches(this.attaches)
-                .historys(this.historys)
-                .build();
+    public void update(PostUpdateRequestDto postUpdateRequestDto, List<Attach> attaches) {
+        attaches.clear();
+        this.content = postUpdateRequestDto.getContent();
+        this.situation = postUpdateRequestDto.getSituation();
+        this.style = postUpdateRequestDto.getStyle();
+        this.modifiedAt = LocalDate.now();
+        this.attaches = attaches;
     }
 }

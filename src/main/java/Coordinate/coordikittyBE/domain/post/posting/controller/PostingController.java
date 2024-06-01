@@ -34,7 +34,7 @@ public class PostingController {
     }
 
     @PutMapping(value = "/{postId}")
-    public ResponseEntity<String> updatePost(
+    public ResponseEntity<?> updatePost(
             @PathVariable("postId") UUID postId,
             @RequestBody PostUpdateRequestDto postUpdateRequestDto
     ){
@@ -47,8 +47,7 @@ public class PostingController {
             @PathVariable("postId") UUID postId
     ){
         //게시글 찾기
-        PostResponseDto postResponseDto = postingService.findById(postId);
-        return ResponseEntity.ok(postResponseDto);
+        return ResponseEntity.ok(postingService.findById(postId));
     }
 
     @PostMapping("/upload")

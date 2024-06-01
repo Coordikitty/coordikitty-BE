@@ -12,10 +12,7 @@ import Coordinate.coordikittyBE.domain.closet.repository.ClothRepository;
 import Coordinate.coordikittyBE.domain.history.History;
 import Coordinate.coordikittyBE.domain.history.repository.HistoryRepository;
 import Coordinate.coordikittyBE.domain.post.entity.Post;
-import Coordinate.coordikittyBE.domain.post.posting.dto.PostResponseDto;
-import Coordinate.coordikittyBE.domain.post.posting.dto.PostUpdateRequestDto;
-import Coordinate.coordikittyBE.domain.post.posting.dto.PostUploadRequestDto;
-import Coordinate.coordikittyBE.domain.post.posting.dto.PostlistResponseDto;
+import Coordinate.coordikittyBE.domain.post.posting.dto.*;
 import Coordinate.coordikittyBE.domain.post.repository.PostRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -85,24 +82,27 @@ public class PostingService {
         History history = History.of(user, post);
         historyRepository.save(history);
         post.getHistorys().add(history);
-        post.getAttaches().addAll(findAttaches(postUploadRequestDto, post));
+        post.getAttaches().addAll(createAttaches(postUploadRequestDto.getClothIds(), post));
         postRepository.save(post);
 
     }
 
-    public void update(UUID postId, PostUpdateRequestDto postUpdateRequestDto) {
-        Optional<Post> findPost = postRepository.findById(postId);
-        if (findPost.isPresent()) {
-            findPost.get().update(postUpdateRequestDto);
-        }
-        else{
-            throw new RuntimeException("게시글 없음");
-        }
+    @Transactional
+    public PostUpdateResponseDto update(UUID postId, PostUpdateRequestDto postUpdateRequestDto) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new RuntimeException("해당 게시글 없음"));
+
+        attachRepository.deleteByPostId(postId);
+
+        List<Attach> attaches = createAttaches(postUpdateRequestDto.getClothIds(), post);
+        post.update(postUpdateRequestDto, attaches);
+        return PostUpdateResponseDto.to(attaches);
+
     }
 
-    private List<Attach> findAttaches(PostUploadRequestDto postUploadRequestDto, Post post) {
+    private List<Attach> createAttaches(List<UUID> clothIds, Post post) {
         List<Attach> attaches = new ArrayList<>();
-        for (UUID clothId : postUploadRequestDto.getClothIds()) {
+        for (UUID clothId : clothIds) {
             Cloth cloth = clothRepository.findById(clothId)
                     .orElseThrow(() -> new IllegalArgumentException("해당 옷 없음."));
             Attach attach = Attach.of(cloth, post);
