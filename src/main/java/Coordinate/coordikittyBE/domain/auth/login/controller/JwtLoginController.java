@@ -22,8 +22,8 @@ public class JwtLoginController {
     private final UserService userService;
 
     @PostMapping("/token")
-    public ResponseEntity<TokenDto> createNewAccessToken(@RequestBody JwtTokenRequestDto tokenRequestDto) {
-        TokenDto newAccessToken = tokenService.createNewAccessToken(tokenRequestDto.getRefreshToken());
+    public ResponseEntity<LoginResponseDto> createNewAccessToken(@RequestBody JwtTokenRequestDto tokenRequestDto) {
+        LoginResponseDto newAccessToken = tokenService.createNewAccessToken(tokenRequestDto.getRefreshToken());
         return ResponseEntity.status(HttpStatus.CREATED).body(newAccessToken);
     }
 
