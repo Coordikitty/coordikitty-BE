@@ -1,6 +1,6 @@
 package Coordinate.coordikittyBE.config.oauth;
 
-import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
+import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,13 +24,13 @@ public class OAuth2UserCustomService extends DefaultOAuth2UserService {
         saveOrUpdate(user);
         return user;
     }
-    private UserEntity saveOrUpdate(OAuth2User user) {
+    private User saveOrUpdate(OAuth2User user) {
         Map<String, Object> attributes = user.getAttributes();
         String email = (String) attributes.get("email");
         String name = (String) attributes.get("name");
-        UserEntity userEntity = userRepository.findById(email)
+        User userEntity = userRepository.findById(email)
                 .map(entity->entity.update(name))
-                .orElse(UserEntity.builder().email(email).nickname(name).build());
+                .orElse(User.builder().email(email).nickname(name).build());
         return userRepository.save(userEntity);
     }
 }

@@ -1,6 +1,6 @@
 package Coordinate.coordikittyBE.domain.follow.enity;
 
-import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
+import Coordinate.coordikittyBE.domain.auth.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,16 +11,16 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 @Entity(name = "follow")
-public class FollowEntity {
+public class Follow {
     @Id
-    @Column(name = "follow_id", nullable = false)
-    private UUID followId;
+    @Column(name = "id", nullable = false)
+    private UUID id;
 
     @ManyToOne
     @JoinColumn(name = "from_user")
-    private UserEntity fromUser;
+    private User fromUser;
 
     @ManyToOne
     @JoinColumn(name = "to_user")
-    private UserEntity toUser;
+    private User toUser;
 }

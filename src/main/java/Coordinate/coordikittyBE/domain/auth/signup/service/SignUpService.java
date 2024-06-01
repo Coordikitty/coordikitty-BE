@@ -1,6 +1,6 @@
 package Coordinate.coordikittyBE.domain.auth.signup.service;
 
-import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
+import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
 import Coordinate.coordikittyBE.domain.auth.signup.dto.SignUpRequestDto;
 import Coordinate.coordikittyBE.domain.auth.signup.dto.SignUpSocialRequestDto;
@@ -15,7 +15,7 @@ import java.util.UUID;
 public class SignUpService {
     private final UserRepository userRepository;
     public void signUp(SignUpRequestDto signUpRequestDto) {
-        UserEntity user = UserEntity.builder()
+        User user = User.builder()
                 .email(signUpRequestDto.getEmail())
                 .password(signUpRequestDto.getPassword())
                 .name(signUpRequestDto.getName())
@@ -29,7 +29,7 @@ public class SignUpService {
         userRepository.save(user);
     }
     public void signUpSocial(SignUpSocialRequestDto signUpSocialRequestDto){
-        UserEntity user = UserEntity.builder()
+        User user = User.builder()
                 .email(signUpSocialRequestDto.getEmail())
                 .password(UUID.randomUUID().toString())
                 .build();

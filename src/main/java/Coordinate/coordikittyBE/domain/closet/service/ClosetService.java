@@ -1,11 +1,11 @@
 package Coordinate.coordikittyBE.domain.closet.service;
 
-import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
+import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetCategorizationResponseDto;
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetGetResponseDto;
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetPostRequestDto;
-import Coordinate.coordikittyBE.domain.closet.entity.ClothEntity;
+import Coordinate.coordikittyBE.domain.closet.entity.Cloth;
 import Coordinate.coordikittyBE.domain.closet.repository.ClothRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,13 +27,13 @@ public class ClosetService {
 
     public List<ClosetGetResponseDto> getAllClothes(String email) {
         // email 과 일치하는 cloth 반환
-        UserEntity userEntity = userRepository.findById(email)
+        User user = userRepository.findById(email)
                 .orElseThrow(() -> new RuntimeException("옷 조회 실패"));
 
-        List<ClothEntity> temp = clothRepository.findAllByUserEntity(userEntity);
+        List<Cloth> temp = clothRepository.findAllByUserEmail(user.getEmail());
         List<ClosetGetResponseDto> closetGetResponseDtos = new ArrayList<>();
-        for (ClothEntity clothEntity : temp) {
-            ClosetGetResponseDto closetGetResponseDto = ClosetGetResponseDto.fromCloset(clothEntity);
+        for (Cloth cloth : temp) {
+            ClosetGetResponseDto closetGetResponseDto = ClosetGetResponseDto.fromCloset(cloth);
             closetGetResponseDtos.add(closetGetResponseDto);
         }
 
@@ -43,17 +43,17 @@ public class ClosetService {
     @Transactional
     public void postCloth(String email, ClosetPostRequestDto closetPostRequestDto, MultipartFile clothImg) {
         try {
-            UserEntity userEntity = userRepository.findById(email)
+            User user = userRepository.findById(email)
                     .orElseThrow(() -> new RuntimeException("옷 추가 실패: 없는 유저 email"));
 
             String url = clothImageService.storeImgToFirebase(clothImg);
             if (url == null) throw new RuntimeException("옷 추가 실패: 이미지 저장 실패");
 
-            ClothEntity clothEntity = new ClothEntity();
+            Cloth cloth = new Cloth();
 
-            ClothEntity.builder()
-                    .clothId(UUID.randomUUID())
-                    .userEntity(userEntity)
+            Cloth.builder()
+                    .id(UUID.randomUUID())
+                    .user(user)
                     .large(closetPostRequestDto.getLarge())
                     .medium(closetPostRequestDto.getMedium())
                     .small(closetPostRequestDto.getSmall())
@@ -65,7 +65,7 @@ public class ClosetService {
                     .pictureURL(url)
                     .build();
 
-            clothRepository.save(clothEntity);
+            clothRepository.save(cloth);
         } catch (Exception e) {
             throw new RuntimeException("옷 추가 실패" + e.getMessage(), e);
         }

@@ -1,6 +1,6 @@
 package Coordinate.coordikittyBE.domain.closet.dto;
 
-import Coordinate.coordikittyBE.domain.closet.entity.ClothEntity;
+import Coordinate.coordikittyBE.domain.closet.entity.Cloth;
 import Coordinate.coordikittyBE.domain.closet.enums.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,18 +28,18 @@ public class ClosetGetResponseDto {
 
     private String clothURL;
 
-    public static ClosetGetResponseDto fromCloset(ClothEntity clothEntity) {
+    public static ClosetGetResponseDto fromCloset(Cloth cloth) {
         return ClosetGetResponseDto.builder()
-                .clothId(clothEntity.getClothId())
-                .large(clothEntity.getLarge())
-                .medium(clothEntity.getMedium())
-                .small(clothEntity.getSmall())
-                .fit(clothEntity.getFit())
-                .gender(clothEntity.getGender())
-                .season(clothEntity.getSeason())
-                .style(clothEntity.getStyle())
-                .thickness(clothEntity.getThickness())
-                .clothURL(clothEntity.getPictureURL())
+                .clothId(cloth.getId())
+                .large(cloth.getLarge())
+                .medium(cloth.getMedium())
+                .small(cloth.getSmall())
+                .fit(cloth.getFit())
+                .gender(cloth.getGender())
+                .season(cloth.getSeason())
+                .style(cloth.getStyle())
+                .thickness(cloth.getThickness())
+                .clothURL(cloth.getPictureURL())
                 .build();
     }
 }

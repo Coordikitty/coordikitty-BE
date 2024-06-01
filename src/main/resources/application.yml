@@ -26,6 +26,8 @@ spring:
           google:
             client-id: 482387727195-pu5htji2hv3bbj1b0ce8e7edaqcs0mb7.apps.googleusercontent.com
             client-secret: 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
+  main:
+    allow-bean-definition-overriding: true
 jwt:
   issuer: master
   secret_key: 37d5fc606779aa85f1b693a734a1fdd9621d97d91a4a2f929aaf0f2b6a23c903

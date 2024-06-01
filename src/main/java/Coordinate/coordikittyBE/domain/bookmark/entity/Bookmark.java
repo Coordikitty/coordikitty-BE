@@ -1,7 +1,7 @@
 package Coordinate.coordikittyBE.domain.bookmark.entity;
 
-import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
-import Coordinate.coordikittyBE.domain.post.entity.PostEntity;
+import Coordinate.coordikittyBE.domain.auth.entity.User;
+import Coordinate.coordikittyBE.domain.post.entity.Post;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,24 +15,24 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 @Entity(name = "bookmark")
-public class BookmarkEntity {
+public class Bookmark {
     @Id
     @Column(name = "id", nullable = false)
-    private UUID bookmarkId;
+    private UUID id;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
-    private UserEntity userEntity;
+    private User user;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "post_id")
-    private PostEntity postEntity;
+    private Post post;
 
-    public static BookmarkEntity of(UserEntity user, PostEntity post) {
-        return BookmarkEntity.builder()
-                .bookmarkId(UUID.randomUUID())
-                .userEntity(user)
-                .postEntity(post)
+    public static Bookmark of(User user, Post post) {
+        return Bookmark.builder()
+                .id(UUID.randomUUID())
+                .user(user)
+                .post(post)
                 .build();
     }
 }

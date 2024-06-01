@@ -1,11 +1,11 @@
 package Coordinate.coordikittyBE.domain.post.entity;
 
-import Coordinate.coordikittyBE.domain.attach.AttachEntity;
-import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
-import Coordinate.coordikittyBE.domain.bookmark.entity.BookmarkEntity;
+import Coordinate.coordikittyBE.domain.attach.Attach;
+import Coordinate.coordikittyBE.domain.auth.entity.User;
+import Coordinate.coordikittyBE.domain.bookmark.entity.Bookmark;
 import Coordinate.coordikittyBE.domain.closet.enums.Season;
 import Coordinate.coordikittyBE.domain.closet.enums.Style;
-import Coordinate.coordikittyBE.domain.history.HistoryEntity;
+import Coordinate.coordikittyBE.domain.history.History;
 import Coordinate.coordikittyBE.domain.post.enums.Situation;
 import Coordinate.coordikittyBE.domain.post.posting.dto.PostUpdateRequestDto;
 import jakarta.persistence.*;
@@ -28,12 +28,10 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 @Entity(name = "post")
-@EnableJpaAuditing
-@EntityListeners(AuditingEntityListener.class)
-public class PostEntity {
+public class Post {
     @Id
     @Column(name="id", nullable = false)
-    private UUID postId;
+    private UUID id;
 
     @Column(name="like_Count", nullable = false)
     private int likeCount;
@@ -56,22 +54,22 @@ public class PostEntity {
     @LastModifiedDate
     private LocalDate modifiedAt;
 
-    @OneToMany(mappedBy = "postEntity")
-    private List<BookmarkEntity> bookmarks = new ArrayList<>();
+    @OneToMany(mappedBy = "post")
+    private List<Bookmark> bookmarks = new ArrayList<>();
 
-    @OneToMany(mappedBy = "postEntity")
-    private List<AttachEntity> attaches = new ArrayList<>();
+    @OneToMany(mappedBy = "post")
+    private List<Attach> attaches = new ArrayList<>();
 
-    @OneToMany(mappedBy = "postEntity")
-    private List<HistoryEntity> historys = new ArrayList<>();
+    @OneToMany(mappedBy = "post")
+    private List<History> historys = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
-    private UserEntity userEntity;
+    private User user;
 
-    public PostEntity update(PostUpdateRequestDto postUpdateRequestDto) {
-        return PostEntity.builder()
-                .postId(this.postId)
+    public Post update(PostUpdateRequestDto postUpdateRequestDto) {
+        return Post.builder()
+                .id(this.id)
                 .likeCount(this.likeCount)
                 .content(postUpdateRequestDto.getContent())
                 .style(postUpdateRequestDto.getStyle())

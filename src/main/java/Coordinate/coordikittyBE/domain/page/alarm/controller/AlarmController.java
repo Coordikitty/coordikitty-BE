@@ -1,7 +1,7 @@
 package Coordinate.coordikittyBE.domain.page.alarm.controller;
 
 import Coordinate.coordikittyBE.domain.page.alarm.repository.AlarmRepository;
-import Coordinate.coordikittyBE.domain.page.alarm.entity.AlarmEntity;
+import Coordinate.coordikittyBE.domain.page.alarm.entity.Alarm;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,8 +20,8 @@ public class AlarmController {
     private final AlarmRepository alarmRepository;
     @PostMapping ("")
     public void create(){
-        AlarmEntity alarm = AlarmEntity.builder()
-                .alarmId(UUID.randomUUID())
+        Alarm alarm = Alarm.builder()
+                .id(UUID.randomUUID())
                 .type("follow")
                 .actived(true)
                 .ttl(1000)
@@ -30,7 +30,7 @@ public class AlarmController {
         log.info("저장");
     }
     @PostMapping("hi")
-    public AlarmEntity find(@RequestBody String id){
+    public Alarm find(@RequestBody String id){
         return alarmRepository.findById(id).isPresent() ? alarmRepository.findById(id).get() : null;
     }
 }

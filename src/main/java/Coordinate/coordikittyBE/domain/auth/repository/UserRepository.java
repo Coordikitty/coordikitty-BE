@@ -1,10 +1,12 @@
 package Coordinate.coordikittyBE.domain.auth.repository;
 
-import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
+import Coordinate.coordikittyBE.domain.auth.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-public interface UserRepository extends JpaRepository<UserEntity, String> {
-    Optional<UserEntity> findByNickname(String nickname);
+@Repository
+public interface UserRepository extends JpaRepository<User, String> {
+    Optional<User> findByNickname(String nickname);
 }

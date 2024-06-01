@@ -1,8 +1,8 @@
 package Coordinate.coordikittyBE.domain.post.posting.service;
 
 
-import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
-import Coordinate.coordikittyBE.domain.post.entity.PostEntity;
+import Coordinate.coordikittyBE.domain.auth.entity.User;
+import Coordinate.coordikittyBE.domain.post.entity.Post;
 import Coordinate.coordikittyBE.domain.post.posting.dto.PostResponseDto;
 import Coordinate.coordikittyBE.domain.post.posting.dto.PostUploadRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -15,30 +15,30 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class PostConverter {
-    public PostResponseDto toDto(PostEntity post){
+    public PostResponseDto toDto(Post post){
         return PostResponseDto.builder()
-                .postId(post.getPostId())
+                .postId(post.getId())
                 .season(post.getSeason())
                 .situation(post.getSituation())
                 .style(post.getStyle())
                 .postLike(post.getLikeCount())
                 .uploadDate(post.getCreatedAt())
-                .uploaderEmail(post.getUserEntity().getEmail())
-                .uploaderNickname(post.getUserEntity().getNickname())
-                .uploaderProfileImg(post.getUserEntity().getProfileUrl())
+                .uploaderEmail(post.getUser().getEmail())
+                .uploaderNickname(post.getUser().getNickname())
+                .uploaderProfileImg(post.getUser().getProfileUrl())
                 //.postImgs(post.getPostImgs())
                 .isLiked(true)
                 .isBookmarked(true)
                 .build();
     }
 
-    public PostEntity fromDto(PostUploadRequestDto postUploadRequestDto, UserEntity user){
-        return PostEntity.builder()
-                .postId(UUID.randomUUID())
+    public Post fromDto(PostUploadRequestDto postUploadRequestDto, User user){
+        return Post.builder()
+                .id(UUID.randomUUID())
                 .likeCount(0)
                 .content(postUploadRequestDto.getContent())
                 .style(postUploadRequestDto.getStyle())
-                .userEntity(user)
+                .user(user)
                 .bookmarks(new ArrayList<>())
                 .attaches(new ArrayList<>())
                 .historys(new ArrayList<>())

@@ -1,9 +1,11 @@
 package Coordinate.coordikittyBE.domain.bookmark.repository;
 
-import Coordinate.coordikittyBE.domain.bookmark.entity.BookmarkEntity;
+import Coordinate.coordikittyBE.domain.bookmark.entity.Bookmark;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
-public interface BookmarkRepository extends JpaRepository<BookmarkEntity, UUID> {
+@Repository
+public interface BookmarkRepository extends JpaRepository<Bookmark, UUID> {
 }

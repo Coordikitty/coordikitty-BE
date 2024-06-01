@@ -1,7 +1,7 @@
 package Coordinate.coordikittyBE.domain.closet.entity;
 
-import Coordinate.coordikittyBE.domain.attach.AttachEntity;
-import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
+import Coordinate.coordikittyBE.domain.attach.Attach;
+import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.closet.enums.*;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -18,11 +18,11 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 @Entity(name = "cloth")
-public class ClothEntity {
+public class Cloth {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false, updatable = false)
-    private UUID clothId;
+    private UUID id;
 
     @Column(name = "pictureURL", nullable = false)
     private String pictureURL;
@@ -59,10 +59,10 @@ public class ClothEntity {
     @Enumerated(EnumType.STRING)
     private Style style;
 
-    @ManyToOne  // Many = Cloth, One = User
+    @ManyToOne // Many = Cloth, One = User
     @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity userEntity;
+    private User user;
 
-    @OneToMany(mappedBy = "clothEntity")
-    private List<AttachEntity> attaches = new ArrayList<>();
+    @OneToMany(mappedBy = "cloth")
+    private List<Attach> attaches = new ArrayList<>();
 }

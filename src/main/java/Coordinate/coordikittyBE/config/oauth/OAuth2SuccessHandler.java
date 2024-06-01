@@ -1,7 +1,7 @@
 package Coordinate.coordikittyBE.config.oauth;
 
 import Coordinate.coordikittyBE.domain.auth.entity.RefreshToken;
-import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
+import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.auth.login.dto.TokenDto;
 import Coordinate.coordikittyBE.domain.auth.login.middleware.JwtTokenProvider;
 import Coordinate.coordikittyBE.domain.auth.login.service.UserService;
@@ -31,7 +31,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler{
     public void onAuthenticationSuccess (HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
         String email = (String) oAuth2User.getAttributes().get("email");
-        UserEntity user = userService.findById(email);
+        User user = userService.findById(email);
         if(user==null){
             signUpService.signUpSocial(new SignUpSocialRequestDto(email));
             response.setContentType("application/json");

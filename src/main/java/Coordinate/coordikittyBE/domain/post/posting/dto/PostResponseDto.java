@@ -1,10 +1,10 @@
 package Coordinate.coordikittyBE.domain.post.posting.dto;
 
-import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
+import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.closet.enums.Season;
 import Coordinate.coordikittyBE.domain.closet.enums.Style;
-import Coordinate.coordikittyBE.domain.history.HistoryEntity;
-import Coordinate.coordikittyBE.domain.post.entity.PostEntity;
+import Coordinate.coordikittyBE.domain.history.History;
+import Coordinate.coordikittyBE.domain.post.entity.Post;
 import Coordinate.coordikittyBE.domain.post.enums.Situation;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,9 +31,9 @@ public class PostResponseDto {
     private Boolean isLiked;
     private Boolean isBookmarked;
 
-    public static PostResponseDto fromEntity(PostEntity post, UserEntity user, HistoryEntity history) {
+    public static PostResponseDto fromEntity(Post post, User user, History history) {
         return PostResponseDto.builder()
-                .postId(post.getPostId())
+                .postId(post.getId())
                 .season(post.getSeason())
                 .situation(post.getSituation())
                 .style(post.getStyle())

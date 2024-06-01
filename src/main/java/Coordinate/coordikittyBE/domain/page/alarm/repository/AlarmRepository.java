@@ -1,8 +1,9 @@
 package Coordinate.coordikittyBE.domain.page.alarm.repository;
 
-import Coordinate.coordikittyBE.domain.page.alarm.entity.AlarmEntity;
-import org.springframework.data.repository.CrudRepository;
+import Coordinate.coordikittyBE.domain.page.alarm.entity.Alarm;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-
-public interface AlarmRepository extends CrudRepository<AlarmEntity, String> {
+@Repository
+public interface AlarmRepository extends JpaRepository<Alarm, String> {
 }

@@ -1,7 +1,7 @@
 package Coordinate.coordikittyBE.domain.auth.login.service;
 
 import Coordinate.coordikittyBE.domain.auth.entity.RefreshToken;
-import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
+import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.auth.login.dto.LoginResponseDto;
 import Coordinate.coordikittyBE.domain.auth.login.dto.TokenDto;
 import Coordinate.coordikittyBE.domain.auth.login.dto.LoginRequestDto;
@@ -16,12 +16,12 @@ public class UserService {
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final RefreshTokenService refreshTokenService;
-    public UserEntity findById(String email){
+    public User findById(String email){
         return userRepository.findById(email).orElse(null);
     }
 
     public LoginResponseDto signIn(LoginRequestDto loginRequestDto) {
-        UserEntity user = userRepository.findById(loginRequestDto.getEmail()).orElseThrow(()-> new IllegalArgumentException("Unexpected User"));
+        User user = userRepository.findById(loginRequestDto.getEmail()).orElseThrow(()-> new IllegalArgumentException("Unexpected User"));
         TokenDto tokenDto = jwtTokenProvider.generateToken(user);
         RefreshToken refreshTokenInfo = refreshTokenService.findByUserId(user.getEmail());
         if(refreshTokenInfo != null){

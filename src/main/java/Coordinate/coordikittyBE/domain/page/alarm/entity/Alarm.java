@@ -1,10 +1,7 @@
 package Coordinate.coordikittyBE.domain.page.alarm.entity;
 
-import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
-import Coordinate.coordikittyBE.domain.post.entity.PostEntity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.*;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.TimeToLive;
@@ -16,9 +13,9 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @RedisHash(value = "alarm")
-public class AlarmEntity {
+public class Alarm {
     @Id
-    private UUID alarmId;
+    private UUID id;
 
     private String type;
 

@@ -1,8 +1,8 @@
 package Coordinate.coordikittyBE.domain.recommend.service;
 
-import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
+import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
-import Coordinate.coordikittyBE.domain.closet.entity.ClothEntity;
+import Coordinate.coordikittyBE.domain.closet.entity.Cloth;
 import Coordinate.coordikittyBE.domain.closet.repository.ClothRepository;
 import Coordinate.coordikittyBE.domain.recommend.dto.RecommendGetResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -28,19 +28,19 @@ public class RecommendService {
         // Situation 추천 ML 에 user id, situation 전송
         // 코디 = 옷 List 반환
 
-        Optional<UserEntity> optionalUserEntity = userRepository.findById(email);
+        Optional<User> optionalUserEntity = userRepository.findById(email);
         List<RecommendGetResponseDto> recommendGetResponseDtos = new ArrayList<>();
 
         if (optionalUserEntity.isEmpty()) return recommendGetResponseDtos;
-        UserEntity userEntity = optionalUserEntity.get();
+        User user = optionalUserEntity.get();
 
-        List<ClothEntity> clothEntities = clothRepository.findAllByUserEntity(userEntity);
+        List<Cloth> clothEntities = clothRepository.findAllByUserEmail(user.getEmail());
 
         // situation 추천 ML 에 사용자가 가진 옷 리스트 전송
         // 추천 옷 리스트 반환 -> clothes
 
-        for (ClothEntity clothEntity : clothEntities) {
-            RecommendGetResponseDto recommendGetResponseDTO = getRecommendGetResponseDTO(clothEntity);
+        for (Cloth cloth : clothEntities) {
+            RecommendGetResponseDto recommendGetResponseDTO = getRecommendGetResponseDTO(cloth);
 
             recommendGetResponseDtos.add(recommendGetResponseDTO);
         }
@@ -51,19 +51,19 @@ public class RecommendService {
     public List<RecommendGetResponseDto> getStyle(String email, String style) {
         // Style 추천 ML 에 user id, style 전송
         // 코디 = 옷 List 반환
-        Optional<UserEntity> optionalUserEntity = userRepository.findById(email);
+        Optional<User> optionalUserEntity = userRepository.findById(email);
         List<RecommendGetResponseDto> recommendGetResponseDtos = new ArrayList<>();
 
         if (optionalUserEntity.isEmpty()) return recommendGetResponseDtos;
-        UserEntity userEntity = optionalUserEntity.get();
+        User user = optionalUserEntity.get();
 
-        List<ClothEntity> clothEntities = clothRepository.findAllByUserEntity(userEntity);
+        List<Cloth> clothEntities = clothRepository.findAllByUserEmail(user.getEmail());
 
         // situation 추천 ML 에 사용자가 가진 옷 리스트 전송
         // 추천 옷 리스트 반환 -> clothes
 
-        for (ClothEntity clothEntity : clothEntities) {
-            RecommendGetResponseDto recommendGetResponseDTO = getRecommendGetResponseDTO(clothEntity);
+        for (Cloth cloth : clothEntities) {
+            RecommendGetResponseDto recommendGetResponseDTO = getRecommendGetResponseDTO(cloth);
 
             recommendGetResponseDtos.add(recommendGetResponseDTO);
         }
@@ -71,20 +71,20 @@ public class RecommendService {
         return recommendGetResponseDtos;
     }
 
-    private static RecommendGetResponseDto getRecommendGetResponseDTO(ClothEntity clothEntity) {
+    private static RecommendGetResponseDto getRecommendGetResponseDTO(Cloth cloth) {
         RecommendGetResponseDto recommendGetResponseDTO  = new RecommendGetResponseDto();
 
-        recommendGetResponseDTO.setLarge(clothEntity.getLarge());
-        recommendGetResponseDTO.setMedium(clothEntity.getMedium());
-        recommendGetResponseDTO.setSmall(clothEntity.getSmall());
+        recommendGetResponseDTO.setLarge(cloth.getLarge());
+        recommendGetResponseDTO.setMedium(cloth.getMedium());
+        recommendGetResponseDTO.setSmall(cloth.getSmall());
 
-        recommendGetResponseDTO.setFit(clothEntity.getFit());
-        recommendGetResponseDTO.setGender(clothEntity.getGender());
-        recommendGetResponseDTO.setSeason(clothEntity.getSeason());
-        recommendGetResponseDTO.setStyle(clothEntity.getStyle());
-        recommendGetResponseDTO.setThickness(clothEntity.getThickness());
+        recommendGetResponseDTO.setFit(cloth.getFit());
+        recommendGetResponseDTO.setGender(cloth.getGender());
+        recommendGetResponseDTO.setSeason(cloth.getSeason());
+        recommendGetResponseDTO.setStyle(cloth.getStyle());
+        recommendGetResponseDTO.setThickness(cloth.getThickness());
 
-        recommendGetResponseDTO.setClothURL(clothEntity.getPictureURL());
+        recommendGetResponseDTO.setClothURL(cloth.getPictureURL());
         return recommendGetResponseDTO;
     }
 }

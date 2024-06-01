@@ -1,7 +1,7 @@
 package Coordinate.coordikittyBE.domain.auth.login.service;
 
 import Coordinate.coordikittyBE.domain.auth.entity.RefreshToken;
-import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
+import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.auth.login.dto.TokenDto;
 import Coordinate.coordikittyBE.domain.auth.login.middleware.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ public class TokenService {
         if(refreshInfo == null){
             throw new IllegalArgumentException("Invalid refresh token");
         }
-        UserEntity user = userService.findById(refreshInfo.getUserId());
+        User user = userService.findById(refreshInfo.getUserId());
         TokenDto token = jwtTokenProvider.generateToken(user);
 
         refreshInfo.update(token.getRefreshToken());

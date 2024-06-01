@@ -1,17 +1,17 @@
 package Coordinate.coordikittyBE.domain.post.posting.service;
 
 
-import Coordinate.coordikittyBE.domain.attach.AttachEntity;
+import Coordinate.coordikittyBE.domain.attach.Attach;
 import Coordinate.coordikittyBE.domain.attach.repository.AttachRepository;
-import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
+import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
-import Coordinate.coordikittyBE.domain.bookmark.entity.BookmarkEntity;
+import Coordinate.coordikittyBE.domain.bookmark.entity.Bookmark;
 import Coordinate.coordikittyBE.domain.bookmark.repository.BookmarkRepository;
-import Coordinate.coordikittyBE.domain.closet.entity.ClothEntity;
+import Coordinate.coordikittyBE.domain.closet.entity.Cloth;
 import Coordinate.coordikittyBE.domain.closet.repository.ClothRepository;
-import Coordinate.coordikittyBE.domain.history.HistoryEntity;
+import Coordinate.coordikittyBE.domain.history.History;
 import Coordinate.coordikittyBE.domain.history.repository.HistoryRepository;
-import Coordinate.coordikittyBE.domain.post.entity.PostEntity;
+import Coordinate.coordikittyBE.domain.post.entity.Post;
 import Coordinate.coordikittyBE.domain.post.posting.dto.PostResponseDto;
 import Coordinate.coordikittyBE.domain.post.posting.dto.PostUpdateRequestDto;
 import Coordinate.coordikittyBE.domain.post.posting.dto.PostUploadRequestDto;
@@ -24,7 +24,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -43,15 +42,15 @@ public class PostingService {
         // 반환 게시글 리스트 = 최신 + 인기 + 추천
 
         List<PostlistResponseDto> posts = new ArrayList<>();
-        List<PostEntity> postEntities = postRepository.findAll();
+        List<Post> postEntities = postRepository.findAll();
         String email = userDetails.getUsername();
 
         // 최신
-        Comparator<PostEntity> comparatorNew = Comparator.comparing(PostEntity::getCreatedAt).reversed();
+        Comparator<Post> comparatorNew = Comparator.comparing(Post::getCreatedAt).reversed();
         postListBuilder.listBuilder(comparatorNew, posts, postEntities, email);
 
         // 인기
-        Comparator<PostEntity> comparatorPopular = Comparator.comparing(PostEntity::getLikeCount).reversed();
+        Comparator<Post> comparatorPopular = Comparator.comparing(Post::getLikeCount).reversed();
         postListBuilder.listBuilder(comparatorPopular, posts, postEntities, email);
 
         // 추천
@@ -60,7 +59,7 @@ public class PostingService {
     }
 
     public PostResponseDto findById(UUID postId) {
-        Optional<PostEntity> post = postRepository.findById(postId);
+        Optional<Post> post = postRepository.findById(postId);
         if (post.isPresent()) {
             return postConverter.toDto(post.get());
         }
@@ -75,15 +74,15 @@ public class PostingService {
 
     @Transactional
     public void upload(PostUploadRequestDto postUploadRequestDto, String email) {
-        UserEntity user = userRepository.findById(email).orElse(null);
-        PostEntity post = postConverter.fromDto(postUploadRequestDto, user);
+        User user = userRepository.findById(email).orElse(null);
+        Post post = postConverter.fromDto(postUploadRequestDto, user);
         postRepository.save(post);
 
-        BookmarkEntity bookmark = BookmarkEntity.of(user, post);
+        Bookmark bookmark = Bookmark.of(user, post);
         post.getBookmarks().add(bookmark);
         bookmarkRepository.save(bookmark);
 
-        HistoryEntity history = HistoryEntity.of(user, post);
+        History history = History.of(user, post);
         historyRepository.save(history);
         post.getHistorys().add(history);
         post.getAttaches().addAll(findAttaches(postUploadRequestDto, post));
@@ -92,7 +91,7 @@ public class PostingService {
     }
 
     public void update(UUID postId, PostUpdateRequestDto postUpdateRequestDto) {
-        Optional<PostEntity> findPost = postRepository.findById(postId);
+        Optional<Post> findPost = postRepository.findById(postId);
         if (findPost.isPresent()) {
             findPost.get().update(postUpdateRequestDto);
         }
@@ -101,12 +100,12 @@ public class PostingService {
         }
     }
 
-    private List<AttachEntity> findAttaches(PostUploadRequestDto postUploadRequestDto, PostEntity post) {
-        List<AttachEntity> attaches = new ArrayList<>();
+    private List<Attach> findAttaches(PostUploadRequestDto postUploadRequestDto, Post post) {
+        List<Attach> attaches = new ArrayList<>();
         for (UUID clothId : postUploadRequestDto.getClothIds()) {
-            ClothEntity cloth = clothRepository.findById(clothId)
+            Cloth cloth = clothRepository.findById(clothId)
                     .orElseThrow(() -> new IllegalArgumentException("해당 옷 없음."));
-            AttachEntity attach = AttachEntity.of(cloth, post);
+            Attach attach = Attach.of(cloth, post);
             attachRepository.save(attach);
             attaches.add(attach);
         }

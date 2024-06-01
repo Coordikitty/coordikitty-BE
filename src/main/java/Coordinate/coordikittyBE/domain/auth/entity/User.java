@@ -1,11 +1,11 @@
 package Coordinate.coordikittyBE.domain.auth.entity;
 
 
-import Coordinate.coordikittyBE.domain.bookmark.entity.BookmarkEntity;
-import Coordinate.coordikittyBE.domain.closet.entity.ClothEntity;
-import Coordinate.coordikittyBE.domain.follow.enity.FollowEntity;
-import Coordinate.coordikittyBE.domain.history.HistoryEntity;
-import Coordinate.coordikittyBE.domain.post.entity.PostEntity;
+import Coordinate.coordikittyBE.domain.bookmark.entity.Bookmark;
+import Coordinate.coordikittyBE.domain.closet.entity.Cloth;
+import Coordinate.coordikittyBE.domain.follow.enity.Follow;
+import Coordinate.coordikittyBE.domain.history.History;
+import Coordinate.coordikittyBE.domain.post.entity.Post;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
@@ -24,7 +24,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity(name="user")
-public class UserEntity implements UserDetails {
+public class User implements UserDetails {
     @Id
     @Email
     @Column(name="email", nullable = false)
@@ -66,25 +66,25 @@ public class UserEntity implements UserDetails {
     @Column(name = "alarm_follow", nullable = true)
     private Boolean alarm_follow;
 
-    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
-    private List<ClothEntity> clothes = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Cloth> clothes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
-    private List<BookmarkEntity> bookmarks = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Bookmark> bookmarks = new ArrayList<>();
 
-    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
-    private List<HistoryEntity> historys = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<History> historys = new ArrayList<>();
 
     @OneToMany(mappedBy = "fromUser", cascade = CascadeType.ALL)
-    private List<FollowEntity> followers = new ArrayList<>();
+    private List<Follow> followers = new ArrayList<>();
 
     @OneToMany(mappedBy = "toUser", cascade = CascadeType.ALL)
-    private List<FollowEntity> followings = new ArrayList<>();
+    private List<Follow> followings = new ArrayList<>();
 
-    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
-    private List<PostEntity> posts = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Post> posts = new ArrayList<>();
 
-    public UserEntity update(String nickname){
+    public User update(String nickname){
         this.nickname = nickname;
         return this;
     }

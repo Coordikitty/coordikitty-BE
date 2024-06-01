@@ -1,10 +1,10 @@
 package Coordinate.coordikittyBE.domain.post.posting.service;
 
-import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
+import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
-import Coordinate.coordikittyBE.domain.history.HistoryEntity;
+import Coordinate.coordikittyBE.domain.history.History;
 import Coordinate.coordikittyBE.domain.history.repository.HistoryRepository;
-import Coordinate.coordikittyBE.domain.post.entity.PostEntity;
+import Coordinate.coordikittyBE.domain.post.entity.Post;
 import Coordinate.coordikittyBE.domain.post.posting.dto.PostlistResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,24 +18,24 @@ public class PostListBuilder {
     private final HistoryRepository historyRepository;
     private final UserRepository userRepository;
     public void listBuilder(
-            Comparator<PostEntity> comparator,
+            Comparator<Post> comparator,
             List<PostlistResponseDto> postResponses,
-            List<PostEntity> posts,
+            List<Post> posts,
             String email
     ) {
         posts.sort(comparator);
 
-        for (PostEntity postEntity : posts) {
-            List<HistoryEntity> historys = historyRepository.findAllByPostIdandUserId(postEntity.getPostId(), email);
-            UserEntity user = postEntity.getUserEntity();
+        for (Post post : posts) {
+            List<History> historys = historyRepository.findAllByPostIdAndUserEmail(post.getId(), email);
+            User user = post.getUser();
             if (!historys.isEmpty()) {
                 PostlistResponseDto postlistResponseDto = PostlistResponseDto.builder()
-                                            .postId(postEntity.getPostId())
-                                            .season(postEntity.getSeason())
-                                            .situation(postEntity.getSituation())
-                                            .style(postEntity.getStyle())
-                                            .postLike(postEntity.getLikeCount())
-                                            .uploadDate(postEntity.getCreatedAt())
+                                            .postId(post.getId())
+                                            .season(post.getSeason())
+                                            .situation(post.getSituation())
+                                            .style(post.getStyle())
+                                            .postLike(post.getLikeCount())
+                                            .uploadDate(post.getCreatedAt())
                                             .uploaderEmail(user.getEmail())
                                             .uploaderNickname(user.getNickname())
                                             .uploaderProfileImg(user.getProfileUrl())
