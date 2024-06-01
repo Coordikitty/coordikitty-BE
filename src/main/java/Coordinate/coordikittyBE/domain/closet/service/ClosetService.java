@@ -2,7 +2,7 @@ package Coordinate.coordikittyBE.domain.closet.service;
 
 import Coordinate.coordikittyBE.domain.auth.entity.UserEntity;
 import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
-import Coordinate.coordikittyBE.domain.closet.dto.ClosetCategorizationResponseDTO;
+import Coordinate.coordikittyBE.domain.closet.dto.ClosetCategorizationResponseDto;
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetGetResponseDto;
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetPostRequestDto;
 import Coordinate.coordikittyBE.domain.closet.entity.ClothEntity;
@@ -23,6 +23,7 @@ public class ClosetService {
     private final UserRepository userRepository;
     private final ClothRepository clothRepository;
     private final ClothImageService clothImageService;
+    private final ClothCategorizationService clothCategorizationService;
 
     public List<ClosetGetResponseDto> getAllClothes(String email) {
         // email 과 일치하는 cloth 반환
@@ -70,10 +71,12 @@ public class ClosetService {
         }
     }
 
-    public ClosetCategorizationResponseDTO clothCategorization(MultipartFile file) {
+    public ClosetCategorizationResponseDto clothCategorization(MultipartFile clothImg) {
         // file DL 서버에 전송
         // 반환 값 DTO 에 저장
-        return new ClosetCategorizationResponseDTO();
+
+        ClosetCategorizationResponseDto closetCategorizationResponseDto = clothCategorizationService.categorizeCloth(clothImg);
+        return closetCategorizationResponseDto;
     }
 
     public boolean deleteCloth(UUID clothId) {

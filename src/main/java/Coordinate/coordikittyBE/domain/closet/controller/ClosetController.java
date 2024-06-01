@@ -1,6 +1,6 @@
 package Coordinate.coordikittyBE.domain.closet.controller;
 
-import Coordinate.coordikittyBE.domain.closet.dto.ClosetCategorizationResponseDTO;
+import Coordinate.coordikittyBE.domain.closet.dto.ClosetCategorizationResponseDto;
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetGetResponseDto;
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetPostRequestDto;
 import Coordinate.coordikittyBE.domain.closet.service.ClosetService;
@@ -51,7 +51,7 @@ public class ClosetController {
     }
 
     @PostMapping(value = "/categorization")
-    public ResponseEntity<ClosetCategorizationResponseDTO> clothCategorization(
+    public ResponseEntity<ClosetCategorizationResponseDto> clothCategorization(
 //            @RequestParam(value = "clothId") UUID clothId
 //            @RequestBody MultipartFile file
             @RequestPart("clothImg") MultipartFile clothImg
@@ -60,7 +60,7 @@ public class ClosetController {
         // DL 서버에 파일 전송, 분류 결과 반환
         // 분류 결과 클라이언트에 반환
 
-        ClosetCategorizationResponseDTO closetCategorizationResponseDTO = null;
+        ClosetCategorizationResponseDto closetCategorizationResponseDTO = null;
         try {
             closetCategorizationResponseDTO = closetService.clothCategorization(clothImg);
             return ResponseEntity.ok().body(closetCategorizationResponseDTO);
