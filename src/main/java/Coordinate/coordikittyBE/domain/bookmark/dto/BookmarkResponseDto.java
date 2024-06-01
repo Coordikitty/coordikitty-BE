@@ -3,7 +3,7 @@ package Coordinate.coordikittyBE.domain.bookmark.dto;
 import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.closet.enums.Season;
 import Coordinate.coordikittyBE.domain.closet.enums.Style;
-import Coordinate.coordikittyBE.domain.history.History;
+import Coordinate.coordikittyBE.domain.history.entity.History;
 import Coordinate.coordikittyBE.domain.post.entity.Post;
 import Coordinate.coordikittyBE.domain.post.enums.Situation;
 import lombok.AllArgsConstructor;

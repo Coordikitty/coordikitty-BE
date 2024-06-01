@@ -1,4 +1,4 @@
-package Coordinate.coordikittyBE.domain.attach;
+package Coordinate.coordikittyBE.domain.attach.entity;
 
 import Coordinate.coordikittyBE.domain.closet.entity.Cloth;
 import Coordinate.coordikittyBE.domain.post.entity.Post;

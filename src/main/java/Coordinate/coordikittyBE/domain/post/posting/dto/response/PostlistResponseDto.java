@@ -1,27 +1,22 @@
-package Coordinate.coordikittyBE.domain.post.posting.dto;
+package Coordinate.coordikittyBE.domain.post.posting.dto.response;
 
-import Coordinate.coordikittyBE.domain.auth.entity.User;
-import Coordinate.coordikittyBE.domain.closet.enums.Season;
 import Coordinate.coordikittyBE.domain.closet.enums.Style;
-import Coordinate.coordikittyBE.domain.history.History;
+import Coordinate.coordikittyBE.domain.history.entity.History;
 import Coordinate.coordikittyBE.domain.post.entity.Post;
-import Coordinate.coordikittyBE.domain.post.enums.Situation;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Builder
 @Data
+@Getter
+@Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostResponseDto {
+public class PostlistResponseDto {
     private UUID postId;
-    private Season season;
-    private Situation situation;
+    private String content;
     private Style style;
     private int postLike;
     private LocalDateTime uploadDate;
@@ -31,15 +26,15 @@ public class PostResponseDto {
     private Boolean isLiked;
     private Boolean isBookmarked;
 
-    public static PostResponseDto fromEntity(Post post, User user, History history) {
-        return PostResponseDto.builder()
+    public static PostlistResponseDto fromEntity(Post post, History history) {
+        return PostlistResponseDto.builder()
                 .postId(post.getId())
                 .style(post.getStyle())
                 .postLike(post.getLikeCount())
                 .uploadDate(post.getCreatedAt())
-                .uploaderEmail(user.getEmail())
-                .uploaderNickname(user.getNickname())
-                .uploaderProfileImg(user.getProfileUrl())
+                .uploaderEmail(post.getUser().getEmail())
+                .uploaderNickname(post.getUser().getNickname())
+                .uploaderProfileImg(post.getUser().getProfileUrl())
                 .isLiked(history.getIsLiked())
                 .isBookmarked(history.getIsBookmarked())
                 .build();

@@ -1,4 +1,4 @@
-package Coordinate.coordikittyBE.domain.post.posting.dto;
+package Coordinate.coordikittyBE.domain.post.posting.dto.request;
 
 import Coordinate.coordikittyBE.domain.closet.enums.Style;
 import Coordinate.coordikittyBE.domain.post.enums.Situation;
@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.nio.channels.MulticastChannel;
 import java.util.List;
 import java.util.UUID;
 

@@ -1,6 +1,6 @@
 package Coordinate.coordikittyBE.domain.closet.entity;
 
-import Coordinate.coordikittyBE.domain.attach.Attach;
+import Coordinate.coordikittyBE.domain.attach.entity.Attach;
 import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetPostRequestDto;
 import Coordinate.coordikittyBE.domain.closet.enums.*;

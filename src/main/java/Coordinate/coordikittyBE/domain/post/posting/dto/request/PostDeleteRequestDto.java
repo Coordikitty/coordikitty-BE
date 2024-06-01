@@ -1,4 +1,4 @@
-package Coordinate.coordikittyBE.domain.post.posting.dto;
+package Coordinate.coordikittyBE.domain.post.posting.dto.request;
 
 import java.util.UUID;
 

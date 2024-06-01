@@ -2,10 +2,10 @@ package Coordinate.coordikittyBE.domain.post.posting.service;
 
 import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
-import Coordinate.coordikittyBE.domain.history.History;
+import Coordinate.coordikittyBE.domain.history.entity.History;
 import Coordinate.coordikittyBE.domain.history.repository.HistoryRepository;
 import Coordinate.coordikittyBE.domain.post.entity.Post;
-import Coordinate.coordikittyBE.domain.post.posting.dto.PostlistResponseDto;
+import Coordinate.coordikittyBE.domain.post.posting.dto.response.PostlistResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

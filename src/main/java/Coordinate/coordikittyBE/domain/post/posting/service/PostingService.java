@@ -1,7 +1,7 @@
 package Coordinate.coordikittyBE.domain.post.posting.service;
 
 
-import Coordinate.coordikittyBE.domain.attach.Attach;
+import Coordinate.coordikittyBE.domain.attach.entity.Attach;
 import Coordinate.coordikittyBE.domain.attach.repository.AttachRepository;
 import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
@@ -9,10 +9,15 @@ import Coordinate.coordikittyBE.domain.bookmark.entity.Bookmark;
 import Coordinate.coordikittyBE.domain.bookmark.repository.BookmarkRepository;
 import Coordinate.coordikittyBE.domain.closet.entity.Cloth;
 import Coordinate.coordikittyBE.domain.closet.repository.ClothRepository;
-import Coordinate.coordikittyBE.domain.history.History;
+import Coordinate.coordikittyBE.domain.history.entity.History;
 import Coordinate.coordikittyBE.domain.history.repository.HistoryRepository;
 import Coordinate.coordikittyBE.domain.post.entity.Post;
-import Coordinate.coordikittyBE.domain.post.posting.dto.*;
+import Coordinate.coordikittyBE.domain.post.posting.dto.request.PostDeleteRequestDto;
+import Coordinate.coordikittyBE.domain.post.posting.dto.request.PostUpdateRequestDto;
+import Coordinate.coordikittyBE.domain.post.posting.dto.request.PostUploadRequestDto;
+import Coordinate.coordikittyBE.domain.post.posting.dto.response.PostResponseDto;
+import Coordinate.coordikittyBE.domain.post.posting.dto.response.PostUpdateResponseDto;
+import Coordinate.coordikittyBE.domain.post.posting.dto.response.PostlistResponseDto;
 import Coordinate.coordikittyBE.domain.post.repository.PostRepository;
 
 import lombok.RequiredArgsConstructor;

@@ -1,8 +1,7 @@
 package Coordinate.coordikittyBE.domain.history.repository;
 
-import Coordinate.coordikittyBE.domain.history.History;
+import Coordinate.coordikittyBE.domain.history.entity.History;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;

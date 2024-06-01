@@ -4,7 +4,7 @@ package Coordinate.coordikittyBE.domain.auth.entity;
 import Coordinate.coordikittyBE.domain.bookmark.entity.Bookmark;
 import Coordinate.coordikittyBE.domain.closet.entity.Cloth;
 import Coordinate.coordikittyBE.domain.follow.enity.Follow;
-import Coordinate.coordikittyBE.domain.history.History;
+import Coordinate.coordikittyBE.domain.history.entity.History;
 import Coordinate.coordikittyBE.domain.post.entity.Post;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;

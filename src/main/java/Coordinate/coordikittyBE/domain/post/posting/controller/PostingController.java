@@ -1,7 +1,10 @@
 package Coordinate.coordikittyBE.domain.post.posting.controller;
 
 
-import Coordinate.coordikittyBE.domain.post.posting.dto.*;
+import Coordinate.coordikittyBE.domain.post.posting.dto.request.PostDeleteRequestDto;
+import Coordinate.coordikittyBE.domain.post.posting.dto.request.PostUpdateRequestDto;
+import Coordinate.coordikittyBE.domain.post.posting.dto.request.PostUploadRequestDto;
+import Coordinate.coordikittyBE.domain.post.posting.dto.response.PostResponseDto;
 import Coordinate.coordikittyBE.domain.post.posting.service.PostingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

@@ -3,7 +3,7 @@ package Coordinate.coordikittyBE.domain.bookmark.service;
 import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
 import Coordinate.coordikittyBE.domain.bookmark.dto.BookmarkResponseDto;
-import Coordinate.coordikittyBE.domain.history.History;
+import Coordinate.coordikittyBE.domain.history.entity.History;
 import Coordinate.coordikittyBE.domain.history.repository.HistoryRepository;
 import Coordinate.coordikittyBE.domain.post.entity.Post;
 import lombok.RequiredArgsConstructor;

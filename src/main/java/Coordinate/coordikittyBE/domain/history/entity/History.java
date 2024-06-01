@@ -1,4 +1,4 @@
-package Coordinate.coordikittyBE.domain.history;
+package Coordinate.coordikittyBE.domain.history.entity;
 
 import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.post.entity.Post;
