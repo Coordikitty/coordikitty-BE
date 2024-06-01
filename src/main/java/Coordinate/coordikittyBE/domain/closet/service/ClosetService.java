@@ -57,9 +57,11 @@ public class ClosetService {
     }
 
     public boolean deleteCloth(UUID clothId) {
-        if (!clothRepository.existsById(clothId)) return false;
-
-        clothRepository.deleteById(clothId);
-        return true;
+        if (!clothRepository.existsById(clothId))
+            return false;
+        else {
+            clothRepository.deleteById(clothId);
+            return true;
+        }
     }
 }
