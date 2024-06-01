@@ -30,22 +30,22 @@ public class PostListBuilder {
             User user = post.getUser();
             if (!historys.isEmpty()) {
                 PostlistResponseDto postlistResponseDto = PostlistResponseDto.builder()
-                                            .postId(post.getId())
-                                            .season(post.getSeason())
-                                            .situation(post.getSituation())
-                                            .style(post.getStyle())
-                                            .postLike(post.getLikeCount())
-                                            .uploadDate(post.getCreatedAt())
-                                            .uploaderEmail(user.getEmail())
-                                            .uploaderNickname(user.getNickname())
-                                            .uploaderProfileImg(user.getProfileUrl())
-                                            .thumbnail("thumbnail")
-                                            .isLiked(historys.getFirst().getIsLiked())
-                                            .isBookmarked(historys.getFirst().getIsBookmarked())
+                        .postId(post.getId())
+                        .content(post.getContent())
+                        .season(post.getSeason())
+                        .situation(post.getSituation())
+                        .style(post.getStyle())
+                        .postLike(post.getLikeCount())
+                        .uploadDate(post.getCreatedAt())
+                        .uploaderEmail(user.getEmail())
+                        .uploaderNickname(user.getNickname())
+                        .uploaderProfileImg(user.getProfileUrl())
+                        .thumbnail("thumbnail")
+                        .isLiked(historys.getFirst().getIsLiked())
+                        .isBookmarked(historys.getFirst().getIsBookmarked())
                                             .build();
                 postResponses.add(postlistResponseDto);
             }
         }
-        System.out.println(postResponses.isEmpty());
     }
 }

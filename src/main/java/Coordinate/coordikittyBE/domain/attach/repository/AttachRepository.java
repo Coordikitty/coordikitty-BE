@@ -8,5 +8,5 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface AttachRepository extends JpaRepository<Attach, UUID> {
-    Optional<Attach> deleteByPostId(UUID postId);
+    void deleteAllByPostId(UUID postId);
 }

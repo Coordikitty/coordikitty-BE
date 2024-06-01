@@ -65,8 +65,8 @@ public class PostingService {
         }
     }
 
-    public void delete(UUID postId) {
-        postRepository.deleteById(postId);
+    public void delete(PostDeleteRequestDto postDeleteRequestDto) {
+        postRepository.deleteById(postDeleteRequestDto.postId());
     }
 
     @Transactional
@@ -91,18 +91,17 @@ public class PostingService {
     public PostUpdateResponseDto update(UUID postId, PostUpdateRequestDto postUpdateRequestDto) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new RuntimeException("해당 게시글 없음"));
-
-        attachRepository.deleteByPostId(postId);
+        attachRepository.deleteAllByPostId(postId);
 
         List<Attach> attaches = createAttaches(postUpdateRequestDto.getClothIds(), post);
         post.update(postUpdateRequestDto, attaches);
         return PostUpdateResponseDto.to(attaches);
-
     }
 
     private List<Attach> createAttaches(List<UUID> clothIds, Post post) {
         List<Attach> attaches = new ArrayList<>();
         for (UUID clothId : clothIds) {
+            System.out.println(clothId);
             Cloth cloth = clothRepository.findById(clothId)
                     .orElseThrow(() -> new IllegalArgumentException("해당 옷 없음."));
             Attach attach = Attach.of(cloth, post);

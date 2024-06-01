@@ -16,6 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class PostlistResponseDto {
     private UUID postId;
+    private String content;
     private Season season;
     private Situation situation;
     private Style style;

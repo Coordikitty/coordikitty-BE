@@ -1,10 +1,7 @@
 package Coordinate.coordikittyBE.domain.post.posting.controller;
 
 
-import Coordinate.coordikittyBE.domain.post.posting.dto.PostResponseDto;
-import Coordinate.coordikittyBE.domain.post.posting.dto.PostUpdateRequestDto;
-import Coordinate.coordikittyBE.domain.post.posting.dto.PostUploadRequestDto;
-import Coordinate.coordikittyBE.domain.post.posting.dto.PostlistResponseDto;
+import Coordinate.coordikittyBE.domain.post.posting.dto.*;
 import Coordinate.coordikittyBE.domain.post.posting.service.PostingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -46,27 +43,27 @@ public class PostingController {
     public ResponseEntity<PostResponseDto> getPostListByPostId(
             @PathVariable("postId") UUID postId
     ){
-        //게시글 찾기
         return ResponseEntity.ok(postingService.findById(postId));
     }
 
     @PostMapping("/upload")
     public ResponseEntity<String> uploadPost(
-            @RequestBody PostUploadRequestDto postUploadRequestDto
-//            @AuthenticationPrincipal UserDetails userDetails
+            @RequestBody PostUploadRequestDto postUploadRequestDto,
+            @AuthenticationPrincipal UserDetails userDetails
     ){
-        // upload 수정 필요
-        // 1. upload 할 이미지 Dto 에서 따로 분리해서 받기
-        // 2. post upload 시에 설정해준 clothId, postId attach 에 등록 후 post Entity 에 attach 등록?? 고민 해보자
-        postingService.upload(postUploadRequestDto, "lth8905@gmail.com");
+        postingService.upload(postUploadRequestDto, userDetails.getUsername());
         return ResponseEntity.ok("게시글 업로드 성공");
     }
 
     @DeleteMapping("/delete")
     public ResponseEntity<String> deletePost(
-            @RequestBody UUID postId
-    ){
-        postingService.delete(postId);
-        return ResponseEntity.ok("게시글 삭제 성공");
+            @RequestBody PostDeleteRequestDto postDeleteRequestDto
+            ){
+        try {
+            postingService.delete(postDeleteRequestDto);
+            return ResponseEntity.ok("게시글 삭제 성공");
+        }catch(Exception e) {
+            return ResponseEntity.badRequest().body("게시글 삭제 실패");
+        }
     }
 }
