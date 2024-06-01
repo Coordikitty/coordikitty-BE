@@ -38,7 +38,7 @@ public class ClosetController {
     public ResponseEntity<String> postCloth(
 //            @RequestBody ClosetPostRequestDTO closetPostRequestDTO,
 //            @RequestBody MultipartFile clothImg,
-            @RequestPart("closetPostRequestDTO") ClosetPostRequestDto closetPostRequestDto,
+            @RequestPart("closetPostRequestDto") ClosetPostRequestDto closetPostRequestDto,
             @RequestPart("clothImg") MultipartFile clothImg,
             @AuthenticationPrincipal UserDetails userDetails
     ) {
