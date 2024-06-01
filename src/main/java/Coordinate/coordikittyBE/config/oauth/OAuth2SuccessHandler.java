@@ -40,11 +40,11 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler{
             return;
         }
         TokenDto token = jwtTokenProvider.generateToken(user);
-        String refreshToken = token.getRefreshToken();
+        String refreshToken = token.refreshToken();
 
         saveRefreshToken(user.getEmail(), refreshToken);
 
-        String accessToken = token.getAccessToken();
+        String accessToken = token.accessToken();
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

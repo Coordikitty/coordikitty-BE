@@ -21,8 +21,8 @@ public class TokenService {
         }
         User user = userService.findById(refreshInfo.getUserId());
         TokenDto token = jwtTokenProvider.generateToken(user);
-
-        refreshInfo.update(token.getRefreshToken());
+        token = token.addNickname(user.getNickname());
+        refreshInfo.update(token.refreshToken());
         refreshTokenService.save(refreshInfo);
 
         return token;
