@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -34,7 +35,7 @@ public class PostingService {
     private final HistoryRepository historyRepository;
     private final UserRepository userRepository;
 
-    public List<PostlistResponseDto> getPosts(UserDetails userDetails) {
+    public List<PostlistResponseDto> getPostsLoggedIn(UserDetails userDetails) {
         // 페이지 번호에 맞는 게시글 반환
         // 반환 게시글 리스트 = 최신 + 인기 + 추천
 
@@ -53,6 +54,17 @@ public class PostingService {
         // 추천
 
         return posts;
+    }
+
+    public List<PostlistResponseDto> getPostsUnLoggedIn() {
+        List<Post> postEntities = postRepository.findAllByOrderByCreatedAtDesc();
+        return postEntities.stream()
+                .map(post-> {
+                        User user = userRepository.findById(post.getUser().getEmail()).orElseThrow();
+                        History history = historyRepository.findByUserEmailAndPostId(user.getEmail(), post.getId()).orElseThrow();
+                        return PostlistResponseDto.fromEntity(post, history);
+                })
+                .collect(Collectors.toList());
     }
 
     public PostResponseDto findById(UUID postId) {
@@ -110,4 +122,5 @@ public class PostingService {
         }
         return attaches;
     }
+
 }

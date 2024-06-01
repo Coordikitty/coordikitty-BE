@@ -3,14 +3,14 @@ package Coordinate.coordikittyBE.domain.search.dto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 public class SearchResponseDto {
     private int postId;
     private int postLike;
-    private LocalDate uploadDate;
+    private LocalDateTime uploadDate;
     private String uploaderEmail;
     private String uploaderNickname;
     private String uploaderProfileImg;

@@ -9,7 +9,7 @@ import Coordinate.coordikittyBE.domain.post.enums.Situation;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
@@ -21,7 +21,7 @@ public class BookmarkResponseDto {
     private Situation situation;
     private Style style;
     private int postLike;
-    private LocalDate uploadDate;
+    private LocalDateTime uploadDate;
     private String uploaderEmail;
     private String uploaderProfileImg;
     private String thumbnail;
@@ -30,8 +30,6 @@ public class BookmarkResponseDto {
     public static BookmarkResponseDto fromEntity(Post post, User user, History history) {
         return BookmarkResponseDto.builder()
                 .postId(post.getId())
-                .season(post.getSeason())
-                .situation(post.getSituation())
                 .style(post.getStyle())
                 .postLike(post.getLikeCount())
                 .uploadDate(post.getCreatedAt())

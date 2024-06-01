@@ -3,10 +3,8 @@ package Coordinate.coordikittyBE.domain.post.entity;
 import Coordinate.coordikittyBE.domain.attach.Attach;
 import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.bookmark.entity.Bookmark;
-import Coordinate.coordikittyBE.domain.closet.enums.Season;
 import Coordinate.coordikittyBE.domain.closet.enums.Style;
 import Coordinate.coordikittyBE.domain.history.History;
-import Coordinate.coordikittyBE.domain.post.enums.Situation;
 import Coordinate.coordikittyBE.domain.post.posting.dto.PostUpdateRequestDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -15,10 +13,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -39,20 +35,16 @@ public class Post {
     @Column(columnDefinition = "TEXT", name="content")
     private String content;
 
-    @Column(name="season", nullable = true)
-    private Season season;
-
-    @Column(name = "situation", nullable = true)
-    private Situation situation;
-
     @Column(name = "style", nullable = true)
     private Style style;
 
+    @Column(name = "created_at")
     @CreatedDate
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 
+    @Column(name = "modified_at")
     @LastModifiedDate
-    private LocalDate modifiedAt;
+    private LocalDateTime modifiedAt;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Bookmark> bookmarks = new ArrayList<>();
@@ -70,9 +62,8 @@ public class Post {
     public void update(PostUpdateRequestDto postUpdateRequestDto, List<Attach> attaches) {
         attaches.clear();
         this.content = postUpdateRequestDto.getContent();
-        this.situation = postUpdateRequestDto.getSituation();
         this.style = postUpdateRequestDto.getStyle();
-        this.modifiedAt = LocalDate.now();
+        this.modifiedAt = LocalDateTime.now();
         this.attaches = attaches;
     }
 }

@@ -11,7 +11,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Builder
@@ -24,7 +24,7 @@ public class PostResponseDto {
     private Situation situation;
     private Style style;
     private int postLike;
-    private LocalDate uploadDate;
+    private LocalDateTime uploadDate;
     private String uploaderEmail;
     private String uploaderNickname;
     private String uploaderProfileImg;
@@ -34,8 +34,6 @@ public class PostResponseDto {
     public static PostResponseDto fromEntity(Post post, User user, History history) {
         return PostResponseDto.builder()
                 .postId(post.getId())
-                .season(post.getSeason())
-                .situation(post.getSituation())
                 .style(post.getStyle())
                 .postLike(post.getLikeCount())
                 .uploadDate(post.getCreatedAt())

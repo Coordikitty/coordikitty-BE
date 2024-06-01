@@ -9,7 +9,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -18,13 +17,24 @@ import java.util.UUID;
 public class PostingController {
     private final PostingService postingService;
 
-    @GetMapping(value = "")
-    public ResponseEntity<?> getPosts(
+    @GetMapping(value = "/logged")
+    public ResponseEntity<?> getPostsLoggedIn(
             //@RequestParam(value = "page") int page,
             @AuthenticationPrincipal UserDetails userDetails
             ){
         try {
-            return ResponseEntity.ok(postingService.getPosts(userDetails));
+            return ResponseEntity.ok(postingService.getPostsLoggedIn(userDetails));
+        }catch(Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping(value = "/unLogged")
+    public ResponseEntity<?> getPostsUnLoggedIn(
+            //@RequestParam(value = "page") int page,
+    ){
+        try {
+            return ResponseEntity.ok(postingService.getPostsUnLoggedIn());
         }catch(Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

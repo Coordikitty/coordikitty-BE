@@ -7,8 +7,7 @@ import Coordinate.coordikittyBE.domain.post.posting.dto.PostResponseDto;
 import Coordinate.coordikittyBE.domain.post.posting.dto.PostUploadRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -18,8 +17,6 @@ public class PostConverter {
     public PostResponseDto toDto(Post post){
         return PostResponseDto.builder()
                 .postId(post.getId())
-                .season(post.getSeason())
-                .situation(post.getSituation())
                 .style(post.getStyle())
                 .postLike(post.getLikeCount())
                 .uploadDate(post.getCreatedAt())
@@ -42,8 +39,8 @@ public class PostConverter {
                 .bookmarks(new ArrayList<>())
                 .attaches(new ArrayList<>())
                 .historys(new ArrayList<>())
-                .createdAt(LocalDate.now())
-                .modifiedAt(LocalDate.now())
+                .createdAt(LocalDateTime.now())
+                .modifiedAt(LocalDateTime.now())
                 .build();
     }
 }
