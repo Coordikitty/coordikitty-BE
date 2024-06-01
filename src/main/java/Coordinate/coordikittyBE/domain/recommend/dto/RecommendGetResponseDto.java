@@ -1,12 +1,13 @@
 package Coordinate.coordikittyBE.domain.recommend.dto;
 
+import Coordinate.coordikittyBE.domain.closet.entity.Cloth;
 import Coordinate.coordikittyBE.domain.closet.enums.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class RecommendGetResponseDto {
     private Category.Large large;
@@ -20,4 +21,18 @@ public class RecommendGetResponseDto {
     private Thickness thickness;
 
     private String clothURL;
+
+    public static RecommendGetResponseDto fromCloth(Cloth cloth) {
+        return RecommendGetResponseDto.builder()
+                .large(cloth.getLarge())
+                .medium(cloth.getMedium())
+                .small(cloth.getSmall())
+                .fit(cloth.getFit())
+                .gender(cloth.getGender())
+                .season(cloth.getSeason())
+                .style(cloth.getStyle())
+                .thickness(cloth.getThickness())
+                .clothURL(cloth.getPictureURL())
+                .build();
+    }
 }
