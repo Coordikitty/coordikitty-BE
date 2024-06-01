@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -30,14 +31,11 @@ public class ClosetService {
         User user = userRepository.findById(email)
                 .orElseThrow(() -> new RuntimeException("옷 조회 실패"));
 
-        List<Cloth> temp = clothRepository.findAllByUserEmail(user.getEmail());
-        List<ClosetGetResponseDto> closetGetResponseDtos = new ArrayList<>();
-        for (Cloth cloth : temp) {
-            ClosetGetResponseDto closetGetResponseDto = ClosetGetResponseDto.fromCloset(cloth);
-            closetGetResponseDtos.add(closetGetResponseDto);
-        }
+        List<Cloth> clothes = clothRepository.findAllByUserEmail(user.getEmail());
 
-        return closetGetResponseDtos;
+        return clothes.stream()
+                .map(ClosetGetResponseDto::fromCloset)
+                .collect((Collectors.toList()));
     }
 
     @Transactional

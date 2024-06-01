@@ -38,7 +38,7 @@ public class ClosetController {
     public ResponseEntity<String> postCloth(
 //            @RequestBody ClosetPostRequestDTO closetPostRequestDTO,
 //            @RequestBody MultipartFile clothImg,
-            @RequestPart("closetPostRequestDTO") ClosetPostRequestDto closetPostRequestDTO,
+            @RequestPart("closetPostRequestDTO") ClosetPostRequestDto closetPostRequestDto,
             @RequestPart("clothImg") MultipartFile clothImg,
             @AuthenticationPrincipal UserDetails userDetails
     ) {
@@ -46,12 +46,12 @@ public class ClosetController {
         // User Entity : user id 반환
         // Cloth Entity 에 옷 정보 추가, Firebase 에 옷 사진 업로드
 
-        closetService.postCloth(userDetails.getUsername(), closetPostRequestDTO, clothImg);
+        closetService.postCloth(userDetails.getUsername(), closetPostRequestDto, clothImg);
         return ResponseEntity.ok("옷 추가 성공");
     }
 
     @PostMapping(value = "/categorization")
-    public ResponseEntity<ClosetCategorizationResponseDto> clothCategorization(
+    public ResponseEntity<?> clothCategorization(
 //            @RequestParam(value = "clothId") UUID clothId
 //            @RequestBody MultipartFile file
             @RequestPart("clothImg") MultipartFile clothImg
@@ -59,13 +59,10 @@ public class ClosetController {
         // token authentication
         // DL 서버에 파일 전송, 분류 결과 반환
         // 분류 결과 클라이언트에 반환
-
-        ClosetCategorizationResponseDto closetCategorizationResponseDTO = null;
         try {
-            closetCategorizationResponseDTO = closetService.clothCategorization(clothImg);
-            return ResponseEntity.ok().body(closetCategorizationResponseDTO);
+            return ResponseEntity.ok().body(closetService.clothCategorization(clothImg));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(closetCategorizationResponseDTO);
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
