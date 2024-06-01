@@ -61,13 +61,13 @@ public class ClosetService {
     }
 
     @Transactional
-    public boolean postCloth(String email, ClosetPostRequestDto closetPostRequestDto, MultipartFile clothImg) {
+    public void postCloth(String email, ClosetPostRequestDto closetPostRequestDto, MultipartFile clothImg) {
         try {
-            UserEntity userEntity = userRepository.findById(email).orElse(null);
-            if (userEntity == null) return false;
+            UserEntity userEntity = userRepository.findById(email)
+                    .orElseThrow(() -> new RuntimeException("옷 추가 실패: 없는 유저 email"));
 
             String url = clothImageService.storeImgToFirebase(clothImg);
-            if (url == null) return false;
+            if (url == null) throw new RuntimeException("옷 추가 실패: 이미지 저장 실패");
 
             ClothEntity clothEntity = new ClothEntity();
 
@@ -86,10 +86,8 @@ public class ClosetService {
                     .build();
 
             clothRepository.save(clothEntity);
-
-            return true;
         } catch (Exception e) {
-            return false;
+            throw new RuntimeException("옷 추가 실패" + e.getMessage(), e);
         }
     }
 

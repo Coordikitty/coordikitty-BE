@@ -46,11 +46,8 @@ public class ClosetController {
         // User Entity : user id 반환
         // Cloth Entity 에 옷 정보 추가, Firebase 에 옷 사진 업로드
 
-        String email = userDetails.getUsername();
-        if (closetService.postCloth(email, closetPostRequestDTO, clothImg))
-            return ResponseEntity.ok("옷 추가 성공");
-        else
-            return ResponseEntity.badRequest().body("옷 추가 실패");
+        closetService.postCloth(userDetails.getUsername(), closetPostRequestDTO, clothImg);
+        return ResponseEntity.ok("옷 추가 성공");
     }
 
     @PostMapping(value = "/categorization")
