@@ -23,11 +23,11 @@ public class PostingController {
 
     @GetMapping(value = "")
     public ResponseEntity<?> getPosts(
-            @RequestParam(value = "page") int page,
+            //@RequestParam(value = "page") int page,
             @AuthenticationPrincipal UserDetails userDetails
             ){
         try {
-            return ResponseEntity.ok(postingService.getPosts(page, userDetails));
+            return ResponseEntity.ok(postingService.getPosts(userDetails));
         }catch(Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
