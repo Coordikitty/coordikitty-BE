@@ -1,6 +1,7 @@
 package Coordinate.coordikittyBE.domain.closet.dto;
 
 import Coordinate.coordikittyBE.domain.closet.enums.*;
+import Coordinate.coordikittyBE.domain.closet.util.RecommendResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,14 +22,14 @@ public class ClosetCategorizationResponseDto {
     private Style style;
 //    private Thickness thickness;
 
-//    public static ClosetCategorizationResponseDto fromDL() {
-//        return ClosetCategorizationResponseDto.builder()
-//                .large()
-//                .medium()
-//                .small()
-//                .fit()
-//                .gender()
-//                .style()
-//                .build();
-//    }
+    public static ClosetCategorizationResponseDto fromDL(RecommendResponse response) {
+        return ClosetCategorizationResponseDto.builder()
+                .large(response.getLarge())
+                .medium(response.getMedium())
+                .small(response.getSmall())
+                .fit(response.getFit())
+                .gender(response.getGender())
+                .style(response.getStyle())
+                .build();
+    }
 }
