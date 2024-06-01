@@ -40,38 +40,17 @@ public class ClosetService {
 
     @Transactional
     public void postCloth(String email, ClosetPostRequestDto closetPostRequestDto, MultipartFile clothImg) {
-        try {
             User user = userRepository.findById(email)
                     .orElseThrow(() -> new RuntimeException("옷 추가 실패: 없는 유저 email"));
 
             String url = clothImageService.storeImgToFirebase(clothImg);
             if (url == null) throw new RuntimeException("옷 추가 실패: 이미지 저장 실패");
 
-            Cloth cloth = new Cloth();
-
-            Cloth.builder()
-                    .id(UUID.randomUUID())
-                    .user(user)
-                    .large(closetPostRequestDto.getLarge())
-                    .medium(closetPostRequestDto.getMedium())
-                    .small(closetPostRequestDto.getSmall())
-                    .fit(closetPostRequestDto.getFit())
-                    .gender(closetPostRequestDto.getGender())
-                    .season(closetPostRequestDto.getSeason())
-                    .style(closetPostRequestDto.getStyle())
-                    .thickness(closetPostRequestDto.getThickness())
-                    .pictureURL(url)
-                    .build();
-
-            clothRepository.save(cloth);
-        } catch (Exception e) {
-            throw new RuntimeException("옷 추가 실패" + e.getMessage(), e);
-        }
+            clothRepository.save(Cloth.of(closetPostRequestDto, user, url));
     }
 
     public ClosetCategorizationResponseDto clothCategorization(MultipartFile clothImg) {
-        // file DL 서버에 전송
-        // 반환 값 DTO 에 저장
+
 
         ClosetCategorizationResponseDto closetCategorizationResponseDto = clothCategorizationService.categorizeCloth(clothImg);
         return closetCategorizationResponseDto;

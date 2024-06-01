@@ -2,6 +2,7 @@ package Coordinate.coordikittyBE.domain.closet.entity;
 
 import Coordinate.coordikittyBE.domain.attach.Attach;
 import Coordinate.coordikittyBE.domain.auth.entity.User;
+import Coordinate.coordikittyBE.domain.closet.dto.ClosetPostRequestDto;
 import Coordinate.coordikittyBE.domain.closet.enums.*;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -65,4 +66,20 @@ public class Cloth {
 
     @OneToMany(mappedBy = "cloth")
     private List<Attach> attaches = new ArrayList<>();
+
+    public static Cloth of(ClosetPostRequestDto closetPostRequestDto, User user, String url){
+        return Cloth.builder()
+                .id(UUID.randomUUID())
+                .user(user)
+                .large(closetPostRequestDto.getLarge())
+                .medium(closetPostRequestDto.getMedium())
+                .small(closetPostRequestDto.getSmall())
+                .fit(closetPostRequestDto.getFit())
+                .gender(closetPostRequestDto.getGender())
+                .season(closetPostRequestDto.getSeason())
+                .style(closetPostRequestDto.getStyle())
+                .thickness(closetPostRequestDto.getThickness())
+                .pictureURL(url)
+                .build();
+    }
 }
