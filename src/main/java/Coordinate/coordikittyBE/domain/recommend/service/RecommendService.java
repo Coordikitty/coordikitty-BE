@@ -57,6 +57,6 @@ public class RecommendService {
         RestTemplate restTemplate = new RestTemplate();
         WeatherResponse temperature = restTemplate.getForObject(url, WeatherResponse.class);
 
-        return temperature != null ? (int) Math.round(temperature.getMain().getTemp()) : null;
+        return temperature != null ? (int) Math.round(temperature.getMain().getTemp()) : 20;
     }
 }
