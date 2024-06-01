@@ -21,11 +21,11 @@ public class UserService {
     }
 
     public LoginResponseDto signIn(LoginRequestDto loginRequestDto) {
-        User user = userRepository.findById(loginRequestDto.getEmail()).orElseThrow(()-> new IllegalArgumentException("Unexpected User"));
+        User user = userRepository.findById(loginRequestDto.getEmail()).orElseThrow(()-> new IllegalArgumentException("유저 없음. 회원가입 요망."));
         TokenDto tokenDto = jwtTokenProvider.generateToken(user);
         RefreshToken refreshTokenInfo = refreshTokenService.findByUserId(user.getEmail());
-        if(refreshTokenInfo != null){
-            refreshTokenInfo.update(tokenDto.refreshToken());
+        if(refreshTokenInfo == null){
+            refreshTokenInfo = RefreshToken.of(user.getEmail(), tokenDto.refreshToken());
             refreshTokenService.save(refreshTokenInfo);
             return LoginResponseDto.builder()
                     .email(user.getEmail())
@@ -33,6 +33,8 @@ public class UserService {
                     .tokenDto(tokenDto)
                     .build();
         }
+        refreshTokenInfo.update(tokenDto.refreshToken());
+        refreshTokenService.save(refreshTokenInfo);
         return LoginResponseDto.builder()
                 .email(user.getEmail())
                 .nickname(user.getNickname())
