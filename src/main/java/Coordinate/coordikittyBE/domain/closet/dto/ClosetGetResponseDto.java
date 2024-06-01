@@ -1,13 +1,17 @@
 package Coordinate.coordikittyBE.domain.closet.dto;
 
 import Coordinate.coordikittyBE.domain.closet.enums.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class ClosetGetResponseDto {
     private UUID clothId;
 

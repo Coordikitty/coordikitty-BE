@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -27,37 +26,31 @@ public class ClosetService {
 
     public List<ClosetGetResponseDto> getAllClothes(String email) {
         // email 과 일치하는 cloth 반환
-        Optional<UserEntity> userEntityOptional = userRepository.findById(email);
-
-        if (userEntityOptional.isEmpty()) return new ArrayList<>();
-        UserEntity userEntity = userEntityOptional.get();
+        UserEntity userEntity = userRepository.findById(email)
+                .orElseThrow(() -> new RuntimeException("옷 조회 실패"));
 
         List<ClothEntity> temp = clothRepository.findAllByUserEntity(userEntity);
         List<ClosetGetResponseDto> closetGetResponseDtos = new ArrayList<>();
         for (ClothEntity clothEntity : temp) {
-            ClosetGetResponseDto closetGetResponseDto = getClosetGetResponseDto(clothEntity);
+            ClosetGetResponseDto closetGetResponseDto = new ClosetGetResponseDto();
+
+            ClosetGetResponseDto.builder()
+                    .clothId(clothEntity.getClothId())
+                    .large(clothEntity.getLarge())
+                    .medium(clothEntity.getMedium())
+                    .small(clothEntity.getSmall())
+                    .fit(clothEntity.getFit())
+                    .gender(clothEntity.getGender())
+                    .season(clothEntity.getSeason())
+                    .style(clothEntity.getStyle())
+                    .thickness(clothEntity.getThickness())
+                    .clothURL(clothEntity.getPictureURL())
+                    .build();
+
             closetGetResponseDtos.add(closetGetResponseDto);
         }
 
         return closetGetResponseDtos;
-    }
-
-    private static ClosetGetResponseDto getClosetGetResponseDto(ClothEntity clothEntity) {
-        ClosetGetResponseDto closetGetResponseDto = new ClosetGetResponseDto();
-        closetGetResponseDto.setClothId(clothEntity.getClothId());
-
-        closetGetResponseDto.setLarge(clothEntity.getLarge());
-        closetGetResponseDto.setMedium(clothEntity.getMedium());
-        closetGetResponseDto.setSmall(clothEntity.getSmall());
-
-        closetGetResponseDto.setFit(clothEntity.getFit());
-        closetGetResponseDto.setGender(clothEntity.getGender());
-        closetGetResponseDto.setSeason(clothEntity.getSeason());
-        closetGetResponseDto.setStyle(clothEntity.getStyle());
-        closetGetResponseDto.setThickness(clothEntity.getThickness());
-
-        closetGetResponseDto.setClothURL(clothEntity.getPictureURL());
-        return closetGetResponseDto;
     }
 
     @Transactional
