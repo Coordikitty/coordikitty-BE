@@ -10,19 +10,13 @@ import org.springframework.stereotype.Service;
 public class DupCheckService {
     private final UserRepository userRepository;
 
-    public String emailDupCheck(String email) {
+    public Boolean emailDupCheck(String email) {
         User user = userRepository.findById(email).orElse(null);
-        if (user == null) {
-            return "사용가능한 이메일";
-        }
-        throw new IllegalArgumentException("사용 불가능한 이메일");
+        return user == null;
     }
 
-    public String nicknameDupCheck(String nickname) {
+    public Boolean nicknameDupCheck(String nickname) {
         User user = userRepository.findByNickname(nickname).orElse(null);
-        if (user == null) {
-            return "사용가능한 닉네임";
-        }
-        throw new IllegalArgumentException("사용 불가능한 닉네임");
+        return user == null;
     }
 }
