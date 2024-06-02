@@ -17,12 +17,12 @@ public class FirebaseConfig {
 
     @PostConstruct
     @Bean
-    public void init() throws IOException {
+    public FirebaseApp init() throws IOException {
             InputStream serviceAccount = new FileInputStream("src/main/resources/coordikitty-firebase-adminsdk-1ld5i-c4f40d3461.json");
             GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(credentials)
                     .build();
-            FirebaseApp.initializeApp(options);
+            return FirebaseApp.initializeApp(options);
     }
 }
