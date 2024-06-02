@@ -16,17 +16,19 @@ public class SettingAlarmController {
     private final SettingAlarmService settingService;
 
     @GetMapping(value = "/alarm")
-    public ResponseEntity<SettingAlarmResponseDto> getSettingAlarm(
+    public ResponseEntity<?> getSettingAlarm(
             @AuthenticationPrincipal UserDetails userDetails
     ) {
         // token authorization
         // User Entity : user id 반환
         // user id 에 해당하는 alarm type 반환
 
-        String email = userDetails.getUsername();
-        SettingAlarmResponseDto settingAlarmResponseDTO = settingService.getSettingAlarm(email);
-
-        return ResponseEntity.ok().body(settingAlarmResponseDTO);
+        try {
+            SettingAlarmResponseDto settingAlarmResponseDTO = settingService.getSettingAlarm(userDetails.getUsername());
+            return ResponseEntity.ok().body(settingAlarmResponseDTO);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PostMapping(value = "/alarm")
@@ -38,11 +40,12 @@ public class SettingAlarmController {
         // User Entity : user id 반환
         // alarm type 수정
 
-        String userId = userDetails.getUsername();
-        if (settingService.setSettingAlarm(userId, type))
+        try{
+            settingService.setSettingAlarm(userDetails.getUsername(), type);
             return ResponseEntity.ok().body("타입 변환 성공");
-        else
-            return ResponseEntity.badRequest().body("타입 변환 실패");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
 }

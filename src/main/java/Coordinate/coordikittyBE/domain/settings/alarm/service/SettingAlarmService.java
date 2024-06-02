@@ -17,11 +17,9 @@ public class SettingAlarmService {
 
     public SettingAlarmResponseDto getSettingAlarm(String email) {
         // user id 로 현재 유저의 알람 설정 상태 반환
-        Optional<User> userEntityOptional = userRepository.findById(email);
+        User user = userRepository.findById(email)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid email: " + email));
         SettingAlarmResponseDto settingAlarmResponseDTO = new SettingAlarmResponseDto();
-
-        if(userEntityOptional.isEmpty()) return settingAlarmResponseDTO;
-        User user = userEntityOptional.get();
 
         if (user.getAlarm_feed() != null)
             settingAlarmResponseDTO.setAlarm_feed(user.getAlarm_feed());
@@ -49,12 +47,10 @@ public class SettingAlarmService {
         return settingAlarmResponseDTO;
     }
 
-    public boolean setSettingAlarm(String email, SettingAlarmRequestDto type) {
+    public void setSettingAlarm(String email, SettingAlarmRequestDto type) {
         // user id 로 타입에 맞는 유저의 알람 설정 변경
-        Optional<User> userEntityOptional = userRepository.findById(email);
-
-        if(userEntityOptional.isEmpty()) return false;
-        User user = userEntityOptional.get();
+        User user = userRepository.findById(email)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid email: " + email));
 
         boolean newValue;
         switch (type.getType()) {
@@ -70,11 +66,9 @@ public class SettingAlarmService {
                 newValue = user.getAlarm_like() != null && !user.getAlarm_like();
                 user.setAlarm_like(newValue);
             }
-            default -> throw new IllegalStateException("Unexpected value: " + type.getType());
+            default -> throw new IllegalStateException("Unexpected type value: " + type.getType());
         }
 
         userRepository.save(user);
-
-        return true;
     }
 }
