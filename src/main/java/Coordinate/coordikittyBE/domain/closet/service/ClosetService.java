@@ -64,7 +64,7 @@ public class ClosetService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
-        ByteArrayResource resource = null;
+        ByteArrayResource resource;
         try {
             resource = new ByteArrayResource(clothImg.getBytes()) {
                 @Override
@@ -83,8 +83,6 @@ public class ClosetService {
 
         RestTemplate restTemplate = new RestTemplate();
         RecommendResponse response = restTemplate.postForObject(url, request, RecommendResponse.class);
-
-        System.out.println(response);
 
         assert response != null;
         return ClosetCategorizationResponseDto.fromDL(response);
