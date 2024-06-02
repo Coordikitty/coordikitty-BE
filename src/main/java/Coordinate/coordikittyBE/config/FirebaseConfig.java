@@ -5,8 +5,9 @@ import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import jakarta.annotation.PostConstruct;
-import org.springframework.context.annotation.Bean;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -14,15 +15,17 @@ import java.io.InputStream;
 
 @Configuration
 public class FirebaseConfig {
+    @Value("${fcm.key}")
+    private String firebaseKey;
 
     @PostConstruct
-    @Bean
-    public FirebaseApp init() throws IOException {
-            InputStream serviceAccount = new FileInputStream("src/main/resources/coordikitty-firebase-adminsdk-1ld5i-c4f40d3461.json");
-            GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
-            FirebaseOptions options = new FirebaseOptions.Builder()
-                    .setCredentials(credentials)
-                    .build();
-            return FirebaseApp.initializeApp(options);
+    public void init() throws IOException {
+        ClassPathResource resource = new ClassPathResource(firebaseKey);
+        InputStream serviceAccount = resource.getInputStream();
+        GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
+        FirebaseOptions options = new FirebaseOptions.Builder()
+                .setCredentials(credentials)
+                .build();
+        FirebaseApp.initializeApp(options);
     }
 }
