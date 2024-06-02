@@ -10,7 +10,7 @@ import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class RecommendResponse {
+public class CategorizedResponse {
     @JsonProperty("large")
     private Category.Large large;
     @JsonProperty("medium")

@@ -8,13 +8,12 @@ import Coordinate.coordikittyBE.domain.closet.dto.ClosetPostRequestDto;
 import Coordinate.coordikittyBE.domain.closet.entity.Cloth;
 import Coordinate.coordikittyBE.domain.closet.repository.ClothDao;
 import Coordinate.coordikittyBE.domain.closet.repository.ClothRepository;
-import Coordinate.coordikittyBE.domain.closet.util.RecommendResponse;
+import Coordinate.coordikittyBE.domain.closet.util.CategorizedResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
@@ -78,7 +77,7 @@ public class ClosetService {
         HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(body, headers);
 
         RestTemplate restTemplate = new RestTemplate();
-        RecommendResponse response = restTemplate.postForObject(url, request, RecommendResponse.class);
+        CategorizedResponse response = restTemplate.postForObject(url, request, CategorizedResponse.class);
 
         assert response != null;
         return ClosetCategorizationResponseDto.fromDL(response);

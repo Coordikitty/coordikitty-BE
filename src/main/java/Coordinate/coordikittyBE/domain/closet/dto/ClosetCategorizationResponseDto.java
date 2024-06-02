@@ -1,7 +1,7 @@
 package Coordinate.coordikittyBE.domain.closet.dto;
 
 import Coordinate.coordikittyBE.domain.closet.enums.*;
-import Coordinate.coordikittyBE.domain.closet.util.RecommendResponse;
+import Coordinate.coordikittyBE.domain.closet.util.CategorizedResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,7 +22,7 @@ public class ClosetCategorizationResponseDto {
     private Style style;
 //    private Thickness thickness;
 
-    public static ClosetCategorizationResponseDto fromDL(RecommendResponse response) {
+    public static ClosetCategorizationResponseDto fromDL(CategorizedResponse response) {
         return ClosetCategorizationResponseDto.builder()
                 .large(response.getLarge())
                 .medium(response.getMedium())
