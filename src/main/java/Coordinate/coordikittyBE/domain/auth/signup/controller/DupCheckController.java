@@ -3,19 +3,19 @@ package Coordinate.coordikittyBE.domain.auth.signup.controller;
 import Coordinate.coordikittyBE.domain.auth.signup.service.DupCheckService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/auth/signup")
+@RequestMapping("/auth/signUp")
 @RequiredArgsConstructor
 public class DupCheckController {
     private final DupCheckService dupCheckService;
 
-    @PostMapping("/dupCheck")
-    public ResponseEntity<String> DupCheck(@RequestParam(required = false) final String email, @RequestParam(required = false) final String nickname) {
+    @GetMapping("/dupCheck")
+    public ResponseEntity<?> dupCheck(
+            @RequestParam(value = "email", required = false) String email,
+            @RequestParam(value = "nickname", required = false) String nickname
+    ) {
         try {
             if(email != null && nickname == null) {
                 return ResponseEntity.ok(dupCheckService.emailDupCheck(email));
