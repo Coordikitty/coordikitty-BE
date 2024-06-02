@@ -48,9 +48,10 @@ public class ClosetService {
     public String postCloth(String email, ClosetPostRequestDto closetPostRequestDto, MultipartFile clothImg) throws IOException {
         User user = userRepository.findById(email)
                 .orElseThrow(() -> new RuntimeException("옷 추가 실패: 없는 유저 email"));
-        UUID clothId = UUID.randomUUID();
-        clothDao.upload(clothImg, email, clothId);
-        clothRepository.save(Cloth.of(closetPostRequestDto, user, clothId));
+        Cloth cloth = Cloth.of(closetPostRequestDto, user);
+        String imageUrl = clothDao.upload(clothImg, cloth.getId());
+        cloth.addImageUrl(imageUrl);
+        clothRepository.save(cloth);
         return "업로드 성공";
     }
 
@@ -84,12 +85,11 @@ public class ClosetService {
         return ClosetCategorizationResponseDto.fromDL(response);
     }
 
-    public boolean deleteCloth(UUID clothId) {
-        if (!clothRepository.existsById(clothId))
-            return false;
-        else {
-            clothRepository.deleteById(clothId);
-            return true;
-        }
+    @Transactional
+    public void deleteCloth(UUID clothId, String email) {
+        clothDao.delete(clothId, email);
+        Cloth cloth = clothRepository.findById(clothId).orElse(null);
+        clothRepository.deleteById(clothId);
+        clothRepository.flush();
     }
 }

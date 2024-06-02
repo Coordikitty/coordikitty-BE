@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,8 +30,8 @@ public class ClosetController {
     public ResponseEntity<?> getAllClothes(
             @AuthenticationPrincipal UserDetails userDetails
     ) {
-        //List<ClosetGetResponseDto> closetGetResponseDtos = closetService.getAllClothes(email);
-        return ResponseEntity.ok("hi");
+        List<ClosetGetResponseDto> closetGetResponseDtos = closetService.getAllClothes(userDetails.getUsername());
+        return ResponseEntity.ok(closetGetResponseDtos);
     }
 
     @PostMapping(value = "",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -64,15 +65,10 @@ public class ClosetController {
 
     @DeleteMapping(value = "")
     public ResponseEntity<String> deleteCloth(
-            @RequestParam(value = "clothId") UUID clothId
+            @RequestParam(value = "clothId") UUID clothId,
+            @AuthenticationPrincipal UserDetails userDetails
     ) {
-        // token authentication
-        // User Entity : user id 반환
-        // Cloth Entity : cloth id 튜플 삭제 (Cascade -> attach)
-
-        if (closetService.deleteCloth(clothId))
-            return ResponseEntity.ok().body("옷 삭제 성공");
-        else
-            return ResponseEntity.badRequest().body("옷 삭제 실패");
+        closetService.deleteCloth(clothId, userDetails.getUsername());
+        return ResponseEntity.ok().body("옷 삭제 성공");
     }
 }

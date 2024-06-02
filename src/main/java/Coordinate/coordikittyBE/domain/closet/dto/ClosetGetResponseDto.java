@@ -16,18 +16,14 @@ import java.util.UUID;
 @Builder
 public class ClosetGetResponseDto {
     private UUID clothId;
-
     private Category.Large large;
     private Category.Medium medium;
     private Category.Small small;
-
     private Fit fit;
     private Gender gender;
-    private Season season;
     private Style style;
     private Thickness thickness;
-
-    private MultipartFile clothImg;
+    private String imageUrl;
 
     public static ClosetGetResponseDto fromCloset(Cloth cloth) {
         return ClosetGetResponseDto.builder()
@@ -39,6 +35,7 @@ public class ClosetGetResponseDto {
                 .gender(cloth.getGender())
                 .style(cloth.getStyle())
                 .thickness(cloth.getThickness())
+                .imageUrl(cloth.getImageUrl())
                 .build();
     }
 }

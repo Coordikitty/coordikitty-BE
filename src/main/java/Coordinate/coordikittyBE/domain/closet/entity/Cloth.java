@@ -21,7 +21,6 @@ import java.util.UUID;
 @Entity(name = "cloth")
 public class Cloth {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false, updatable = false)
     private UUID id;
 
@@ -40,6 +39,9 @@ public class Cloth {
     @Column(name = "fit", nullable = false)
     @Enumerated(EnumType.STRING)
     private Fit fit;
+
+    @Column(name = "imageUrl", nullable = true)
+    private String imageUrl;
 
     @Column(name = "gender", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -60,9 +62,9 @@ public class Cloth {
     @OneToMany(mappedBy = "cloth")
     private List<Attach> attaches = new ArrayList<>();
 
-    public static Cloth of(ClosetPostRequestDto closetPostRequestDto, User user, UUID clothId){
-        return Cloth.builder()
-                .id(clothId)
+    public static Cloth of(ClosetPostRequestDto closetPostRequestDto, User user){
+        Cloth cloth = Cloth.builder()
+                .id(UUID.randomUUID())
                 .user(user)
                 .large(closetPostRequestDto.getLarge())
                 .medium(closetPostRequestDto.getMedium())
@@ -72,5 +74,10 @@ public class Cloth {
                 .style(closetPostRequestDto.getStyle())
                 .thickness(closetPostRequestDto.getThickness())
                 .build();
+        return cloth;
+    }
+
+    public void addImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }
