@@ -14,6 +14,6 @@ import java.util.UUID;
 public class PostUploadRequestDto {
     private String content;
     private Style style;
-    private List<String> postImgs;
+    //private List<String> postImgs;
     private List<UUID> clothIds;
 }

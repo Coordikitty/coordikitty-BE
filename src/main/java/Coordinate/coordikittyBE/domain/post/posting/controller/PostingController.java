@@ -1,17 +1,20 @@
 package Coordinate.coordikittyBE.domain.post.posting.controller;
 
 
-import Coordinate.coordikittyBE.domain.post.posting.dto.request.PostDeleteRequestDto;
 import Coordinate.coordikittyBE.domain.post.posting.dto.request.PostUpdateRequestDto;
 import Coordinate.coordikittyBE.domain.post.posting.dto.request.PostUploadRequestDto;
 import Coordinate.coordikittyBE.domain.post.posting.dto.response.PostResponseDto;
 import Coordinate.coordikittyBE.domain.post.posting.service.PostingService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -59,24 +62,25 @@ public class PostingController {
         return ResponseEntity.ok(postingService.findById(postId));
     }
 
-    @PostMapping("/upload")
+    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> uploadPost(
-            @RequestBody PostUploadRequestDto postUploadRequestDto,
+            @RequestPart PostUploadRequestDto postUploadRequestDto,
+            @RequestPart List<MultipartFile> images,
             @AuthenticationPrincipal UserDetails userDetails
-    ){
-        postingService.upload(postUploadRequestDto, userDetails.getUsername());
+    ) throws IOException {
+        postingService.upload(postUploadRequestDto, images, userDetails.getUsername());
         return ResponseEntity.ok("게시글 업로드 성공");
     }
 
     @DeleteMapping("/delete")
     public ResponseEntity<String> deletePost(
-            @RequestBody PostDeleteRequestDto postDeleteRequestDto
+            @RequestParam UUID postId
             ){
         try {
-            postingService.delete(postDeleteRequestDto);
+            postingService.delete(postId);
             return ResponseEntity.ok("게시글 삭제 성공");
         }catch(Exception e) {
-            return ResponseEntity.badRequest().body("게시글 삭제 실패");
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 }

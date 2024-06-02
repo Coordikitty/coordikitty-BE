@@ -46,6 +46,9 @@ public class Post {
     @LastModifiedDate
     private LocalDateTime modifiedAt;
 
+    @ElementCollection
+    private List<String> postImgs = new ArrayList<>();
+
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Bookmark> bookmarks = new ArrayList<>();
 
@@ -65,5 +68,9 @@ public class Post {
         this.style = postUpdateRequestDto.getStyle();
         this.modifiedAt = LocalDateTime.now();
         this.attaches = attaches;
+    }
+
+    public void addImageUrl(String imageUrl) {
+        this.postImgs.add(imageUrl);
     }
 }

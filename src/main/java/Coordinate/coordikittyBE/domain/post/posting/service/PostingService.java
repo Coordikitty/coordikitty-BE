@@ -12,19 +12,21 @@ import Coordinate.coordikittyBE.domain.closet.repository.ClothRepository;
 import Coordinate.coordikittyBE.domain.history.entity.History;
 import Coordinate.coordikittyBE.domain.history.repository.HistoryRepository;
 import Coordinate.coordikittyBE.domain.post.entity.Post;
-import Coordinate.coordikittyBE.domain.post.posting.dto.request.PostDeleteRequestDto;
 import Coordinate.coordikittyBE.domain.post.posting.dto.request.PostUpdateRequestDto;
 import Coordinate.coordikittyBE.domain.post.posting.dto.request.PostUploadRequestDto;
 import Coordinate.coordikittyBE.domain.post.posting.dto.response.PostResponseDto;
 import Coordinate.coordikittyBE.domain.post.posting.dto.response.PostUpdateResponseDto;
 import Coordinate.coordikittyBE.domain.post.posting.dto.response.PostlistResponseDto;
+import Coordinate.coordikittyBE.domain.post.repository.PostDao;
 import Coordinate.coordikittyBE.domain.post.repository.PostRepository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -38,6 +40,7 @@ public class PostingService {
     private final BookmarkRepository bookmarkRepository;
     private final HistoryRepository historyRepository;
     private final UserRepository userRepository;
+    private final PostDao postDao;
 
     public List<PostlistResponseDto> getPostsLoggedIn(UserDetails userDetails) {
 
@@ -74,14 +77,19 @@ public class PostingService {
         return PostResponseDto.fromEntity(post, history);
     }
 
-    public void delete(PostDeleteRequestDto postDeleteRequestDto) {
-        postRepository.deleteById(postDeleteRequestDto.postId());
+    public void delete(UUID postId)throws IllegalArgumentException {
+        postDao.delete(postId);
+        postRepository.deleteById(postId);
     }
 
     @Transactional
-    public void upload(PostUploadRequestDto postUploadRequestDto, String email) {
+    public void upload(PostUploadRequestDto postUploadRequestDto, List<MultipartFile> images, String email) throws IOException {
         User user = userRepository.findById(email).orElse(null);
         Post post = postConverter.fromDto(postUploadRequestDto, user);
+        for (MultipartFile image : images) {
+            String imageUrl = postDao.upload(image, post.getId());
+            post.addImageUrl(imageUrl);
+        }
         postRepository.save(post);
 
         Bookmark bookmark = Bookmark.of(user, post);

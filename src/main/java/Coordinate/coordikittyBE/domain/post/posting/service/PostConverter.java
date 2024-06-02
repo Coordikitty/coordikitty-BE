@@ -36,6 +36,7 @@ public class PostConverter {
                 .content(postUploadRequestDto.getContent())
                 .style(postUploadRequestDto.getStyle())
                 .user(user)
+                .postImgs(new ArrayList<>())
                 .bookmarks(new ArrayList<>())
                 .attaches(new ArrayList<>())
                 .historys(new ArrayList<>())
