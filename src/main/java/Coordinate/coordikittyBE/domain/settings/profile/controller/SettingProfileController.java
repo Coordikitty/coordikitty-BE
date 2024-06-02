@@ -17,15 +17,19 @@ public class SettingProfileController {
     private final SettingProfileService settingProfileService;
 
     @GetMapping(value = "/profile")
-    public ResponseEntity<SettingProfileResponseDto> getSettingProfile(
+    public ResponseEntity<?> getSettingProfile(
             @AuthenticationPrincipal UserDetails userDetails
     ) {
         // token Authentication
         // User Entity : user id 반환
         // user id 에서 profile Data 반환
-        String email = userDetails.getUsername();
-        SettingProfileResponseDto settingProfileResponseDTO = settingProfileService.getSettingProfile(email);
-        return ResponseEntity.ok().body(settingProfileResponseDTO);
+
+        try {
+            SettingProfileResponseDto settingProfileResponseDTO = settingProfileService.getSettingProfile(userDetails.getUsername());
+            return ResponseEntity.ok().body(settingProfileResponseDTO);
+        } catch (Exception e) {
+            return ResponseEntity.ok().body(e.getMessage());
+        }
     }
 
     @PostMapping(value = "/profile")
@@ -36,10 +40,12 @@ public class SettingProfileController {
         // token Authentication
         // User Entity : user id 반환
         // user nickname 수정
-        String email = userDetails.getUsername();
-        if(settingProfileService.setSettingProfile(email, nickname))
+
+        try {
+            settingProfileService.setSettingProfile(userDetails.getUsername(), nickname);
             return ResponseEntity.ok().body("닉네임 변경 성공");
-        else
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body("닉네임 변경 실패");
+        }
     }
 }

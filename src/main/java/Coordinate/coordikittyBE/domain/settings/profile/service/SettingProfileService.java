@@ -17,29 +17,17 @@ public class SettingProfileService {
 
     public SettingProfileResponseDto getSettingProfile(String email) {
         // user id 로 회원정보 조회
-        Optional<User> userEntityOptional = userRepository.findById(email);
-        SettingProfileResponseDto settingProfileResponseDTO = new SettingProfileResponseDto();
+        User user = userRepository.findById(email)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid email: " + email));
 
-        if (userEntityOptional.isEmpty()) return settingProfileResponseDTO;
-        User user = userEntityOptional.get();
-
-        settingProfileResponseDTO.setName(user.getName());
-        settingProfileResponseDTO.setNickname(user.getNickname());
-        settingProfileResponseDTO.setNumber(user.getPhoneNumber());
-
-        return settingProfileResponseDTO;
+        return SettingProfileResponseDto.from(user);
     }
 
-    public boolean setSettingProfile(String email, SettingProfileRequestDto nickname) {
-        Optional<User> userEntityOptional = userRepository.findById(email);
-
-        if (userEntityOptional.isEmpty()) return false;
-        User user = userEntityOptional.get();
+    public void setSettingProfile(String email, SettingProfileRequestDto nickname) {
+        User user = userRepository.findById(email)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid email: " + email));
 
         user.setNickname(nickname.getNickname());
-
         userRepository.save(user);
-
-        return true;
     }
 }
