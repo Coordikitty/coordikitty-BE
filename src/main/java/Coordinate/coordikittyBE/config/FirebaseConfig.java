@@ -16,6 +16,7 @@ import java.io.InputStream;
 public class FirebaseConfig {
 
     @PostConstruct
+    @Bean
     public void init() throws IOException {
             InputStream serviceAccount = new FileInputStream("src/main/resources/coordikitty-firebase-adminsdk-1ld5i-c4f40d3461.json");
             GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
