@@ -17,16 +17,19 @@ public class SettingImageController {
     private final SettingImageService settingImageService;
 
     @GetMapping(value = "/image")
-    public ResponseEntity<SettingImageResponseDto> getSettingImage(
+    public ResponseEntity<?> getSettingImage(
             @AuthenticationPrincipal UserDetails userDetails
-            ) {
+    ) {
         // token authorization
         // User Entity : user id 반환
         // User Entity : profileURL 찾기
         // profileURL 반환
-        String email = userDetails.getUsername();
-        SettingImageResponseDto settingImageResponseDTO = settingImageService.getSettingImage(email);
-        return ResponseEntity.ok().body(settingImageResponseDTO);
+        try {
+            SettingImageResponseDto settingImageResponseDTO = settingImageService.getSettingImage(userDetails.getUsername());
+            return ResponseEntity.ok().body(settingImageResponseDTO);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PostMapping(value = "/image")

@@ -18,12 +18,10 @@ public class SettingImageService {
 
     public SettingImageResponseDto getSettingImage(String email) {
         // user id 로 profile_url 찾기
-        Optional<User> userEntityOptional = userRepository.findById(email);
+        User user = userRepository.findById(email)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid email: " + email));
+
         SettingImageResponseDto settingImageResponseDTO = new SettingImageResponseDto();
-
-        if (userEntityOptional.isEmpty()) return settingImageResponseDTO;
-        User user = userEntityOptional.get();
-
         settingImageResponseDTO.setProfileURL(user.getProfileUrl());
 
         return settingImageResponseDTO;
@@ -31,10 +29,8 @@ public class SettingImageService {
 
     public boolean setSettingImage(String email, MultipartFile profileImg) {
         // user id 로 찾아서 profile Img 변경
-        Optional<User> userEntityOptional = userRepository.findById(email);
-
-        if (userEntityOptional.isEmpty()) return false;
-        User user = userEntityOptional.get();
+        User user = userRepository.findById(email)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid email: " + email));
 
         // profile Img 를 firebase에 저장
         String profileUrl = "www.firebase.com/profileUrl";
