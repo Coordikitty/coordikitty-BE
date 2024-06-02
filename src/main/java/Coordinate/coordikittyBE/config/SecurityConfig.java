@@ -1,5 +1,6 @@
 package Coordinate.coordikittyBE.config;
 
+import Coordinate.coordikittyBE.config.oauth.CustomAuthenticationEntryPoint;
 import Coordinate.coordikittyBE.config.oauth.OAuth2SuccessHandler;
 import Coordinate.coordikittyBE.config.oauth.OAuth2UserCustomService;
 import Coordinate.coordikittyBE.domain.auth.login.middleware.JwtAuthenticationFilter;

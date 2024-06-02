@@ -4,7 +4,10 @@ import Coordinate.coordikittyBE.domain.closet.dto.ClosetCategorizationResponseDt
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetGetResponseDto;
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetPostRequestDto;
 import Coordinate.coordikittyBE.domain.closet.service.ClosetService;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,9 +38,7 @@ public class ClosetController {
     }
 
     @PostMapping(value = "")
-    public ResponseEntity<String> postCloth(
-//            @RequestBody ClosetPostRequestDTO closetPostRequestDTO,
-//            @RequestBody MultipartFile clothImg,
+    public ResponseEntity<?> postCloth(
             @RequestPart("closetPostRequestDto") ClosetPostRequestDto closetPostRequestDto,
             @RequestPart("clothImg") MultipartFile clothImg,
             @AuthenticationPrincipal UserDetails userDetails
@@ -46,8 +47,7 @@ public class ClosetController {
         // User Entity : user id 반환
         // Cloth Entity 에 옷 정보 추가, Firebase 에 옷 사진 업로드
         try {
-            closetService.postCloth(userDetails.getUsername(), closetPostRequestDto, clothImg);
-            return ResponseEntity.ok("옷 추가 성공");
+            return ResponseEntity.ok(closetService.postCloth(userDetails.getUsername(), closetPostRequestDto, clothImg));
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }

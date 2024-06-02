@@ -29,10 +29,8 @@ public class RecommendGetResponseDto {
                 .small(cloth.getSmall())
                 .fit(cloth.getFit())
                 .gender(cloth.getGender())
-                .season(cloth.getSeason())
                 .style(cloth.getStyle())
                 .thickness(cloth.getThickness())
-                .clothURL(cloth.getPictureURL())
                 .build();
     }
 }

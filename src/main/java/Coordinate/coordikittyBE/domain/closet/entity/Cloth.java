@@ -25,9 +25,6 @@ public class Cloth {
     @Column(name = "id", nullable = false, updatable = false)
     private UUID id;
 
-    @Column(name = "pictureURL", nullable = false)
-    private String pictureURL;
-
     @Column(name = "large", nullable = false)
     @Enumerated(EnumType.STRING)
     private Category.Large large;
@@ -48,10 +45,6 @@ public class Cloth {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @Column(name = "season", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Season season;
-
     @Column(name = "thickness", nullable = false)
     @Enumerated(EnumType.STRING)
     private Thickness thickness;
@@ -67,19 +60,17 @@ public class Cloth {
     @OneToMany(mappedBy = "cloth")
     private List<Attach> attaches = new ArrayList<>();
 
-    public static Cloth of(ClosetPostRequestDto closetPostRequestDto, User user, String url){
+    public static Cloth of(ClosetPostRequestDto closetPostRequestDto, User user, UUID clothId){
         return Cloth.builder()
-                .id(UUID.randomUUID())
+                .id(clothId)
                 .user(user)
                 .large(closetPostRequestDto.getLarge())
                 .medium(closetPostRequestDto.getMedium())
                 .small(closetPostRequestDto.getSmall())
                 .fit(closetPostRequestDto.getFit())
                 .gender(closetPostRequestDto.getGender())
-                .season(closetPostRequestDto.getSeason())
                 .style(closetPostRequestDto.getStyle())
                 .thickness(closetPostRequestDto.getThickness())
-                .pictureURL(url)
                 .build();
     }
 }
