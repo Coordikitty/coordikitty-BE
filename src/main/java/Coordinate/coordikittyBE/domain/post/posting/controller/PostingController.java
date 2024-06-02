@@ -65,10 +65,10 @@ public class PostingController {
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> uploadPost(
             @RequestPart PostUploadRequestDto postUploadRequestDto,
-            @RequestPart List<MultipartFile> images,
+            @RequestPart List<MultipartFile> postImgs,
             @AuthenticationPrincipal UserDetails userDetails
     ) throws IOException {
-        postingService.upload(postUploadRequestDto, images, userDetails.getUsername());
+        postingService.upload(postUploadRequestDto, postImgs, userDetails.getUsername());
         return ResponseEntity.ok("게시글 업로드 성공");
     }
 

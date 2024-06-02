@@ -6,6 +6,7 @@ import Coordinate.coordikittyBE.domain.post.entity.Post;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -25,6 +26,7 @@ public class PostlistResponseDto {
     private String uploaderProfileImg;
     private Boolean isLiked;
     private Boolean isBookmarked;
+    private List<String> postImgs;
 
     public static PostlistResponseDto fromEntity(Post post, History history) {
         return PostlistResponseDto.builder()
@@ -32,6 +34,7 @@ public class PostlistResponseDto {
                 .content(post.getContent())
                 .style(post.getStyle())
                 .postLike(post.getLikeCount())
+                .postImgs(post.getPostImgs())
                 .uploadDate(post.getCreatedAt())
                 .uploaderEmail(post.getUser().getEmail())
                 .uploaderNickname(post.getUser().getNickname())

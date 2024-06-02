@@ -46,7 +46,7 @@ public class Post {
     @LastModifiedDate
     private LocalDateTime modifiedAt;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<String> postImgs = new ArrayList<>();
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)

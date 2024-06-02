@@ -12,6 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Builder
@@ -23,6 +24,7 @@ public class PostResponseDto {
     private String content;
     private Style style;
     private int postLike;
+    private List<String> postImgs;
     private LocalDateTime uploadDate;
     private String uploaderEmail;
     private String uploaderNickname;
@@ -36,6 +38,7 @@ public class PostResponseDto {
                 .content(post.getContent())
                 .style(post.getStyle())
                 .postLike(post.getLikeCount())
+                .postImgs(post.getPostImgs())
                 .uploadDate(post.getCreatedAt())
                 .uploaderEmail(post.getUser().getEmail())
                 .uploaderNickname(post.getUser().getNickname())
