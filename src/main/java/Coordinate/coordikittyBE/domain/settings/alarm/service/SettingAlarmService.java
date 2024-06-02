@@ -19,6 +19,7 @@ public class SettingAlarmService {
         // user id 로 현재 유저의 알람 설정 상태 반환
         User user = userRepository.findById(email)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid email: " + email));
+
         SettingAlarmResponseDto settingAlarmResponseDTO = new SettingAlarmResponseDto();
 
         if (user.getAlarm_feed() != null)
