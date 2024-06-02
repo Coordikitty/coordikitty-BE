@@ -53,7 +53,7 @@ public class PostingController {
     }
 
     @GetMapping(value = "/{postId}")
-    public ResponseEntity<PostResponseDto> getPostListByPostId(
+    public ResponseEntity<PostResponseDto> getPostByPostId(
             @PathVariable("postId") UUID postId
     ){
         return ResponseEntity.ok(postingService.findById(postId));

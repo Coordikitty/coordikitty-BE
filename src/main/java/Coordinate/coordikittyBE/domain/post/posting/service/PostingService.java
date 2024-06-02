@@ -33,7 +33,6 @@ import java.util.stream.Collectors;
 public class PostingService {
     private final PostRepository postRepository;
     private final PostConverter postConverter;
-    private final PostListBuilder postListBuilder;
     private final ClothRepository clothRepository;
     private final AttachRepository attachRepository;
     private final BookmarkRepository bookmarkRepository;
@@ -45,16 +44,14 @@ public class PostingService {
         List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
         List<PostlistResponseDto> postResponses = new ArrayList<>(posts.stream()
                 .map(post -> {
-                    User user = userRepository.findById(post.getUser().getEmail()).orElseThrow();
-                    History history = historyRepository.findByUserEmailAndPostId(user.getEmail(), post.getId()).orElseThrow();
+                    History history = historyRepository.findByUserEmailAndPostId(post.getUser().getEmail(), post.getId()).orElseThrow();
                     return PostlistResponseDto.fromEntity(post, history);
                 }).toList());
 
         posts = postRepository.findAllByOrderByLikeCountDesc();
         postResponses.addAll(posts.stream()
                 .map(post -> {
-                    User user = userRepository.findById(post.getUser().getEmail()).orElseThrow();
-                    History history = historyRepository.findByUserEmailAndPostId(user.getEmail(), post.getId()).orElseThrow();
+                    History history = historyRepository.findByUserEmailAndPostId(post.getUser().getEmail(), post.getId()).orElseThrow();
                     return PostlistResponseDto.fromEntity(post, history);
                 }).toList());
 
@@ -65,21 +62,16 @@ public class PostingService {
         List<Post> postEntities = postRepository.findAllByOrderByCreatedAtDesc();
         return postEntities.stream()
                 .map(post-> {
-                        User user = userRepository.findById(post.getUser().getEmail()).orElseThrow();
-                        History history = historyRepository.findByUserEmailAndPostId(user.getEmail(), post.getId()).orElseThrow();
+                        History history = historyRepository.findByUserEmailAndPostId(post.getUser().getEmail(), post.getId()).orElseThrow();
                         return PostlistResponseDto.fromEntity(post, history);
                 })
                 .collect(Collectors.toList());
     }
 
     public PostResponseDto findById(UUID postId) {
-        Optional<Post> post = postRepository.findById(postId);
-        if (post.isPresent()) {
-            return postConverter.toDto(post.get());
-        }
-        else{
-            throw new RuntimeException("게시글 없음");
-        }
+        Post post = postRepository.findById(postId).orElseThrow(()-> new IllegalArgumentException("게시글 없음."));
+        History history = historyRepository.findByUserEmailAndPostId(post.getUser().getEmail(), post.getId()).orElseThrow();
+        return PostResponseDto.fromEntity(post, history);
     }
 
     public void delete(PostDeleteRequestDto postDeleteRequestDto) {

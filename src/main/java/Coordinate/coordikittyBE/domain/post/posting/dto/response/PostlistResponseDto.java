@@ -29,6 +29,7 @@ public class PostlistResponseDto {
     public static PostlistResponseDto fromEntity(Post post, History history) {
         return PostlistResponseDto.builder()
                 .postId(post.getId())
+                .content(post.getContent())
                 .style(post.getStyle())
                 .postLike(post.getLikeCount())
                 .uploadDate(post.getCreatedAt())
