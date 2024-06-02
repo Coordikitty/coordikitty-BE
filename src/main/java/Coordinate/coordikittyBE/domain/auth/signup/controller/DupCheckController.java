@@ -15,7 +15,7 @@ public class DupCheckController {
     private final DupCheckService dupCheckService;
 
     @PostMapping("/dupCheck")
-    public ResponseEntity<String> DupCheck(@RequestParam(required = false) final String email, @RequestParam final String nickname) {
+    public ResponseEntity<String> DupCheck(@RequestParam(required = false) final String email, @RequestParam(required = false) final String nickname) {
         try {
             if(email != null && nickname == null) {
                 return ResponseEntity.ok(dupCheckService.emailDupCheck(email));

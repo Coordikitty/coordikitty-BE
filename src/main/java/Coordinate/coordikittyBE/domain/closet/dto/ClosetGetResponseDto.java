@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
@@ -26,7 +27,7 @@ public class ClosetGetResponseDto {
     private Style style;
     private Thickness thickness;
 
-    private String clothURL;
+    private MultipartFile clothImg;
 
     public static ClosetGetResponseDto fromCloset(Cloth cloth) {
         return ClosetGetResponseDto.builder()

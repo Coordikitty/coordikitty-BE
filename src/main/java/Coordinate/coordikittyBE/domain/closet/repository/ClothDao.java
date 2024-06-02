@@ -16,7 +16,7 @@ import java.util.UUID;
 @Repository
 @RequiredArgsConstructor
 public class ClothDao {
-    public void storeImgToFirebase(MultipartFile image, String email, UUID clothId) throws IOException {
+    public void upload(MultipartFile image, String email, UUID clothId) throws IOException {
         Firestore db = FirestoreClient.getFirestore();
         DocumentReference docRef = db.collection(email).document(clothId.toString());
         Map<String, Object> data = new HashMap<>();

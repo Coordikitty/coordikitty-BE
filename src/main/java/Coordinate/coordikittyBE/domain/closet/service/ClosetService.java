@@ -36,10 +36,8 @@ public class ClosetService {
 
     public List<ClosetGetResponseDto> getAllClothes(String email) {
         // email 과 일치하는 cloth 반환
-        User user = userRepository.findById(email)
-                .orElseThrow(() -> new RuntimeException("옷 조회 실패"));
 
-        List<Cloth> clothes = clothRepository.findAllByUserEmail(user.getEmail());
+        List<Cloth> clothes = clothRepository.findAllByUserEmail(email);
 
         return clothes.stream()
                 .map(ClosetGetResponseDto::fromCloset)
@@ -47,18 +45,13 @@ public class ClosetService {
     }
 
     @Transactional
-    public ResponseEntity<?> postCloth(String email, ClosetPostRequestDto closetPostRequestDto, MultipartFile clothImg) {
-            User user = userRepository.findById(email)
-                    .orElseThrow(() -> new RuntimeException("옷 추가 실패: 없는 유저 email"));
-        try{
-            UUID clothId = UUID.randomUUID();
-            clothDao.storeImgToFirebase(clothImg, email, clothId);
-            clothRepository.save(Cloth.of(closetPostRequestDto, user, clothId));
-
-            return ResponseEntity.ok().build();
-        } catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public String postCloth(String email, ClosetPostRequestDto closetPostRequestDto, MultipartFile clothImg) throws IOException {
+        User user = userRepository.findById(email)
+                .orElseThrow(() -> new RuntimeException("옷 추가 실패: 없는 유저 email"));
+        UUID clothId = UUID.randomUUID();
+        clothDao.upload(clothImg, email, clothId);
+        clothRepository.save(Cloth.of(closetPostRequestDto, user, clothId));
+        return "업로드 성공";
     }
 
     public ClosetCategorizationResponseDto clothCategorization(MultipartFile clothImg) throws IOException {

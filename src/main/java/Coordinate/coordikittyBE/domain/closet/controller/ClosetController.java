@@ -26,26 +26,19 @@ public class ClosetController {
     private final ClosetService closetService;
 
     @GetMapping(value = "")
-    public ResponseEntity<List<ClosetGetResponseDto>> getAllClothes(
-            @RequestParam(value = "email") String email
+    public ResponseEntity<?> getAllClothes(
+            @AuthenticationPrincipal UserDetails userDetails
     ) {
-        // token authentication
-        // Cloth Entity : query string email 과 user id가 일치하는 tuple 반환
-        // 찾은 tuple 리스트로 만들어서 반환
-
-        List<ClosetGetResponseDto> closetGetResponseDtos = closetService.getAllClothes(email);
-        return ResponseEntity.ok(closetGetResponseDtos);
+        //List<ClosetGetResponseDto> closetGetResponseDtos = closetService.getAllClothes(email);
+        return ResponseEntity.ok("hi");
     }
 
-    @PostMapping(value = "")
+    @PostMapping(value = "",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> postCloth(
             @RequestPart("closetPostRequestDto") ClosetPostRequestDto closetPostRequestDto,
             @RequestPart("clothImg") MultipartFile clothImg,
             @AuthenticationPrincipal UserDetails userDetails
     ) {
-        // token authentication
-        // User Entity : user id 반환
-        // Cloth Entity 에 옷 정보 추가, Firebase 에 옷 사진 업로드
         try {
             return ResponseEntity.ok(closetService.postCloth(userDetails.getUsername(), closetPostRequestDto, clothImg));
         }catch (Exception e){
