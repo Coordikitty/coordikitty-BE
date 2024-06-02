@@ -41,24 +41,24 @@ public class PostingService {
     private final UserRepository userRepository;
 
     public List<PostlistResponseDto> getPostsLoggedIn(UserDetails userDetails) {
-        // 페이지 번호에 맞는 게시글 반환
-        // 반환 게시글 리스트 = 최신 + 인기 + 추천
 
-        List<PostlistResponseDto> posts = new ArrayList<>();
-        List<Post> postEntities = postRepository.findAll();
-        String email = userDetails.getUsername();
+        List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
+        List<PostlistResponseDto> postResponses = new ArrayList<>(posts.stream()
+                .map(post -> {
+                    User user = userRepository.findById(post.getUser().getEmail()).orElseThrow();
+                    History history = historyRepository.findByUserEmailAndPostId(user.getEmail(), post.getId()).orElseThrow();
+                    return PostlistResponseDto.fromEntity(post, history);
+                }).toList());
 
-        // 최신
-        Comparator<Post> comparatorNew = Comparator.comparing(Post::getCreatedAt).reversed();
-        postListBuilder.listBuilder(comparatorNew, posts, postEntities, email);
+        posts = postRepository.findAllByOrderByLikeCountDesc();
+        postResponses.addAll(posts.stream()
+                .map(post -> {
+                    User user = userRepository.findById(post.getUser().getEmail()).orElseThrow();
+                    History history = historyRepository.findByUserEmailAndPostId(user.getEmail(), post.getId()).orElseThrow();
+                    return PostlistResponseDto.fromEntity(post, history);
+                }).toList());
 
-        // 인기
-        Comparator<Post> comparatorPopular = Comparator.comparing(Post::getLikeCount).reversed();
-        postListBuilder.listBuilder(comparatorPopular, posts, postEntities, email);
-
-        // 추천
-
-        return posts;
+        return postResponses;
     }
 
     public List<PostlistResponseDto> getPostsUnLoggedIn() {
