@@ -1,8 +1,6 @@
 package Coordinate.coordikittyBE.domain.auth.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.UUID;
@@ -17,7 +15,7 @@ public class Tags  {
     @Id
     private UUID id;
 
-    @Column(name = "foraml")
+    @Column(name = "formal")
     private int formal;
 
     @Column(name = "minimalistic")

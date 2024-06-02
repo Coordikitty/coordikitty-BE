@@ -84,6 +84,10 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Post> posts = new ArrayList<>();
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "tags_id")
+    private Tags tags;
+
     public User update(String nickname){
         this.nickname = nickname;
         return this;
