@@ -83,6 +83,7 @@ public class SecurityConfig {
                                 "/auth/login",
                                 "/auth/token",
                                 "/auth/login/google",
+                                "/oauth2/authorization/google",
                                 "/post/unLogged",
                                 "/post/get/**"
                         ).permitAll()
