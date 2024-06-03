@@ -5,7 +5,6 @@ import Coordinate.coordikittyBE.config.oauth.OAuth2SuccessHandler;
 import Coordinate.coordikittyBE.config.oauth.OAuth2UserCustomService;
 import Coordinate.coordikittyBE.domain.auth.login.middleware.JwtAuthenticationFilter;
 import Coordinate.coordikittyBE.domain.auth.login.middleware.JwtTokenProvider;
-import Coordinate.coordikittyBE.domain.auth.login.service.UserDetailService;
 import Coordinate.coordikittyBE.domain.auth.login.service.UserService;
 import Coordinate.coordikittyBE.domain.auth.repository.RefreshTokenRepository;
 import Coordinate.coordikittyBE.domain.auth.signup.service.SignUpService;
@@ -28,7 +27,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Configuration
@@ -109,9 +107,9 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(BCryptPasswordEncoder bCryptPasswordEncoder, UserDetailService userDetailService) throws Exception {
+    public AuthenticationManager authenticationManager(BCryptPasswordEncoder bCryptPasswordEncoder, UserService userService) throws Exception {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailService);
+        authProvider.setUserDetailsService(userService);
         authProvider.setPasswordEncoder(bCryptPasswordEncoder);
         return new ProviderManager(authProvider);
     }
