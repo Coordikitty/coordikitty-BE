@@ -61,13 +61,14 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/swagger-ui/**",
-                        "/v3/api-docs/**",
-                        "/auth/signUp",
-                        "/auth/signUp/dupCheck",
-                        "/auth/login",
-                        "/auth/token",
-                        "/auth/login/google",
-                        "/post/unLogged"
+                                "/v3/api-docs/**",
+                                "/auth/signUp",
+                                "/auth/signUp/dupCheck",
+                                "/auth/login",
+                                "/auth/token",
+                                "/auth/login/google",
+                                "/post/unLogged",
+                                "/post/get/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

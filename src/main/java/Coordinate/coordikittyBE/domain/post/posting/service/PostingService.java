@@ -45,20 +45,12 @@ public class PostingService {
     public List<PostlistResponseDto> getPostsLoggedIn(UserDetails userDetails) {
 
         List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
-        List<PostlistResponseDto> postResponses = new ArrayList<>(posts.stream()
+
+        return new ArrayList<>(posts.stream()
                 .map(post -> {
                     History history = historyRepository.findByUserEmailAndPostId(post.getUser().getEmail(), post.getId()).orElseThrow();
                     return PostlistResponseDto.fromEntity(post, history);
                 }).toList());
-
-        posts = postRepository.findAllByOrderByLikeCountDesc();
-        postResponses.addAll(posts.stream()
-                .map(post -> {
-                    History history = historyRepository.findByUserEmailAndPostId(post.getUser().getEmail(), post.getId()).orElseThrow();
-                    return PostlistResponseDto.fromEntity(post, history);
-                }).toList());
-
-        return postResponses;
     }
 
     public List<PostlistResponseDto> getPostsUnLoggedIn() {

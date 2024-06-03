@@ -55,7 +55,7 @@ public class PostingController {
         return ResponseEntity.ok("게시글 수정 완료");
     }
 
-    @GetMapping(value = "/{postId}")
+    @GetMapping(value = "/get/{postId}")
     public ResponseEntity<PostResponseDto> getPostByPostId(
             @PathVariable("postId") UUID postId
     ){
