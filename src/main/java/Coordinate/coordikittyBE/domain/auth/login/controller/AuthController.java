@@ -31,7 +31,6 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.signIn(loginRequestDto));
     }
 
-    @CrossOrigin(originPatterns = "*", allowCredentials = "true")
     @GetMapping("/login/google")
     public ResponseEntity<?> googleLogin(){
         HttpHeaders headers = new HttpHeaders();
