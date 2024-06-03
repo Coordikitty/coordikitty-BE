@@ -86,9 +86,8 @@ public class ClosetService {
 
     @Transactional
     public void deleteCloth(UUID clothId, String email) {
-        clothDao.delete(clothId, email);
-        Cloth cloth = clothRepository.findById(clothId).orElse(null);
         clothRepository.deleteById(clothId);
         clothRepository.flush();
+        clothDao.delete(clothId, email);
     }
 }

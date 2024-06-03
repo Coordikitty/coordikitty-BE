@@ -59,11 +59,11 @@ public class Cloth {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "cloth")
+    @OneToMany(mappedBy = "cloth", cascade = CascadeType.REMOVE)
     private List<Attach> attaches = new ArrayList<>();
 
     public static Cloth of(ClosetPostRequestDto closetPostRequestDto, User user){
-        Cloth cloth = Cloth.builder()
+        return Cloth.builder()
                 .id(UUID.randomUUID())
                 .user(user)
                 .large(closetPostRequestDto.getLarge())
@@ -74,7 +74,6 @@ public class Cloth {
                 .style(closetPostRequestDto.getStyle())
                 .thickness(closetPostRequestDto.getThickness())
                 .build();
-        return cloth;
     }
 
     public void addImageUrl(String imageUrl) {

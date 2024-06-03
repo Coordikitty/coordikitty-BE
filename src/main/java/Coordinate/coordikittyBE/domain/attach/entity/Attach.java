@@ -20,11 +20,11 @@ public class Attach {
     @Column(name = "id", nullable = false)
     private UUID id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "post_id")
     private Post post;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cloth_id")
     private Cloth cloth;
 

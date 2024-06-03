@@ -78,8 +78,8 @@ public class PostingService {
     }
 
     public void delete(UUID postId)throws IllegalArgumentException {
-        postDao.delete(postId);
         postRepository.deleteById(postId);
+        postDao.delete(postId);
     }
 
     @Transactional
