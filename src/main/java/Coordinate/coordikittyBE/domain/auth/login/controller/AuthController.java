@@ -37,8 +37,5 @@ public class AuthController {
         headers.setLocation(URI.create("/oauth2/authorization/google"));
         return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
     }
-    @GetMapping("/test")
-    public String test(){
-        return "hi";
-    }
+
 }
