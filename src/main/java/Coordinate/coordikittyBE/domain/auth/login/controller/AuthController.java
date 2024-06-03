@@ -31,10 +31,11 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.signIn(loginRequestDto));
     }
 
+    @CrossOrigin(originPatterns = "*", allowCredentials = "true")
     @GetMapping("/login/google")
     public ResponseEntity<?> googleLogin(){
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create("/oauth2/authorization/google"));
+            headers.setLocation(URI.create("/oauth2/authorization/google"));
         return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
     }
 
