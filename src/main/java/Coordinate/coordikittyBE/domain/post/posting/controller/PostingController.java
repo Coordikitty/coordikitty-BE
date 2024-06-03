@@ -37,7 +37,6 @@ public class PostingController {
 
     @GetMapping(value = "/unLogged")
     public ResponseEntity<?> getPostsUnLoggedIn(
-            //@RequestParam(value = "page") int page,
     ){
         try {
             return ResponseEntity.ok(postingService.getPostsUnLoggedIn());
