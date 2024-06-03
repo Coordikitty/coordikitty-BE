@@ -2,7 +2,6 @@ package Coordinate.coordikittyBE.domain.auth.login.controller;
 
 import Coordinate.coordikittyBE.domain.auth.login.dto.JwtTokenRequestDto;
 import Coordinate.coordikittyBE.domain.auth.login.dto.LoginResponseDto;
-import Coordinate.coordikittyBE.domain.auth.login.dto.TokenDto;
 import Coordinate.coordikittyBE.domain.auth.login.dto.LoginRequestDto;
 import Coordinate.coordikittyBE.domain.auth.login.service.TokenService;
 import Coordinate.coordikittyBE.domain.auth.login.service.UserService;
@@ -17,7 +16,7 @@ import java.net.URI;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/auth")
-public class JwtLoginController {
+public class AuthController {
     private final TokenService tokenService;
     private final UserService userService;
 
