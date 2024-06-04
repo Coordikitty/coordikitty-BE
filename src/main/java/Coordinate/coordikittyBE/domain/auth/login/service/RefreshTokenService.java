@@ -24,7 +24,7 @@ public class RefreshTokenService {
     public void saveRefreshToken(String email, String newRefreshToken) {
         RefreshToken refreshToken = refreshTokenRepository.findByUserId(email)
                 .map(entity->entity.update(newRefreshToken))
-                .orElse(new RefreshToken(email, newRefreshToken));
+                .orElse(RefreshToken.of(email, newRefreshToken));
         refreshTokenRepository.save(refreshToken);
     }
 }
