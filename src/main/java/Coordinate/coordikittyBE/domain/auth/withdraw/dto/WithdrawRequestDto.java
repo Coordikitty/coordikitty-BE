@@ -7,6 +7,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class WithdrawRequestDTO {
-    private String password;
+public class WithdrawRequestDto {
+    private String email;
 }

@@ -1,6 +1,7 @@
 package Coordinate.coordikittyBE.domain.auth.withdraw.controller;
 
 
+import Coordinate.coordikittyBE.domain.auth.withdraw.dto.WithdrawRequestDto;
 import Coordinate.coordikittyBE.domain.auth.withdraw.service.WithdrawService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +19,11 @@ public class WithdrawController {
     private final WithdrawService withdrawService;
 
     @PostMapping("/withdraw")
-    public ResponseEntity<String> withdraw(@RequestBody String email){
+    public ResponseEntity<String> withdraw(@RequestBody WithdrawRequestDto withdrawRequestDto){
         try {
-            return ResponseEntity.ok(withdrawService.withdraw(email));
+            return ResponseEntity.ok(withdrawService.withdraw(withdrawRequestDto.getEmail()));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("삭제 오류");
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 }
