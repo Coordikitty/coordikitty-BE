@@ -1,11 +1,10 @@
 package Coordinate.coordikittyBE.config.oauth;
 
-import Coordinate.coordikittyBE.domain.auth.entity.RefreshToken;
 import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.auth.login.dto.TokenDto;
-import Coordinate.coordikittyBE.domain.auth.login.middleware.JwtTokenProvider;
+import Coordinate.coordikittyBE.config.jwt.JwtTokenProvider;
+import Coordinate.coordikittyBE.domain.auth.login.service.RefreshTokenService;
 import Coordinate.coordikittyBE.domain.auth.login.service.UserService;
-import Coordinate.coordikittyBE.domain.auth.repository.RefreshTokenRepository;
 import Coordinate.coordikittyBE.domain.auth.signup.dto.SignUpSocialRequestDto;
 import Coordinate.coordikittyBE.domain.auth.signup.service.SignUpService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,7 +23,7 @@ import java.io.IOException;
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler{
 
     private final JwtTokenProvider jwtTokenProvider;
-    private final RefreshTokenRepository refreshTokenRepository;
+    private final RefreshTokenService refreshTokenService;
     private final UserService userService;
     private final SignUpService signUpService;
 
@@ -42,7 +41,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler{
         TokenDto token = jwtTokenProvider.generateToken(user);
         String refreshToken = token.refreshToken();
 
-        saveRefreshToken(user.getEmail(), refreshToken);
+        refreshTokenService.saveRefreshToken(user.getEmail(), refreshToken);
 
         String accessToken = token.accessToken();
 
@@ -51,11 +50,6 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler{
         response.getWriter().write("{\"accessToken\": \"" + accessToken+ "\", \"refreshToken\": \"" + refreshToken + "\"}");
     }
 
-    private void saveRefreshToken(String email, String newRefreshToken) {
-        RefreshToken refreshToken = refreshTokenRepository.findByUserId(email)
-                .map(entity->entity.update(newRefreshToken))
-                .orElse(new RefreshToken(email, newRefreshToken));
-        refreshTokenRepository.save(refreshToken);
-    }
+
 
 }

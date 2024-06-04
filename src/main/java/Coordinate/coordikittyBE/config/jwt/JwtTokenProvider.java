@@ -1,4 +1,4 @@
-package Coordinate.coordikittyBE.domain.auth.login.middleware;
+package Coordinate.coordikittyBE.config.jwt;
 import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.auth.login.dto.TokenDto;
 import io.jsonwebtoken.*;
@@ -85,11 +85,6 @@ public class JwtTokenProvider {
         return new UsernamePasswordAuthenticationToken(principal, accessToken, authorities);
     }
 
-
-    public String getUserId(String token){
-        Claims claims = parseClaims(token);
-        return claims.get("email", String.class);
-    }
     // accessToken
     private Claims parseClaims(String accessToken) {
         try {

@@ -3,14 +3,11 @@ package Coordinate.coordikittyBE.config;
 import Coordinate.coordikittyBE.config.oauth.CustomAuthenticationEntryPoint;
 import Coordinate.coordikittyBE.config.oauth.OAuth2SuccessHandler;
 import Coordinate.coordikittyBE.config.oauth.OAuth2UserCustomService;
-import Coordinate.coordikittyBE.domain.auth.login.middleware.JwtAuthenticationFilter;
-import Coordinate.coordikittyBE.domain.auth.login.middleware.JwtTokenProvider;
+import Coordinate.coordikittyBE.config.jwt.JwtAuthenticationFilter;
+import Coordinate.coordikittyBE.config.jwt.JwtTokenProvider;
+import Coordinate.coordikittyBE.domain.auth.login.service.RefreshTokenService;
 import Coordinate.coordikittyBE.domain.auth.login.service.UserService;
-import Coordinate.coordikittyBE.domain.auth.repository.RefreshTokenRepository;
 import Coordinate.coordikittyBE.domain.auth.signup.service.SignUpService;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -19,7 +16,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -30,7 +26,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig {
     private final JwtTokenProvider jwtTokenProvider;
     private final OAuth2UserCustomService oAuth2UserCustomService;
-    private final RefreshTokenRepository refreshTokenRepository;
+    private final RefreshTokenService refreshTokenService;
     private final UserService userService;
     private final SignUpService signUpService;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
@@ -80,7 +76,7 @@ public class SecurityConfig {
     public OAuth2SuccessHandler oAuth2SuccessHandler(){
         return new OAuth2SuccessHandler(
                 jwtTokenProvider,
-                refreshTokenRepository,
+                refreshTokenService,
                 userService,
                 signUpService
         );
@@ -89,19 +85,6 @@ public class SecurityConfig {
     @Bean
     public JwtAuthenticationFilter tokenAuthenticationFilter(){
         return new JwtAuthenticationFilter(jwtTokenProvider);
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(BCryptPasswordEncoder bCryptPasswordEncoder, UserService userService) throws Exception {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userService);
-        authProvider.setPasswordEncoder(bCryptPasswordEncoder);
-        return new ProviderManager(authProvider);
-    }
-
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 
 }

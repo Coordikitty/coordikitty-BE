@@ -4,7 +4,7 @@ import Coordinate.coordikittyBE.domain.auth.entity.RefreshToken;
 import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.auth.login.dto.LoginResponseDto;
 import Coordinate.coordikittyBE.domain.auth.login.dto.TokenDto;
-import Coordinate.coordikittyBE.domain.auth.login.middleware.JwtTokenProvider;
+import Coordinate.coordikittyBE.config.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -5,16 +5,14 @@ import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.auth.login.dto.LoginResponseDto;
 import Coordinate.coordikittyBE.domain.auth.login.dto.TokenDto;
 import Coordinate.coordikittyBE.domain.auth.login.dto.LoginRequestDto;
-import Coordinate.coordikittyBE.domain.auth.login.middleware.JwtTokenProvider;
+import Coordinate.coordikittyBE.config.jwt.JwtTokenProvider;
 import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserService implements UserDetailsService {
+public class UserService{
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final RefreshTokenService refreshTokenService;
@@ -42,9 +40,5 @@ public class UserService implements UserDetailsService {
                 .nickname(user.getNickname())
                 .tokenDto(tokenDto)
                 .build();
-    }
-    @Override
-    public User loadUserByUsername(String email) throws UsernameNotFoundException {
-        return userRepository.findById(email).orElseThrow(() -> new UsernameNotFoundException(email));
     }
 }

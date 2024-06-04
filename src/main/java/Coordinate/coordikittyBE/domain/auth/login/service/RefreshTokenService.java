@@ -20,4 +20,11 @@ public class RefreshTokenService {
     public void save(RefreshToken refreshTokenInfo) {
         refreshTokenRepository.save(refreshTokenInfo);
     }
+
+    public void saveRefreshToken(String email, String newRefreshToken) {
+        RefreshToken refreshToken = refreshTokenRepository.findByUserId(email)
+                .map(entity->entity.update(newRefreshToken))
+                .orElse(new RefreshToken(email, newRefreshToken));
+        refreshTokenRepository.save(refreshToken);
+    }
 }
