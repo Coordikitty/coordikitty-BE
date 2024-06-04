@@ -38,17 +38,17 @@ public class RecommendController {
         // 추천 옷 리스트 반환
 
         switch (type) {
-            case SITUATION -> {
-                if (!EnumUtil.isInEnum(value, Situation.class))
-                    return ResponseEntity.badRequest().body("wrong situation value");
-            }
+//            case SITUATION -> {
+//                if (!EnumUtil.isInEnum(value, Situation.class))
+//                    return ResponseEntity.badRequest().body("wrong situation value");
+//            }
             case STYLE -> {
                 if (!EnumUtil.isInEnum(value, Style.class))
                     return ResponseEntity.badRequest().body("wrong style value");
             }
         }
 
-        CoordinatesDto coordinatesDto = CoordinatesDto.fromCoordinates(lat, lon);
+        CoordinatesDto coordinatesDto = CoordinatesDto.toDto(lat, lon);
         return ResponseEntity.ok(recommendService.getRecommend(userDetails.getUsername(), type, value, coordinatesDto));
     }
 }

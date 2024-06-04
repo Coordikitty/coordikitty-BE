@@ -13,7 +13,7 @@ public class CoordinatesDto {
     private double latitude;     // 위도
     private double longitude;    // 경도
 
-    public static CoordinatesDto fromCoordinates(double latitude, double longitude) {
+    public static CoordinatesDto toDto(double latitude, double longitude) {
         return CoordinatesDto.builder().latitude(latitude).longitude(longitude).build();
     }
 }

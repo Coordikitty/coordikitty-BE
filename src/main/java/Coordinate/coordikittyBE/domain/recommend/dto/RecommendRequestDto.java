@@ -11,10 +11,10 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RecommendRequestDto {
-    private List<Cloth> clothes;
+    private List<String> clothImageUrls;
     private int temperature;
 
-    public static RecommendRequestDto from(List<Cloth> clothes, int temperature) {
-        return RecommendRequestDto.builder().clothes(clothes).temperature(temperature).build();
+    public static RecommendRequestDto of(List<String> clothImageUrls, int temperature) {
+        return RecommendRequestDto.builder().clothImageUrls(clothImageUrls).temperature(temperature).build();
     }
 }

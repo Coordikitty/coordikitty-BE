@@ -79,7 +79,6 @@ public class ClosetService {
 
         RestTemplate restTemplate = new RestTemplate();
         CategorizedResponse response = restTemplate.postForObject(url, request, CategorizedResponse.class);
-
         assert response != null;
         return ClosetCategorizationResponseDto.fromDL(response);
     }

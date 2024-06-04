@@ -5,6 +5,7 @@ import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
 import Coordinate.coordikittyBE.domain.closet.entity.Cloth;
 import Coordinate.coordikittyBE.domain.closet.enums.Style;
 import Coordinate.coordikittyBE.domain.closet.repository.ClothRepository;
+import Coordinate.coordikittyBE.domain.closet.util.CategorizedResponse;
 import Coordinate.coordikittyBE.domain.post.enums.Situation;
 import Coordinate.coordikittyBE.domain.recommend.dto.CoordinatesDto;
 import Coordinate.coordikittyBE.domain.recommend.dto.RecommendGetResponseDto;
@@ -13,10 +14,16 @@ import Coordinate.coordikittyBE.domain.recommend.enums.Type;
 import Coordinate.coordikittyBE.domain.recommend.util.WeatherResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.net.http.HttpResponse;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -29,21 +36,33 @@ public class RecommendService {
     @Value("${openweathermap.key}")
     private String apiKey;
 
-    public List<RecommendGetResponseDto> getRecommend(String email, Type type, String value, CoordinatesDto coordinatesDto) {
-        List<Cloth> clothes = clothRepository.findAllByUserEmail(email);
-        int temperature = getTemperature(coordinatesDto);
+    public List<String> getRecommend(String email, Type type, String value, CoordinatesDto coordinatesDto) {
+        String url = "http://localhost:8000/recommemnd";
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
 
-        RecommendRequestDto recommendRequestDto = RecommendRequestDto.from(clothes, temperature);
-        
+        List<Cloth> clothes = clothRepository.findAllByUserEmailAndStyle(email, Style.valueOf(value));
+        List<String> clothImages = clothes.stream().map(Cloth::getImageUrl).collect(Collectors.toList());
+        int temperature = getTemperature(coordinatesDto);
+        RecommendRequestDto recommendRequestDto = RecommendRequestDto.of(clothImages, temperature);
+
         // type 에 따라 ML 서버랑 통신
         switch (type) {
-            case SITUATION -> {}
-            case STYLE -> {}
+            //case SITUATION -> {}
+            case STYLE -> {
+                MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+                body.add("clothImageUrls", recommendRequestDto);
+                HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(body, headers);
+                ResponseEntity<RecommendGetResponseDto> response = new RestTemplate().exchange(
+                        url,
+                        HttpMethod.GET,
+                        request,
+                        RecommendGetResponseDto.class
+                );
+                return Objects.requireNonNull(response.getBody()).getImageUrls();
+            }
+            default -> throw new IllegalStateException("Unexpected value: " + type);
         }
-
-        return clothes.stream()
-                .map(RecommendGetResponseDto::fromCloth)
-                .collect(Collectors.toList());
     }
 
     public int getTemperature(CoordinatesDto coordinatesDto) {
