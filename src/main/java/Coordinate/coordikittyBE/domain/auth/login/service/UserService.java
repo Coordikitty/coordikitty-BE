@@ -27,18 +27,10 @@ public class UserService{
         if(refreshTokenInfo == null){
             refreshTokenInfo = RefreshToken.of(user.getEmail(), tokenDto.refreshToken());
             refreshTokenService.save(refreshTokenInfo);
-            return LoginResponseDto.builder()
-                    .email(user.getEmail())
-                    .nickname(user.getNickname())
-                    .tokenDto(tokenDto)
-                    .build();
+            return LoginResponseDto.of(user.getEmail(), user.getNickname(), tokenDto);
         }
         refreshTokenInfo.update(tokenDto.refreshToken());
         refreshTokenService.save(refreshTokenInfo);
-        return LoginResponseDto.builder()
-                .email(user.getEmail())
-                .nickname(user.getNickname())
-                .tokenDto(tokenDto)
-                .build();
+        return LoginResponseDto.of(user.getEmail(), user.getNickname(), tokenDto);
     }
 }

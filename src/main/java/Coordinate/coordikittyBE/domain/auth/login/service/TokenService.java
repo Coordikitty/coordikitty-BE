@@ -25,10 +25,6 @@ public class TokenService {
         refreshInfo.update(token.refreshToken());
         refreshTokenService.save(refreshInfo);
 
-        return LoginResponseDto.builder()
-                .email(user.getEmail())
-                .nickname(user.getNickname())
-                .tokenDto(token)
-                .build();
+        return LoginResponseDto.of(user.getEmail(), user.getNickname(), token);
     }
 }
