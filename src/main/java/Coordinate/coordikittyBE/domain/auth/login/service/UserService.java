@@ -6,6 +6,7 @@ import Coordinate.coordikittyBE.domain.auth.login.dto.LoginResponseDto;
 import Coordinate.coordikittyBE.domain.auth.login.dto.TokenDto;
 import Coordinate.coordikittyBE.domain.auth.login.dto.LoginRequestDto;
 import Coordinate.coordikittyBE.config.jwt.JwtTokenProvider;
+import Coordinate.coordikittyBE.domain.auth.login.util.PasswordUtil;
 import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,15 +23,19 @@ public class UserService{
 
     public LoginResponseDto signIn(LoginRequestDto loginRequestDto) {
         User user = userRepository.findById(loginRequestDto.getEmail()).orElseThrow(()-> new IllegalArgumentException("유저 없음. 회원가입 요망."));
-        TokenDto tokenDto = jwtTokenProvider.generateToken(user);
-        RefreshToken refreshTokenInfo = refreshTokenService.findByUserId(user.getEmail());
-        if(refreshTokenInfo == null){
-            refreshTokenInfo = RefreshToken.of(user.getEmail(), tokenDto.refreshToken());
+        if(PasswordUtil.comparePassWord(loginRequestDto.getPassword(), user.getPassword())) {
+            TokenDto tokenDto = jwtTokenProvider.generateToken(user);
+            RefreshToken refreshTokenInfo = refreshTokenService.findByUserId(user.getEmail());
+
+            if (refreshTokenInfo == null) {
+                refreshTokenInfo = RefreshToken.of(user.getEmail(), tokenDto.refreshToken());
+                refreshTokenService.save(refreshTokenInfo);
+                return LoginResponseDto.of(user.getEmail(), user.getNickname(), tokenDto);
+            }
+            refreshTokenInfo.update(tokenDto.refreshToken());
             refreshTokenService.save(refreshTokenInfo);
             return LoginResponseDto.of(user.getEmail(), user.getNickname(), tokenDto);
         }
-        refreshTokenInfo.update(tokenDto.refreshToken());
-        refreshTokenService.save(refreshTokenInfo);
-        return LoginResponseDto.of(user.getEmail(), user.getNickname(), tokenDto);
+        throw new IllegalArgumentException("비밀번호 불일치");
     }
 }

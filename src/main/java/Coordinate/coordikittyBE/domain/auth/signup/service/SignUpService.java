@@ -1,6 +1,7 @@
 package Coordinate.coordikittyBE.domain.auth.signup.service;
 
 import Coordinate.coordikittyBE.domain.auth.entity.User;
+import Coordinate.coordikittyBE.domain.auth.login.util.PasswordUtil;
 import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
 import Coordinate.coordikittyBE.domain.auth.signup.dto.SignUpRequestDto;
 import Coordinate.coordikittyBE.domain.auth.signup.dto.SignUpSocialRequestDto;
@@ -17,7 +18,7 @@ public class SignUpService {
     public void signUp(SignUpRequestDto signUpRequestDto) {
         User user = User.builder()
                 .email(signUpRequestDto.getEmail())
-                .password(signUpRequestDto.getPassword())
+                .password(PasswordUtil.encodePassWord(signUpRequestDto.getPassword()))
                 .name(signUpRequestDto.getName())
                 .nickname(signUpRequestDto.getNickname())
                 .birth(LocalDate.of(signUpRequestDto.getYear(), signUpRequestDto.getMonth(), signUpRequestDto.getDay()))

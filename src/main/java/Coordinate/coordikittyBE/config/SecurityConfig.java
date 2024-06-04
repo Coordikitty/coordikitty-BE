@@ -7,6 +7,7 @@ import Coordinate.coordikittyBE.config.jwt.JwtAuthenticationFilter;
 import Coordinate.coordikittyBE.config.jwt.JwtTokenProvider;
 import Coordinate.coordikittyBE.domain.auth.login.service.RefreshTokenService;
 import Coordinate.coordikittyBE.domain.auth.login.service.UserService;
+import Coordinate.coordikittyBE.domain.auth.repository.RefreshTokenRepository;
 import Coordinate.coordikittyBE.domain.auth.signup.service.SignUpService;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import lombok.RequiredArgsConstructor;
