@@ -15,33 +15,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class PostConverter {
     public PostResponseDto toDto(Post post){
-        return PostResponseDto.builder()
-                .postId(post.getId())
-                .style(post.getStyle())
-                .postLike(post.getLikeCount())
-                .uploadDate(post.getCreatedAt())
-                .uploaderEmail(post.getUser().getEmail())
-                .uploaderNickname(post.getUser().getNickname())
-                .uploaderProfileImg(post.getUser().getProfileUrl())
-                //.postImgs(post.getPostImgs())
-                .isLiked(true)
-                .isBookmarked(true)
-                .build();
-    }
 
-    public Post fromDto(PostUploadRequestDto postUploadRequestDto, User user){
-        return Post.builder()
-                .id(UUID.randomUUID())
-                .likeCount(0)
-                .content(postUploadRequestDto.getContent())
-                .style(postUploadRequestDto.getStyle())
-                .user(user)
-                .postImgs(new ArrayList<>())
-                .bookmarks(new ArrayList<>())
-                .attaches(new ArrayList<>())
-                .historys(new ArrayList<>())
-                .createdAt(LocalDateTime.now())
-                .modifiedAt(LocalDateTime.now())
-                .build();
     }
 }

@@ -34,10 +34,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PostingService {
     private final PostRepository postRepository;
-    private final PostConverter postConverter;
     private final ClothRepository clothRepository;
     private final AttachRepository attachRepository;
-    private final BookmarkRepository bookmarkRepository;
     private final HistoryRepository historyRepository;
     private final UserRepository userRepository;
     private final PostDao postDao;
@@ -75,25 +73,21 @@ public class PostingService {
     }
 
     @Transactional
-    public void upload(PostUploadRequestDto postUploadRequestDto, List<MultipartFile> images, String email) throws IOException {
+    public PostResponseDto upload(PostUploadRequestDto postUploadRequestDto, List<MultipartFile> images, String email) throws IOException {
         User user = userRepository.findById(email).orElse(null);
-        Post post = postConverter.fromDto(postUploadRequestDto, user);
+        Post post = PostUploadRequestDto.toEntity(postUploadRequestDto, user);
         for (MultipartFile image : images) {
             String imageUrl = postDao.upload(image, post.getId());
             post.addImageUrl(imageUrl);
         }
         postRepository.save(post);
 
-        Bookmark bookmark = Bookmark.of(user, post);
-        post.getBookmarks().add(bookmark);
-        bookmarkRepository.save(bookmark);
-
-        History history = History.of(user, post);
+                History history = History.of(user, post);
         historyRepository.save(history);
         post.getHistorys().add(history);
         post.getAttaches().addAll(createAttaches(postUploadRequestDto.getClothIds(), post));
         postRepository.save(post);
-
+        return PostResponseDto.fromEntity(post, history);
     }
 
     @Transactional

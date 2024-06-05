@@ -67,8 +67,7 @@ public class PostingController {
             @RequestPart List<MultipartFile> postImgs,
             @AuthenticationPrincipal UserDetails userDetails
     ) throws IOException {
-        postingService.upload(postUploadRequestDto, postImgs, userDetails.getUsername());
-        return ResponseEntity.ok("게시글 업로드 성공");
+        return ResponseEntity.ok(postingService.upload(postUploadRequestDto, postImgs, userDetails.getUsername()););
     }
 
     @DeleteMapping("/delete")
