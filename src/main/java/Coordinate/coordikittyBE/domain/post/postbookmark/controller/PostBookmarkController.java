@@ -2,7 +2,10 @@ package Coordinate.coordikittyBE.domain.post.postbookmark.controller;
 
 import Coordinate.coordikittyBE.domain.post.postbookmark.service.PostBookmarkService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -14,10 +17,11 @@ public class PostBookmarkController {
     private final PostBookmarkService postBookmarkService;
     @PostMapping("/bookmark")
     public ResponseEntity<String> addBookmark(
-            @RequestBody UUID postId
+            @RequestBody UUID postId,
+            @AuthenticationPrincipal UserDetails userDetails
     ){
         try{
-            return postBookmarkService.addBookmark(postId);
+            return ResponseEntity.status(HttpStatus.CREATED).body(postBookmarkService.addBookmark(postId, userDetails.getUsername()));
         } catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -27,7 +31,7 @@ public class PostBookmarkController {
             @RequestBody UUID postId
     ){
         try{
-            return postBookmarkService.deleteBookmark(postId);
+            return ResponseEntity.ok(postBookmarkService.deleteBookmark(postId));
         } catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }

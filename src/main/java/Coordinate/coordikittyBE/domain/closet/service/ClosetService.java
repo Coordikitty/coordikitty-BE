@@ -34,8 +34,6 @@ public class ClosetService {
     private final ClothDao clothDao;
 
     public List<ClosetGetResponseDto> getAllClothes(String email) {
-        // email 과 일치하는 cloth 반환
-
         List<Cloth> clothes = clothRepository.findAllByUserEmail(email);
 
         return clothes.stream()
@@ -48,6 +46,7 @@ public class ClosetService {
         User user = userRepository.findById(email)
                 .orElseThrow(() -> new RuntimeException("옷 추가 실패: 없는 유저 email"));
         Cloth cloth = Cloth.of(closetPostRequestDto, user);
+
         String imageUrl = clothDao.upload(clothImg, cloth.getId());
         cloth.addImageUrl(imageUrl);
         clothRepository.save(cloth);
