@@ -5,13 +5,10 @@ import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
 import Coordinate.coordikittyBE.domain.bookmark.entity.Bookmark;
 import Coordinate.coordikittyBE.domain.bookmark.repository.BookmarkRepository;
 import Coordinate.coordikittyBE.domain.post.entity.Post;
-import Coordinate.coordikittyBE.domain.post.postbookmark.dto.AddBookmarkResponseDto;
 import Coordinate.coordikittyBE.domain.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
