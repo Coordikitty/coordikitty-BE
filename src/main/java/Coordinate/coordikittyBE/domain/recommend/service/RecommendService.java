@@ -22,7 +22,9 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.net.http.HttpResponse;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -37,29 +39,32 @@ public class RecommendService {
     private String apiKey;
 
     public List<String> getRecommend(String email, Type type, String value, CoordinatesDto coordinatesDto) {
-        String url = "http://localhost:8000/recommemnd";
+        String url = "http://localhost:8000/recommend";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-
         List<Cloth> clothes = clothRepository.findAllByUserEmailAndStyle(email, Style.valueOf(value));
+        System.out.println("옷찾음");
         List<String> clothImages = clothes.stream().map(Cloth::getImageUrl).collect(Collectors.toList());
-        int temperature = getTemperature(coordinatesDto);
-        RecommendRequestDto recommendRequestDto = RecommendRequestDto.of(clothImages, temperature);
 
+        System.out.println("옷링크 완료");
+        int temperature = getTemperature(coordinatesDto);
+        System.out.println("온도 완료");
+        RecommendRequestDto recommendRequestDto = RecommendRequestDto.of(clothImages, temperature, value);
+        System.out.println("wrapping 완료");
         // type 에 따라 ML 서버랑 통신
         switch (type) {
             //case SITUATION -> {}
             case STYLE -> {
-                MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-                body.add("clothImageUrls", recommendRequestDto);
-                HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(body, headers);
-                ResponseEntity<RecommendGetResponseDto> response = new RestTemplate().exchange(
+                HttpEntity<RecommendRequestDto> request = new HttpEntity<>(recommendRequestDto, headers);
+                RestTemplate restTemplate = new RestTemplate();
+                RecommendGetResponseDto response = restTemplate.postForObject(
                         url,
-                        HttpMethod.GET,
                         request,
                         RecommendGetResponseDto.class
                 );
-                return Objects.requireNonNull(response.getBody()).getImageUrls();
+                System.out.println("요청 갔음");
+                assert response != null;
+                return response.getImageUrls();
             }
             default -> throw new IllegalStateException("Unexpected value: " + type);
         }
