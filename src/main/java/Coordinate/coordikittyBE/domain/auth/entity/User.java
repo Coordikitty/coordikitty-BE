@@ -1,7 +1,6 @@
 package Coordinate.coordikittyBE.domain.auth.entity;
 
 
-import Coordinate.coordikittyBE.domain.bookmark.entity.Bookmark;
 import Coordinate.coordikittyBE.domain.closet.entity.Cloth;
 import Coordinate.coordikittyBE.domain.follow.enity.Follow;
 import Coordinate.coordikittyBE.domain.history.entity.History;
@@ -68,9 +67,6 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Cloth> clothes = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-    private List<Bookmark> bookmarks = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<History> historys = new ArrayList<>();

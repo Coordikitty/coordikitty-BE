@@ -2,7 +2,6 @@ package Coordinate.coordikittyBE.domain.post.entity;
 
 import Coordinate.coordikittyBE.domain.attach.entity.Attach;
 import Coordinate.coordikittyBE.domain.auth.entity.User;
-import Coordinate.coordikittyBE.domain.bookmark.entity.Bookmark;
 import Coordinate.coordikittyBE.domain.closet.enums.Style;
 import Coordinate.coordikittyBE.domain.history.entity.History;
 import Coordinate.coordikittyBE.domain.post.posting.dto.request.PostUpdateRequestDto;
@@ -49,8 +48,6 @@ public class Post {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> postImgs = new ArrayList<>();
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
-    private List<Bookmark> bookmarks = new ArrayList<>();
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Attach> attaches = new ArrayList<>();

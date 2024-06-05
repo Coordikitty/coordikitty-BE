@@ -5,8 +5,6 @@ import Coordinate.coordikittyBE.domain.attach.entity.Attach;
 import Coordinate.coordikittyBE.domain.attach.repository.AttachRepository;
 import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
-import Coordinate.coordikittyBE.domain.bookmark.entity.Bookmark;
-import Coordinate.coordikittyBE.domain.bookmark.repository.BookmarkRepository;
 import Coordinate.coordikittyBE.domain.closet.entity.Cloth;
 import Coordinate.coordikittyBE.domain.closet.repository.ClothRepository;
 import Coordinate.coordikittyBE.domain.history.entity.History;
@@ -21,7 +19,6 @@ import Coordinate.coordikittyBE.domain.post.repository.PostDao;
 import Coordinate.coordikittyBE.domain.post.repository.PostRepository;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -82,7 +79,7 @@ public class PostingService {
         }
         postRepository.save(post);
 
-                History history = History.of(user, post);
+        History history = History.of(user, post);
         historyRepository.save(history);
         post.getHistorys().add(history);
         post.getAttaches().addAll(createAttaches(postUploadRequestDto.getClothIds(), post));

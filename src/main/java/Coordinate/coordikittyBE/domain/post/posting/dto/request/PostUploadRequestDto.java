@@ -29,7 +29,6 @@ public class PostUploadRequestDto {
                 .style(postUploadRequestDto.getStyle())
                 .user(user)
                 .postImgs(new ArrayList<>())
-                .bookmarks(new ArrayList<>())
                 .attaches(new ArrayList<>())
                 .historys(new ArrayList<>())
                 .createdAt(LocalDateTime.now())
