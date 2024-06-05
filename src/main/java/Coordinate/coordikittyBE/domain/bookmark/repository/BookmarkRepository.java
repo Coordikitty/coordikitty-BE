@@ -9,5 +9,5 @@ import java.util.UUID;
 
 @Repository
 public interface BookmarkRepository extends JpaRepository<Bookmark, UUID> {
-    Optional<Bookmark> findByPostId(UUID postId);
+    Optional<Bookmark> findByPostIdAndUserEmail(UUID postId, String email);
 }

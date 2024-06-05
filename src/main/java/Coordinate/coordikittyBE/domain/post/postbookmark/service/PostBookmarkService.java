@@ -28,8 +28,8 @@ public class PostBookmarkService {
 
     }
 
-    public String deleteBookmark(UUID postId) {
-        Bookmark bookmark = bookmarkRepository.findByPostId(postId).orElseThrow(()-> new IllegalArgumentException("북마크 없음."));
+    public String deleteBookmark(UUID postId, String email) {
+        Bookmark bookmark = bookmarkRepository.findByPostIdAndUserEmail(postId, email).orElseThrow(()-> new IllegalArgumentException("북마크 없음."));
         bookmarkRepository.delete(bookmark);
         return "북마크 제거 성공";
     }

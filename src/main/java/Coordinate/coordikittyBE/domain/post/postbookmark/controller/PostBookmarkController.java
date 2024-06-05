@@ -28,10 +28,11 @@ public class PostBookmarkController {
     }
     @DeleteMapping("/bookmark")
     public ResponseEntity<String> deleteBookmark(
-            @RequestBody UUID postId
+            @RequestBody UUID postId,
+            @AuthenticationPrincipal UserDetails userDetails
     ){
         try{
-            return ResponseEntity.ok(postBookmarkService.deleteBookmark(postId));
+            return ResponseEntity.ok(postBookmarkService.deleteBookmark(postId, userDetails.getUsername()));
         } catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
