@@ -28,7 +28,7 @@ public class PostlistResponseDto {
     private Boolean isBookmarked;
     private List<String> postImgs;
 
-    public static PostlistResponseDto fromEntity(Post post, History history) {
+    public static PostlistResponseDto of(Post post, History history) {
         return PostlistResponseDto.builder()
                 .postId(post.getId())
                 .content(post.getContent())

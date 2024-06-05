@@ -40,14 +40,14 @@ public class PostingService {
     private final UserRepository userRepository;
     private final PostDao postDao;
 
-    public List<PostlistResponseDto> getPostsLoggedIn(UserDetails userDetails) {
+    public List<PostlistResponseDto> getPostsLoggedIn() {
 
         List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
 
         return new ArrayList<>(posts.stream()
                 .map(post -> {
                     History history = historyRepository.findByUserEmailAndPostId(post.getUser().getEmail(), post.getId()).orElseThrow();
-                    return PostlistResponseDto.fromEntity(post, history);
+                    return PostlistResponseDto.of(post, history);
                 }).toList());
     }
 
@@ -56,7 +56,7 @@ public class PostingService {
         return postEntities.stream()
                 .map(post-> {
                         History history = historyRepository.findByUserEmailAndPostId(post.getUser().getEmail(), post.getId()).orElseThrow();
-                        return PostlistResponseDto.fromEntity(post, history);
+                        return PostlistResponseDto.of(post, history);
                 })
                 .collect(Collectors.toList());
     }

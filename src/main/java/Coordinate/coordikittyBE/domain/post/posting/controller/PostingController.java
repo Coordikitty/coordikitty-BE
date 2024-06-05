@@ -26,10 +26,9 @@ public class PostingController {
     @GetMapping(value = "/logged")
     public ResponseEntity<?> getPostsLoggedIn(
             //@RequestParam(value = "page") int page,
-            @AuthenticationPrincipal UserDetails userDetails
             ){
         try {
-            return ResponseEntity.ok(postingService.getPostsLoggedIn(userDetails));
+            return ResponseEntity.ok(postingService.getPostsLoggedIn());
         }catch(Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
