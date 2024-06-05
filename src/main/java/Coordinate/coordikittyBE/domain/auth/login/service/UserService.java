@@ -3,6 +3,7 @@ package Coordinate.coordikittyBE.domain.auth.login.service;
 import Coordinate.coordikittyBE.domain.auth.entity.RefreshToken;
 import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.auth.login.dto.LoginResponseDto;
+import Coordinate.coordikittyBE.domain.auth.login.dto.LogoutRequestDto;
 import Coordinate.coordikittyBE.domain.auth.login.dto.TokenDto;
 import Coordinate.coordikittyBE.domain.auth.login.dto.LoginRequestDto;
 import Coordinate.coordikittyBE.config.jwt.JwtTokenProvider;
@@ -37,5 +38,14 @@ public class UserService{
             return LoginResponseDto.of(user.getEmail(), user.getNickname(), tokenDto);
         }
         throw new IllegalArgumentException("비밀번호 불일치");
+    }
+
+    public void logout(LogoutRequestDto logoutRequestDto) {
+        User user = userRepository.findById(logoutRequestDto.getEmail()).orElseThrow(() -> new IllegalArgumentException("Invalid Email : " + logoutRequestDto.getEmail()));
+        if (refreshTokenService.findByRefreshToken(logoutRequestDto.getRefreshToken()) != null) {
+            // accessToken, refreshToken 삭제
+            return;
+        }
+        throw new IllegalArgumentException("Invalid RefreshToken : " + logoutRequestDto.getRefreshToken());
     }
 }
