@@ -61,12 +61,12 @@ public class PostingController {
     }
 
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> uploadPost(
+    public ResponseEntity<?> uploadPost(
             @RequestPart PostUploadRequestDto postUploadRequestDto,
             @RequestPart List<MultipartFile> postImgs,
             @AuthenticationPrincipal UserDetails userDetails
     ) throws IOException {
-        return ResponseEntity.ok(postingService.upload(postUploadRequestDto, postImgs, userDetails.getUsername()););
+        return ResponseEntity.ok(postingService.upload(postUploadRequestDto, postImgs, userDetails.getUsername()));
     }
 
     @DeleteMapping("/delete")

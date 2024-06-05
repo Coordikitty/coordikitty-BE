@@ -32,7 +32,7 @@ public class PostResponseDto {
     private Boolean isLiked;
     private Boolean isBookmarked;
 
-    public static PostResponseDto fromEntity(Post post, History history) {
+    public static PostResponseDto of(Post post, History history) {
         return PostResponseDto.builder()
                 .postId(post.getId())
                 .content(post.getContent())

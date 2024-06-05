@@ -64,7 +64,7 @@ public class PostingService {
     public PostResponseDto findById(UUID postId) {
         Post post = postRepository.findById(postId).orElseThrow(()-> new IllegalArgumentException("게시글 없음."));
         History history = historyRepository.findByUserEmailAndPostId(post.getUser().getEmail(), post.getId()).orElseThrow();
-        return PostResponseDto.fromEntity(post, history);
+        return PostResponseDto.of(post, history);
     }
 
     public void delete(UUID postId)throws IllegalArgumentException {
@@ -87,7 +87,7 @@ public class PostingService {
         post.getHistorys().add(history);
         post.getAttaches().addAll(createAttaches(postUploadRequestDto.getClothIds(), post));
         postRepository.save(post);
-        return PostResponseDto.fromEntity(post, history);
+        return PostResponseDto.of(post, history);
     }
 
     @Transactional
@@ -98,13 +98,12 @@ public class PostingService {
 
         List<Attach> attaches = createAttaches(postUpdateRequestDto.getClothIds(), post);
         post.update(postUpdateRequestDto, attaches);
-        return PostUpdateResponseDto.to(attaches);
+        return PostUpdateResponseDto.from(attaches);
     }
 
     private List<Attach> createAttaches(List<UUID> clothIds, Post post) {
         List<Attach> attaches = new ArrayList<>();
         for (UUID clothId : clothIds) {
-            System.out.println(clothId);
             Cloth cloth = clothRepository.findById(clothId)
                     .orElseThrow(() -> new IllegalArgumentException("해당 옷 없음."));
             Attach attach = Attach.of(cloth, post);
