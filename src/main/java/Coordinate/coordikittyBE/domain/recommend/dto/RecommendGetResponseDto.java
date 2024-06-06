@@ -12,5 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RecommendGetResponseDto {
-    private List<String> imageUrls;
+    private String topImage;
+    private String bottomImage;
 }

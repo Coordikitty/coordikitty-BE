@@ -14,6 +14,7 @@ import Coordinate.coordikittyBE.domain.recommend.enums.Type;
 import Coordinate.coordikittyBE.domain.recommend.util.WeatherResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -38,15 +39,16 @@ public class RecommendService {
     @Value("${openweathermap.key}")
     private String apiKey;
 
-    public List<String> getRecommend(String email, Type type, String value, CoordinatesDto coordinatesDto) {
+    public List<RecommendGetResponseDto> getRecommend(String email, Type type, String value, CoordinatesDto coordinatesDto) {
         String url = "http://localhost:8000/recommend";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         List<Cloth> clothes = clothRepository.findAllByUserEmailAndStyle(email, Style.valueOf(value));
         System.out.println("옷찾음");
         int temperature = getTemperature(coordinatesDto);
+        System.out.println(temperature);
         List<RecommendRequestDto> clothImages = clothes.stream().map((cloth)->
-                RecommendRequestDto.of(cloth.getImageUrl(), cloth.getLarge(), cloth.getMedium(), cloth.getStyle(), cloth.getThickness(), temperature))
+                RecommendRequestDto.of(cloth.getImageUrl(), cloth.getLarge(), cloth.getMedium(), cloth.getStyle(), cloth.getThickness(), 15))
                 .collect(Collectors.toList());
 
         System.out.println("옷링크 완료");
@@ -59,14 +61,15 @@ public class RecommendService {
             case STYLE -> {
                 HttpEntity<List<RecommendRequestDto>> request = new HttpEntity<>(clothImages, headers);
                 RestTemplate restTemplate = new RestTemplate();
-                RecommendGetResponseDto response = restTemplate.postForObject(
+                List<RecommendGetResponseDto> response = restTemplate.exchange(
                         url,
+                        HttpMethod.POST,
                         request,
-                        RecommendGetResponseDto.class
-                );
+                        new ParameterizedTypeReference<List<RecommendGetResponseDto>>() {}
+                ).getBody();
                 System.out.println("요청 갔음");
                 assert response != null;
-                return response.getImageUrls();
+                return response;
             }
             default -> throw new IllegalStateException("Unexpected value: " + type);
         }
