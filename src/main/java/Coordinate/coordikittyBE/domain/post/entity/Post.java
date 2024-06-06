@@ -67,6 +67,12 @@ public class Post {
         this.attaches = attaches;
     }
 
+    public void like(){
+        this.likeCount++;
+    }
+    public void unlike(){
+        this.likeCount--;
+    }
     public void addImageUrl(String imageUrl) {
         this.postImgs.add(imageUrl);
     }

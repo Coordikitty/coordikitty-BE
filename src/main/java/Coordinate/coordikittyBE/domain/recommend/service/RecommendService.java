@@ -44,18 +44,20 @@ public class RecommendService {
         headers.setContentType(MediaType.APPLICATION_JSON);
         List<Cloth> clothes = clothRepository.findAllByUserEmailAndStyle(email, Style.valueOf(value));
         System.out.println("옷찾음");
-        List<String> clothImages = clothes.stream().map(Cloth::getImageUrl).collect(Collectors.toList());
+        int temperature = getTemperature(coordinatesDto);
+        List<RecommendRequestDto> clothImages = clothes.stream().map((cloth)->
+                RecommendRequestDto.of(cloth.getImageUrl(), cloth.getLarge(), cloth.getMedium(), cloth.getStyle(), cloth.getThickness(), temperature))
+                .collect(Collectors.toList());
 
         System.out.println("옷링크 완료");
-        int temperature = getTemperature(coordinatesDto);
         System.out.println("온도 완료");
-        RecommendRequestDto recommendRequestDto = RecommendRequestDto.of(clothImages, temperature, value);
+
         System.out.println("wrapping 완료");
         // type 에 따라 ML 서버랑 통신
         switch (type) {
             //case SITUATION -> {}
             case STYLE -> {
-                HttpEntity<RecommendRequestDto> request = new HttpEntity<>(recommendRequestDto, headers);
+                HttpEntity<List<RecommendRequestDto>> request = new HttpEntity<>(clothImages, headers);
                 RestTemplate restTemplate = new RestTemplate();
                 RecommendGetResponseDto response = restTemplate.postForObject(
                         url,
