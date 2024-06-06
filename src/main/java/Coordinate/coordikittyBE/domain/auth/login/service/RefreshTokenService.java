@@ -27,4 +27,6 @@ public class RefreshTokenService {
                 .orElse(RefreshToken.of(email, newRefreshToken));
         refreshTokenRepository.save(refreshToken);
     }
+
+    public void removeRefreshToken(String email) {refreshTokenRepository.deleteByUserId(email);}
 }
