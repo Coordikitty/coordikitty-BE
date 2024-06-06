@@ -53,7 +53,7 @@ public class AuthController {
     ){
         try {
             userService.logout(LogoutRequestDto.toDto(userDetails.getUsername(), refreshTokenDto.getRefreshToken()));
-            return ResponseEntity.ok().body("logout");
+            return ResponseEntity.ok().body("logout success");
         } catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }

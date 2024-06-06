@@ -43,7 +43,8 @@ public class UserService{
     public void logout(LogoutRequestDto logoutRequestDto) {
         User user = userRepository.findById(logoutRequestDto.getEmail()).orElseThrow(() -> new IllegalArgumentException("Invalid Email : " + logoutRequestDto.getEmail()));
         if (refreshTokenService.findByRefreshToken(logoutRequestDto.getRefreshToken()) != null) {
-            // accessToken, refreshToken 삭제
+            // refreshToken 삭제
+            refreshTokenService.removeRefreshToken(user.getEmail());
             return;
         }
         throw new IllegalArgumentException("Invalid RefreshToken : " + logoutRequestDto.getRefreshToken());
