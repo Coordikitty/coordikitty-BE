@@ -44,17 +44,10 @@ public class RecommendService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         List<Cloth> clothes = clothRepository.findAllByUserEmailAndStyle(email, Style.valueOf(value));
-        System.out.println("옷찾음");
         int temperature = getTemperature(coordinatesDto);
-        System.out.println(temperature);
         List<RecommendRequestDto> clothImages = clothes.stream().map((cloth)->
-                RecommendRequestDto.of(cloth.getImageUrl(), cloth.getLarge(), cloth.getMedium(), cloth.getStyle(), cloth.getThickness(), 15))
+                RecommendRequestDto.of(cloth.getImageUrl(), cloth.getLarge(), cloth.getMedium(), cloth.getStyle(), cloth.getThickness(), 26))
                 .collect(Collectors.toList());
-
-        System.out.println("옷링크 완료");
-        System.out.println("온도 완료");
-
-        System.out.println("wrapping 완료");
         // type 에 따라 ML 서버랑 통신
         switch (type) {
             //case SITUATION -> {}
@@ -67,7 +60,6 @@ public class RecommendService {
                         request,
                         new ParameterizedTypeReference<List<RecommendGetResponseDto>>() {}
                 ).getBody();
-                System.out.println("요청 갔음");
                 assert response != null;
                 return response;
             }
@@ -86,6 +78,6 @@ public class RecommendService {
         RestTemplate restTemplate = new RestTemplate();
         WeatherResponse temperature = restTemplate.getForObject(url, WeatherResponse.class);
 
-        return temperature != null ? (int) Math.round(temperature.getMain().getTemp()) : 20;
+        return temperature != null ? (int) Math.round(temperature.getMain().getTemp()) : 30;
     }
 }
