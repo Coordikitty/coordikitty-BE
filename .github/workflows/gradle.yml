@@ -24,7 +24,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: List files for debugging
-        run: ls -R /src/main/resources
+        run: ls
 
       - uses: actions/setup-java@v4
         with:
