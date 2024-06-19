@@ -25,7 +25,7 @@ public class AuthController {
 
     @PostMapping("/token")
     public ResponseEntity<LoginResponseDto> createNewAccessToken(@RequestBody JwtTokenRequestDto tokenRequestDto) {
-        LoginResponseDto newAccessToken = tokenService.createNewAccessToken(tokenRequestDto.getRefreshToken());
+        LoginResponseDto newAccessToken = tokenService.createNewAccessToken(tokenRequestDto.refreshToken());
         return ResponseEntity.status(HttpStatus.CREATED).body(newAccessToken);
     }
 
@@ -52,7 +52,7 @@ public class AuthController {
             @AuthenticationPrincipal UserDetails userDetails
     ){
         try {
-            userService.logout(LogoutRequestDto.toDto(userDetails.getUsername(), refreshTokenDto.getRefreshToken()));
+            userService.logout(LogoutRequestDto.toDto(userDetails.getUsername(), refreshTokenDto.refreshToken()));
             return ResponseEntity.ok().body("logout success");
         } catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
