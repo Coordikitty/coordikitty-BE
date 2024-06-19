@@ -27,11 +27,11 @@ public class UserService{
         User user = userRepository.findById(loginRequestDto.email()).orElseThrow(()-> new IllegalArgumentException("유저 없음. 회원가입 요망."));
         if(PasswordUtil.comparePassWord(loginRequestDto.password(), user.getPassword())) {
             TokenDto tokenDto = jwtTokenProvider.generateToken(user);
+
             RefreshToken refreshTokenInfo = refreshTokenRepository.findByUserId(user.getEmail())
-                    .orElseGet(()->{
-                        return RefreshToken.of(user.getEmail(), tokenDto.refreshToken());
-                    });
-            refreshTokenInfo.update(tokenDto.refreshToken());
+                    .map(entity->entity.update(tokenDto.refreshToken()))
+                    .orElse(RefreshToken.of(user.getEmail(), tokenDto.refreshToken()));
+
             refreshTokenRepository.save(refreshTokenInfo);
             return LoginResponseDto.of(user.getEmail(), user.getNickname(), tokenDto);
         }
@@ -39,12 +39,7 @@ public class UserService{
     }
 
     public void logout(LogoutRequestDto logoutRequestDto) {
-        User user = userRepository.findById(logoutRequestDto.getEmail()).orElseThrow(() -> new IllegalArgumentException("Invalid Email : " + logoutRequestDto.getEmail()));
-        if (refreshTokenService.findByRefreshToken(logoutRequestDto.getRefreshToken()) != null) {
-            // refreshToken 삭제
-            refreshTokenService.removeRefreshToken(user.getEmail());
-            return;
-        }
-        throw new IllegalArgumentException("Invalid RefreshToken : " + logoutRequestDto.getRefreshToken());
+        User user = userRepository.findById(logoutRequestDto.email()).orElseThrow(() -> new IllegalArgumentException("Invalid Email : " + logoutRequestDto.email()));
+        refreshTokenRepository.deleteByUserId(user.getEmail());
     }
 }
