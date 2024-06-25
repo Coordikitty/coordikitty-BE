@@ -26,11 +26,11 @@ public class PostlikeService {
         if(history == null) {
             history = History.of(user, post);
             history.setIsLiked(true);
-            historyRepository.save(history);
         }
         else{
             history.setIsLiked(true);
         }
+        historyRepository.save(history);
         post.like();
         postRepository.save(post);
         return "좋아요 성공";
