@@ -46,7 +46,7 @@ public class RecommendService {
         List<Cloth> clothes = clothRepository.findAllByUserEmailAndStyle(email, Style.valueOf(value));
         int temperature = getTemperature(coordinatesDto);
         List<RecommendRequestDto> clothImages = clothes.stream().map((cloth)->
-                RecommendRequestDto.of(cloth.getImageUrl(), cloth.getLarge(), cloth.getMedium(), cloth.getStyle(), cloth.getThickness(), 26))
+                RecommendRequestDto.of(cloth.getImageUrl(), cloth.getLarge(), cloth.getMedium(), cloth.getStyle(), cloth.getThickness(), temperature))
                 .collect(Collectors.toList());
         // type 에 따라 ML 서버랑 통신
         switch (type) {
