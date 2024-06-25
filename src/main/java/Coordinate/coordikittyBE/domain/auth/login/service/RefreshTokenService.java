@@ -10,17 +10,6 @@ import org.springframework.stereotype.Service;
 public class RefreshTokenService {
     private final RefreshTokenRepository refreshTokenRepository;
 
-    public RefreshToken findByRefreshToken(String refreshToken) {
-        return refreshTokenRepository.findByRefreshToken(refreshToken).orElse(null);
-    }
-    public RefreshToken findByUserId(String email) {
-        return refreshTokenRepository.findByUserId(email).orElse(null);
-    }
-
-    public void save(RefreshToken refreshTokenInfo) {
-        refreshTokenRepository.save(refreshTokenInfo);
-    }
-
     public void saveRefreshToken(String email, String newRefreshToken) {
         RefreshToken refreshToken = refreshTokenRepository.findByUserId(email)
                 .map(entity->entity.update(newRefreshToken))
@@ -28,5 +17,4 @@ public class RefreshTokenService {
         refreshTokenRepository.save(refreshToken);
     }
 
-    public void removeRefreshToken(String email) {refreshTokenRepository.deleteByUserId(email);}
 }
