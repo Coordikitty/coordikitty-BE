@@ -27,7 +27,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig {
     private final JwtTokenProvider jwtTokenProvider;
     private final OAuth2UserCustomService oAuth2UserCustomService;
-    private final RefreshTokenService refreshTokenService;
+    private final RefreshTokenRepository refreshTokenRepository;
     private final UserService userService;
     private final SignUpService signUpService;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
@@ -78,7 +78,7 @@ public class SecurityConfig {
     public OAuth2SuccessHandler oAuth2SuccessHandler(){
         return new OAuth2SuccessHandler(
                 jwtTokenProvider,
-                refreshTokenService,
+                refreshTokenRepository,
                 userService,
                 signUpService
         );
