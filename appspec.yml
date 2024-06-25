@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source:  /
-    destination: /home/ubuntu/github_action
+    destination: /home/ubuntu/coordikitty
     overwrite: yes
 
 permissions:
@@ -12,7 +12,7 @@ permissions:
     group: ubuntu
 
 hooks:
-  ApplicationStart:
-    - location: scripts/gh_deploy.sh
-      timeout: 60
-      runas: ubuntu
+  AfterInstall:
+  - location: scripts/deploy.sh
+    timeout: 60
+    runas: ubuntu
