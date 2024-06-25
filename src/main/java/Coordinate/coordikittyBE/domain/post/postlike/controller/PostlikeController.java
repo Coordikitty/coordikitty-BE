@@ -26,7 +26,7 @@ public class PostlikeController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-    @DeleteMapping("like")
+    @PutMapping("like")
     public ResponseEntity<?> dislike(
             @RequestBody UUID postId,
             @AuthenticationPrincipal UserDetails userDetails
