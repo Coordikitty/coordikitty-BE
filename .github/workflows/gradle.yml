@@ -15,7 +15,7 @@ env:
   S3_BUCKET_NAME: coordikittycd
   RESOURCE_PATH: src/main/resources/application.yml
   CODE_DEPLOY_APPLICATION_NAME: coordikitty-backend
-  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: coordikitty-backend
+  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: coordikitty-backend-group
 
 jobs:
   build:
@@ -61,7 +61,7 @@ jobs:
 
             # [5]
       - name: Upload to S3
-        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://$S3_BUCKET_NAME/$GITHUB_SHA.zip
+        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://${{ env.S3_BUCKET_NAME }}/$GITHUB_SHA.zip
 
         # [6]
       - name: Code Deploy
