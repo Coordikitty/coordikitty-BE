@@ -11,8 +11,8 @@ permissions:
     owner: ubuntu
     group: ubuntu
 
-# hooks:
-#   ApplicationStart:
-#     - location: scripts/gh_deploy.sh
-#       timeout: 60
-#       runas: ubuntu
+hooks:
+  ApplicationStart:
+    - location: scripts/gh_deploy.sh
+      timeout: 60
+      runas: ubuntu
