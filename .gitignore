@@ -8,3 +8,4 @@ build.gradle
 Docker-compose.yaml
 .idea
 build
+.gradle

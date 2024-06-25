@@ -9,7 +9,7 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [ "develop2" ]
+    branches: [ "develop" ]
 
 env:
   S3_BUCKET_NAME: coordikittycd
