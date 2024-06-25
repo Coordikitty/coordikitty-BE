@@ -36,8 +36,8 @@ jobs:
       #  env:
        #   override.value: ${{ secrets.DI_FROM_SECRET }}
 
-      - name: git pull
-        run: git pull
+      - name: checkout branch
+        run: git checkout develop
         
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
