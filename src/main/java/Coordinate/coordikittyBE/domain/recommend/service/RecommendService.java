@@ -34,6 +34,7 @@ import java.util.stream.Collectors;
 public class RecommendService {
     
     private final ClothRepository clothRepository;
+
     @Value("${openweathermap.key}")
     private String apiKey;
 
