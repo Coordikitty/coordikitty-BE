@@ -13,6 +13,6 @@ permissions:
 
 hooks:
   AfterInstall:
-  - location: scripts/deploy.sh
+  - location: scripts/gh_deploy.sh
     timeout: 60
     runas: ubuntu
