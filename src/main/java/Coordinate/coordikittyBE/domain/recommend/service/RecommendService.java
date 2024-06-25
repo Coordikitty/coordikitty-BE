@@ -37,7 +37,6 @@ public class RecommendService {
 
     @Value("${openweathermap.key}")
     private String apiKey;
-
     public List<RecommendGetResponseDto> getRecommend(String email, Type type, String value, CoordinatesDto coordinatesDto) {
         String url = "https://80a9-119-201-76-250.ngrok-free.app/recommend";
         HttpHeaders headers = new HttpHeaders();
