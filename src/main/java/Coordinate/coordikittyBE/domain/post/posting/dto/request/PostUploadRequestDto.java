@@ -32,7 +32,6 @@ public class PostUploadRequestDto {
                 .attaches(new ArrayList<>())
                 .historys(new ArrayList<>())
                 .createdAt(LocalDateTime.now())
-                .modifiedAt(LocalDateTime.now())
                 .build();
     }
 }

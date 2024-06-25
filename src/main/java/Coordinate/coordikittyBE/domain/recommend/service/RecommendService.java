@@ -32,21 +32,20 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class RecommendService {
-
-    private final UserRepository userRepository;
+    
     private final ClothRepository clothRepository;
 
     @Value("${openweathermap.key}")
     private String apiKey;
 
     public List<RecommendGetResponseDto> getRecommend(String email, Type type, String value, CoordinatesDto coordinatesDto) {
-        String url = "http://localhost:8000/recommend";
+        String url = "https://85a5-119-201-76-250.ngrok-free.app/recommend";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         List<Cloth> clothes = clothRepository.findAllByUserEmailAndStyle(email, Style.valueOf(value));
         int temperature = getTemperature(coordinatesDto);
         List<RecommendRequestDto> clothImages = clothes.stream().map((cloth)->
-                RecommendRequestDto.of(cloth.getImageUrl(), cloth.getLarge(), cloth.getMedium(), cloth.getStyle(), cloth.getThickness(), 26))
+                RecommendRequestDto.of(cloth.getImageUrl(), cloth.getLarge(), cloth.getMedium(), cloth.getStyle(), cloth.getThickness(), temperature))
                 .collect(Collectors.toList());
         // type 에 따라 ML 서버랑 통신
         switch (type) {

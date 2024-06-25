@@ -41,10 +41,6 @@ public class Post {
     @CreatedDate
     private LocalDateTime createdAt;
 
-    @Column(name = "modified_at")
-    @LastModifiedDate
-    private LocalDateTime modifiedAt;
-
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> postImgs = new ArrayList<>();
 
@@ -63,7 +59,6 @@ public class Post {
         attaches.clear();
         this.content = postUpdateRequestDto.getContent();
         this.style = postUpdateRequestDto.getStyle();
-        this.modifiedAt = LocalDateTime.now();
         this.attaches = attaches;
     }
 
