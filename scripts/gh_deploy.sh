@@ -1,7 +1,7 @@
 REPOSITORY=/home/ubuntu/coordikitty
 cd $REPOSITORY
 
-APP_NAME=coordikitty-backend
+APP_NAME=coordikitty-BE
 JAR_NAME=$(ls $REPOSITORY/build/libs/ | grep 'SNAPSHOT.jar' | tail -n 1)
 JAR_PATH=$REPOSITORY/build/libs/$JAR_NAME
 
