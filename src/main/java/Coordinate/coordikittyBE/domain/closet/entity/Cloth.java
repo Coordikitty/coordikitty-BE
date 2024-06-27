@@ -55,7 +55,7 @@ public class Cloth {
     @Enumerated(EnumType.STRING)
     private Style style;
 
-    @ManyToOne(fetch = FetchType.LAZY) // Many = Cloth, One = User
+    @ManyToOne(fetch = FetchType.EAGER) // Many = Cloth, One = User
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
