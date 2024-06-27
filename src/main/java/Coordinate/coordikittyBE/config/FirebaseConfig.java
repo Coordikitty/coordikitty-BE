@@ -20,15 +20,22 @@ public class FirebaseConfig {
     @PostConstruct
     public void init() {
         try {
-            ClassPathResource resource = new ClassPathResource(firebaseKey);
-            InputStream serviceAccount = resource.getInputStream();
-            GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
-            FirebaseOptions options = new FirebaseOptions.Builder()
-                    .setCredentials(credentials)
-                    .build();
-            FirebaseApp.initializeApp(options);
+            // 기존 Firebase 초기화가 있는지 확인
+            if (FirebaseApp.getApps().isEmpty()) {
+                ClassPathResource resource = new ClassPathResource(firebaseKey);
+                InputStream serviceAccount = resource.getInputStream();
+                GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
+                FirebaseOptions options = new FirebaseOptions.Builder()
+                        .setCredentials(credentials)
+                        .build();
+                FirebaseApp.initializeApp(options);
+                System.out.println("Firebase initialization successful");
+            } else {
+                System.out.println("Firebase already initialized");
+            }
         } catch (IOException e) {
             // 로그 출력 또는 에러 처리
+            System.err.println("Error initializing Firebase: " + e.getMessage());
             e.printStackTrace();
         }
     }
