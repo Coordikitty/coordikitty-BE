@@ -18,14 +18,21 @@ public class FirebaseConfig {
     private String firebaseKey;
 
     @PostConstruct
-    public void init() throws IOException {
-        ClassPathResource resource = new ClassPathResource(firebaseKey);
-        InputStream serviceAccount = resource.getInputStream();
-        GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
-        FirebaseOptions options = new FirebaseOptions.Builder()
-                .setCredentials(credentials)
-                .build();
-        FirebaseApp.initializeApp(options);
-
+    public void init() {
+        try {
+            System.out.println("Firebase Key: " + firebaseKey);
+            ClassPathResource resource = new ClassPathResource(firebaseKey);
+            InputStream serviceAccount = resource.getInputStream();
+            GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
+            FirebaseOptions options = new FirebaseOptions.Builder()
+                    .setCredentials(credentials)
+                    .build();
+            FirebaseApp.initializeApp(options);
+            System.out.println("Firebase initialization successful");
+        } catch (IOException e) {
+            // 로그 출력 또는 에러 처리
+            System.err.println("Error initializing Firebase: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }
