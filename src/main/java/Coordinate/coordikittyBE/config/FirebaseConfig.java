@@ -20,7 +20,6 @@ public class FirebaseConfig {
     @PostConstruct
     public void init() {
         try {
-            System.out.println("Firebase Key: " + firebaseKey);
             ClassPathResource resource = new ClassPathResource(firebaseKey);
             InputStream serviceAccount = resource.getInputStream();
             GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
@@ -28,10 +27,8 @@ public class FirebaseConfig {
                     .setCredentials(credentials)
                     .build();
             FirebaseApp.initializeApp(options);
-            System.out.println("Firebase initialization successful");
         } catch (IOException e) {
             // 로그 출력 또는 에러 처리
-            System.err.println("Error initializing Firebase: " + e.getMessage());
             e.printStackTrace();
         }
     }
