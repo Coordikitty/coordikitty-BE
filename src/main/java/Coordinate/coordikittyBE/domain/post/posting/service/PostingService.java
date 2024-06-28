@@ -28,6 +28,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class PostingService {
     private final PostRepository postRepository;
@@ -46,7 +47,6 @@ public class PostingService {
                 .toList();
     }
 
-    @Transactional
     public List<PostlistResponseDto> getPostsUnLoggedIn() {
         return postRepository.findAllByOrderByCreatedAtDesc().stream()
                 .map(post-> {
@@ -67,7 +67,6 @@ public class PostingService {
         postDao.delete(postId);
     }
 
-    @Transactional
     public PostResponseDto upload(PostUploadRequestDto postUploadRequestDto, List<MultipartFile> images, String email) throws IOException {
         User user = userRepository.findById(email).orElse(null);
         Post post = PostUploadRequestDto.toEntity(postUploadRequestDto, user);
@@ -81,11 +80,9 @@ public class PostingService {
         historyRepository.save(history);
         post.getHistorys().add(history);
         post.getAttaches().addAll(createAttaches(postUploadRequestDto.getClothIds(), post));
-        postRepository.save(post);
         return PostResponseDto.of(post, history);
     }
 
-    @Transactional
     public PostUpdateResponseDto update(UUID postId, PostUpdateRequestDto postUpdateRequestDto) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new RuntimeException("해당 게시글 없음"));
