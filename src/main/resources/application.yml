@@ -34,7 +34,7 @@ jwt:
 openweathermap:
   key: 42fa4f50e3e2a2044810b650e67e088a
 fcm:
-  key: coordikitty-firebase-adminsdk-1ld5i-73987436ee.json
+  key: coordikitty-firebase-adminsdk-1ld5i-2e2568fa6a.json
 
 #server:
 #  ssl:

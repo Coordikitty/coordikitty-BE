@@ -24,10 +24,12 @@ public class FirebaseConfig {
             if (FirebaseApp.getApps().isEmpty()) {
                 ClassPathResource resource = new ClassPathResource(firebaseKey);
                 InputStream serviceAccount = resource.getInputStream();
+
                 GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
                 FirebaseOptions options = new FirebaseOptions.Builder()
                         .setCredentials(credentials)
                         .build();
+
                 FirebaseApp.initializeApp(options);
                 System.out.println("Firebase initialization successful");
             } else {
