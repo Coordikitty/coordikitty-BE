@@ -38,24 +38,22 @@ public class PostingService {
     private final PostDao postDao;
 
     public List<PostlistResponseDto> getPostsLoggedIn() {
-
-        List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
-
-        return new ArrayList<>(posts.stream()
+        return postRepository.findAllByOrderByCreatedAtDesc().stream()
                 .map(post -> {
                     History history = historyRepository.findByUserEmailAndPostId(post.getUser().getEmail(), post.getId()).orElseThrow();
                     return PostlistResponseDto.of(post, history);
-                }).toList());
+                })
+                .toList();
     }
 
+    @Transactional
     public List<PostlistResponseDto> getPostsUnLoggedIn() {
-        List<Post> postEntities = postRepository.findAllByOrderByCreatedAtDesc();
-        return postEntities.stream()
+        return postRepository.findAllByOrderByCreatedAtDesc().stream()
                 .map(post-> {
-                        History history = historyRepository.findByUserEmailAndPostId(post.getUser().getEmail(), post.getId()).orElseThrow();
-                        return PostlistResponseDto.of(post, history);
+                    History history = historyRepository.findByUserEmailAndPostId(post.getUser().getEmail(), post.getId()).orElseThrow();
+                    return PostlistResponseDto.of(post, history);
                 })
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public PostResponseDto findById(UUID postId) {

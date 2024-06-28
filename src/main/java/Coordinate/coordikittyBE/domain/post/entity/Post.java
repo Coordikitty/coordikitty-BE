@@ -44,7 +44,6 @@ public class Post {
     @ElementCollection(fetch = FetchType.LAZY)
     private List<String> postImgs = new ArrayList<>();
 
-
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Attach> attaches = new ArrayList<>();
 
