@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface PostRepository extends JpaRepository<Post, UUID> {
-    @Query("SELECT p FROM post p LEFT JOIN FETCH p.postImgs ORDER BY p.createdAt DESC")
+    @Query("SELECT p FROM post p JOIN FETCH p.postImgs ORDER BY p.createdAt DESC")
     List<Post> findAllByOrderByCreatedAtDesc();
 
     List<Post> findAllByOrderByLikeCountDesc();
