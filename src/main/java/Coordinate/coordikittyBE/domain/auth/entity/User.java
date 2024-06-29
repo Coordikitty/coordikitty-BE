@@ -18,8 +18,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Getter
-@Setter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
 @Entity(name="user")
