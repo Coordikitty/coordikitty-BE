@@ -8,9 +8,11 @@ import Coordinate.coordikittyBE.config.jwt.JwtTokenProvider;
 import Coordinate.coordikittyBE.domain.auth.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class TokenService {
     private final JwtTokenProvider jwtTokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
@@ -21,7 +23,6 @@ public class TokenService {
         User user = userService.findById(refreshInfo.getUserId());
         TokenDto token = jwtTokenProvider.generateToken(user);
         refreshInfo.update(token.refreshToken());
-        refreshTokenRepository.save(refreshInfo);
 
         return LoginResponseDto.of(user.getEmail(), user.getNickname(), token);
     }

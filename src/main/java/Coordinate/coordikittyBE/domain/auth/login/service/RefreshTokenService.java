@@ -9,12 +9,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class RefreshTokenService {
     private final RefreshTokenRepository refreshTokenRepository;
-
     public void saveRefreshToken(String email, String newRefreshToken) {
-        RefreshToken refreshToken = refreshTokenRepository.findByUserId(email)
-                .map(entity->entity.update(newRefreshToken))
-                .orElse(RefreshToken.of(email, newRefreshToken));
-        refreshTokenRepository.save(refreshToken);
+        refreshTokenRepository.save(RefreshToken.of(email, newRefreshToken));
     }
-
 }

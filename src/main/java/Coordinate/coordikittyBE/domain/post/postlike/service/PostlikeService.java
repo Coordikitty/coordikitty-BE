@@ -25,10 +25,10 @@ public class PostlikeService {
         History history = historyRepository.findByUserEmailAndPostId(email, postId).orElse(null);
         if(history == null) {
             history = History.of(user, post);
-            history.setIsLiked(true);
+            history.liked();
         }
         else{
-            history.setIsLiked(true);
+            history.liked();
         }
         historyRepository.save(history);
         post.like();
@@ -38,7 +38,7 @@ public class PostlikeService {
     public String dislike(UUID postId, String email) {
         Post post = postRepository.findById(postId).orElseThrow(()-> new IllegalArgumentException("게시글 없음"));
         History history = historyRepository.findByUserEmailAndPostId(email, postId).orElseThrow(()->new IllegalArgumentException("좋아요 오류"));
-        history.setIsLiked(false);
+        history.unLiked();
         historyRepository.save(history);
         post.unlike();
         postRepository.save(post);

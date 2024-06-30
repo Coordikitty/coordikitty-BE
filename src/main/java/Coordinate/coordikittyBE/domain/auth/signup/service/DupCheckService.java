@@ -11,12 +11,10 @@ public class DupCheckService {
     private final UserRepository userRepository;
 
     public Boolean emailDupCheck(String email) {
-        User user = userRepository.findById(email).orElse(null);
-        return user == null;
+        return userRepository.findById(email).isEmpty();
     }
 
     public Boolean nicknameDupCheck(String nickname) {
-        User user = userRepository.findByNickname(nickname).orElse(null);
-        return user == null;
+        return userRepository.findByNickname(nickname).isEmpty();
     }
 }

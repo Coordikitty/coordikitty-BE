@@ -25,9 +25,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class PostingService {
     private final PostRepository postRepository;
@@ -38,24 +38,21 @@ public class PostingService {
     private final PostDao postDao;
 
     public List<PostlistResponseDto> getPostsLoggedIn() {
-
-        List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
-
-        return new ArrayList<>(posts.stream()
+        return postRepository.findAllByOrderByCreatedAtDesc().stream()
                 .map(post -> {
                     History history = historyRepository.findByUserEmailAndPostId(post.getUser().getEmail(), post.getId()).orElseThrow();
                     return PostlistResponseDto.of(post, history);
-                }).toList());
+                })
+                .toList();
     }
 
     public List<PostlistResponseDto> getPostsUnLoggedIn() {
-        List<Post> postEntities = postRepository.findAllByOrderByCreatedAtDesc();
-        return postEntities.stream()
+        return postRepository.findAllByOrderByCreatedAtDesc().stream()
                 .map(post-> {
-                        History history = historyRepository.findByUserEmailAndPostId(post.getUser().getEmail(), post.getId()).orElseThrow();
-                        return PostlistResponseDto.of(post, history);
+                    History history = historyRepository.findByUserEmailAndPostId(post.getUser().getEmail(), post.getId()).orElseThrow();
+                    return PostlistResponseDto.of(post, history);
                 })
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public PostResponseDto findById(UUID postId) {
@@ -69,7 +66,6 @@ public class PostingService {
         postDao.delete(postId);
     }
 
-    @Transactional
     public PostResponseDto upload(PostUploadRequestDto postUploadRequestDto, List<MultipartFile> images, String email) throws IOException {
         User user = userRepository.findById(email).orElse(null);
         Post post = PostUploadRequestDto.toEntity(postUploadRequestDto, user);
@@ -83,11 +79,9 @@ public class PostingService {
         historyRepository.save(history);
         post.getHistorys().add(history);
         post.getAttaches().addAll(createAttaches(postUploadRequestDto.getClothIds(), post));
-        postRepository.save(post);
         return PostResponseDto.of(post, history);
     }
 
-    @Transactional
     public PostUpdateResponseDto update(UUID postId, PostUpdateRequestDto postUpdateRequestDto) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new RuntimeException("해당 게시글 없음"));

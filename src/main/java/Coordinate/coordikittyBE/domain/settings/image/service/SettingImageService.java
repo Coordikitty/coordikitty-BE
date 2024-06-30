@@ -34,7 +34,7 @@ public class SettingImageService {
 
         // profile Img 를 firebase에 저장
         String profileUrl = "www.firebase.com/profileUrl";
-        user.setProfileUrl(profileUrl);
+        //user.setProfileUrl(profileUrl);
 
         userRepository.save(user);
 

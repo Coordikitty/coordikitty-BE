@@ -5,23 +5,20 @@ import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetPostRequestDto;
 import Coordinate.coordikittyBE.domain.closet.enums.*;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Data
+@Getter
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @Entity(name = "cloth")
 public class Cloth {
     @Id
-    @Column(name = "id", nullable = false, updatable = false)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(name = "large", nullable = false)
@@ -55,7 +52,7 @@ public class Cloth {
     @Enumerated(EnumType.STRING)
     private Style style;
 
-    @ManyToOne(fetch = FetchType.EAGER) // Many = Cloth, One = User
+    @ManyToOne(fetch = FetchType.LAZY) // Many = Cloth, One = User
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
@@ -64,7 +61,6 @@ public class Cloth {
 
     public static Cloth of(ClosetPostRequestDto closetPostRequestDto, User user){
         return Cloth.builder()
-                .id(UUID.randomUUID())
                 .user(user)
                 .large(closetPostRequestDto.getLarge())
                 .medium(closetPostRequestDto.getMedium())
