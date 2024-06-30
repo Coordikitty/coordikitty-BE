@@ -16,18 +16,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class UserService{
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
     private final RefreshTokenService refreshTokenService;
 
-    @Transactional
     public User findById(String email){
         return userRepository.findById(email).orElse(null);
     }
 
-    @Transactional
     public LoginResponseDto signIn(LoginRequestDto loginRequestDto) {
         User user = userRepository.findById(loginRequestDto.email()).orElseThrow(()-> new IllegalArgumentException("유저 없음. 회원가입 요망."));
         if(PasswordUtil.comparePassWord(loginRequestDto.password(), user.getPassword())) {
@@ -39,7 +38,6 @@ public class UserService{
         throw new IllegalArgumentException("비밀번호 불일치");
     }
 
-    @Transactional
     public void logout(LogoutRequestDto logoutRequestDto) {
         User user = userRepository.findById(logoutRequestDto.email()).orElseThrow(() -> new IllegalArgumentException("Invalid Email : " + logoutRequestDto.email()));
         refreshTokenRepository.deleteByUserId(user.getEmail());
