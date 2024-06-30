@@ -26,7 +26,7 @@ import java.util.List;
 public class User implements UserDetails {
     @Id
     @Email
-    @Column(name="email", nullable = false)
+    @Column(name="email")
     private String email;
 
     @Column(name = "password", nullable = false)

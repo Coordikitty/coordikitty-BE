@@ -3,10 +3,7 @@ package Coordinate.coordikittyBE.domain.attach.entity;
 import Coordinate.coordikittyBE.domain.closet.entity.Cloth;
 import Coordinate.coordikittyBE.domain.post.entity.Post;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.UUID;
 
@@ -17,7 +14,7 @@ import java.util.UUID;
 @Entity(name = "attach")
 public class Attach {
     @Id
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
@@ -30,7 +27,6 @@ public class Attach {
 
     public static Attach of(Cloth cloth, Post post) {
         return Attach.builder()
-                .id(UUID.randomUUID())
                 .cloth(cloth)
                 .post(post)
                 .build();

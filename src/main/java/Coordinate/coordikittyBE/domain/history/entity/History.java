@@ -17,7 +17,7 @@ import java.util.UUID;
 @Entity(name = "history")
 public class History {
     @Id
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -36,7 +36,6 @@ public class History {
 
     public static History of(User user, Post post) {
         return History.builder()
-                .id(UUID.randomUUID())
                 .user(user)
                 .post(post)
                 .isBookmarked(false)

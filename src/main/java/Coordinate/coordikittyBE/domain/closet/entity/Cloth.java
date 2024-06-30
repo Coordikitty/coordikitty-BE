@@ -21,7 +21,7 @@ import java.util.UUID;
 @Entity(name = "cloth")
 public class Cloth {
     @Id
-    @Column(name = "id", nullable = false, updatable = false)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(name = "large", nullable = false)
@@ -64,7 +64,6 @@ public class Cloth {
 
     public static Cloth of(ClosetPostRequestDto closetPostRequestDto, User user){
         return Cloth.builder()
-                .id(UUID.randomUUID())
                 .user(user)
                 .large(closetPostRequestDto.getLarge())
                 .medium(closetPostRequestDto.getMedium())

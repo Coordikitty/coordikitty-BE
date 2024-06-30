@@ -13,7 +13,7 @@ import java.util.UUID;
 @Entity(name = "follow")
 public class Follow {
     @Id
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @ManyToOne

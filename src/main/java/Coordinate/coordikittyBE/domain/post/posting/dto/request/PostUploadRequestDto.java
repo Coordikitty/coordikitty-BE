@@ -23,7 +23,6 @@ public class PostUploadRequestDto {
 
     public static Post toEntity(PostUploadRequestDto postUploadRequestDto, User user){
         return Post.builder()
-                .id(UUID.randomUUID())
                 .likeCount(0)
                 .content(postUploadRequestDto.getContent())
                 .style(postUploadRequestDto.getStyle())

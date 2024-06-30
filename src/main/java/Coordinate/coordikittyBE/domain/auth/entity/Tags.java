@@ -13,6 +13,7 @@ import java.util.UUID;
 @Entity(name = "tags")
 public class Tags  {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(name = "formal")
