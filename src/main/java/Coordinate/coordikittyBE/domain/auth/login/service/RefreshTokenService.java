@@ -10,8 +10,6 @@ import org.springframework.stereotype.Service;
 public class RefreshTokenService {
     private final RefreshTokenRepository refreshTokenRepository;
     public void saveRefreshToken(String email, String newRefreshToken) {
-        refreshTokenRepository.findByUserId(email)
-                .map(entity->entity.update(newRefreshToken))
-                .orElseGet(() -> refreshTokenRepository.save(RefreshToken.of(email, newRefreshToken)));
+        refreshTokenRepository.save(RefreshToken.of(email, newRefreshToken));
     }
 }
