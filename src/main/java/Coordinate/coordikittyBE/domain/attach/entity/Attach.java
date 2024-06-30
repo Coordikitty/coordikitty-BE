@@ -2,14 +2,15 @@ package Coordinate.coordikittyBE.domain.attach.entity;
 
 import Coordinate.coordikittyBE.domain.closet.entity.Cloth;
 import Coordinate.coordikittyBE.domain.post.entity.Post;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.UUID;
 
-@Data
+@Getter
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @Entity(name = "attach")
 public class Attach {

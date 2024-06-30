@@ -3,7 +3,6 @@
 
 /workspace.xml
 
-/src/main/resources/application.yaml
 Docker-compose.yaml
 .idea
 build
