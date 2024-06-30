@@ -22,7 +22,7 @@ import java.util.UUID;
 @Entity(name = "post")
 public class Post {
     @Id
-    @Column(name="id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(name="like_Count", nullable = false)

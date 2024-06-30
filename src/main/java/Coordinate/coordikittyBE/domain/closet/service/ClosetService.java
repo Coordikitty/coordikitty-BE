@@ -33,6 +33,7 @@ public class ClosetService {
     private final ClothRepository clothRepository;
     private final ClothDao clothDao;
 
+    @Transactional
     public List<ClosetGetResponseDto> getAllClothes(String email) {
         List<Cloth> clothes = clothRepository.findAllByUserEmail(email);
 
@@ -85,7 +86,6 @@ public class ClosetService {
     @Transactional
     public void deleteCloth(UUID clothId, String email) {
         clothRepository.deleteById(clothId);
-        clothRepository.flush();
         clothDao.delete(clothId, email);
     }
 }

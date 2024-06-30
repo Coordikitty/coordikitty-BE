@@ -25,21 +25,21 @@ public class SettingAlarmService {
         if (user.getAlarm_feed() != null)
             settingAlarmResponseDTO.setAlarm_feed(user.getAlarm_feed());
         else {
-            user.setAlarm_feed(false);
+            //user.setAlarm_feed(false);
             settingAlarmResponseDTO.setAlarm_feed(false);
         }
 
         if (user.getAlarm_follow() != null)
             settingAlarmResponseDTO.setAlarm_follow(user.getAlarm_follow());
         else {
-            user.setAlarm_follow(false);
+            //user.setAlarm_follow(false);
             settingAlarmResponseDTO.setAlarm_follow(false);
         }
 
         if (user.getAlarm_like() != null)
             settingAlarmResponseDTO.setAlarm_like(user.getAlarm_like());
         else {
-            user.setAlarm_like(false);
+            //user.setAlarm_like(false);
             settingAlarmResponseDTO.setAlarm_like(false);
         }
 
@@ -57,15 +57,15 @@ public class SettingAlarmService {
         switch (type.getType()) {
             case FEED -> {
                 newValue = user.getAlarm_feed() != null && !user.getAlarm_feed();
-                user.setAlarm_feed(newValue);
+                //user.setAlarm_feed(newValue);
             }
             case FOLLOW -> {
                 newValue = user.getAlarm_follow() != null && !user.getAlarm_follow();
-                user.setAlarm_follow(newValue);
+               // user.setAlarm_follow(newValue);
             }
             case LIKE -> {
                 newValue = user.getAlarm_like() != null && !user.getAlarm_like();
-                user.setAlarm_like(newValue);
+                //user.setAlarm_like(newValue);
             }
             default -> throw new IllegalStateException("Unexpected type value: " + type.getType());
         }

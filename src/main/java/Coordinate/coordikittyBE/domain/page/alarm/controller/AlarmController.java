@@ -21,7 +21,7 @@ public class AlarmController {
     @PostMapping ("")
     public void create(){
         Alarm alarm = Alarm.builder()
-                .id(UUID.randomUUID())
+
                 .type("follow")
                 .actived(true)
                 .ttl(1000)

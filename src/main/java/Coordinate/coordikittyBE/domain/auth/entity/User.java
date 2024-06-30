@@ -18,14 +18,14 @@ import java.util.Collection;
 import java.util.List;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @Entity(name="user")
 public class User implements UserDetails {
     @Id
     @Email
-    @Column(name="email", nullable = false)
+    @Column(name="email")
     private String email;
 
     @Column(name = "password", nullable = false)

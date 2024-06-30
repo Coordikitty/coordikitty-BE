@@ -14,7 +14,7 @@ import java.util.UUID;
 @Entity(name = "history")
 public class History {
     @Id
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -31,9 +31,14 @@ public class History {
     @Column(name = "is_Liked", nullable = false)
     private Boolean isLiked;
 
+    public void liked(){
+        isLiked = true;
+    }
+    public void unLiked(){
+        isLiked = false;
+    }
     public static History of(User user, Post post) {
         return History.builder()
-                .id(UUID.randomUUID())
                 .user(user)
                 .post(post)
                 .isBookmarked(false)
