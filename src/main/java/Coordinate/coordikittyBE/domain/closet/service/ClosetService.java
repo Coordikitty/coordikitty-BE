@@ -52,7 +52,7 @@ public class ClosetService {
         return "업로드 성공";
     }
 
-    public ClosetCategorizationResponseDto clothCategorization(MultipartFile clothImg) throws IOException {
+    public ClosetCategorizationResponseDto clothCategorization(MultipartFile clothImg){
         String url = "http://localhost:8000/categorization";
 
         HttpHeaders headers = new HttpHeaders();
@@ -64,6 +64,12 @@ public class ClosetService {
         CategorizedResponse response = restTemplate.postForObject(url, request, CategorizedResponse.class);
         assert response != null;
         return ClosetCategorizationResponseDto.fromDL(response);
+    }
+
+    @Transactional
+    public void deleteCloth(UUID clothId, String email) {
+        clothRepository.deleteById(clothId);
+        clothDao.delete(clothId, email);
     }
 
     private static HttpEntity<MultiValueMap<String, Object>> getMultiValueMapHttpEntity(MultipartFile clothImg, HttpHeaders headers) {
@@ -84,11 +90,5 @@ public class ClosetService {
 
         HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(body, headers);
         return request;
-    }
-
-    @Transactional
-    public void deleteCloth(UUID clothId, String email) {
-        clothRepository.deleteById(clothId);
-        clothDao.delete(clothId, email);
     }
 }
