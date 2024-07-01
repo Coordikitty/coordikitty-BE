@@ -38,7 +38,7 @@ public class RecommendService {
     @Value("${openweathermap.key}")
     private String apiKey;
     public List<RecommendGetResponseDto> getRecommend(String email, Type type, String value, CoordinatesDto coordinatesDto) {
-        String url = "https://2f75-119-201-76-250.ngrok-free.app";
+        String url = "https://2f75-119-201-76-250.ngrok-free.app/recommend";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         List<Cloth> clothes = clothRepository.findAllByUserEmailAndStyle(email, Style.valueOf(value));
