@@ -35,11 +35,9 @@ public class ClosetService {
 
     @Transactional
     public List<ClosetGetResponseDto> getAllClothes(String email) {
-        List<Cloth> clothes = clothRepository.findAllByUserEmail(email);
-
-        return clothes.stream()
+        return clothRepository.findAllByUserEmail(email).stream()
                 .map(ClosetGetResponseDto::fromCloset)
-                .collect((Collectors.toList()));
+                .toList();
     }
 
     @Transactional
@@ -60,6 +58,15 @@ public class ClosetService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
+        HttpEntity<MultiValueMap<String, Object>> request = getMultiValueMapHttpEntity(clothImg, headers);
+
+        RestTemplate restTemplate = new RestTemplate();
+        CategorizedResponse response = restTemplate.postForObject(url, request, CategorizedResponse.class);
+        assert response != null;
+        return ClosetCategorizationResponseDto.fromDL(response);
+    }
+
+    private static HttpEntity<MultiValueMap<String, Object>> getMultiValueMapHttpEntity(MultipartFile clothImg, HttpHeaders headers) {
         ByteArrayResource resource;
         try {
             resource = new ByteArrayResource(clothImg.getBytes()) {
@@ -76,11 +83,7 @@ public class ClosetService {
         body.add("file", resource);
 
         HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(body, headers);
-
-        RestTemplate restTemplate = new RestTemplate();
-        CategorizedResponse response = restTemplate.postForObject(url, request, CategorizedResponse.class);
-        assert response != null;
-        return ClosetCategorizationResponseDto.fromDL(response);
+        return request;
     }
 
     @Transactional
