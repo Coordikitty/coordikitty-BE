@@ -88,7 +88,6 @@ public class ClosetService {
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
         body.add("file", resource);
 
-        HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(body, headers);
-        return request;
+        return new HttpEntity<>(body, headers);
     }
 }
