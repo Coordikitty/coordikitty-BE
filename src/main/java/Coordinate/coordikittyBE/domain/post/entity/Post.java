@@ -31,7 +31,7 @@ public class Post {
     @Column(columnDefinition = "TEXT", name="content")
     private String content;
 
-    @Column(name = "style", nullable = true)
+    @Column(name = "style", nullable = false)
     private Style style;
 
     @Column(name = "created_at")
