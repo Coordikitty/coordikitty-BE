@@ -2,40 +2,32 @@ package Coordinate.coordikittyBE.domain.closet.dto;
 
 import Coordinate.coordikittyBE.domain.closet.entity.Cloth;
 import Coordinate.coordikittyBE.domain.closet.enums.*;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-public class ClosetGetResponseDto {
-    private UUID clothId;
-    private Category.Large large;
-    private Category.Medium medium;
-    private Category.Small small;
-    private Fit fit;
-    private Gender gender;
-    private Style style;
-    private Thickness thickness;
-    private String imageUrl;
-
-    public static ClosetGetResponseDto fromCloset(Cloth cloth) {
-        return ClosetGetResponseDto.builder()
-                .clothId(cloth.getId())
-                .large(cloth.getLarge())
-                .medium(cloth.getMedium())
-                .small(cloth.getSmall())
-                .fit(cloth.getFit())
-                .gender(cloth.getGender())
-                .style(cloth.getStyle())
-                .thickness(cloth.getThickness())
-                .imageUrl(cloth.getImageUrl())
-                .build();
+public record ClosetGetResponseDto(
+        UUID clothId,
+        Category.Large large,
+        Category.Medium medium,
+        Category.Small small,
+        Fit fit,
+        Gender gender,
+        Style style,
+        Thickness thickness,
+        String imageUrl
+) {
+    public static ClosetGetResponseDto fromEntity(Cloth cloth) {
+        return new ClosetGetResponseDto(
+                cloth.getId(),
+                cloth.getLarge(),
+                cloth.getMedium(),
+                cloth.getSmall(),
+                cloth.getFit(),
+                cloth.getGender(),
+                cloth.getStyle(),
+                cloth.getThickness(),
+                cloth.getImageUrl()
+        );
     }
 }
