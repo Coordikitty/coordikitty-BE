@@ -5,10 +5,5 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
-@Setter
-@NoArgsConstructor
-public class InfoRequestDTO {
-    private int tall;
-    private int weight;
-    private int footSize;
+public record InfoRequestDto(int tall, int weight, int footSize) {
 }
