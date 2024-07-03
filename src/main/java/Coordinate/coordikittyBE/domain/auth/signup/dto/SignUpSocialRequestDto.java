@@ -1,7 +1,7 @@
 package Coordinate.coordikittyBE.domain.auth.signup.dto;
 
 import Coordinate.coordikittyBE.domain.auth.entity.User;
-import lombok.*;
+import lombok.Getter;
 
 import java.util.UUID;
 
