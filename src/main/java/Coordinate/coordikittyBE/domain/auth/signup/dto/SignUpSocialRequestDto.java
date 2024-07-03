@@ -8,14 +8,14 @@ import java.util.UUID;
 @Getter
 public record SignUpSocialRequestDto(String email) {
 
-    public static User from(SignUpSocialRequestDto signUpSocialRequestDto) {
+    public static User fromEntity(SignUpSocialRequestDto signUpSocialRequestDto) {
         return User.builder()
                 .email(signUpSocialRequestDto.email())
                 .password(UUID.randomUUID().toString())
                 .build();
     }
 
-    public static SignUpSocialRequestDto fromEmail(String email) {
+    public static SignUpSocialRequestDto from(String email) {
         return new SignUpSocialRequestDto(email);
     }
 }
