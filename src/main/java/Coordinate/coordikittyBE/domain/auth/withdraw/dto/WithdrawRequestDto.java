@@ -5,8 +5,5 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
-@Setter
-@NoArgsConstructor
-public class WithdrawRequestDto {
-    private String email;
+public record WithdrawRequestDto(String email) {
 }

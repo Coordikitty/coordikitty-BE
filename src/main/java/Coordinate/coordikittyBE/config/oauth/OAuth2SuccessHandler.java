@@ -34,7 +34,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler{
         String email = (String) oAuth2User.getAttributes().get("email");
         User user = userService.findById(email);
         if(user==null){
-            signUpService.signUpSocial(SignUpSocialRequestDto.fromEmail(email));
+            signUpService.signUpSocial(SignUpSocialRequestDto.from(email));
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write("{\"email\": \"" + email + "\"}");
