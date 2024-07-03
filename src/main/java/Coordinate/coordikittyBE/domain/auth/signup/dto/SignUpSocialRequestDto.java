@@ -1,11 +1,8 @@
 package Coordinate.coordikittyBE.domain.auth.signup.dto;
 
 import Coordinate.coordikittyBE.domain.auth.entity.User;
-import lombok.Getter;
-
 import java.util.UUID;
 
-@Getter
 public record SignUpSocialRequestDto(String email) {
 
     public static User fromEntity(SignUpSocialRequestDto signUpSocialRequestDto) {
