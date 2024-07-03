@@ -49,8 +49,7 @@ public class PostingController {
             @PathVariable("postId") UUID postId,
             @RequestBody PostUpdateRequestDto postUpdateRequestDto
     ){
-        postingService.update(postId, postUpdateRequestDto);
-        return ResponseEntity.ok("게시글 수정 완료");
+        return ResponseEntity.ok(postingService.update(postId, postUpdateRequestDto));
     }
 
     @GetMapping(value = "/get/{postId}")
@@ -59,6 +58,7 @@ public class PostingController {
     ){
         return ResponseEntity.ok(postingService.findById(postId));
     }
+
 
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadPost(

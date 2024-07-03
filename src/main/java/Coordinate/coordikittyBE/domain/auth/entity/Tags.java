@@ -6,13 +6,13 @@ import lombok.*;
 import java.util.UUID;
 
 @Getter
-@Setter
-@Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
 @Entity(name = "tags")
 public class Tags  {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(name = "formal")

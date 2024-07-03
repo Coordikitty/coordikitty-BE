@@ -18,15 +18,14 @@ import java.util.Collection;
 import java.util.List;
 
 @Getter
-@Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @Entity(name="user")
 public class User implements UserDetails {
     @Id
     @Email
-    @Column(name="email", nullable = false)
+    @Column(name="email")
     private String email;
 
     @Column(name = "password", nullable = false)
@@ -80,7 +79,7 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Post> posts = new ArrayList<>();
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "tags_id")
     private Tags tags;
 

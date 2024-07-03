@@ -12,13 +12,17 @@ import Coordinate.coordikittyBE.domain.auth.repository.RefreshTokenRepository;
 import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class UserService{
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
+    private final RefreshTokenService refreshTokenService;
+
     public User findById(String email){
         return userRepository.findById(email).orElse(null);
     }
@@ -27,12 +31,8 @@ public class UserService{
         User user = userRepository.findById(loginRequestDto.email()).orElseThrow(()-> new IllegalArgumentException("유저 없음. 회원가입 요망."));
         if(PasswordUtil.comparePassWord(loginRequestDto.password(), user.getPassword())) {
             TokenDto tokenDto = jwtTokenProvider.generateToken(user);
+            refreshTokenService.saveRefreshToken(user.getEmail(), tokenDto.refreshToken());
 
-            RefreshToken refreshTokenInfo = refreshTokenRepository.findByUserId(user.getEmail())
-                    .map(entity->entity.update(tokenDto.refreshToken()))
-                    .orElse(RefreshToken.of(user.getEmail(), tokenDto.refreshToken()));
-
-            refreshTokenRepository.save(refreshTokenInfo);
             return LoginResponseDto.of(user.getEmail(), user.getNickname(), tokenDto);
         }
         throw new IllegalArgumentException("비밀번호 불일치");

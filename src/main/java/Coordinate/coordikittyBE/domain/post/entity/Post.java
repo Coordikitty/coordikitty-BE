@@ -6,10 +6,7 @@ import Coordinate.coordikittyBE.domain.closet.enums.Style;
 import Coordinate.coordikittyBE.domain.history.entity.History;
 import Coordinate.coordikittyBE.domain.post.posting.dto.request.PostUpdateRequestDto;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -18,14 +15,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Data
+@Getter
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @Entity(name = "post")
 public class Post {
     @Id
-    @Column(name="id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(name="like_Count", nullable = false)
@@ -34,16 +31,15 @@ public class Post {
     @Column(columnDefinition = "TEXT", name="content")
     private String content;
 
-    @Column(name = "style", nullable = true)
+    @Column(name = "style", nullable = false)
     private Style style;
 
     @Column(name = "created_at")
     @CreatedDate
     private LocalDateTime createdAt;
 
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.LAZY)
     private List<String> postImgs = new ArrayList<>();
-
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Attach> attaches = new ArrayList<>();
@@ -51,7 +47,7 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<History> historys = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 

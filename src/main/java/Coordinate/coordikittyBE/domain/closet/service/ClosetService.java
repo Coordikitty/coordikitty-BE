@@ -33,12 +33,11 @@ public class ClosetService {
     private final ClothRepository clothRepository;
     private final ClothDao clothDao;
 
+    @Transactional
     public List<ClosetGetResponseDto> getAllClothes(String email) {
-        List<Cloth> clothes = clothRepository.findAllByUserEmail(email);
-
-        return clothes.stream()
+        return clothRepository.findAllByUserEmail(email).stream()
                 .map(ClosetGetResponseDto::fromCloset)
-                .collect((Collectors.toList()));
+                .toList();
     }
 
     @Transactional
@@ -53,12 +52,27 @@ public class ClosetService {
         return "업로드 성공";
     }
 
-    public ClosetCategorizationResponseDto clothCategorization(MultipartFile clothImg) throws IOException {
+    public ClosetCategorizationResponseDto clothCategorization(MultipartFile clothImg){
         String url = "http://localhost:8000/categorization";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
+        HttpEntity<MultiValueMap<String, Object>> request = getMultiValueMapHttpEntity(clothImg, headers);
+
+        RestTemplate restTemplate = new RestTemplate();
+        CategorizedResponse response = restTemplate.postForObject(url, request, CategorizedResponse.class);
+        assert response != null;
+        return ClosetCategorizationResponseDto.fromDL(response);
+    }
+
+    @Transactional
+    public void deleteCloth(UUID clothId, String email) {
+        clothRepository.deleteById(clothId);
+        clothDao.delete(clothId, email);
+    }
+
+    private static HttpEntity<MultiValueMap<String, Object>> getMultiValueMapHttpEntity(MultipartFile clothImg, HttpHeaders headers) {
         ByteArrayResource resource;
         try {
             resource = new ByteArrayResource(clothImg.getBytes()) {
@@ -74,18 +88,6 @@ public class ClosetService {
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
         body.add("file", resource);
 
-        HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(body, headers);
-
-        RestTemplate restTemplate = new RestTemplate();
-        CategorizedResponse response = restTemplate.postForObject(url, request, CategorizedResponse.class);
-        assert response != null;
-        return ClosetCategorizationResponseDto.fromDL(response);
-    }
-
-    @Transactional
-    public void deleteCloth(UUID clothId, String email) {
-        clothRepository.deleteById(clothId);
-        clothRepository.flush();
-        clothDao.delete(clothId, email);
+        return new HttpEntity<>(body, headers);
     }
 }

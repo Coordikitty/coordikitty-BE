@@ -27,7 +27,7 @@ public class SettingProfileService {
         User user = userRepository.findById(email)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid email: " + email));
 
-        user.setNickname(nickname.getNickname());
+        //user.setNickname(nickname.getNickname());
         userRepository.save(user);
     }
 }
