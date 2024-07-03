@@ -59,6 +59,7 @@ public class PostingController {
         return ResponseEntity.ok(postingService.findById(postId));
     }
 
+
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadPost(
             @RequestPart PostUploadRequestDto postUploadRequestDto,
