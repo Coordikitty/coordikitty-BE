@@ -39,9 +39,6 @@ jobs:
       - name: checkout branch
         run: git checkout develop
 
-      - name: git pull
-        run: git pull
-
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
