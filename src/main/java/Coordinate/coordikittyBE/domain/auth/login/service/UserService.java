@@ -33,7 +33,7 @@ public class UserService{
             TokenDto tokenDto = jwtTokenProvider.generateToken(user);
             refreshTokenService.saveRefreshToken(user.getEmail(), tokenDto.refreshToken());
 
-            return LoginResponseDto.of(user.getEmail(), user.getNickname(), tokenDto);
+            return LoginResponseDto.of(user, tokenDto);
         }
         throw new IllegalArgumentException("비밀번호 불일치");
     }
