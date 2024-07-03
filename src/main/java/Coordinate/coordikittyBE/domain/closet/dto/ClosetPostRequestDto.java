@@ -9,5 +9,6 @@ public record ClosetPostRequestDto(
         Fit fit,
         Gender gender,
         Style style,
-        Thickness thickness) {
+        Thickness thickness)
+{
 }
