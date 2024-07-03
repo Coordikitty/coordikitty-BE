@@ -1,9 +1,8 @@
 package Coordinate.coordikittyBE.domain.auth.login.service;
 
-import Coordinate.coordikittyBE.domain.auth.entity.RefreshToken;
 import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.auth.login.dto.LoginResponseDto;
-import Coordinate.coordikittyBE.domain.auth.login.dto.LogoutRequestDto;
+import Coordinate.coordikittyBE.domain.auth.login.dto.LogoutDto;
 import Coordinate.coordikittyBE.domain.auth.login.dto.TokenDto;
 import Coordinate.coordikittyBE.domain.auth.login.dto.LoginRequestDto;
 import Coordinate.coordikittyBE.config.jwt.JwtTokenProvider;
@@ -38,8 +37,8 @@ public class UserService{
         throw new IllegalArgumentException("비밀번호 불일치");
     }
 
-    public void logout(LogoutRequestDto logoutRequestDto) {
-        User user = userRepository.findById(logoutRequestDto.email()).orElseThrow(() -> new IllegalArgumentException("Invalid Email : " + logoutRequestDto.email()));
+    public void logout(LogoutDto logoutDto) {
+        User user = userRepository.findById(logoutDto.email()).orElseThrow(() -> new IllegalArgumentException("Invalid Email : " + logoutDto.email()));
         refreshTokenRepository.deleteByUserId(user.getEmail());
     }
 }

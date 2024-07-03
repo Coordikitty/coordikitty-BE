@@ -3,7 +3,7 @@ package Coordinate.coordikittyBE.domain.auth.login.controller;
 import Coordinate.coordikittyBE.domain.auth.login.dto.JwtTokenRequestDto;
 import Coordinate.coordikittyBE.domain.auth.login.dto.LoginResponseDto;
 import Coordinate.coordikittyBE.domain.auth.login.dto.LoginRequestDto;
-import Coordinate.coordikittyBE.domain.auth.login.dto.LogoutRequestDto;
+import Coordinate.coordikittyBE.domain.auth.login.dto.LogoutDto;
 import Coordinate.coordikittyBE.domain.auth.login.service.TokenService;
 import Coordinate.coordikittyBE.domain.auth.login.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +52,7 @@ public class AuthController {
             @AuthenticationPrincipal UserDetails userDetails
     ){
         try {
-            userService.logout(LogoutRequestDto.toDto(userDetails.getUsername(), refreshTokenDto.refreshToken()));
+            userService.logout(LogoutDto.of(userDetails.getUsername(), refreshTokenDto.refreshToken()));
             return ResponseEntity.ok().body("logout success");
         } catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
