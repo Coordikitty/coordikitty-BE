@@ -2,34 +2,27 @@ package Coordinate.coordikittyBE.domain.closet.dto;
 
 import Coordinate.coordikittyBE.domain.closet.enums.*;
 import Coordinate.coordikittyBE.domain.closet.util.CategorizedResponse;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class ClosetCategorizationResponseDto {
-    private Category.Large large;
-    private Category.Medium medium;
-    private Category.Small small;
 
-    private Fit fit;
-    private Gender gender;
-//    private Season season;
-    private Style style;
-//    private Thickness thickness;
+public record ClosetCategorizationResponseDto(
+        Category.Large large,
+        Category.Medium medium,
+        Category.Small small,
+        Fit fit,
+        Gender gender,
+        Style style
+        //Season season,
+        //Thickness thickness
+) {
 
     public static ClosetCategorizationResponseDto fromDL(CategorizedResponse response) {
-        return ClosetCategorizationResponseDto.builder()
-                .large(response.getLarge())
-                .medium(response.getMedium())
-                .small(response.getSmall())
-                .fit(response.getFit())
-                .gender(response.getGender())
-                .style(response.getStyle())
-                .build();
+        return new ClosetCategorizationResponseDto(
+                response.getLarge(),
+                response.getMedium(),
+                response.getSmall(),
+                response.getFit(),
+                response.getGender(),
+                response.getStyle()
+        );
     }
 }
