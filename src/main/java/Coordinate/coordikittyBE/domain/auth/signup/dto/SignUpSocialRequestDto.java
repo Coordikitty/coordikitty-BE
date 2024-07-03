@@ -6,16 +6,16 @@ import lombok.*;
 import java.util.UUID;
 
 @Getter
-@Setter
-@Builder
-@AllArgsConstructor
-public class SignUpSocialRequestDto {
-    private String email;
+public record SignUpSocialRequestDto(String email) {
 
-    public static User toEntity(SignUpSocialRequestDto signUpSocialRequestDto) {
+    public static User from(SignUpSocialRequestDto signUpSocialRequestDto) {
         return User.builder()
-                .email(signUpSocialRequestDto.getEmail())
+                .email(signUpSocialRequestDto.email())
                 .password(UUID.randomUUID().toString())
                 .build();
+    }
+
+    public static SignUpSocialRequestDto fromEmail(String email) {
+        return new SignUpSocialRequestDto(email);
     }
 }

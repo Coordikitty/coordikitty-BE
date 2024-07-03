@@ -16,7 +16,7 @@ public class SignUpService {
         userRepository.save(user);
     }
     public void signUpSocial(SignUpSocialRequestDto signUpSocialRequestDto){
-        User user = SignUpSocialRequestDto.toEntity(signUpSocialRequestDto);
+        User user = SignUpSocialRequestDto.from(signUpSocialRequestDto);
         userRepository.save(user);
     }
 }
