@@ -62,13 +62,13 @@ public class Cloth {
     public static Cloth of(ClosetPostRequestDto closetPostRequestDto, User user){
         return Cloth.builder()
                 .user(user)
-                .large(closetPostRequestDto.getLarge())
-                .medium(closetPostRequestDto.getMedium())
-                .small(closetPostRequestDto.getSmall())
-                .fit(closetPostRequestDto.getFit())
-                .gender(closetPostRequestDto.getGender())
-                .style(closetPostRequestDto.getStyle())
-                .thickness(closetPostRequestDto.getThickness())
+                .large(closetPostRequestDto.large())
+                .medium(closetPostRequestDto.medium())
+                .small(closetPostRequestDto.small())
+                .fit(closetPostRequestDto.fit())
+                .gender(closetPostRequestDto.gender())
+                .style(closetPostRequestDto.style())
+                .thickness(closetPostRequestDto.thickness())
                 .build();
     }
 

@@ -53,8 +53,8 @@ public class Post {
 
     public void update(PostUpdateRequestDto postUpdateRequestDto, List<Attach> attaches) {
         attaches.clear();
-        this.content = postUpdateRequestDto.getContent();
-        this.style = postUpdateRequestDto.getStyle();
+        this.content = postUpdateRequestDto.content();
+        this.style = postUpdateRequestDto.style();
         this.attaches = attaches;
     }
 
