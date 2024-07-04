@@ -40,7 +40,7 @@ public class PostingService {
         return postRepository.findAllByOrderByCreatedAtDesc().stream()
                 .map(post -> {
                     History history = historyRepository.findByUserEmailAndPostId(post.getUser().getEmail(), post.getId()).orElseThrow();
-                    return PostResponseDto.of(post, history);
+                    return PostResponseDto.fromEntity(post, history);
                 })
                 .toList();
     }
@@ -49,7 +49,7 @@ public class PostingService {
         return postRepository.findAllByOrderByCreatedAtDesc().stream()
                 .map(post-> {
                     History history = historyRepository.findByUserEmailAndPostId(post.getUser().getEmail(), post.getId()).orElseThrow();
-                    return PostResponseDto.of(post, history);
+                    return PostResponseDto.fromEntity(post, history);
                 })
                 .toList();
     }
@@ -57,7 +57,7 @@ public class PostingService {
     public PostResponseDto findById(UUID postId) {
         Post post = postRepository.findById(postId).orElseThrow(()-> new IllegalArgumentException("게시글 없음."));
         History history = historyRepository.findByUserEmailAndPostId(post.getUser().getEmail(), post.getId()).orElseThrow();
-        return PostResponseDto.of(post, history);
+        return PostResponseDto.fromEntity(post, history);
     }
 
     public void delete(UUID postId)throws IllegalArgumentException {
@@ -78,7 +78,7 @@ public class PostingService {
         historyRepository.save(history);
         post.getHistorys().add(history);
         post.getAttaches().addAll(createAttaches(postUploadRequestDto.clothIds(), post));
-        return PostResponseDto.of(post, history);
+        return PostResponseDto.fromEntity(post, history);
     }
 
     public PostUpdateResponseDto update(UUID postId, PostUpdateRequestDto postUpdateRequestDto) {

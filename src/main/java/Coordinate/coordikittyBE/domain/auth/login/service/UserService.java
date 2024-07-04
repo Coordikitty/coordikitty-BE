@@ -37,8 +37,8 @@ public class UserService{
         throw new IllegalArgumentException("비밀번호 불일치");
     }
 
-    public void logout(LogoutDto logoutDto) {
-        User user = userRepository.findById(logoutDto.email()).orElseThrow(() -> new IllegalArgumentException("Invalid Email : " + logoutDto.email()));
-        refreshTokenRepository.deleteByUserId(user.getEmail());
+    public void logout(String email) {
+        User user = userRepository.findById(email).orElseThrow(() -> new IllegalArgumentException("Invalid Email : " + email));
+        refreshTokenRepository.deleteByUserId(email);
     }
 }

@@ -22,7 +22,7 @@ public record PostResponseDto(
         Boolean isBookmarked,
         List<String> postImgs
 ){
-    public static PostResponseDto of(Post post, History history) {
+    public static PostResponseDto fromEntity(Post post, History history) {
         return new PostResponseDto(
                 post.getId(),
                 post.getContent(),
