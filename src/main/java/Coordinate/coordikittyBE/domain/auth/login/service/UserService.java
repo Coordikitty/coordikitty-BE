@@ -2,7 +2,6 @@ package Coordinate.coordikittyBE.domain.auth.login.service;
 
 import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.auth.login.dto.LoginResponseDto;
-import Coordinate.coordikittyBE.domain.auth.login.dto.LogoutDto;
 import Coordinate.coordikittyBE.domain.auth.login.dto.TokenDto;
 import Coordinate.coordikittyBE.domain.auth.login.dto.LoginRequestDto;
 import Coordinate.coordikittyBE.config.jwt.JwtTokenProvider;
