@@ -48,11 +48,10 @@ public class AuthController {
 
     @PostMapping("/logout")
     public ResponseEntity<?> logout(
-            @RequestBody JwtTokenRequestDto refreshTokenDto,
             @AuthenticationPrincipal UserDetails userDetails
     ){
         try {
-            userService.logout(LogoutDto.of(userDetails.getUsername(), refreshTokenDto.refreshToken()));
+            userService.logout(userDetails.getUsername());
             return ResponseEntity.ok().body("logout success");
         } catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
