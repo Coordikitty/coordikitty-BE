@@ -1,19 +1,9 @@
 package Coordinate.coordikittyBE.domain.recommend.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Builder
-public class CoordinatesDto {
-    private double latitude;     // 위도
-    private double longitude;    // 경도
 
-    public static CoordinatesDto toDto(double latitude, double longitude) {
-        return CoordinatesDto.builder().latitude(latitude).longitude(longitude).build();
+public record CoordinatesDto(double latitude, double longitude) {
+    public static CoordinatesDto of(double latitude, double longitude) {
+        return new CoordinatesDto(latitude, longitude);
     }
 }
