@@ -25,7 +25,7 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name="like_Count", nullable = false)
+    @Column(name="like_count", nullable = false)
     private int likeCount;
 
     @Column(columnDefinition = "TEXT", name="content")
