@@ -14,7 +14,6 @@ import Coordinate.coordikittyBE.domain.post.posting.dto.request.PostUpdateReques
 import Coordinate.coordikittyBE.domain.post.posting.dto.request.PostUploadRequestDto;
 import Coordinate.coordikittyBE.domain.post.posting.dto.response.PostResponseDto;
 import Coordinate.coordikittyBE.domain.post.posting.dto.response.PostUpdateResponseDto;
-import Coordinate.coordikittyBE.domain.post.posting.dto.response.PostlistResponseDto;
 import Coordinate.coordikittyBE.domain.post.repository.PostDao;
 import Coordinate.coordikittyBE.domain.post.repository.PostRepository;
 
@@ -37,20 +36,20 @@ public class PostingService {
     private final UserRepository userRepository;
     private final PostDao postDao;
 
-    public List<PostlistResponseDto> getPostsLoggedIn() {
+    public List<PostResponseDto> getPostsLoggedIn() {
         return postRepository.findAllByOrderByCreatedAtDesc().stream()
                 .map(post -> {
                     History history = historyRepository.findByUserEmailAndPostId(post.getUser().getEmail(), post.getId()).orElseThrow();
-                    return PostlistResponseDto.of(post, history);
+                    return PostResponseDto.fromEntity(post, history);
                 })
                 .toList();
     }
 
-    public List<PostlistResponseDto> getPostsUnLoggedIn() {
+    public List<PostResponseDto> getPostsUnLoggedIn() {
         return postRepository.findAllByOrderByCreatedAtDesc().stream()
                 .map(post-> {
                     History history = historyRepository.findByUserEmailAndPostId(post.getUser().getEmail(), post.getId()).orElseThrow();
-                    return PostlistResponseDto.of(post, history);
+                    return PostResponseDto.fromEntity(post, history);
                 })
                 .toList();
     }
@@ -58,7 +57,7 @@ public class PostingService {
     public PostResponseDto findById(UUID postId) {
         Post post = postRepository.findById(postId).orElseThrow(()-> new IllegalArgumentException("게시글 없음."));
         History history = historyRepository.findByUserEmailAndPostId(post.getUser().getEmail(), post.getId()).orElseThrow();
-        return PostResponseDto.of(post, history);
+        return PostResponseDto.fromEntity(post, history);
     }
 
     public void delete(UUID postId)throws IllegalArgumentException {
@@ -78,8 +77,8 @@ public class PostingService {
         History history = History.of(user, post);
         historyRepository.save(history);
         post.getHistorys().add(history);
-        post.getAttaches().addAll(createAttaches(postUploadRequestDto.getClothIds(), post));
-        return PostResponseDto.of(post, history);
+        post.getAttaches().addAll(createAttaches(postUploadRequestDto.clothIds(), post));
+        return PostResponseDto.fromEntity(post, history);
     }
 
     public PostUpdateResponseDto update(UUID postId, PostUpdateRequestDto postUpdateRequestDto) {
@@ -87,7 +86,7 @@ public class PostingService {
                 .orElseThrow(() -> new RuntimeException("해당 게시글 없음"));
         attachRepository.deleteAllByPostId(postId);
 
-        List<Attach> attaches = createAttaches(postUpdateRequestDto.getClothIds(), post);
+        List<Attach> attaches = createAttaches(postUpdateRequestDto.clothIds(), post);
         post.update(postUpdateRequestDto, attaches);
         return PostUpdateResponseDto.from(attaches);
     }

@@ -1,9 +1,7 @@
 package Coordinate.coordikittyBE.domain.auth.login.service;
 
-import Coordinate.coordikittyBE.domain.auth.entity.RefreshToken;
 import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.auth.login.dto.LoginResponseDto;
-import Coordinate.coordikittyBE.domain.auth.login.dto.LogoutRequestDto;
 import Coordinate.coordikittyBE.domain.auth.login.dto.TokenDto;
 import Coordinate.coordikittyBE.domain.auth.login.dto.LoginRequestDto;
 import Coordinate.coordikittyBE.config.jwt.JwtTokenProvider;
@@ -33,13 +31,13 @@ public class UserService{
             TokenDto tokenDto = jwtTokenProvider.generateToken(user);
             refreshTokenService.saveRefreshToken(user.getEmail(), tokenDto.refreshToken());
 
-            return LoginResponseDto.of(user.getEmail(), user.getNickname(), tokenDto);
+            return LoginResponseDto.of(user, tokenDto);
         }
         throw new IllegalArgumentException("비밀번호 불일치");
     }
 
-    public void logout(LogoutRequestDto logoutRequestDto) {
-        User user = userRepository.findById(logoutRequestDto.email()).orElseThrow(() -> new IllegalArgumentException("Invalid Email : " + logoutRequestDto.email()));
-        refreshTokenRepository.deleteByUserId(user.getEmail());
+    public void logout(String email) {
+        User user = userRepository.findById(email).orElseThrow(() -> new IllegalArgumentException("Invalid Email : " + email));
+        refreshTokenRepository.deleteByUserId(email);
     }
 }

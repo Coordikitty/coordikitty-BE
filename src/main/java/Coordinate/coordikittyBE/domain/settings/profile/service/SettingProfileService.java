@@ -20,7 +20,7 @@ public class SettingProfileService {
         User user = userRepository.findById(email)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid email: " + email));
 
-        return SettingProfileResponseDto.from(user);
+        return SettingProfileResponseDto.fromEntity(user);
     }
 
     public void setSettingProfile(String email, SettingProfileRequestDto nickname) {

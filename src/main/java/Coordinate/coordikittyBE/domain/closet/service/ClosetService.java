@@ -36,7 +36,7 @@ public class ClosetService {
     @Transactional
     public List<ClosetGetResponseDto> getAllClothes(String email) {
         return clothRepository.findAllByUserEmail(email).stream()
-                .map(ClosetGetResponseDto::fromCloset)
+                .map(ClosetGetResponseDto::fromEntity)
                 .toList();
     }
 

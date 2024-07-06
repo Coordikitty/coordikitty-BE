@@ -24,6 +24,6 @@ public class TokenService {
         TokenDto token = jwtTokenProvider.generateToken(user);
         refreshInfo.update(token.refreshToken());
 
-        return LoginResponseDto.of(user.getEmail(), user.getNickname(), token);
+        return LoginResponseDto.of(user, token);
     }
 }
