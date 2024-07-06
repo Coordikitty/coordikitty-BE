@@ -30,12 +30,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> signIn(@RequestBody LoginRequestDto loginRequestDto){
-        try {
             return ResponseEntity.ok().body(userService.signIn(loginRequestDto));
-        }
-        catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
     }
 
     @GetMapping("/login/google")
