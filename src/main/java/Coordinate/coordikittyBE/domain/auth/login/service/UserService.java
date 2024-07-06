@@ -33,7 +33,8 @@ public class UserService{
         throw new CoordikittyException(ErrorType.MEMBER_NOT_FOUND);
     }
 
-    public void logout(String email) {
+    public String logout(String email) {
         refreshTokenRepository.deleteByUserId(email);
+        return "Logout success";
     }
 }

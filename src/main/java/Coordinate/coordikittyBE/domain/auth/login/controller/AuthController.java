@@ -44,11 +44,6 @@ public class AuthController {
     public ResponseEntity<?> logout(
             @AuthenticationPrincipal UserDetails userDetails
     ){
-        try {
-            userService.logout(userDetails.getUsername());
-            return ResponseEntity.ok().body("logout success");
-        } catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        return ResponseEntity.ok().body(userService.logout(userDetails.getUsername()));
     }
 }
