@@ -55,7 +55,7 @@ public class Post {
     private User user;
 
     public void update(PostUpdateRequestDto postUpdateRequestDto, List<Attach> attaches) {
-        attaches.clear();   // this. 이 누락된건 아닌지?
+        this.attaches.clear();   // this. 이 누락된건 아닌지?
         this.content = postUpdateRequestDto.content();
         this.style = postUpdateRequestDto.style();
         this.attaches = attaches;
