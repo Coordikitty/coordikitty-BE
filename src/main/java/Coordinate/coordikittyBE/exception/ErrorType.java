@@ -17,6 +17,7 @@ public enum ErrorType {
     NOT_ALLOWED_PERMISSION_ERROR("COMMON-002", "허용되지 않은 권한입니다.", 403),
     INVALID_REQUEST_ERROR("COMMON-003", "올바르지 않은 데이터 요청입니다.", 400),
     INPUT_FORMAT_ERROR("COMMON-004", "올바르지 않은 입력 방식입니다", 400),
+    INVALID_PARAMS("COMMON-005", "잘못된 Param값 입니다", 400),
 
     EMAIL_FORMAT_ERROR("USER-002", "올바르지 않은 이메일 입력 양식입니다.", 400),
     DUPLICATED_EMAIL_ERROR("USER-003", "중복된 이메일입니다.", 400),
