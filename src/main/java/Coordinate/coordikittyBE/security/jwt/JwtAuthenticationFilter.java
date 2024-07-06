@@ -1,4 +1,4 @@
-package Coordinate.coordikittyBE.config.jwt;
+package Coordinate.coordikittyBE.security.jwt;
 
 import java.io.IOException;
 import jakarta.servlet.FilterChain;

@@ -4,7 +4,7 @@ import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.auth.login.dto.LoginResponseDto;
 import Coordinate.coordikittyBE.domain.auth.login.dto.TokenDto;
 import Coordinate.coordikittyBE.domain.auth.login.dto.LoginRequestDto;
-import Coordinate.coordikittyBE.config.jwt.JwtTokenProvider;
+import Coordinate.coordikittyBE.security.jwt.JwtTokenProvider;
 import Coordinate.coordikittyBE.domain.auth.login.util.PasswordUtil;
 import Coordinate.coordikittyBE.domain.auth.repository.RefreshTokenRepository;
 import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;

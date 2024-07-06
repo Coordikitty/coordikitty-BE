@@ -1,4 +1,4 @@
-package Coordinate.coordikittyBE.config.jwt;
+package Coordinate.coordikittyBE.security.jwt;
 import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.auth.login.dto.TokenDto;
 import io.jsonwebtoken.*;
