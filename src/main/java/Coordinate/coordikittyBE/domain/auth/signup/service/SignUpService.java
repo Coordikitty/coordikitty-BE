@@ -5,6 +5,8 @@ import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
 import Coordinate.coordikittyBE.domain.auth.signup.dto.SignUpRequestDto;
 import Coordinate.coordikittyBE.domain.auth.signup.dto.SignUpResponseDto;
 import Coordinate.coordikittyBE.domain.auth.signup.dto.SignUpSocialRequestDto;
+import Coordinate.coordikittyBE.exception.CoordikittyException;
+import Coordinate.coordikittyBE.exception.ErrorType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +15,12 @@ import org.springframework.stereotype.Service;
 public class SignUpService {
     private final UserRepository userRepository;
     public SignUpResponseDto signUp(SignUpRequestDto signUpRequestDto) {
-        User user = SignUpRequestDto.toEntity(signUpRequestDto);
-        userRepository.save(user);
-        return SignUpResponseDto.fromEntity(user);
+        return SignUpResponseDto.fromEntity(userRepository.save(SignUpRequestDto.toEntity(signUpRequestDto)));
     }
     public void signUpSocial(SignUpSocialRequestDto signUpSocialRequestDto){
-        User user = SignUpSocialRequestDto.toEntity(signUpSocialRequestDto);
-        userRepository.save(user);
+        if(userRepository.existsById(signUpSocialRequestDto.email())){
+            throw new CoordikittyException(ErrorType.DUPLICATED_EMAIL_ERROR);
+        }
+        userRepository.save(SignUpSocialRequestDto.toEntity(signUpSocialRequestDto));
     }
 }
