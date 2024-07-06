@@ -3,8 +3,8 @@ package Coordinate.coordikittyBE.security.oauth;
 import Coordinate.coordikittyBE.domain.auth.entity.RefreshToken;
 import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.auth.login.dto.TokenDto;
+import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
 import Coordinate.coordikittyBE.security.jwt.JwtTokenProvider;
-import Coordinate.coordikittyBE.domain.auth.login.service.UserService;
 import Coordinate.coordikittyBE.domain.auth.repository.RefreshTokenRepository;
 import Coordinate.coordikittyBE.domain.auth.signup.dto.SignUpSocialRequestDto;
 import Coordinate.coordikittyBE.domain.auth.signup.service.SignUpService;
@@ -25,13 +25,13 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler{
 
     private final JwtTokenProvider jwtTokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
-    private final UserService userService;
+    private final UserRepository userRepository;
     private final SignUpService signUpService;
 
     public void onAuthenticationSuccess (HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
         String email = (String) oAuth2User.getAttributes().get("email");
-        User user = userService.findById(email);
+        User user = userRepository.findById(email).orElse(null);
         if(user==null){
             signUpService.signUpSocial(SignUpSocialRequestDto.from(email));
             response.setContentType("application/json");
