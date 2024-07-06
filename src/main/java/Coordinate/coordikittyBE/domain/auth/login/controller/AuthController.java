@@ -29,7 +29,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> signIn(@RequestBody LoginRequestDto loginRequestDto){
+    public ResponseEntity<LoginResponseDto> signIn(@RequestBody LoginRequestDto loginRequestDto){
             return ResponseEntity.ok().body(userService.signIn(loginRequestDto));
     }
 
@@ -41,7 +41,7 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(
+    public ResponseEntity<String> logout(
             @AuthenticationPrincipal UserDetails userDetails
     ){
         return ResponseEntity.ok().body(userService.logout(userDetails.getUsername()));
