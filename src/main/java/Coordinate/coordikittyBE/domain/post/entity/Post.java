@@ -38,8 +38,11 @@ public class Post {
     @CreatedDate
     private LocalDateTime createdAt;
 
-    @ElementCollection(fetch = FetchType.LAZY)
-    private List<String> postImgs = new ArrayList<>();
+//    @ElementCollection(fetch = FetchType.LAZY)
+//    private List<String> postImgs = new ArrayList<>();
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    private List<PostImage> postImgs = new ArrayList<>();
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Attach> attaches = new ArrayList<>();
@@ -52,7 +55,7 @@ public class Post {
     private User user;
 
     public void update(PostUpdateRequestDto postUpdateRequestDto, List<Attach> attaches) {
-        attaches.clear();
+        attaches.clear();   // this. 이 누락된건 아닌지?
         this.content = postUpdateRequestDto.content();
         this.style = postUpdateRequestDto.style();
         this.attaches = attaches;
@@ -65,6 +68,7 @@ public class Post {
         this.likeCount--;
     }
     public void addImageUrl(String imageUrl) {
-        this.postImgs.add(imageUrl);
+        PostImage postImage = PostImage.create(imageUrl, this);
+        this.postImgs.add(postImage);
     }
 }
