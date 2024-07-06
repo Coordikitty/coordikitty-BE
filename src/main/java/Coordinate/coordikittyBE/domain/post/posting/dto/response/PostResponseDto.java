@@ -3,6 +3,7 @@ package Coordinate.coordikittyBE.domain.post.posting.dto.response;
 import Coordinate.coordikittyBE.domain.closet.enums.Style;
 import Coordinate.coordikittyBE.domain.history.entity.History;
 import Coordinate.coordikittyBE.domain.post.entity.Post;
+import Coordinate.coordikittyBE.domain.post.entity.PostImage;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,7 +21,7 @@ public record PostResponseDto(
         String uploaderProfileImg,
         Boolean isLiked,
         Boolean isBookmarked,
-        List<String> postImgs
+        List<PostImage> postImgs
 ){
     public static PostResponseDto fromEntity(Post post, History history) {
         return new PostResponseDto(
