@@ -1,10 +1,9 @@
-package Coordinate.coordikittyBE.config.oauth;
+package Coordinate.coordikittyBE.security.oauth;
 
 import Coordinate.coordikittyBE.domain.auth.entity.RefreshToken;
 import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.auth.login.dto.TokenDto;
-import Coordinate.coordikittyBE.config.jwt.JwtTokenProvider;
-import Coordinate.coordikittyBE.domain.auth.login.service.RefreshTokenService;
+import Coordinate.coordikittyBE.security.jwt.JwtTokenProvider;
 import Coordinate.coordikittyBE.domain.auth.login.service.UserService;
 import Coordinate.coordikittyBE.domain.auth.repository.RefreshTokenRepository;
 import Coordinate.coordikittyBE.domain.auth.signup.dto.SignUpSocialRequestDto;

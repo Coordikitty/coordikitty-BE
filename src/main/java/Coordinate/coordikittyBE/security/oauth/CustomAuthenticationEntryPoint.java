@@ -1,4 +1,4 @@
-package Coordinate.coordikittyBE.config.oauth;
+package Coordinate.coordikittyBE.security.oauth;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
