@@ -21,10 +21,7 @@ public class SettingImageService {
         User user = userRepository.findById(email)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid email: " + email));
 
-        SettingImageResponseDto settingImageResponseDTO = new SettingImageResponseDto();
-        settingImageResponseDTO.setProfileURL(user.getProfileUrl());
-
-        return settingImageResponseDTO;
+        return SettingImageResponseDto.fromEntity(user);
     }
 
     public boolean setSettingImage(String email, MultipartFile profileImg) {
