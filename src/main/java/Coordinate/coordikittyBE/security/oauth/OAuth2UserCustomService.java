@@ -1,4 +1,4 @@
-package Coordinate.coordikittyBE.config.oauth;
+package Coordinate.coordikittyBE.security.oauth;
 
 import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;

@@ -1,11 +1,10 @@
 package Coordinate.coordikittyBE.config;
 
-import Coordinate.coordikittyBE.config.oauth.CustomAuthenticationEntryPoint;
-import Coordinate.coordikittyBE.config.oauth.OAuth2SuccessHandler;
-import Coordinate.coordikittyBE.config.oauth.OAuth2UserCustomService;
-import Coordinate.coordikittyBE.config.jwt.JwtAuthenticationFilter;
-import Coordinate.coordikittyBE.config.jwt.JwtTokenProvider;
-import Coordinate.coordikittyBE.domain.auth.login.service.RefreshTokenService;
+import Coordinate.coordikittyBE.security.oauth.CustomAuthenticationEntryPoint;
+import Coordinate.coordikittyBE.security.oauth.OAuth2SuccessHandler;
+import Coordinate.coordikittyBE.security.oauth.OAuth2UserCustomService;
+import Coordinate.coordikittyBE.security.jwt.JwtAuthenticationFilter;
+import Coordinate.coordikittyBE.security.jwt.JwtTokenProvider;
 import Coordinate.coordikittyBE.domain.auth.login.service.UserService;
 import Coordinate.coordikittyBE.domain.auth.repository.RefreshTokenRepository;
 import Coordinate.coordikittyBE.domain.auth.signup.service.SignUpService;
