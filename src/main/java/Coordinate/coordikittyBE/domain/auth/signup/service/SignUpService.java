@@ -1,6 +1,5 @@
 package Coordinate.coordikittyBE.domain.auth.signup.service;
 
-import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
 import Coordinate.coordikittyBE.domain.auth.signup.dto.SignUpRequestDto;
 import Coordinate.coordikittyBE.domain.auth.signup.dto.SignUpResponseDto;
@@ -15,6 +14,9 @@ import org.springframework.stereotype.Service;
 public class SignUpService {
     private final UserRepository userRepository;
     public SignUpResponseDto signUp(SignUpRequestDto signUpRequestDto) {
+        if(userRepository.existsById(signUpRequestDto.email())){
+            throw new CoordikittyException(ErrorType.DUPLICATED_EMAIL_ERROR);
+        }
         return SignUpResponseDto.fromEntity(userRepository.save(SignUpRequestDto.toEntity(signUpRequestDto)));
     }
     public void signUpSocial(SignUpSocialRequestDto signUpSocialRequestDto){

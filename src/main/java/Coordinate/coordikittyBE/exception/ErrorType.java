@@ -22,8 +22,10 @@ public enum ErrorType {
     EMAIL_FORMAT_ERROR("USER-002", "올바르지 않은 이메일 입력 양식입니다.", 400),
     DUPLICATED_EMAIL_ERROR("USER-003", "중복된 이메일입니다.", 400),
 
-    UNEXPECTED_SERVER_ERROR("SERVER-001", "서버 관리자에게 문의하세요.", 500);
+    UNEXPECTED_SERVER_ERROR("SERVER-001", "서버 관리자에게 문의하세요.", 500),
 
+    FIREBASE_ERROR("CLOSET-001", "파이어베이스 통신 실패", 400),
+    TRANSFORT_MULTIFILE_ERROR("CLOSET-002", "API통신 준비 실패", 400);
     private final String errorCode;
     private final String message;
     private final int statusCode;

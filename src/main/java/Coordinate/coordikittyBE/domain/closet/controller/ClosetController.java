@@ -1,16 +1,12 @@
 package Coordinate.coordikittyBE.domain.closet.controller;
 
-import Coordinate.coordikittyBE.domain.closet.dto.ClosetCategorizationResponseDto;
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetGetResponseDto;
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetPostRequestDto;
 import Coordinate.coordikittyBE.domain.closet.service.ClosetService;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,7 +19,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ClosetController {
 
-//    private final JwtTokenProvider jwtTokenProvider;
     private final ClosetService closetService;
 
     @GetMapping(value = "")
@@ -40,11 +35,7 @@ public class ClosetController {
             @RequestPart("clothImg") MultipartFile clothImg,
             @AuthenticationPrincipal UserDetails userDetails
     ) {
-        try {
-            return ResponseEntity.ok(closetService.postCloth(userDetails.getUsername(), closetPostRequestDto, clothImg));
-        }catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        return ResponseEntity.ok(closetService.postCloth(userDetails.getUsername(), closetPostRequestDto, clothImg));
     }
 
     @PostMapping(value = "/categorization")
@@ -53,22 +44,14 @@ public class ClosetController {
 //            @RequestBody MultipartFile file
             @RequestPart("clothImg") MultipartFile clothImg
     ) {
-        // token authentication
-        // DL 서버에 파일 전송, 분류 결과 반환
-        // 분류 결과 클라이언트에 반환
-        try {
-            return ResponseEntity.ok().body(closetService.clothCategorization(clothImg));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        return ResponseEntity.ok().body(closetService.clothCategorization(clothImg));
     }
 
     @DeleteMapping(value = "")
     public ResponseEntity<String> deleteCloth(
-            @RequestParam(value = "clothId") UUID clothId,
-            @AuthenticationPrincipal UserDetails userDetails
+            @RequestParam(value = "clothId") UUID clothId
     ) {
-        closetService.deleteCloth(clothId, userDetails.getUsername());
+        closetService.deleteCloth(clothId);
         return ResponseEntity.ok().body("옷 삭제 성공");
     }
 }
