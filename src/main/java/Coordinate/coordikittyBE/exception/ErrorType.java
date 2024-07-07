@@ -25,7 +25,9 @@ public enum ErrorType {
     UNEXPECTED_SERVER_ERROR("SERVER-001", "서버 관리자에게 문의하세요.", 500),
 
     FIREBASE_ERROR("CLOSET-001", "파이어베이스 통신 실패", 400),
-    TRANSFORT_MULTIFILE_ERROR("CLOSET-002", "API통신 준비 실패", 400);
+    TRANSFORT_MULTIFILE_ERROR("CLOSET-002", "API통신 준비 실패", 400),
+
+    POST_NOT_FOUND("POST-001", "해당 게시글을 찾을 수 없습니다.", 400);
     private final String errorCode;
     private final String message;
     private final int statusCode;

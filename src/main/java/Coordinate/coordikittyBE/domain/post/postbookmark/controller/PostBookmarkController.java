@@ -20,11 +20,7 @@ public class PostBookmarkController {
             @RequestBody UUID postId,
             @AuthenticationPrincipal UserDetails userDetails
     ){
-        try{
-            return ResponseEntity.status(HttpStatus.CREATED).body(postBookmarkService.addBookmark(postId, userDetails.getUsername()));
-        } catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(postBookmarkService.addBookmark(postId, userDetails.getUsername()));
     }
     @DeleteMapping("/bookmark")
     public ResponseEntity<String> deleteBookmark(
