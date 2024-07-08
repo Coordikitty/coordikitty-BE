@@ -13,6 +13,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(CoordikittyException.class)
     public ResponseEntity<ExceptionResponseDto> handle(CoordikittyException ex){
         log.warn("Coordikitty exception [status={},errorCode={},message={}]", ex.getStatusCode(),ex.getErrorCode(),ex.getMessage());
-        return ResponseEntity.status(ex.getStatusCode()).body(new ExceptionResponseDto(ex.getErrorCode(),ex.getMessage()));
+        return ResponseEntity.status(ex.getStatusCode()).body(ExceptionResponseDto.of(ex.getErrorType()));
     }
 }
