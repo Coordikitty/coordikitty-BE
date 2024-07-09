@@ -4,6 +4,9 @@ import Coordinate.coordikittyBE.domain.auth.entity.RefreshToken;
 import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.auth.login.dto.LoginResponseDto;
 import Coordinate.coordikittyBE.domain.auth.login.dto.TokenDto;
+import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
+import Coordinate.coordikittyBE.exception.CoordikittyException;
+import Coordinate.coordikittyBE.exception.ErrorType;
 import Coordinate.coordikittyBE.security.jwt.JwtTokenProvider;
 import Coordinate.coordikittyBE.domain.auth.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,11 +19,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class TokenService {
     private final JwtTokenProvider jwtTokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
-    private final UserService userService;
+    private final UserRepository userRepository;
 
     public LoginResponseDto createNewAccessToken(String refreshToken) {
-        RefreshToken refreshInfo= refreshTokenRepository.findByRefreshToken(refreshToken).orElseThrow(()-> new IllegalArgumentException("토큰 오류"));
-        User user = userService.findById(refreshInfo.getUserId());
+        RefreshToken refreshInfo= refreshTokenRepository.findByRefreshToken(refreshToken).orElseThrow(()-> new CoordikittyException(ErrorType.TOKEN_NOT_FOUND));
+        User user = userRepository.findById(refreshInfo.getUserId()).orElseThrow(()-> new CoordikittyException(ErrorType.MEMBER_NOT_FOUND));
         TokenDto token = jwtTokenProvider.generateToken(user);
         refreshInfo.update(token.refreshToken());
 

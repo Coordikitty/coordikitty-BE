@@ -12,6 +12,8 @@ import Coordinate.coordikittyBE.domain.recommend.dto.RecommendGetResponseDto;
 import Coordinate.coordikittyBE.domain.recommend.dto.RecommendRequestDto;
 import Coordinate.coordikittyBE.domain.recommend.enums.Type;
 import Coordinate.coordikittyBE.domain.recommend.util.WeatherResponse;
+import Coordinate.coordikittyBE.exception.CoordikittyException;
+import Coordinate.coordikittyBE.exception.ErrorType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -34,11 +36,12 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class RecommendService {
-    
+
     private final ClothRepository clothRepository;
 
     @Value("${openweathermap.key}")
     private String apiKey;
+
     public List<RecommendGetResponseDto> getRecommend(String email, Type type, String value, CoordinatesDto coordinatesDto) {
         String url = "https://e4f9-119-201-76-250.ngrok-free.app/recommend";
         HttpHeaders headers = new HttpHeaders();
@@ -46,25 +49,30 @@ public class RecommendService {
 
         List<Cloth> clothes = clothRepository.findAllByUserEmailAndStyle(email, Style.valueOf(value));
         int temperature = getTemperature(coordinatesDto);
-        List<RecommendRequestDto> clothImages = clothes.stream().map((cloth)->
-                RecommendRequestDto.of(cloth, temperature))
+        List<RecommendRequestDto> clothImages = clothes.stream()
+                .map((cloth) -> RecommendRequestDto.of(cloth, temperature))
                 .collect(Collectors.toList());
         // type 에 따라 ML 서버랑 통신
         switch (type) {
             //case SITUATION -> {}
             case STYLE -> {
-                HttpEntity<List<RecommendRequestDto>> request = new HttpEntity<>(clothImages, headers);
-                RestTemplate restTemplate = new RestTemplate();
-                List<RecommendGetResponseDto> response = restTemplate.exchange(
-                        url,
-                        HttpMethod.POST,
-                        request,
-                        new ParameterizedTypeReference<List<RecommendGetResponseDto>>() {}
-                ).getBody();
-                assert response != null;
-                return response;
+                try {
+                    HttpEntity<List<RecommendRequestDto>> request = new HttpEntity<>(clothImages, headers);
+                    RestTemplate restTemplate = new RestTemplate();
+                    List<RecommendGetResponseDto> response = restTemplate.exchange(
+                            url,
+                            HttpMethod.POST,
+                            request,
+                            new ParameterizedTypeReference<List<RecommendGetResponseDto>>() {
+                            }
+                    ).getBody();
+                    assert response != null;
+                    return response;
+                } catch (Exception e){
+                    throw new CoordikittyException(ErrorType.ML_DL_SERVER_ERROR);
+                }
             }
-            default -> throw new IllegalStateException("Unexpected value: " + type);
+            default -> throw new CoordikittyException(ErrorType.ML_DL_SERVER_ERROR);
         }
     }
 

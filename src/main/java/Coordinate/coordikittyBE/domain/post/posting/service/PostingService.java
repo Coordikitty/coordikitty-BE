@@ -17,6 +17,8 @@ import Coordinate.coordikittyBE.domain.post.posting.dto.response.PostUpdateRespo
 import Coordinate.coordikittyBE.domain.post.repository.PostDao;
 import Coordinate.coordikittyBE.domain.post.repository.PostRepository;
 
+import Coordinate.coordikittyBE.exception.CoordikittyException;
+import Coordinate.coordikittyBE.exception.ErrorType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,7 +41,8 @@ public class PostingService {
     public List<PostResponseDto> getPostsLoggedIn() {
         return postRepository.findAllByOrderByCreatedAtDesc().stream()
                 .map(post -> {
-                    History history = historyRepository.findByUserEmailAndPostId(post.getUser().getEmail(), post.getId()).orElseThrow();
+                    History history = historyRepository.findByUserEmailAndPostId(post.getUser().getEmail(), post.getId())
+                            .orElseThrow(()-> new CoordikittyException(ErrorType.HISTORY_NOT_FOUND));
                     return PostResponseDto.fromEntity(post, history);
                 })
                 .toList();
@@ -48,25 +51,28 @@ public class PostingService {
     public List<PostResponseDto> getPostsUnLoggedIn() {
         return postRepository.findAllByOrderByCreatedAtDesc().stream()
                 .map(post-> {
-                    History history = historyRepository.findByUserEmailAndPostId(post.getUser().getEmail(), post.getId()).orElseThrow();
+                    History history = historyRepository.findByUserEmailAndPostId(post.getUser().getEmail(), post.getId())
+                            .orElseThrow(()-> new CoordikittyException(ErrorType.HISTORY_NOT_FOUND));
                     return PostResponseDto.fromEntity(post, history);
                 })
                 .toList();
     }
 
     public PostResponseDto findById(UUID postId) {
-        Post post = postRepository.findById(postId).orElseThrow(()-> new IllegalArgumentException("게시글 없음."));
-        History history = historyRepository.findByUserEmailAndPostId(post.getUser().getEmail(), post.getId()).orElseThrow();
+        Post post = postRepository.findById(postId).orElseThrow(()-> new CoordikittyException(ErrorType.POST_NOT_FOUND));
+        History history = historyRepository.findByUserEmailAndPostId(post.getUser().getEmail(), post.getId())
+                .orElseThrow(()-> new CoordikittyException(ErrorType.HISTORY_NOT_FOUND));
         return PostResponseDto.fromEntity(post, history);
     }
 
-    public void delete(UUID postId)throws IllegalArgumentException {
+    public void delete(UUID postId) {
         postRepository.deleteById(postId);
         postDao.delete(postId);
     }
 
-    public PostResponseDto upload(PostUploadRequestDto postUploadRequestDto, List<MultipartFile> images, String email) throws IOException {
-        User user = userRepository.findById(email).orElse(null);
+    public PostResponseDto upload(PostUploadRequestDto postUploadRequestDto, List<MultipartFile> images, String email) {
+        User user = userRepository.findById(email)
+                .orElseThrow(()-> new CoordikittyException(ErrorType.MEMBER_NOT_FOUND));
         Post post = PostUploadRequestDto.toEntity(postUploadRequestDto, user);
         for (MultipartFile image : images) {
             String imageUrl = postDao.upload(image, post.getId());
@@ -83,7 +89,7 @@ public class PostingService {
 
     public PostUpdateResponseDto update(UUID postId, PostUpdateRequestDto postUpdateRequestDto) {
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new RuntimeException("해당 게시글 없음"));
+                .orElseThrow(() -> new CoordikittyException(ErrorType.POST_NOT_FOUND));
         attachRepository.deleteAllByPostId(postId);
 
         List<Attach> attaches = createAttaches(postUpdateRequestDto.clothIds(), post);
@@ -95,7 +101,7 @@ public class PostingService {
         List<Attach> attaches = new ArrayList<>();
         for (UUID clothId : clothIds) {
             Cloth cloth = clothRepository.findById(clothId)
-                    .orElseThrow(() -> new IllegalArgumentException("해당 옷 없음."));
+                    .orElseThrow(() -> new CoordikittyException(ErrorType.CLOTH_NOT_FOUND));
             Attach attach = Attach.of(cloth, post);
             attachRepository.save(attach);
             attaches.add(attach);

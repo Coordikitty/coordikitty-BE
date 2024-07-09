@@ -1,11 +1,11 @@
 package Coordinate.coordikittyBE.config;
 
+import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
 import Coordinate.coordikittyBE.security.oauth.CustomAuthenticationEntryPoint;
 import Coordinate.coordikittyBE.security.oauth.OAuth2SuccessHandler;
 import Coordinate.coordikittyBE.security.oauth.OAuth2UserCustomService;
 import Coordinate.coordikittyBE.security.jwt.JwtAuthenticationFilter;
 import Coordinate.coordikittyBE.security.jwt.JwtTokenProvider;
-import Coordinate.coordikittyBE.domain.auth.login.service.UserService;
 import Coordinate.coordikittyBE.domain.auth.repository.RefreshTokenRepository;
 import Coordinate.coordikittyBE.domain.auth.signup.service.SignUpService;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -27,7 +27,7 @@ public class SecurityConfig {
     private final JwtTokenProvider jwtTokenProvider;
     private final OAuth2UserCustomService oAuth2UserCustomService;
     private final RefreshTokenRepository refreshTokenRepository;
-    private final UserService userService;
+    private final UserRepository userRepository;
     private final SignUpService signUpService;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     @Bean
@@ -78,7 +78,7 @@ public class SecurityConfig {
         return new OAuth2SuccessHandler(
                 jwtTokenProvider,
                 refreshTokenRepository,
-                userService,
+                userRepository,
                 signUpService
         );
     }
