@@ -59,12 +59,13 @@ public class PostingService {
     }
 
     public PostResponseDto findById(UUID postId) {
-        Post post = postRepository.findById(postId).orElseThrow(()-> new IllegalArgumentException("게시글 없음."));
-        History history = historyRepository.findByUserEmailAndPostId(post.getUser().getEmail(), post.getId()).orElseThrow();
+        Post post = postRepository.findById(postId).orElseThrow(()-> new CoordikittyException(ErrorType.POST_NOT_FOUND));
+        History history = historyRepository.findByUserEmailAndPostId(post.getUser().getEmail(), post.getId())
+                .orElseThrow(()-> new CoordikittyException(ErrorType.HISTORY_NOT_FOUND));
         return PostResponseDto.fromEntity(post, history);
     }
 
-    public void delete(UUID postId)throws IllegalArgumentException {
+    public void delete(UUID postId) {
         postRepository.deleteById(postId);
         postDao.delete(postId);
     }

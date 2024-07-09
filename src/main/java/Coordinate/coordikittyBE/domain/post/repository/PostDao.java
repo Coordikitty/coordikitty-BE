@@ -1,5 +1,7 @@
 package Coordinate.coordikittyBE.domain.post.repository;
 
+import Coordinate.coordikittyBE.exception.CoordikittyException;
+import Coordinate.coordikittyBE.exception.ErrorType;
 import com.google.api.gax.paging.Page;
 import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.Bucket;
@@ -18,10 +20,15 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class PostDao {
     private final String BUCKET_NAME = "coordikitty.appspot.com";
-    public String upload(MultipartFile image, UUID postId) throws IOException {
-        String fileName = "postImgs/" + postId + "/" + UUID.randomUUID();
-        StorageClient.getInstance().bucket(BUCKET_NAME).create(fileName, image.getInputStream(), image.getContentType());
-        return String.format("https://firebasestorage.googleapis.com/v0/b/%s/o/%s?alt=media", BUCKET_NAME, URLEncoder.encode(fileName, StandardCharsets.UTF_8));
+    public String upload(MultipartFile image, UUID postId) {
+        try {
+            String fileName = "postImgs/" + postId + "/" + UUID.randomUUID();
+            StorageClient.getInstance().bucket(BUCKET_NAME).create(fileName, image.getInputStream(), image.getContentType());
+            return String.format("https://firebasestorage.googleapis.com/v0/b/%s/o/%s?alt=media", BUCKET_NAME, URLEncoder.encode(fileName, StandardCharsets.UTF_8));
+        }
+        catch(IOException e){
+            throw new CoordikittyException(ErrorType.FIREBASE_ERROR);
+        }
     }
 
     public void delete(UUID postId){
@@ -34,7 +41,7 @@ public class PostDao {
             }
         }
         catch (Exception e) {
-            throw new IllegalArgumentException(e.getMessage());
+            throw new CoordikittyException(ErrorType.FIREBASE_ERROR);
         }
     }
 
