@@ -27,10 +27,7 @@ public class PostBookmarkController {
             @RequestBody UUID postId,
             @AuthenticationPrincipal UserDetails userDetails
     ){
-        try{
-            return ResponseEntity.ok(postBookmarkService.deleteBookmark(postId, userDetails.getUsername()));
-        } catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+         return ResponseEntity.ok(postBookmarkService.deleteBookmark(postId, userDetails.getUsername()));
+
     }
 }
