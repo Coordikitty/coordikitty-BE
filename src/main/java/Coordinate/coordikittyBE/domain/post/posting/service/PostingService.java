@@ -89,7 +89,7 @@ public class PostingService {
 
     public PostUpdateResponseDto update(UUID postId, PostUpdateRequestDto postUpdateRequestDto) {
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new RuntimeException("해당 게시글 없음"));
+                .orElseThrow(() -> new CoordikittyException(ErrorType.POST_NOT_FOUND));
         attachRepository.deleteAllByPostId(postId);
 
         List<Attach> attaches = createAttaches(postUpdateRequestDto.clothIds(), post);
@@ -101,7 +101,7 @@ public class PostingService {
         List<Attach> attaches = new ArrayList<>();
         for (UUID clothId : clothIds) {
             Cloth cloth = clothRepository.findById(clothId)
-                    .orElseThrow(() -> new IllegalArgumentException("해당 옷 없음."));
+                    .orElseThrow(() -> new CoordikittyException(ErrorType.CLOTH_NOT_FOUND));
             Attach attach = Attach.of(cloth, post);
             attachRepository.save(attach);
             attaches.add(attach);
