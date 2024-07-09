@@ -17,6 +17,8 @@ import Coordinate.coordikittyBE.domain.post.posting.dto.response.PostUpdateRespo
 import Coordinate.coordikittyBE.domain.post.repository.PostDao;
 import Coordinate.coordikittyBE.domain.post.repository.PostRepository;
 
+import Coordinate.coordikittyBE.exception.CoordikittyException;
+import Coordinate.coordikittyBE.exception.ErrorType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,7 +41,8 @@ public class PostingService {
     public List<PostResponseDto> getPostsLoggedIn() {
         return postRepository.findAllByOrderByCreatedAtDesc().stream()
                 .map(post -> {
-                    History history = historyRepository.findByUserEmailAndPostId(post.getUser().getEmail(), post.getId()).orElseThrow();
+                    History history = historyRepository.findByUserEmailAndPostId(post.getUser().getEmail(), post.getId())
+                            .orElseThrow(()-> new CoordikittyException(ErrorType.HISTORY_NOT_FOUND));
                     return PostResponseDto.fromEntity(post, history);
                 })
                 .toList();
@@ -48,7 +51,8 @@ public class PostingService {
     public List<PostResponseDto> getPostsUnLoggedIn() {
         return postRepository.findAllByOrderByCreatedAtDesc().stream()
                 .map(post-> {
-                    History history = historyRepository.findByUserEmailAndPostId(post.getUser().getEmail(), post.getId()).orElseThrow();
+                    History history = historyRepository.findByUserEmailAndPostId(post.getUser().getEmail(), post.getId())
+                            .orElseThrow(()-> new CoordikittyException(ErrorType.HISTORY_NOT_FOUND));
                     return PostResponseDto.fromEntity(post, history);
                 })
                 .toList();

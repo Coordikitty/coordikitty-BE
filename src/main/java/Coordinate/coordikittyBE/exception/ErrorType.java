@@ -27,7 +27,9 @@ public enum ErrorType {
     FIREBASE_ERROR("CLOSET-001", "파이어베이스 통신 실패", 400),
     TRANSFORT_MULTIFILE_ERROR("CLOSET-002", "API통신 준비 실패", 400),
 
-    POST_NOT_FOUND("POST-001", "해당 게시글을 찾을 수 없습니다.", 400);
+    POST_NOT_FOUND("POST-001", "해당 게시글을 찾을 수 없습니다.", 400),
+    HISTORY_NOT_FOUND("HISTORY-001", "해당 히스토리를 찾을 수 없습니다.", 400);
+
     private final String errorCode;
     private final String message;
     private final int statusCode;
