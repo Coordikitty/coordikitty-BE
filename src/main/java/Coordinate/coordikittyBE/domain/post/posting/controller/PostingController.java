@@ -26,16 +26,16 @@ public class PostingController {
     @GetMapping(value = "/logged")
     public ResponseEntity<?> getPostsLoggedIn(
             //@RequestParam(value = "page") int page,
-            ){
+    ) {
         return ResponseEntity.ok(postingService.getPostsLoggedIn());
     }
 
     @GetMapping(value = "/unLogged")
     public ResponseEntity<?> getPostsUnLoggedIn(
-    ){
+    ) {
         try {
             return ResponseEntity.ok(postingService.getPostsUnLoggedIn());
-        }catch(Exception e) {
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
@@ -44,14 +44,14 @@ public class PostingController {
     public ResponseEntity<?> updatePost(
             @PathVariable("postId") UUID postId,
             @RequestBody PostUpdateRequestDto postUpdateRequestDto
-    ){
+    ) {
         return ResponseEntity.ok(postingService.update(postId, postUpdateRequestDto));
     }
 
     @GetMapping(value = "/get/{postId}")
     public ResponseEntity<PostResponseDto> getPostByPostId(
             @PathVariable("postId") UUID postId
-    ){
+    ) {
         return ResponseEntity.ok(postingService.findById(postId));
     }
 
@@ -68,12 +68,8 @@ public class PostingController {
     @DeleteMapping("/delete")
     public ResponseEntity<String> deletePost(
             @RequestParam UUID postId
-            ){
-        try {
-            postingService.delete(postId);
-            return ResponseEntity.ok("게시글 삭제 성공");
-        }catch(Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    ) {
+        postingService.delete(postId);
+        return ResponseEntity.ok("게시글 삭제 성공");
     }
 }

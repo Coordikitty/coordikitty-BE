@@ -19,23 +19,16 @@ public class PostlikeController {
     public ResponseEntity<?> like(
             @RequestBody UUID postId,
             @AuthenticationPrincipal UserDetails userDetails
-            ){
-        try{
-            return ResponseEntity.ok().body(postlikeService.like(postId, userDetails.getUsername()));
-        } catch(Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    ) {
+        return ResponseEntity.ok().body(postlikeService.like(postId, userDetails.getUsername()));
     }
+
     @PutMapping("like")
     public ResponseEntity<?> dislike(
             @RequestBody UUID postId,
             @AuthenticationPrincipal UserDetails userDetails
-    )
-    {
-        try{
-            return ResponseEntity.ok().body(postlikeService.dislike(postId, userDetails.getUsername()));
-        } catch(Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    ) {
+        return ResponseEntity.ok().body(postlikeService.dislike(postId, userDetails.getUsername()));
+
     }
 }
