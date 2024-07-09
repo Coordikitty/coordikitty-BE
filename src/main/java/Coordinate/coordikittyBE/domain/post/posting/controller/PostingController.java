@@ -61,7 +61,7 @@ public class PostingController {
             @RequestPart PostUploadRequestDto postUploadRequestDto,
             @RequestPart List<MultipartFile> postImgs,
             @AuthenticationPrincipal UserDetails userDetails
-    ) throws IOException {
+    ) {
         return ResponseEntity.ok(postingService.upload(postUploadRequestDto, postImgs, userDetails.getUsername()));
     }
 

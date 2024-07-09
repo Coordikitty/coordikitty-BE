@@ -70,8 +70,9 @@ public class PostingService {
         postDao.delete(postId);
     }
 
-    public PostResponseDto upload(PostUploadRequestDto postUploadRequestDto, List<MultipartFile> images, String email) throws IOException {
-        User user = userRepository.findById(email).orElse(null);
+    public PostResponseDto upload(PostUploadRequestDto postUploadRequestDto, List<MultipartFile> images, String email) {
+        User user = userRepository.findById(email)
+                .orElseThrow(()-> new CoordikittyException(ErrorType.MEMBER_NOT_FOUND));
         Post post = PostUploadRequestDto.toEntity(postUploadRequestDto, user);
         for (MultipartFile image : images) {
             String imageUrl = postDao.upload(image, post.getId());
