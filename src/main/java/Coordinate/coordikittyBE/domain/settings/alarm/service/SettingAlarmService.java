@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,32 +23,21 @@ public class SettingAlarmService {
         User user = userRepository.findById(email)
                 .orElseThrow(() -> new CoordikittyException(ErrorType.EMAIL_NOT_FOUND));
 
-        user.settingAll(getAlarmLike(user), getAlarmFeed(user), getAlarmFollow(user));
-
         return SettingAlarmResponseDto.from(user);
     }
 
     @Transactional
-    public void setSettingAlarm(String email, SettingAlarmRequestDto type) {
+    public void changeSettingAlarm(String email, SettingAlarmRequestDto type) {
         // user id 로 타입에 맞는 유저의 알람 설정 변경
         User user = userRepository.findById(email)
                 .orElseThrow(() -> new CoordikittyException(ErrorType.EMAIL_NOT_FOUND));
 
         switch (type.type()) {
-            case LIKE -> user.settingLike(!getAlarmLike(user));
-            case FEED -> user.settingFeed(!getAlarmFeed(user));
-            case FOLLOW -> user.settingFollow(!getAlarmFollow(user));
+            case LIKE -> user.settingLike();
+            case FEED -> user.settingFeed();
+            case FOLLOW -> user.settingFollow();
             default -> throw new CoordikittyException(ErrorType.INVALID_REQUEST_ERROR);
         }
     }
 
-    private boolean getAlarmLike(User user) {
-        return Optional.ofNullable(user.getAlarm_like()).orElse(false);
-    }
-    private boolean getAlarmFeed(User user) {
-        return Optional.ofNullable(user.getAlarm_feed()).orElse(false);
-    }
-    private boolean getAlarmFollow(User user) {
-        return Optional.ofNullable(user.getAlarm_follow()).orElse(false);
-    }
 }

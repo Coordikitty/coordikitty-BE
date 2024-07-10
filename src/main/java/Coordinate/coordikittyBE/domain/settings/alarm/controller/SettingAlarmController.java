@@ -42,7 +42,7 @@ public class SettingAlarmController {
         // User Entity : user id 반환
         // alarm type 수정
 
-        settingService.setSettingAlarm(userDetails.getUsername(), type);
+        settingService.changeSettingAlarm(userDetails.getUsername(), type);
         return ResponseEntity.ok().body("타입 변환 성공");
 
 //        try{
