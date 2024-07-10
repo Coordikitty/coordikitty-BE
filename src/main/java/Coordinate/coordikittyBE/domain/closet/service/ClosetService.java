@@ -44,7 +44,7 @@ public class ClosetService {
     @Transactional
     public String postCloth(String email, ClosetPostRequestDto closetPostRequestDto, MultipartFile clothImg) {
         User user = userRepository.findById(email)
-                .orElseThrow(() -> new CoordikittyException(ErrorType.EMAIL_FORMAT_ERROR));
+                .orElseThrow(() -> new CoordikittyException(ErrorType.EMAIL_NOT_FOUND));
         Cloth cloth = Cloth.of(closetPostRequestDto, user);
 
         String imageUrl = clothDao.upload(clothImg, cloth.getId());

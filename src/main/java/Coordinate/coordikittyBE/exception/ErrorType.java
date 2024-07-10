@@ -18,6 +18,7 @@ public enum ErrorType {
     INPUT_FORMAT_ERROR("COMMON-004", "올바르지 않은 입력 방식입니다", 400),
     INVALID_PARAMS("COMMON-005", "잘못된 Param값 입니다", 400),
 
+    EMAIL_NOT_FOUND("USER-001", "이메일을 찾을 수 없습니다", 400),
     EMAIL_FORMAT_ERROR("USER-002", "올바르지 않은 이메일 입력 양식입니다.", 400),
     DUPLICATED_EMAIL_ERROR("USER-003", "중복된 이메일입니다.", 400),
 
