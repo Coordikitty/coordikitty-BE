@@ -94,6 +94,10 @@ public class User implements UserDetails {
         this.alarm_follow = alarm_follow;
     }
 
+    public void addProfileUrl(String profileUrl){
+        this.profileUrl = profileUrl;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("user"));

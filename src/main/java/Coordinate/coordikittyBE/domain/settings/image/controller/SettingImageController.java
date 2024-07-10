@@ -24,12 +24,7 @@ public class SettingImageController {
         // User Entity : user id 반환
         // User Entity : profileURL 찾기
         // profileURL 반환
-        try {
-            SettingImageResponseDto settingImageResponseDTO = settingImageService.getSettingImage(userDetails.getUsername());
-            return ResponseEntity.ok().body(settingImageResponseDTO);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        return ResponseEntity.ok(settingImageService.getSettingImage(userDetails.getUsername()));
     }
 
     @PostMapping(value = "/image")
@@ -40,10 +35,15 @@ public class SettingImageController {
         // token authentication
         // User Entity : user id 반환
         // profileImg 업로드 후에 url 저장
-        String email = userDetails.getUsername();
-        if (settingImageService.setSettingImage(email, profileImg))
-            return ResponseEntity.ok().body("프로필 이미지 변경 성공");
-        else
-            return ResponseEntity.badRequest().body("프로필 이미지 변경 실패");
+        settingImageService.setSettingImage(userDetails.getUsername(), profileImg);
+        return ResponseEntity.ok().body("프로필 이미지 변경 성공");
+    }
+
+    @DeleteMapping(value = "/image")
+    public ResponseEntity<String> deleteSettingImage(
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
+        settingImageService.deleteSettingImage(userDetails.getUsername());
+        return ResponseEntity.ok().body("프로필 이미지 삭제 성공");
     }
 }
