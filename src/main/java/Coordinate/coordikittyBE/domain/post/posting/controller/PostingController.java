@@ -33,11 +33,7 @@ public class PostingController {
     @GetMapping(value = "/unLogged")
     public ResponseEntity<?> getPostsUnLoggedIn(
     ) {
-        try {
-            return ResponseEntity.ok(postingService.getPostsUnLoggedIn());
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        return ResponseEntity.ok(postingService.getPostsUnLoggedIn());
     }
 
     @PutMapping(value = "/{postId}")
