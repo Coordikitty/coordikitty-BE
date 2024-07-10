@@ -8,6 +8,7 @@ import Coordinate.coordikittyBE.exception.CoordikittyException;
 import Coordinate.coordikittyBE.exception.ErrorType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -17,38 +18,29 @@ public class SettingAlarmService {
 
     private final UserRepository userRepository;
 
+    @Transactional
     public SettingAlarmResponseDto getSettingAlarm(String email) {
         // user id 로 현재 유저의 알람 설정 상태 반환
         User user = userRepository.findById(email)
                 .orElseThrow(() -> new CoordikittyException(ErrorType.EMAIL_NOT_FOUND));
 
-        boolean alarm_like = getAlarmLike(user);
-        boolean alarm_feed = getAlarmFeed(user);
-        boolean alarm_follow = getAlarmFollow(user);
-
-        user.setting(alarm_like, alarm_feed, alarm_follow);
-        userRepository.save(user);
+        user.settingAll(getAlarmLike(user), getAlarmFeed(user), getAlarmFollow(user));
 
         return SettingAlarmResponseDto.from(user);
     }
 
+    @Transactional
     public void setSettingAlarm(String email, SettingAlarmRequestDto type) {
         // user id 로 타입에 맞는 유저의 알람 설정 변경
         User user = userRepository.findById(email)
                 .orElseThrow(() -> new CoordikittyException(ErrorType.EMAIL_NOT_FOUND));
 
-        boolean alarm_like = getAlarmLike(user);
-        boolean alarm_feed = getAlarmFeed(user);
-        boolean alarm_follow = getAlarmFollow(user);
-
         switch (type.type()) {
-            case LIKE -> user.setting(!alarm_like, alarm_feed, alarm_follow);
-            case FEED -> user.setting(alarm_like, !alarm_feed, alarm_follow);
-            case FOLLOW -> user.setting(alarm_like, alarm_feed, !alarm_follow);
+            case LIKE -> user.settingLike(!getAlarmLike(user));
+            case FEED -> user.settingFeed(!getAlarmFeed(user));
+            case FOLLOW -> user.settingFollow(!getAlarmFollow(user));
             default -> throw new CoordikittyException(ErrorType.INVALID_REQUEST_ERROR);
         }
-
-        userRepository.save(user);
     }
 
     private boolean getAlarmLike(User user) {

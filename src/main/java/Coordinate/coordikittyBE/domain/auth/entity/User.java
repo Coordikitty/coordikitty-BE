@@ -88,9 +88,21 @@ public class User implements UserDetails {
         return this;
     }
 
-    public void setting(boolean alarm_like, boolean alarm_feed, boolean alarm_follow){
+    public void settingAll(boolean alarm_like, boolean alarm_feed, boolean alarm_follow){
         this.alarm_like = alarm_like;
         this.alarm_feed = alarm_feed;
+        this.alarm_follow = alarm_follow;
+    }
+
+    public void settingLike(boolean alarm_like) {
+        this.alarm_like = alarm_like;
+    }
+
+    public void settingFeed(boolean alarm_feed) {
+        this.alarm_feed = alarm_feed;
+    }
+
+    public void settingFollow(boolean alarm_follow) {
         this.alarm_follow = alarm_follow;
     }
 

@@ -9,9 +9,8 @@ import Coordinate.coordikittyBE.exception.CoordikittyException;
 import Coordinate.coordikittyBE.exception.ErrorType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,7 +27,8 @@ public class SettingImageService {
         return SettingImageResponseDto.fromEntity(user);
     }
 
-    public void setSettingImage(String email, MultipartFile profileImg) {
+    @Transactional
+    public String changeSettingImage(String email, MultipartFile profileImg) {
         // user id 로 찾아서 profile Img 변경
         User user = userRepository.findById(email)
                 .orElseThrow(() -> new CoordikittyException(ErrorType.EMAIL_NOT_FOUND));
@@ -39,10 +39,12 @@ public class SettingImageService {
         // profile Img 를 firebase에 저장
         String profileUrl = imageDao.upload(profileImg, email);
         user.addProfileUrl(profileUrl);
-        userRepository.save(user);
+
+        return "프로필 이미지 변경 성공";
     }
 
-    public void deleteSettingImage(String email) {
+    @Transactional
+    public String deleteSettingImage(String email) {
         User user = userRepository.findById(email)
                 .orElseThrow(() -> new CoordikittyException(ErrorType.EMAIL_NOT_FOUND));
 
@@ -51,6 +53,7 @@ public class SettingImageService {
 
         // profile url 을 null 로 저장
         user.addProfileUrl(null);
-        userRepository.save(user);
+
+        return "프로필 이미지 삭제 성공";
     }
 }
