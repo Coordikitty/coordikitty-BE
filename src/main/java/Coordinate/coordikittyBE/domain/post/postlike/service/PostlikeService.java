@@ -31,18 +31,10 @@ public class PostlikeService {
         History history = historyRepository.findByUserEmailAndPostId(email, postId)
                 .orElseGet(() -> History.of(user, post));
 
-        history.liked();
+        history.toogleLike();
         historyRepository.save(history);
         post.like();
         return "좋아요 성공";
     }
 
-    public String dislike(UUID postId, String email) {
-        Post post = postRepository.findById(postId).orElseThrow(() -> new CoordikittyException(ErrorType.POST_NOT_FOUND));
-        History history = historyRepository.findByUserEmailAndPostId(email, postId)
-                .orElseThrow(() -> new CoordikittyException(ErrorType.MEMBER_NOT_FOUND));
-        history.unLiked();
-        post.unlike();
-        return "좋아요 성공";
-    }
 }

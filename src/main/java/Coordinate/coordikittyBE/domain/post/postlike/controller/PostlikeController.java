@@ -1,5 +1,6 @@
 package Coordinate.coordikittyBE.domain.post.postlike.controller;
 
+import Coordinate.coordikittyBE.domain.post.postlike.dto.PostLikeRequestDto;
 import Coordinate.coordikittyBE.domain.post.postlike.service.PostlikeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,18 +18,10 @@ public class PostlikeController {
 
     @PostMapping("like")
     public ResponseEntity<?> like(
-            @RequestBody UUID postId,
+            @RequestBody PostLikeRequestDto postLikeRequestDto,
             @AuthenticationPrincipal UserDetails userDetails
     ) {
-        return ResponseEntity.ok().body(postlikeService.like(postId, userDetails.getUsername()));
+        return ResponseEntity.ok().body(postlikeService.like(postLikeRequestDto.postId(), userDetails.getUsername()));
     }
 
-    @PutMapping("like")
-    public ResponseEntity<?> dislike(
-            @RequestBody UUID postId,
-            @AuthenticationPrincipal UserDetails userDetails
-    ) {
-        return ResponseEntity.ok().body(postlikeService.dislike(postId, userDetails.getUsername()));
-
-    }
 }
