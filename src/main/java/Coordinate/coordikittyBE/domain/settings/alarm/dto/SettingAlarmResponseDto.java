@@ -1,14 +1,9 @@
 package Coordinate.coordikittyBE.domain.settings.alarm.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import Coordinate.coordikittyBE.domain.auth.entity.User;
 
-@Getter
-@Setter
-@NoArgsConstructor
-public class SettingAlarmResponseDto {
-    private boolean alarm_like;
-    private boolean alarm_feed;
-    private boolean alarm_follow;
+public record SettingAlarmResponseDto(boolean alarm_like, boolean alarm_feed, boolean alarm_follow) {
+    public static SettingAlarmResponseDto from(User user) {
+        return new SettingAlarmResponseDto(user.getAlarm_like(), user.getAlarm_feed(), user.getAlarm_follow());
+    }
 }
