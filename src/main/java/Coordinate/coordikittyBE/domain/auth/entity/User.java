@@ -88,6 +88,12 @@ public class User implements UserDetails {
         return this;
     }
 
+    public void setting(boolean alarm_like, boolean alarm_feed, boolean alarm_follow){
+        this.alarm_like = alarm_like;
+        this.alarm_feed = alarm_feed;
+        this.alarm_follow = alarm_follow;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("user"));

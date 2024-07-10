@@ -23,12 +23,14 @@ public class SettingAlarmController {
         // User Entity : user id 반환
         // user id 에 해당하는 alarm type 반환
 
-        try {
-            SettingAlarmResponseDto settingAlarmResponseDTO = settingService.getSettingAlarm(userDetails.getUsername());
-            return ResponseEntity.ok().body(settingAlarmResponseDTO);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        return ResponseEntity.ok(settingService.getSettingAlarm(userDetails.getUsername()));
+
+//        try {
+//            SettingAlarmResponseDto settingAlarmResponseDTO = settingService.getSettingAlarm(userDetails.getUsername());
+//            return ResponseEntity.ok().body(settingAlarmResponseDTO);
+//        } catch (Exception e) {
+//            return ResponseEntity.badRequest().body(e.getMessage());
+//        }
     }
 
     @PostMapping(value = "/alarm")
@@ -40,12 +42,15 @@ public class SettingAlarmController {
         // User Entity : user id 반환
         // alarm type 수정
 
-        try{
-            settingService.setSettingAlarm(userDetails.getUsername(), type);
-            return ResponseEntity.ok().body("타입 변환 성공");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        settingService.setSettingAlarm(userDetails.getUsername(), type);
+        return ResponseEntity.ok().body("타입 변환 성공");
+
+//        try{
+//            settingService.setSettingAlarm(userDetails.getUsername(), type);
+//            return ResponseEntity.ok().body("타입 변환 성공");
+//        } catch (Exception e) {
+//            return ResponseEntity.badRequest().body(e.getMessage());
+//        }
     }
 
 }
