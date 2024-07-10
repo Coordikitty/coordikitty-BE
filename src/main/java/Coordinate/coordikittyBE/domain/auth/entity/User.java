@@ -55,28 +55,36 @@ public class User implements UserDetails {
     @Column(name = "profile_url", nullable = true)
     private String profileUrl;
 
-    @Column(name = "alarm_like", nullable = true)
-    private Boolean alarm_like;
+    @Column(name = "alarm_like", nullable = false)
+    @Builder.Default
+    private Boolean alarm_like = false;
 
-    @Column(name = "alarm_feed", nullable = true)
-    private Boolean alarm_feed;
+    @Column(name = "alarm_feed", nullable = false)
+    @Builder.Default
+    private Boolean alarm_feed = false;
 
-    @Column(name = "alarm_follow", nullable = true)
-    private Boolean alarm_follow;
+    @Column(name = "alarm_follow", nullable = false)
+    @Builder.Default
+    private Boolean alarm_follow = false;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @Builder.Default
     private List<Cloth> clothes = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @Builder.Default
     private List<History> historys = new ArrayList<>();
 
     @OneToMany(mappedBy = "fromUser", cascade = CascadeType.REMOVE)
+    @Builder.Default
     private List<Follow> followers = new ArrayList<>();
 
     @OneToMany(mappedBy = "toUser", cascade = CascadeType.REMOVE)
+    @Builder.Default
     private List<Follow> followings = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @Builder.Default
     private List<Post> posts = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
@@ -86,6 +94,23 @@ public class User implements UserDetails {
     public User update(String nickname){
         this.nickname = nickname;
         return this;
+    }
+
+
+    public void settingLike() {
+        this.alarm_like = !this.alarm_like;
+    }
+
+    public void settingFeed() {
+        this.alarm_feed = !this.alarm_feed;
+    }
+
+    public void settingFollow() {
+        this.alarm_follow = !this.alarm_follow;
+    }
+
+    public void addProfileUrl(String profileUrl){
+        this.profileUrl = profileUrl;
     }
 
     @Override
