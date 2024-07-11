@@ -14,7 +14,7 @@ ML/DL : 정민관, 김채일
 - Front : ReactJS, Flutter
 - Back-end : SpringBoot, MySQL(AWS RDS) 
 - 버전 및 이슈관리 : Github, Jira Software, Redis(사용예정)
-- 협업 툴 : Discord, Jira Software, Github
+- 협업 툴 : Discord, [Jira Software](https://tenteniball.atlassian.net/jira/software/projects/SCRUM/boards/1), Github
 - 서비스 배포 환경 : AWS EC2, ngrok(ml/dl), Github Actions
 - 디자인 : [Figma](https://www.figma.com/design/iAU7tmcVv7jXtm3LBq3oLE/CoordiKitty?node-id=0-1&t=OChq8nxeMpNzMPau-0)
 ## 주요 기능
