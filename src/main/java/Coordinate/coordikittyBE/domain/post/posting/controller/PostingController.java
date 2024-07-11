@@ -26,58 +26,46 @@ public class PostingController {
     @GetMapping(value = "/logged")
     public ResponseEntity<?> getPostsLoggedIn(
             //@RequestParam(value = "page") int page,
-            ){
-        try {
-            return ResponseEntity.ok(postingService.getPostsLoggedIn());
-        }catch(Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    ) {
+        return ResponseEntity.ok(postingService.getPostsLoggedIn());
     }
 
     @GetMapping(value = "/unLogged")
     public ResponseEntity<?> getPostsUnLoggedIn(
-    ){
-        try {
-            return ResponseEntity.ok(postingService.getPostsUnLoggedIn());
-        }catch(Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    ) {
+        return ResponseEntity.ok(postingService.getPostsUnLoggedIn());
     }
 
     @PutMapping(value = "/{postId}")
     public ResponseEntity<?> updatePost(
             @PathVariable("postId") UUID postId,
             @RequestBody PostUpdateRequestDto postUpdateRequestDto
-    ){
-        postingService.update(postId, postUpdateRequestDto);
-        return ResponseEntity.ok("게시글 수정 완료");
+    ) {
+        return ResponseEntity.ok(postingService.update(postId, postUpdateRequestDto));
     }
 
     @GetMapping(value = "/get/{postId}")
     public ResponseEntity<PostResponseDto> getPostByPostId(
             @PathVariable("postId") UUID postId
-    ){
+    ) {
         return ResponseEntity.ok(postingService.findById(postId));
     }
+
 
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadPost(
             @RequestPart PostUploadRequestDto postUploadRequestDto,
             @RequestPart List<MultipartFile> postImgs,
             @AuthenticationPrincipal UserDetails userDetails
-    ) throws IOException {
+    ) {
         return ResponseEntity.ok(postingService.upload(postUploadRequestDto, postImgs, userDetails.getUsername()));
     }
 
     @DeleteMapping("/delete")
     public ResponseEntity<String> deletePost(
             @RequestParam UUID postId
-            ){
-        try {
-            postingService.delete(postId);
-            return ResponseEntity.ok("게시글 삭제 성공");
-        }catch(Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    ) {
+        postingService.delete(postId);
+        return ResponseEntity.ok("게시글 삭제 성공");
     }
 }

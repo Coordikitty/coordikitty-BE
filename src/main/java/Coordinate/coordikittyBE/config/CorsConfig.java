@@ -23,7 +23,6 @@ public class CorsConfig implements Filter {
 	public void init(FilterConfig filterConfig) throws ServletException {
 		Filter.super.init(filterConfig);
 	}
-
 	@Override
 	public void destroy() {
 		Filter.super.destroy();
@@ -33,7 +32,6 @@ public class CorsConfig implements Filter {
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
-
 		response.setHeader("Access-Control-Allow-Origin", "*");
 		response.setHeader("Access-Control-Allow-Credentials", "true");
 		response.setHeader("Access-Control-Allow-Methods", "*");

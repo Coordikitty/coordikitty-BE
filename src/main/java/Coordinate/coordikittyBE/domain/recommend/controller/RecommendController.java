@@ -48,7 +48,7 @@ public class RecommendController {
             }
         }
 
-        CoordinatesDto coordinatesDto = CoordinatesDto.toDto(lat, lon);
+        CoordinatesDto coordinatesDto = CoordinatesDto.of(lat, lon);
         return ResponseEntity.ok(recommendService.getRecommend(userDetails.getUsername(), type, value, coordinatesDto));
     }
 }

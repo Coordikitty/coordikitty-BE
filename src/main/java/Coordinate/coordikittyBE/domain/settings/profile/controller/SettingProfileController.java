@@ -1,7 +1,6 @@
 package Coordinate.coordikittyBE.domain.settings.profile.controller;
 
 import Coordinate.coordikittyBE.domain.settings.profile.dto.SettingProfileRequestDto;
-import Coordinate.coordikittyBE.domain.settings.profile.dto.SettingProfileResponseDto;
 import Coordinate.coordikittyBE.domain.settings.profile.service.SettingProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,13 +22,7 @@ public class SettingProfileController {
         // token Authentication
         // User Entity : user id 반환
         // user id 에서 profile Data 반환
-
-        try {
-            SettingProfileResponseDto settingProfileResponseDTO = settingProfileService.getSettingProfile(userDetails.getUsername());
-            return ResponseEntity.ok().body(settingProfileResponseDTO);
-        } catch (Exception e) {
-            return ResponseEntity.ok().body(e.getMessage());
-        }
+        return ResponseEntity.ok(settingProfileService.getSettingProfile(userDetails.getUsername()));
     }
 
     @PostMapping(value = "/profile")
@@ -41,11 +34,7 @@ public class SettingProfileController {
         // User Entity : user id 반환
         // user nickname 수정
 
-        try {
-            settingProfileService.setSettingProfile(userDetails.getUsername(), nickname);
-            return ResponseEntity.ok().body("닉네임 변경 성공");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("닉네임 변경 실패");
-        }
+        settingProfileService.setSettingProfile(userDetails.getUsername(), nickname);
+        return ResponseEntity.ok().body("닉네임 변경 성공");
     }
 }

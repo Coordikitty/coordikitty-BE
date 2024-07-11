@@ -1,12 +1,10 @@
 package Coordinate.coordikittyBE.domain.settings.image.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
-@NoArgsConstructor
-public class SettingImageResponseDto {
-    private String profileURL;
+import Coordinate.coordikittyBE.domain.auth.entity.User;
+
+public record SettingImageResponseDto(String profileURL) {
+    public static SettingImageResponseDto fromEntity(User user) {
+        return new SettingImageResponseDto(user.getProfileUrl());
+    }
 }

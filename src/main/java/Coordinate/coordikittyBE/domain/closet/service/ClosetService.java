@@ -9,6 +9,8 @@ import Coordinate.coordikittyBE.domain.closet.entity.Cloth;
 import Coordinate.coordikittyBE.domain.closet.repository.ClothDao;
 import Coordinate.coordikittyBE.domain.closet.repository.ClothRepository;
 import Coordinate.coordikittyBE.domain.closet.util.CategorizedResponse;
+import Coordinate.coordikittyBE.exception.CoordikittyException;
+import Coordinate.coordikittyBE.exception.ErrorType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpEntity;
@@ -23,7 +25,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -33,18 +34,17 @@ public class ClosetService {
     private final ClothRepository clothRepository;
     private final ClothDao clothDao;
 
+    @Transactional
     public List<ClosetGetResponseDto> getAllClothes(String email) {
-        List<Cloth> clothes = clothRepository.findAllByUserEmail(email);
-
-        return clothes.stream()
-                .map(ClosetGetResponseDto::fromCloset)
-                .collect((Collectors.toList()));
+        return clothRepository.findAllByUserEmail(email).stream()
+                .map(ClosetGetResponseDto::fromEntity)
+                .toList();
     }
 
     @Transactional
-    public String postCloth(String email, ClosetPostRequestDto closetPostRequestDto, MultipartFile clothImg) throws IOException {
+    public String postCloth(String email, ClosetPostRequestDto closetPostRequestDto, MultipartFile clothImg) {
         User user = userRepository.findById(email)
-                .orElseThrow(() -> new RuntimeException("옷 추가 실패: 없는 유저 email"));
+                .orElseThrow(() -> new CoordikittyException(ErrorType.EMAIL_NOT_FOUND));
         Cloth cloth = Cloth.of(closetPostRequestDto, user);
 
         String imageUrl = clothDao.upload(clothImg, cloth.getId());
@@ -53,12 +53,27 @@ public class ClosetService {
         return "업로드 성공";
     }
 
-    public ClosetCategorizationResponseDto clothCategorization(MultipartFile clothImg) throws IOException {
+    public ClosetCategorizationResponseDto clothCategorization(MultipartFile clothImg){
         String url = "http://localhost:8000/categorization";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
+        HttpEntity<MultiValueMap<String, Object>> request = getMultiValueMapHttpEntity(clothImg, headers);
+
+        RestTemplate restTemplate = new RestTemplate();
+        CategorizedResponse response = restTemplate.postForObject(url, request, CategorizedResponse.class);
+        assert response != null;
+        return ClosetCategorizationResponseDto.fromDL(response);
+    }
+
+    @Transactional
+    public void deleteCloth(UUID clothId) {
+        clothRepository.deleteById(clothId);
+        clothDao.delete(clothId);
+    }
+
+    private static HttpEntity<MultiValueMap<String, Object>> getMultiValueMapHttpEntity(MultipartFile clothImg, HttpHeaders headers) {
         ByteArrayResource resource;
         try {
             resource = new ByteArrayResource(clothImg.getBytes()) {
@@ -68,24 +83,12 @@ public class ClosetService {
                 }
             };
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new CoordikittyException(ErrorType.TRANSFORT_MULTIFILE_ERROR);
         }
 
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
         body.add("file", resource);
 
-        HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(body, headers);
-
-        RestTemplate restTemplate = new RestTemplate();
-        CategorizedResponse response = restTemplate.postForObject(url, request, CategorizedResponse.class);
-        assert response != null;
-        return ClosetCategorizationResponseDto.fromDL(response);
-    }
-
-    @Transactional
-    public void deleteCloth(UUID clothId, String email) {
-        clothRepository.deleteById(clothId);
-        clothRepository.flush();
-        clothDao.delete(clothId, email);
+        return new HttpEntity<>(body, headers);
     }
 }

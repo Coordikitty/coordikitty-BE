@@ -3,7 +3,6 @@ package Coordinate.coordikittyBE.domain.auth.login.controller;
 import Coordinate.coordikittyBE.domain.auth.login.dto.JwtTokenRequestDto;
 import Coordinate.coordikittyBE.domain.auth.login.dto.LoginResponseDto;
 import Coordinate.coordikittyBE.domain.auth.login.dto.LoginRequestDto;
-import Coordinate.coordikittyBE.domain.auth.login.dto.LogoutRequestDto;
 import Coordinate.coordikittyBE.domain.auth.login.service.TokenService;
 import Coordinate.coordikittyBE.domain.auth.login.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -30,13 +29,8 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> signIn(@RequestBody LoginRequestDto loginRequestDto){
-        try {
+    public ResponseEntity<LoginResponseDto> signIn(@RequestBody LoginRequestDto loginRequestDto){
             return ResponseEntity.ok().body(userService.signIn(loginRequestDto));
-        }
-        catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
     }
 
     @GetMapping("/login/google")
@@ -47,15 +41,9 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(
-            @RequestBody JwtTokenRequestDto refreshTokenDto,
+    public ResponseEntity<String> logout(
             @AuthenticationPrincipal UserDetails userDetails
     ){
-        try {
-            userService.logout(LogoutRequestDto.toDto(userDetails.getUsername(), refreshTokenDto.refreshToken()));
-            return ResponseEntity.ok().body("logout success");
-        } catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        return ResponseEntity.ok().body(userService.logout(userDetails.getUsername()));
     }
 }

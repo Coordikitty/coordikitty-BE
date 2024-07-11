@@ -20,10 +20,6 @@ public class WithdrawController {
 
     @PostMapping("/withdraw")
     public ResponseEntity<String> withdraw(@RequestBody WithdrawRequestDto withdrawRequestDto){
-        try {
-            return ResponseEntity.ok(withdrawService.withdraw(withdrawRequestDto.getEmail()));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        return ResponseEntity.ok(withdrawService.withdraw(withdrawRequestDto.email()));
     }
 }
