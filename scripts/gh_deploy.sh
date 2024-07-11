@@ -19,5 +19,5 @@ fi
 echo "> $JAR_PATH에 실행권한 추가"
 chmod +x $JAR_PATH
 
-nohup java -jar $JAR_PATH >> $REPOSITORY/build/libs/nohup.out &
+nohup java -jar $JAR_PATH >> $REPOSITORY/build/libs/nohup.out /dev/null 2> /dev/null < /dev/null &
 echo "> Deploy - $JAR_PATH "
