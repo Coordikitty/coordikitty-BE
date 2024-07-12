@@ -1,5 +1,6 @@
 package Coordinate.coordikittyBE.domain.auth.signup.service;
 
+import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
 import Coordinate.coordikittyBE.domain.auth.signup.dto.SignUpRequestDto;
 import Coordinate.coordikittyBE.domain.auth.signup.dto.SignUpResponseDto;
@@ -19,10 +20,10 @@ public class SignUpService {
         }
         return SignUpResponseDto.fromEntity(userRepository.save(SignUpRequestDto.toEntity(signUpRequestDto)));
     }
-    public void signUpSocial(SignUpSocialRequestDto signUpSocialRequestDto){
+    public User signUpSocial(SignUpSocialRequestDto signUpSocialRequestDto){
         if(userRepository.existsById(signUpSocialRequestDto.email())){
             throw new CoordikittyException(ErrorType.DUPLICATED_EMAIL_ERROR);
         }
-        userRepository.save(SignUpSocialRequestDto.toEntity(signUpSocialRequestDto));
+        return userRepository.save(SignUpSocialRequestDto.toEntity(signUpSocialRequestDto));
     }
 }

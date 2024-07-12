@@ -34,8 +34,9 @@ public class User implements UserDetails {
     @Column(name="name", nullable = true)
     private String name;
 
-    @Column(name="nickname", nullable = true, length = 10)
-    private String nickname;
+    @Column(name="nickname", nullable = false, length = 10)
+    @Builder.Default
+    private String nickname = "GUEST";
 
     @Column(name="birth", nullable = true)
     private LocalDate birth;
