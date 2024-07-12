@@ -3,6 +3,7 @@ package Coordinate.coordikittyBE.domain.auth.login.service;
 import Coordinate.coordikittyBE.domain.auth.entity.RefreshToken;
 import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.auth.login.dto.LoginResponseDto;
+import Coordinate.coordikittyBE.domain.auth.login.dto.SocialLoginRequestDto;
 import Coordinate.coordikittyBE.domain.auth.login.dto.TokenDto;
 import Coordinate.coordikittyBE.domain.auth.login.dto.LoginRequestDto;
 import Coordinate.coordikittyBE.exception.CoordikittyException;
@@ -36,5 +37,9 @@ public class UserService{
     public String logout(String email) {
         refreshTokenRepository.deleteByUserId(email);
         return "Logout success";
+    }
+
+    public LoginResponseDto socialSignIn(SocialLoginRequestDto socialLoginRequestDto) {
+
     }
 }
