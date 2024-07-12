@@ -19,10 +19,6 @@ public class SettingImageController {
     public ResponseEntity<?> getSettingImage(
             @AuthenticationPrincipal UserDetails userDetails
     ) {
-        // token authorization
-        // User Entity : user id 반환
-        // User Entity : profileURL 찾기
-        // profileURL 반환
         return ResponseEntity.ok(settingImageService.getSettingImage(userDetails.getUsername()));
     }
 
@@ -31,9 +27,6 @@ public class SettingImageController {
             @RequestPart("profileImg") MultipartFile profileImg,           // setting image request 사용 불가
             @AuthenticationPrincipal UserDetails userDetails
     ) {
-        // token authentication
-        // User Entity : user id 반환
-        // profileImg 업로드 후에 url 저장
         return ResponseEntity.ok(settingImageService.changeSettingImage(userDetails.getUsername(), profileImg));
     }
 

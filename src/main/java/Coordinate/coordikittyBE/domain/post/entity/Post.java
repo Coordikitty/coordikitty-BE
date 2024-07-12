@@ -42,12 +42,15 @@ public class Post {
 //    private List<String> postImgs = new ArrayList<>();
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @Builder.Default
     private List<PostImage> postImgs = new ArrayList<>();
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    @Builder.Default
     private List<Attach> attaches = new ArrayList<>();
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    @Builder.Default
     private List<History> historys = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)

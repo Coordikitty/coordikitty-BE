@@ -22,13 +22,11 @@ public class SettingAlarmService {
         // user id 로 현재 유저의 알람 설정 상태 반환
         User user = userRepository.findById(email)
                 .orElseThrow(() -> new CoordikittyException(ErrorType.EMAIL_NOT_FOUND));
-
         return SettingAlarmResponseDto.from(user);
     }
 
     @Transactional
     public void changeSettingAlarm(String email, SettingAlarmRequestDto type) {
-        // user id 로 타입에 맞는 유저의 알람 설정 변경
         User user = userRepository.findById(email)
                 .orElseThrow(() -> new CoordikittyException(ErrorType.EMAIL_NOT_FOUND));
 

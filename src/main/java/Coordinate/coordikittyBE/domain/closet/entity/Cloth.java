@@ -57,6 +57,7 @@ public class Cloth {
     private User user;
 
     @OneToMany(mappedBy = "cloth", cascade = CascadeType.REMOVE)
+    @Builder.Default
     private List<Attach> attaches = new ArrayList<>();
 
     public static Cloth of(ClosetPostRequestDto closetPostRequestDto, User user){
