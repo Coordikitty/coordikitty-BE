@@ -3,6 +3,7 @@ package Coordinate.coordikittyBE.domain.auth.login.controller;
 import Coordinate.coordikittyBE.domain.auth.login.dto.JwtTokenRequestDto;
 import Coordinate.coordikittyBE.domain.auth.login.dto.LoginResponseDto;
 import Coordinate.coordikittyBE.domain.auth.login.dto.LoginRequestDto;
+import Coordinate.coordikittyBE.domain.auth.login.dto.SocialLoginRequestDto;
 import Coordinate.coordikittyBE.domain.auth.login.service.TokenService;
 import Coordinate.coordikittyBE.domain.auth.login.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -33,11 +34,9 @@ public class AuthController {
             return ResponseEntity.ok().body(userService.signIn(loginRequestDto));
     }
 
-    @GetMapping("/login/google")
-    public ResponseEntity<?> googleLogin(){
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create("/oauth2/authorization/google"));
-        return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
+    @PostMapping("/login/google")
+    public ResponseEntity<?> googleLogin(@RequestBody SocialLoginRequestDto socialLoginRequestDto){
+        return ResponseEntity.ok(userService.socialSignIn(socialLoginRequestDto));
     }
 
     @PostMapping("/logout")
