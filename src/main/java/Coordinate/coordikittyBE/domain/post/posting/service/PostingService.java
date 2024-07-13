@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -39,13 +40,14 @@ public class PostingService {
     private final PostDao postDao;
 
     public List<PostResponseDto> getPostsLoggedIn() {
-        return postRepository.findAllByOrderByCreatedAtDesc().stream()
+        List<Post> postEntities =postRepository.findAll();
+        return postEntities.stream()
                 .map(post -> {
                     History history = historyRepository.findByUserEmailAndPostId(post.getUser().getEmail(), post.getId())
                             .orElseThrow(()-> new CoordikittyException(ErrorType.HISTORY_NOT_FOUND));
                     return PostResponseDto.fromEntity(post, history);
                 })
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public List<PostResponseDto> getPostsUnLoggedIn() {
