@@ -23,17 +23,11 @@ import java.util.UUID;
 public class PostingController {
     private final PostingService postingService;
 
-    @GetMapping(value = "/logged")
+    @GetMapping(value = "")
     public ResponseEntity<?> getPostsLoggedIn(
             //@RequestParam(value = "page") int page,
     ) {
-        return ResponseEntity.ok(postingService.getPostsLoggedIn());
-    }
-
-    @GetMapping(value = "/unLogged")
-    public ResponseEntity<?> getPostsUnLoggedIn(
-    ) {
-        return ResponseEntity.ok(postingService.getPostsUnLoggedIn());
+        return ResponseEntity.ok(postingService.getAllPosts());
     }
 
     @PutMapping(value = "/{postId}")

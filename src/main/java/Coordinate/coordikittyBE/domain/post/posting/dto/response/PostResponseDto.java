@@ -21,9 +21,9 @@ public record PostResponseDto(
         String uploaderProfileImg,
         Boolean isLiked,
         Boolean isBookmarked,
-        List<PostImage> postImgs
+        List<String> postImgs
 ){
-    public static PostResponseDto fromEntity(Post post, PostImage postImages, History history) {
+    public static PostResponseDto fromEntity(Post post, List<String> postImageUrls, History history) {
         return new PostResponseDto(
                 post.getId(),
                 post.getContent(),
@@ -35,7 +35,7 @@ public record PostResponseDto(
                 post.getUser().getProfileUrl(),
                 history.getIsLiked(),
                 history.getIsBookmarked(),
-                postImages.getPost().getPostImgs()
+                postImageUrls
         );
     }
 }

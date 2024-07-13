@@ -42,36 +42,15 @@ public class PostingService {
     private final PostDao postDao;
     private final PostImageRepository postImageRepository;
 
-    public List<PostResponseDto> getPostsLoggedIn() {
-        List<Post> postEntities =postRepository.findAll();
-        return postEntities.stream()
-                .map(post -> {
-                    History history = historyRepository.findByUserEmailAndPostId(post.getUser().getEmail(), post.getId())
-                            .orElseThrow(()-> new CoordikittyException(ErrorType.HISTORY_NOT_FOUND));
-                    return PostResponseDto.fromEntity(post, history);
-                })
-                .collect(Collectors.toList());
-    }
-
-    public List<PostResponseDto> getPostsUnLoggedIn() {
+    public List<PostResponseDto> getAllPosts() {
         return postRepository.findAllByOrderByCreatedAtDesc().stream()
-                .map(post-> {
-                    PostImage postImages = postImageRepository.findByPostId(post.getId())
-                            .orElseThrow(()-> new CoordikittyException(ErrorType.POST_IMAGE_NOT_FOUND));
-                    History history = historyRepository.findByUserEmailAndPostId(post.getUser().getEmail(), post.getId())
-                            .orElseThrow(()-> new CoordikittyException(ErrorType.HISTORY_NOT_FOUND));
-                    return PostResponseDto.fromEntity(post, postImages, history);
-                })
+                .map(this::findAllImageUrlByPostId)
                 .toList();
     }
 
     public PostResponseDto findById(UUID postId) {
         Post post = postRepository.findById(postId).orElseThrow(()-> new CoordikittyException(ErrorType.POST_NOT_FOUND));
-        PostImage postImage = postImageRepository.findByPostId(post.getId())
-                .orElseThrow(()-> new CoordikittyException(ErrorType.POST_IMAGE_NOT_FOUND));
-        History history = historyRepository.findByUserEmailAndPostId(post.getUser().getEmail(), post.getId())
-                .orElseThrow(()-> new CoordikittyException(ErrorType.HISTORY_NOT_FOUND));
-        return PostResponseDto.fromEntity(post, postImage, history);
+        return findAllImageUrlByPostId(post);
     }
 
     public void delete(UUID postId) {
@@ -83,17 +62,23 @@ public class PostingService {
         User user = userRepository.findById(email)
                 .orElseThrow(()-> new CoordikittyException(ErrorType.MEMBER_NOT_FOUND));
         Post post = PostUploadRequestDto.toEntity(postUploadRequestDto, user);
-        for (MultipartFile image : images) {
-            String imageUrl = postDao.upload(image, post.getId());
-            post.addImageUrl(imageUrl);
-        }
+        List<String> postImageUrls = new ArrayList<>();
+        images.stream()
+                .map(image -> {
+                    String imageUrl = postDao.upload(image, post.getId());
+                    PostImage postImage = PostImage.from(imageUrl, post);
+                    post.addImageUrl(postImage);
+                    postImageRepository.save(postImage);
+                    return imageUrl;
+                })
+                .forEach(postImageUrls::add);
         postRepository.save(post);
 
         History history = History.of(user, post);
         historyRepository.save(history);
         post.getHistorys().add(history);
         post.getAttaches().addAll(createAttaches(postUploadRequestDto.clothIds(), post));
-        return PostResponseDto.fromEntity(post, history);
+        return PostResponseDto.fromEntity(post, postImageUrls, history);
     }
 
     public PostUpdateResponseDto update(UUID postId, PostUpdateRequestDto postUpdateRequestDto) {
@@ -118,4 +103,11 @@ public class PostingService {
         return attaches;
     }
 
+    private PostResponseDto findAllImageUrlByPostId(Post post) {
+        List<String> postImages = postImageRepository.findAllByPostId(post.getId()).stream()
+                .map(PostImage::getImageUrl).toList();
+        History history = historyRepository.findByUserEmailAndPostId(post.getUser().getEmail(), post.getId())
+                .orElseThrow(()-> new CoordikittyException(ErrorType.HISTORY_NOT_FOUND));
+        return PostResponseDto.fromEntity(post, postImages, history);
+    }
 }
