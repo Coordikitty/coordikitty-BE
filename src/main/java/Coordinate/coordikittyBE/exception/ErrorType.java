@@ -12,6 +12,7 @@ public enum ErrorType {
     INVALID_TOKEN("AUTH-002", "유효하지 않은 토큰입니다.", 401),
     TOKEN_PAYLOAD_EXTRACTION_FAILURE("AUTH-003", "토큰 페이로드 추출에 실패했습니다", 401),
     TOKEN_NOT_FOUND("AUTH-004", "토큰을 찾을 수 없습니다.", 401),
+    REFRESH_TOKEN_ALREADY_EXIST("AUTH-005", "리프레시토큰이 이미 존재합니다.", 400),
 
     MISSING_REQUIRED_VALUE_ERROR("COMMON-001", "필수 요청값이 누락되었습니다.", 400),
     INVALID_REQUEST_ERROR("COMMON-003", "올바르지 않은 데이터 요청입니다.", 400),

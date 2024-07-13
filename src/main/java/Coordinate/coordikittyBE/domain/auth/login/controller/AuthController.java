@@ -34,7 +34,7 @@ public class AuthController {
             return ResponseEntity.ok().body(userService.signIn(loginRequestDto));
     }
 
-    @GetMapping("/login/google")
+    @PostMapping("/login/google")
     public ResponseEntity<?> googleLogin(@RequestBody SocialLoginRequestDto socialLoginRequestDto){
         return ResponseEntity.ok(userService.socialSignIn(socialLoginRequestDto));
     }
