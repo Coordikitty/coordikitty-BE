@@ -64,8 +64,7 @@ public class SecurityConfig {
                                 "/auth/token",
                                 "/auth/login/google",
                                 "/oauth2/authorization/google",
-                                "/post/unLogged",
-                                "/post/get/**"
+                                "/post"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
