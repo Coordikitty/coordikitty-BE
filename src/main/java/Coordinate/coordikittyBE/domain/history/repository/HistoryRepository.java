@@ -10,5 +10,6 @@ import java.util.UUID;
 public interface HistoryRepository extends JpaRepository<History, UUID> {
     Optional<List<History>> findAllByUserEmailAndIsBookmarkedTrue(String email);
     List<History> findAllByPostIdAndUserEmail(UUID postId, String userId);
+
     Optional<History> findByUserEmailAndPostId(String email, UUID postId);
 }

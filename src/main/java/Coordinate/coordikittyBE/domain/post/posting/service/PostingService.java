@@ -10,11 +10,13 @@ import Coordinate.coordikittyBE.domain.closet.repository.ClothRepository;
 import Coordinate.coordikittyBE.domain.history.entity.History;
 import Coordinate.coordikittyBE.domain.history.repository.HistoryRepository;
 import Coordinate.coordikittyBE.domain.post.entity.Post;
+import Coordinate.coordikittyBE.domain.post.entity.PostImage;
 import Coordinate.coordikittyBE.domain.post.posting.dto.request.PostUpdateRequestDto;
 import Coordinate.coordikittyBE.domain.post.posting.dto.request.PostUploadRequestDto;
 import Coordinate.coordikittyBE.domain.post.posting.dto.response.PostResponseDto;
 import Coordinate.coordikittyBE.domain.post.posting.dto.response.PostUpdateResponseDto;
 import Coordinate.coordikittyBE.domain.post.repository.PostDao;
+import Coordinate.coordikittyBE.domain.post.repository.PostImageRepository;
 import Coordinate.coordikittyBE.domain.post.repository.PostRepository;
 
 import Coordinate.coordikittyBE.exception.CoordikittyException;
@@ -38,6 +40,7 @@ public class PostingService {
     private final HistoryRepository historyRepository;
     private final UserRepository userRepository;
     private final PostDao postDao;
+    private final PostImageRepository postImageRepository;
 
     public List<PostResponseDto> getPostsLoggedIn() {
         List<Post> postEntities =postRepository.findAll();
@@ -53,18 +56,22 @@ public class PostingService {
     public List<PostResponseDto> getPostsUnLoggedIn() {
         return postRepository.findAllByOrderByCreatedAtDesc().stream()
                 .map(post-> {
+                    PostImage postImages = postImageRepository.findByPostId(post.getId())
+                            .orElseThrow(()-> new CoordikittyException(ErrorType.POST_IMAGE_NOT_FOUND));
                     History history = historyRepository.findByUserEmailAndPostId(post.getUser().getEmail(), post.getId())
                             .orElseThrow(()-> new CoordikittyException(ErrorType.HISTORY_NOT_FOUND));
-                    return PostResponseDto.fromEntity(post, history);
+                    return PostResponseDto.fromEntity(post, postImages, history);
                 })
                 .toList();
     }
 
     public PostResponseDto findById(UUID postId) {
         Post post = postRepository.findById(postId).orElseThrow(()-> new CoordikittyException(ErrorType.POST_NOT_FOUND));
+        PostImage postImage = postImageRepository.findByPostId(post.getId())
+                .orElseThrow(()-> new CoordikittyException(ErrorType.POST_IMAGE_NOT_FOUND));
         History history = historyRepository.findByUserEmailAndPostId(post.getUser().getEmail(), post.getId())
                 .orElseThrow(()-> new CoordikittyException(ErrorType.HISTORY_NOT_FOUND));
-        return PostResponseDto.fromEntity(post, history);
+        return PostResponseDto.fromEntity(post, postImage, history);
     }
 
     public void delete(UUID postId) {

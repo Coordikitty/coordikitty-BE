@@ -32,7 +32,8 @@ public enum ErrorType {
     ML_DL_SERVER_ERROR("API-001", "ML/DL서버와 통신 실패", 503),
 
     POST_NOT_FOUND("POST-001", "해당 게시글을 찾을 수 없습니다.", 404),
-    HISTORY_NOT_FOUND("HISTORY-001", "해당 히스토리를 찾을 수 없습니다.", 404);
+    POST_IMAGE_NOT_FOUND("POST-002", "해당 게시글 사진을 찾을 수 없습니다.", 404),
+    HISTORY_NOT_FOUND("HISTORY-001", "해당 히스토리를 찾을 수 없습니다.", 404), ;
 
     private final String errorCode;
     private final String message;
