@@ -70,8 +70,7 @@ public class Post {
     public void unlike(){
         this.likeCount--;
     }
-    public void addImageUrl(String imageUrl) {
-        PostImage postImage = PostImage.create(imageUrl, this);
+    public void addImageUrl(PostImage postImage) {
         this.postImgs.add(postImage);
     }
 }

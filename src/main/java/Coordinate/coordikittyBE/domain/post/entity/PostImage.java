@@ -21,7 +21,7 @@ public class PostImage {
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
 
-    public static PostImage create(String imageUrl, Post post) {
+    public static PostImage from(String imageUrl, Post post) {
         return PostImage.builder()
                 .imageUrl(imageUrl)
                 .post(post)
