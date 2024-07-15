@@ -1,47 +1,63 @@
 package Coordinate.coordikittyBE.security.jwt;
+
 import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.auth.login.dto.TokenDto;
-import io.jsonwebtoken.*;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
+import Coordinate.coordikittyBE.domain.auth.login.service.UserDetailServiceImpl;
+import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
+import Coordinate.coordikittyBE.exception.CoordikittyException;
+import Coordinate.coordikittyBE.exception.ErrorType;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import java.security.Key;
-import java.util.Arrays;
-import java.util.Collection;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 import java.util.Date;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Component
 public class JwtTokenProvider {
-    private final Key key;
+    private final SecretKey secretKey;
+    private final long expiration;
+    private final String issuer;
+    private final UserRepository userRepository;
+    private final UserDetailServiceImpl userDetailService;
 
-    public JwtTokenProvider(@Value("${jwt.secret_key}") String secretKey) {
-        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
-        this.key = Keys.hmacShaKeyFor(keyBytes);
+    public JwtTokenProvider(
+            @Value("${jwt.secret_key}") final String SECRET_KEY,
+            @Value("${jwt.expiration}") long getExpiration,
+            @Value("${jwt.issuer}") String issuer,
+            UserRepository userRepository,
+            UserDetailServiceImpl userDetailService
+    ) {
+        this.secretKey = new SecretKeySpec(SECRET_KEY.getBytes(), Jwts.SIG.HS256.key().build().getAlgorithm());
+        this.expiration = getExpiration;
+        this.issuer = issuer;
+        this.userRepository = userRepository;
+        this.userDetailService = userDetailService;
     }
+
     // Member 정보를 가지고 AccessToken, RefreshToken을 생성하는 메서드
     public TokenDto generateToken(User user) {
-        long now = (new Date()).getTime();
-        int Day = 86400000;
-        Date accessTokenExpiresIn = new Date(now + Day);
         // Access Token 생성
         String accessToken = Jwts.builder()
-                .setExpiration(accessTokenExpiresIn)
-                .setSubject(user.getEmail())
-                .claim("auth", user.getEmail())
-                .signWith(key, SignatureAlgorithm.HS256)
+                .subject(user.getUsername())
+                .issuer(issuer)
+                .expiration(new Date(System.currentTimeMillis() + expiration))
+                .claim("auth", user.getEmail())//UUID pk로 수정 필요
+                .signWith(secretKey)
                 .compact();
+        // Refresh Token 생성
         String refreshToken = Jwts.builder()
-                .setExpiration(accessTokenExpiresIn)
-                .signWith(key, SignatureAlgorithm.HS256)
+                .subject(user.getUsername())
+                .issuer(issuer)
+                .expiration(new Date(System.currentTimeMillis() + expiration))
+                .signWith(secretKey)
                 .compact();
         return TokenDto.of(accessToken, refreshToken);
     }
@@ -49,53 +65,38 @@ public class JwtTokenProvider {
     // 토큰 정보를 검증하는 메서드
     public boolean validateToken(String token) {
         try {
-            Jwts.parserBuilder()
-                    .setSigningKey(key)
-                    .build()
-                    .parseClaimsJws(token);
-            return true;
-        } catch (SecurityException | MalformedJwtException e) {
-            log.info("Invalid JWT Token", e);
-        } catch (ExpiredJwtException e) {
-            log.info("Expired JWT Token", e);
-        } catch (UnsupportedJwtException e) {
-            log.info("Unsupported JWT Token", e);
-        } catch (IllegalArgumentException e) {
-            log.info("JWT claims string is empty.", e);
-        }
-        return false;
-    }
+            Claims claims = parseClaims(token);
 
-    // Jwt 토큰을 복호화하여 토큰에 들어있는 정보를 꺼내는 메서드
-    public Authentication getAuthentication(String accessToken) {
-        // Jwt 토큰 복호화
-        Claims claims = parseClaims(accessToken);
-
-        if (claims.get("auth") == null) {
-            throw new RuntimeException("권한 정보가 없는 토큰입니다.");
-        }
-        // 클레임에서 권한 정보 가져오기
-        Collection<? extends GrantedAuthority> authorities = Arrays.stream(claims.get("auth").toString().split(","))
-                .map(SimpleGrantedAuthority ::new)
-                .collect(Collectors.toList());
-
-        // UserDetails 객체를 만들어서 Authentication return
-        // UserDetails: interface, User: UserDetails를 구현한 class
-        UserDetails principal = new org.springframework.security.core.userdetails.User(claims.getSubject(), "", authorities);
-        return new UsernamePasswordAuthenticationToken(principal, accessToken, authorities);
-    }
-
-    // accessToken
-    private Claims parseClaims(String accessToken) {
-        try {
-            return Jwts.parserBuilder()
-                    .setSigningKey(key)
-                    .build()
-                    .parseClaimsJws(accessToken)
-                    .getBody();
-        } catch (ExpiredJwtException e) {
-            return e.getClaims();
+            if (userRepository.findById(claims.get("auth", String.class)).isEmpty()) {
+                throw new CoordikittyException(ErrorType.MEMBER_NOT_FOUND);
+            }
+            return !claims.getExpiration().before(new Date());
+        } catch (Exception e) {
+            return false;
         }
     }
 
-}
+        // Jwt 토큰을 복호화하여 토큰에 들어있는 정보를 꺼내는 메서드
+        public Authentication getAuthentication (String accessToken){
+            // Jwt 토큰 복호화
+            Claims claims = parseClaims(accessToken);
+            String username = claims.getSubject();
+
+            UserDetails userDetails = userDetailService.loadUserByUsername(username);
+            return new UsernamePasswordAuthenticationToken(userDetails, accessToken, userDetails.getAuthorities());
+        }
+
+        // accessToken
+        private Claims parseClaims (String accessToken){
+            try {
+                return Jwts.parser()
+                        .verifyWith(secretKey)
+                        .build()
+                        .parseSignedClaims(accessToken)
+                        .getPayload();
+            } catch (ExpiredJwtException e) {
+                return e.getClaims();
+            }
+        }
+
+    }
