@@ -24,12 +24,9 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final JwtTokenProvider jwtTokenProvider;
-    private final OAuth2UserCustomService oAuth2UserCustomService;
-    private final RefreshTokenRepository refreshTokenRepository;
-    private final UserRepository userRepository;
-    private final SignUpService signUpService;
-    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+
     @Bean
     public WebSecurityCustomizer configure(){
         return (web) -> web.ignoring()
@@ -44,17 +41,6 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
-
-                .httpBasic(AbstractHttpConfigurer::disable)
-                .oauth2Login(oauth2 -> oauth2
-                        .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint.userService(oAuth2UserCustomService))
-                        .successHandler(oAuth2SuccessHandler())
-                )
-                .formLogin(AbstractHttpConfigurer::disable)
-                .logout(logout->logout.logoutSuccessUrl("/auth/login")
-                        .invalidateHttpSession(true))
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/swagger-ui/**",
                                 "/v3/api-docs/**",
@@ -68,23 +54,8 @@ public class SecurityConfig {
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
-                .exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(customAuthenticationEntryPoint))
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
-    }
-
-    @Bean
-    public OAuth2SuccessHandler oAuth2SuccessHandler(){
-        return new OAuth2SuccessHandler(
-                jwtTokenProvider,
-                refreshTokenRepository,
-                userRepository,
-                signUpService
-        );
-    }
-
-    @Bean
-    public JwtAuthenticationFilter tokenAuthenticationFilter(){
-        return new JwtAuthenticationFilter(jwtTokenProvider);
     }
 
 }
