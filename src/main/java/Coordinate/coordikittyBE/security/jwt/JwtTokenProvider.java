@@ -15,6 +15,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.Date;
@@ -42,7 +43,7 @@ public class JwtTokenProvider {
         this.userDetailService = userDetailService;
     }
 
-    // Member 정보를 가지고 AccessToken, RefreshToken을 생성하는 메서드
+
     public TokenDto generateToken(User user) {
         // Access Token 생성
         String accessToken = Jwts.builder()
@@ -62,7 +63,6 @@ public class JwtTokenProvider {
         return TokenDto.of(accessToken, refreshToken);
     }
 
-    // 토큰 정보를 검증하는 메서드
     public boolean validateToken(String token) {
         try {
             Claims claims = parseClaims(token);
@@ -76,27 +76,24 @@ public class JwtTokenProvider {
         }
     }
 
-        // Jwt 토큰을 복호화하여 토큰에 들어있는 정보를 꺼내는 메서드
-        public Authentication getAuthentication (String accessToken){
-            // Jwt 토큰 복호화
-            Claims claims = parseClaims(accessToken);
-            String username = claims.getSubject();
+    public Authentication getAuthentication(String accessToken) {
+        Claims claims = parseClaims(accessToken);
+        String username = claims.getSubject();
 
-            UserDetails userDetails = userDetailService.loadUserByUsername(username);
-            return new UsernamePasswordAuthenticationToken(userDetails, accessToken, userDetails.getAuthorities());
-        }
-
-        // accessToken
-        private Claims parseClaims (String accessToken){
-            try {
-                return Jwts.parser()
-                        .verifyWith(secretKey)
-                        .build()
-                        .parseSignedClaims(accessToken)
-                        .getPayload();
-            } catch (ExpiredJwtException e) {
-                return e.getClaims();
-            }
-        }
-
+        UserDetails userDetails = userDetailService.loadUserByUsername(username);
+        return new UsernamePasswordAuthenticationToken(userDetails, accessToken, userDetails.getAuthorities());
     }
+
+    private Claims parseClaims(String accessToken) {
+        try {
+            return Jwts.parser()
+                    .verifyWith(secretKey)
+                    .build()
+                    .parseSignedClaims(accessToken)
+                    .getPayload();
+        } catch (ExpiredJwtException e) {
+            return e.getClaims();
+        }
+    }
+
+}
