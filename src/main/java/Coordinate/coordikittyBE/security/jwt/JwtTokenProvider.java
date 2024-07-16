@@ -24,20 +24,23 @@ import java.util.Date;
 @Component
 public class JwtTokenProvider {
     private final SecretKey secretKey;
-    private final long expiration;
+    private final long access_expiration;
+    private final long refresh_expiration;
     private final String issuer;
     private final UserRepository userRepository;
     private final UserDetailServiceImpl userDetailService;
 
     public JwtTokenProvider(
             @Value("${jwt.secret_key}") final String SECRET_KEY,
-            @Value("${jwt.expiration}") long getExpiration,
+            @Value("${jwt.access_expiration}") long access_expiration,
+            @Value("${jwt.refresh_expiration}") long refresh_expiration,
             @Value("${jwt.issuer}") String issuer,
             UserRepository userRepository,
             UserDetailServiceImpl userDetailService
     ) {
         this.secretKey = new SecretKeySpec(SECRET_KEY.getBytes(), Jwts.SIG.HS256.key().build().getAlgorithm());
-        this.expiration = getExpiration;
+        this.access_expiration = access_expiration;
+        this.refresh_expiration = refresh_expiration;
         this.issuer = issuer;
         this.userRepository = userRepository;
         this.userDetailService = userDetailService;
@@ -49,7 +52,7 @@ public class JwtTokenProvider {
         String accessToken = Jwts.builder()
                 .subject(user.getUsername())
                 .issuer(issuer)
-                .expiration(new Date(System.currentTimeMillis() + expiration))
+                .expiration(new Date(System.currentTimeMillis() + access_expiration))
                 .claim("auth", user.getEmail())//UUID pk로 수정 필요
                 .signWith(secretKey)
                 .compact();
@@ -57,7 +60,7 @@ public class JwtTokenProvider {
         String refreshToken = Jwts.builder()
                 .subject(user.getUsername())
                 .issuer(issuer)
-                .expiration(new Date(System.currentTimeMillis() + expiration))
+                .expiration(new Date(System.currentTimeMillis() + refresh_expiration))
                 .signWith(secretKey)
                 .compact();
         return TokenDto.of(accessToken, refreshToken);
@@ -70,7 +73,10 @@ public class JwtTokenProvider {
             if (userRepository.findById(claims.get("auth", String.class)).isEmpty()) {
                 throw new CoordikittyException(ErrorType.MEMBER_NOT_FOUND);
             }
-            return !claims.getExpiration().before(new Date());
+            if(claims.getExpiration().before(new Date())){
+                throw new CoordikittyException(ErrorType.INVALID_TOKEN);
+            }
+            return true;
         } catch (Exception e) {
             return false;
         }
@@ -85,15 +91,11 @@ public class JwtTokenProvider {
     }
 
     private Claims parseClaims(String accessToken) {
-        try {
-            return Jwts.parser()
-                    .verifyWith(secretKey)
-                    .build()
-                    .parseSignedClaims(accessToken)
-                    .getPayload();
-        } catch (ExpiredJwtException e) {
-            return e.getClaims();
-        }
+        return Jwts.parser()
+                .verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(accessToken)
+                .getPayload();
     }
 
 }
