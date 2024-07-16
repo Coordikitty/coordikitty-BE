@@ -38,8 +38,10 @@ spring:
   main:
     allow-bean-definition-overriding: true
 jwt:
-  issuer: master
+  issuer: coordikitty
   secret_key: 37d5fc606779aa85f1b693a734a1fdd9621d97d91a4a2f929aaf0f2b6a23c903
+  access_expiration: 86400000
+  refresh_expiration: 432000000
 openweathermap:
   key: 42fa4f50e3e2a2044810b650e67e088a
 fcm:

@@ -6,8 +6,6 @@ import Coordinate.coordikittyBE.domain.auth.login.dto.LoginResponseDto;
 import Coordinate.coordikittyBE.domain.auth.login.dto.SocialLoginRequestDto;
 import Coordinate.coordikittyBE.domain.auth.login.dto.TokenDto;
 import Coordinate.coordikittyBE.domain.auth.login.dto.LoginRequestDto;
-import Coordinate.coordikittyBE.domain.auth.signup.dto.SignUpSocialRequestDto;
-import Coordinate.coordikittyBE.domain.auth.signup.service.SignUpService;
 import Coordinate.coordikittyBE.exception.CoordikittyException;
 import Coordinate.coordikittyBE.exception.ErrorType;
 import Coordinate.coordikittyBE.security.jwt.JwtTokenProvider;
@@ -21,11 +19,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class UserService{
+public class UserService {
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
-    private final SignUpService signUpService;
 
     public LoginResponseDto signIn(LoginRequestDto loginRequestDto) {
         User user = userRepository.findById(loginRequestDto.email()).orElseThrow(()-> new CoordikittyException(ErrorType.MEMBER_NOT_FOUND));
@@ -45,6 +42,7 @@ public class UserService{
                 .orElseThrow(()-> new CoordikittyException(ErrorType.MEMBER_NOT_FOUND));
         return grantLoginPermission(user);
     }
+
 
     private LoginResponseDto grantLoginPermission(User user){
         RefreshToken refreshTokenInfo = refreshTokenRepository.findByUserId(user.getEmail()).orElse(null);
