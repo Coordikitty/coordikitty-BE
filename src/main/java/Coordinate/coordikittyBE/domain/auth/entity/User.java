@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @AllArgsConstructor
@@ -27,6 +28,13 @@ public class User implements UserDetails {
     @Email
     @Column(name="email")
     private String email;
+
+    @Column(name = "id")
+    private UUID id;
+
+    @Email
+    @Column(name = "user_email")
+    private String userEmail;
 
     @Column(name = "password", nullable = false)
     private String password;
@@ -112,6 +120,14 @@ public class User implements UserDetails {
 
     public void addProfileUrl(String profileUrl){
         this.profileUrl = profileUrl;
+    }
+
+    public void createId() {
+        this.id = UUID.randomUUID();
+    }
+
+    public void copyEmail() {
+        this.userEmail = email;
     }
 
     @Override
