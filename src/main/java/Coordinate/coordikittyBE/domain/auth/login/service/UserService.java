@@ -33,7 +33,8 @@ public class UserService {
     }
 
     public String logout(String email) {
-        refreshTokenRepository.deleteByUserId(email);
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new CoordikittyException(ErrorType.EMAIL_NOT_FOUND));
+        refreshTokenRepository.deleteByUserId(user.getId());
         return "Logout success";
     }
 
@@ -45,10 +46,10 @@ public class UserService {
 
 
     private LoginResponseDto grantLoginPermission(User user){
-        RefreshToken refreshTokenInfo = refreshTokenRepository.findByUserId(user.getEmail()).orElse(null);
+        RefreshToken refreshTokenInfo = refreshTokenRepository.findByUserId(user.getId()).orElse(null);
         TokenDto tokenDto = jwtTokenProvider.generateToken(user);
         if(refreshTokenInfo==null) {
-            refreshTokenRepository.save(RefreshToken.of(user.getEmail(), tokenDto.refreshToken()));
+            refreshTokenRepository.save(RefreshToken.of(user.getId(), tokenDto.refreshToken()));
             return LoginResponseDto.of(user, tokenDto);
         }
         refreshTokenInfo.update(tokenDto.refreshToken());
