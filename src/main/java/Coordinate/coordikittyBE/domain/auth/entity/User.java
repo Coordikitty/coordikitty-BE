@@ -25,16 +25,12 @@ import java.util.UUID;
 @Entity(name="user")
 public class User implements UserDetails {
     @Id
-    @Email
-    @Column(name="email")
-    private String email;
-
     @Column(name = "id")
     private UUID id;
 
     @Email
-    @Column(name = "user_email")
-    private String userEmail;
+    @Column(name="email")
+    private String email;
 
     @Column(name = "password", nullable = false)
     private String password;
@@ -105,7 +101,6 @@ public class User implements UserDetails {
         return this;
     }
 
-
     public void settingLike() {
         this.alarm_like = !this.alarm_like;
     }
@@ -120,14 +115,6 @@ public class User implements UserDetails {
 
     public void addProfileUrl(String profileUrl){
         this.profileUrl = profileUrl;
-    }
-
-    public void createId() {
-        this.id = UUID.randomUUID();
-    }
-
-    public void copyEmail() {
-        this.userEmail = email;
     }
 
     @Override
