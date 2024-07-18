@@ -12,4 +12,6 @@ public interface HistoryRepository extends JpaRepository<History, UUID> {
     List<History> findAllByPostIdAndUserEmail(UUID postId, String userId);
 
     Optional<History> findByUserEmailAndPostId(String email, UUID postId);
+
+    void deleteAllByPostId(UUID postId);
 }
