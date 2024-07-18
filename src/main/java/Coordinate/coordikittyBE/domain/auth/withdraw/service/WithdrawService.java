@@ -14,7 +14,8 @@ public class WithdrawService {
     private final UserRepository userRepository;
     private final RefreshTokenRepository refreshTokenRepository;
     public String withdraw(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new CoordikittyException(ErrorType.EMAIL_NOT_FOUND));
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new CoordikittyException(ErrorType.MEMBER_NOT_FOUND));
         userRepository.deleteById(user.getId());
         refreshTokenRepository.deleteByUserId(user.getId());
         return "삭제 성공";
