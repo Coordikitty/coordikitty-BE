@@ -36,7 +36,10 @@ public class ClosetService {
 
     @Transactional
     public List<ClosetGetResponseDto> getAllClothes(String email) {
-        return clothRepository.findAllByUserEmail(email).stream()
+        return clothRepository.findAllByUserId(
+                userRepository.findByEmail(email).orElseThrow(() -> new CoordikittyException(ErrorType.MEMBER_NOT_FOUND)).getId()
+                )
+                .stream()
                 .map(ClosetGetResponseDto::fromEntity)
                 .toList();
     }
@@ -47,8 +50,7 @@ public class ClosetService {
                 .orElseThrow(() -> new CoordikittyException(ErrorType.EMAIL_NOT_FOUND));
         Cloth cloth = Cloth.of(closetPostRequestDto, user);
 
-        String imageUrl = clothDao.upload(clothImg, cloth.getId());
-        cloth.addImageUrl(imageUrl);
+        cloth.addImageUrl(clothDao.upload(clothImg, cloth.getId()));
         clothRepository.save(cloth);
         return "업로드 성공";
     }
