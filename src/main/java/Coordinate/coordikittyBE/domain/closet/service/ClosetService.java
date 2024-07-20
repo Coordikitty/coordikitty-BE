@@ -1,5 +1,6 @@
 package Coordinate.coordikittyBE.domain.closet.service;
 
+import Coordinate.coordikittyBE.domain.attach.repository.AttachRepository;
 import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
 import Coordinate.coordikittyBE.domain.closet.dto.ClosetCategorizationResponseDto;
@@ -33,11 +34,14 @@ public class ClosetService {
     private final UserRepository userRepository;
     private final ClothRepository clothRepository;
     private final ClothDao clothDao;
+    private final AttachRepository attachRepository;
 
     @Transactional
     public List<ClosetGetResponseDto> getAllClothes(String email) {
         return clothRepository.findAllByUserId(
-                userRepository.findByEmail(email).orElseThrow(() -> new CoordikittyException(ErrorType.MEMBER_NOT_FOUND)).getId()
+                    userRepository.findByEmail(email)
+                        .orElseThrow(() -> new CoordikittyException(ErrorType.MEMBER_NOT_FOUND))
+                        .getId()
                 )
                 .stream()
                 .map(ClosetGetResponseDto::fromEntity)
@@ -46,8 +50,8 @@ public class ClosetService {
 
     @Transactional
     public String postCloth(String email, ClosetPostRequestDto closetPostRequestDto, MultipartFile clothImg) {
-        User user = userRepository.findById(email)
-                .orElseThrow(() -> new CoordikittyException(ErrorType.EMAIL_NOT_FOUND));
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new CoordikittyException(ErrorType.MEMBER_NOT_FOUND));
         Cloth cloth = Cloth.of(closetPostRequestDto, user);
 
         cloth.addImageUrl(clothDao.upload(clothImg, cloth.getId()));
@@ -71,6 +75,7 @@ public class ClosetService {
 
     @Transactional
     public void deleteCloth(UUID clothId) {
+        attachRepository.deleteAllByClothId(clothId);
         clothRepository.deleteById(clothId);
         clothDao.delete(clothId);
     }

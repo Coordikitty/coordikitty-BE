@@ -7,4 +7,5 @@ import java.util.UUID;
 
 public interface AttachRepository extends JpaRepository<Attach, UUID> {
     void deleteAllByPostId(UUID postId);
+    void deleteAllByClothId(UUID clothId);
 }
