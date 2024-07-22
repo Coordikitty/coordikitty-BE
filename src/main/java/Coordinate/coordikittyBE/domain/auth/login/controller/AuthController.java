@@ -28,7 +28,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> signIn(@RequestBody LoginRequestDto loginRequestDto){
-            return ResponseEntity.ok().body(userService.signIn(loginRequestDto));
+        return ResponseEntity.ok().body(userService.signIn(loginRequestDto));
     }
 
     @PostMapping("/login/google")
