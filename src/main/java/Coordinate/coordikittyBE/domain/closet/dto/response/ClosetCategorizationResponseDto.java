@@ -1,4 +1,4 @@
-package Coordinate.coordikittyBE.domain.closet.dto;
+package Coordinate.coordikittyBE.domain.closet.dto.response;
 
 import Coordinate.coordikittyBE.domain.closet.enums.*;
 import Coordinate.coordikittyBE.domain.closet.util.CategorizedResponse;

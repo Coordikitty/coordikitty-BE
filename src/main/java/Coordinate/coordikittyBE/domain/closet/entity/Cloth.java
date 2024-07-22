@@ -2,7 +2,7 @@ package Coordinate.coordikittyBE.domain.closet.entity;
 
 import Coordinate.coordikittyBE.domain.attach.entity.Attach;
 import Coordinate.coordikittyBE.domain.auth.entity.User;
-import Coordinate.coordikittyBE.domain.closet.dto.ClosetPostRequestDto;
+import Coordinate.coordikittyBE.domain.closet.dto.request.ClosetPostRequestDto;
 import Coordinate.coordikittyBE.domain.closet.enums.*;
 import jakarta.persistence.*;
 import lombok.*;
@@ -37,7 +37,7 @@ public class Cloth {
     @Enumerated(EnumType.STRING)
     private Fit fit;
 
-    @Column(name = "imageUrl", nullable = true)
+    @Column(name = "image_url", nullable = true)
     private String imageUrl;
 
     @Column(name = "gender", nullable = false)

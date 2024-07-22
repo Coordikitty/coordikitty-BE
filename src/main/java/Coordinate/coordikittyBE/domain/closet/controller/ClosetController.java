@@ -1,6 +1,6 @@
 package Coordinate.coordikittyBE.domain.closet.controller;
 
-import Coordinate.coordikittyBE.domain.closet.dto.ClosetPostRequestDto;
+import Coordinate.coordikittyBE.domain.closet.dto.request.ClosetPostRequestDto;
 import Coordinate.coordikittyBE.domain.closet.service.ClosetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;

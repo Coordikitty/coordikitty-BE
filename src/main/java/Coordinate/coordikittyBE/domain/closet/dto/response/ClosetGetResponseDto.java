@@ -1,8 +1,7 @@
-package Coordinate.coordikittyBE.domain.closet.dto;
+package Coordinate.coordikittyBE.domain.closet.dto.response;
 
 import Coordinate.coordikittyBE.domain.closet.entity.Cloth;
 import Coordinate.coordikittyBE.domain.closet.enums.*;
-import lombok.Builder;
 
 import java.util.UUID;
 
