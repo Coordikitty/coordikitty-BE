@@ -2,7 +2,7 @@ package Coordinate.coordikittyBE.domain.auth.login.controller;
 
 import Coordinate.coordikittyBE.domain.auth.login.dto.request.JwtTokenRequestDto;
 import Coordinate.coordikittyBE.domain.auth.login.dto.response.LoginResponseDto;
-import Coordinate.coordikittyBE.domain.auth.login.dto.response.LoginRequestDto;
+import Coordinate.coordikittyBE.domain.auth.login.dto.request.LoginRequestDto;
 import Coordinate.coordikittyBE.domain.auth.login.dto.request.SocialLoginRequestDto;
 import Coordinate.coordikittyBE.domain.auth.login.service.TokenService;
 import Coordinate.coordikittyBE.domain.auth.login.service.UserService;

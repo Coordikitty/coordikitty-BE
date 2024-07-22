@@ -5,7 +5,7 @@ import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.auth.login.dto.response.LoginResponseDto;
 import Coordinate.coordikittyBE.domain.auth.login.dto.request.SocialLoginRequestDto;
 import Coordinate.coordikittyBE.domain.auth.login.dto.TokenDto;
-import Coordinate.coordikittyBE.domain.auth.login.dto.response.LoginRequestDto;
+import Coordinate.coordikittyBE.domain.auth.login.dto.request.LoginRequestDto;
 import Coordinate.coordikittyBE.exception.CoordikittyException;
 import Coordinate.coordikittyBE.exception.ErrorType;
 import Coordinate.coordikittyBE.security.jwt.JwtTokenProvider;
