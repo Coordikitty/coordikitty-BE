@@ -124,7 +124,8 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.getName();
+//        return this.getName();
+        return this.getEmail();
     }
 
     @Override

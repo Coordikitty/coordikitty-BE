@@ -53,7 +53,7 @@ public class JwtTokenProvider {
                 .subject(user.getUsername())
                 .issuer(issuer)
                 .expiration(new Date(System.currentTimeMillis() + access_expiration))
-                .claim("auth", user.getEmail())//UUID pk로 수정 필요
+                .claim("auth", user.getId())//UUID pk로 수정 필요
                 .signWith(secretKey)
                 .compact();
         // Refresh Token 생성
@@ -84,9 +84,9 @@ public class JwtTokenProvider {
 
     public Authentication getAuthentication(String accessToken) {
         Claims claims = parseClaims(accessToken);
-        String username = claims.getSubject();
+        String email = claims.getSubject();
 
-        UserDetails userDetails = userDetailService.loadUserByUsername(username);
+        UserDetails userDetails = userDetailService.loadUserByUsername(email);
         return new UsernamePasswordAuthenticationToken(userDetails, accessToken, userDetails.getAuthorities());
     }
 
