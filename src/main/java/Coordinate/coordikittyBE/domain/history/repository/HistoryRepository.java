@@ -8,10 +8,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface HistoryRepository extends JpaRepository<History, UUID> {
-    Optional<List<History>> findAllByUserEmailAndIsBookmarkedTrue(String email);
-    List<History> findAllByPostIdAndUserEmail(UUID postId, String userId);
+    Optional<List<History>> findAllByUserIdAndIsBookmarkedTrue(UUID userId);
+    List<History> findAllByPostIdAndUserId(UUID postId, UUID userId);
 
     Optional<History> findByUserEmailAndPostId(String email, UUID postId);
 
     void deleteAllByPostId(UUID postId);
+    void deleteAllByUserId(UUID user_id);
 }
