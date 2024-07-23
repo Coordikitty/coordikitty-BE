@@ -47,7 +47,8 @@ public class PostingService {
     }
 
     public PostResponseDto findById(UUID postId) {
-        Post post = postRepository.findById(postId).orElseThrow(()-> new CoordikittyException(ErrorType.POST_NOT_FOUND));
+        Post post = postRepository.findById(postId)
+                .orElseThrow(()-> new CoordikittyException(ErrorType.POST_NOT_FOUND));
         return findAllImageUrlByPostId(post);
     }
 
@@ -80,24 +81,45 @@ public class PostingService {
     }
 
     public PostUpdateResponseDto update(UUID postId, PostUpdateRequestDto postUpdateRequestDto) {
+        //post 찾고
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CoordikittyException(ErrorType.POST_NOT_FOUND));
+
+        //attach 지우고
         attachRepository.deleteAllByPostId(postId);
 
+        //기존 이미지 지우고(firebase)
+        postDao.delete(postId);
+
+        //postImgs 변경
+        postImageRepository.deleteAllByPostId(postId);
+
+        //새 이미지 업로드(firebase)
+        List<PostImage> postImages = new ArrayList<>();
+        postUpdateRequestDto.postImgs().forEach(img -> postImages.add(PostImage.from(postDao.upload(img, postId), post)));
+
+        //새 attach 생성
         List<Attach> attaches = createAttaches(postUpdateRequestDto.clothIds(), post);
-        post.update(postUpdateRequestDto, attaches);
+        post.update(postUpdateRequestDto, attaches, postImages);
         return PostUpdateResponseDto.from(attaches);
     }
 
     private List<Attach> createAttaches(List<UUID> clothIds, Post post) {
         List<Attach> attaches = new ArrayList<>();
-        for (UUID clothId : clothIds) {
+        clothIds.forEach(clothId -> {
             Cloth cloth = clothRepository.findById(clothId)
-                    .orElseThrow(() -> new CoordikittyException(ErrorType.CLOTH_NOT_FOUND));
+                    .orElseThrow(()-> new CoordikittyException(ErrorType.CLOTH_NOT_FOUND));
             Attach attach = Attach.of(cloth, post);
             attachRepository.save(attach);
             attaches.add(attach);
-        }
+        });
+//        for (UUID clothId : clothIds) {
+//            Cloth cloth = clothRepository.findById(clothId)
+//                    .orElseThrow(() -> new CoordikittyException(ErrorType.CLOTH_NOT_FOUND));
+//            Attach attach = Attach.of(cloth, post);
+//            attachRepository.save(attach);
+//            attaches.add(attach);
+//        }
         return attaches;
     }
 

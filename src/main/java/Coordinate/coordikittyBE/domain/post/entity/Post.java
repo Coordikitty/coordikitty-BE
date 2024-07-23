@@ -57,11 +57,15 @@ public class Post {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public void update(PostUpdateRequestDto postUpdateRequestDto, List<Attach> attaches) {
-        this.attaches.clear();   // this. 이 누락된건 아닌지?
+    public void update(PostUpdateRequestDto postUpdateRequestDto, List<Attach> attaches, List<PostImage> postImgs) {
         this.content = postUpdateRequestDto.content();
         this.style = postUpdateRequestDto.style();
-        this.attaches = attaches;
+
+        this.attaches.clear();
+        this.attaches.addAll(attaches);
+
+        this.postImgs.clear();
+        this.postImgs.addAll(postImgs);
     }
 
     public void like(){
