@@ -26,10 +26,16 @@ public class History {
     private Post post;
 
     @Column(name = "is_Bookmarked", nullable = false)
-    private Boolean isBookmarked;
+    @Builder.Default
+    private Boolean isBookmarked = false;
 
     @Column(name = "is_Liked", nullable = false)
-    private Boolean isLiked;
+    @Builder.Default
+    private Boolean isLiked = false;
+
+    public void toggleBookmarked() {
+        this.isBookmarked = !this.isBookmarked;
+    }
 
     public void toggleLike(){
         this.isLiked = !this.isLiked;
