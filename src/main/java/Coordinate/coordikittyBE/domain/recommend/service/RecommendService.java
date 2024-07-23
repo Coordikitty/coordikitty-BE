@@ -5,7 +5,6 @@ import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
 import Coordinate.coordikittyBE.domain.closet.entity.Cloth;
 import Coordinate.coordikittyBE.domain.closet.enums.Style;
 import Coordinate.coordikittyBE.domain.closet.repository.ClothRepository;
-import Coordinate.coordikittyBE.domain.closet.util.CategorizedResponse;
 import Coordinate.coordikittyBE.domain.post.enums.Situation;
 import Coordinate.coordikittyBE.domain.recommend.dto.CoordinatesDto;
 import Coordinate.coordikittyBE.domain.recommend.dto.RecommendGetResponseDto;
@@ -20,17 +19,9 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.net.http.HttpResponse;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -38,6 +29,7 @@ import java.util.stream.Collectors;
 public class RecommendService {
 
     private final ClothRepository clothRepository;
+    private final UserRepository userRepository;
 
     @Value("${openweathermap.key}")
     private String apiKey;
@@ -47,11 +39,15 @@ public class RecommendService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        List<Cloth> clothes = clothRepository.findAllByUserEmailAndStyle(email, Style.valueOf(value));
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new CoordikittyException(ErrorType.MEMBER_NOT_FOUND));
+        List<Cloth> clothes = clothRepository.findAllByUserIdAndStyle(user.getId(), Style.valueOf(value));
+
         int temperature = getTemperature(coordinatesDto);
         List<RecommendRequestDto> clothImages = clothes.stream()
-                .map((cloth) -> RecommendRequestDto.of(cloth, temperature))
-                .collect(Collectors.toList());
+                .map(cloth -> RecommendRequestDto.of(cloth, temperature))
+                .toList();
+//                .collect(Collectors.toList()); 필요 하나요?
+
         // type 에 따라 ML 서버랑 통신
         switch (type) {
             //case SITUATION -> {}

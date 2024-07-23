@@ -11,6 +11,5 @@ import java.util.UUID;
 @Repository
 public interface ClothRepository extends JpaRepository<Cloth, UUID> {
     List<Cloth> findAllByUserId(UUID userId);
-
-    List<Cloth> findAllByUserEmailAndStyle(String email, Style style);
+    List<Cloth> findAllByUserIdAndStyle(UUID userId, Style style);
 }

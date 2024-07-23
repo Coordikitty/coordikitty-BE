@@ -3,17 +3,16 @@ package Coordinate.coordikittyBE.domain.recommend.controller;
 import Coordinate.coordikittyBE.domain.closet.enums.Style;
 import Coordinate.coordikittyBE.domain.post.enums.Situation;
 import Coordinate.coordikittyBE.domain.recommend.dto.CoordinatesDto;
-import Coordinate.coordikittyBE.domain.recommend.dto.RecommendGetResponseDto;
 import Coordinate.coordikittyBE.domain.recommend.enums.Type;
 import Coordinate.coordikittyBE.domain.recommend.service.RecommendService;
 import Coordinate.coordikittyBE.domain.recommend.util.EnumUtil;
+import Coordinate.coordikittyBE.exception.CoordikittyException;
+import Coordinate.coordikittyBE.exception.ErrorType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/recommend")
@@ -46,6 +45,7 @@ public class RecommendController {
                 if (!EnumUtil.isInEnum(value, Style.class))
                     return ResponseEntity.badRequest().body("wrong style value");
             }
+            default -> throw new CoordikittyException(ErrorType.INVALID_PARAMS);
         }
 
         CoordinatesDto coordinatesDto = CoordinatesDto.of(lat, lon);
