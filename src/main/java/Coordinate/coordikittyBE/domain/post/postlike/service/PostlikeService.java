@@ -31,9 +31,12 @@ public class PostlikeService {
                 .orElseGet(() -> History.of(user, post));
 
         history.toggleLike();
-        historyRepository.save(history);
-        post.like();
-        return "좋아요 성공";
+        historyRepository.save(history); // 필요없지 않나요?
+
+        if (history.getIsLiked()) post.like();
+        else post.unlike();
+
+        return "좋아요 토글 성공";
     }
 
 }
