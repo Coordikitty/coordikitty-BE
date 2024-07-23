@@ -11,7 +11,7 @@ public interface HistoryRepository extends JpaRepository<History, UUID> {
     Optional<List<History>> findAllByUserIdAndIsBookmarkedTrue(UUID userId);
     List<History> findAllByPostIdAndUserId(UUID postId, UUID userId);
 
-    Optional<History> findByUserEmailAndPostId(String email, UUID postId);
+    Optional<History> findByUserIdAndPostId(UUID userId, UUID postId);
 
     void deleteAllByPostId(UUID postId);
     void deleteAllByUserId(UUID user_id);

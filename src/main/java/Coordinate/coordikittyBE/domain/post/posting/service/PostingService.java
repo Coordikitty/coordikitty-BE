@@ -102,9 +102,11 @@ public class PostingService {
     }
 
     private PostResponseDto findAllImageUrlByPostId(Post post) {
-        List<String> postImages = postImageRepository.findAllByPostId(post.getId()).stream()
-                .map(PostImage::getImageUrl).toList();
-        History history = historyRepository.findByUserEmailAndPostId(post.getUser().getEmail(), post.getId())
+        List<String> postImages = postImageRepository.findAllByPostId(post.getId())
+                .stream()
+                .map(PostImage::getImageUrl)
+                .toList();
+        History history = historyRepository.findByUserIdAndPostId(post.getUser().getId(), post.getId())
                 .orElseThrow(()-> new CoordikittyException(ErrorType.HISTORY_NOT_FOUND));
         return PostResponseDto.fromEntity(post, postImages, history);
     }

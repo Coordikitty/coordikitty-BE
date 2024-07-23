@@ -31,7 +31,7 @@ public class History {
     @Column(name = "is_Liked", nullable = false)
     private Boolean isLiked;
 
-    public void toogleLike(){
+    public void toggleLike(){
         this.isLiked = !this.isLiked;
     }
     public static History of(User user, Post post) {
