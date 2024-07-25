@@ -96,9 +96,8 @@ public class User implements UserDetails {
     @JoinColumn(name = "tags_id")
     private Tags tags;
 
-    public User update(String nickname){
+    public void update(String nickname){
         this.nickname = nickname;
-        return this;
     }
 
     public void settingLike() {
