@@ -47,8 +47,7 @@ public class UserService {
     }
 
     private LoginResponseDto grantLoginPermission(User user){
-        RefreshToken refreshTokenInfo = refreshTokenRepository.findByUserId(user.getId())
-                .orElseThrow(() -> new CoordikittyException(ErrorType.INVALID_USER_ID));
+        RefreshToken refreshTokenInfo = refreshTokenRepository.findByUserId(user.getId()).orElse(null);
         TokenDto tokenDto = jwtTokenProvider.generateToken(user);
         if(refreshTokenInfo==null) {
             refreshTokenRepository.save(RefreshToken.of(user.getId(), tokenDto.refreshToken()));
