@@ -7,20 +7,10 @@ logging:
 spring:
   datasource:
     url: ${AWS_RDS_URL_DEVELOP}
-#    url: ${AWS_RDS_URL_DEPLOY}
     driver-class-name: ${AWS_RDS_DRIVER}
     username: ${AWS_RDS_USERNAME}
     password: ${AWS_RDS_PASSWORD}
-#  datasource:
-#    url: jdbc:mysql://coordikitty-develop.cf8kwgwi0zw7.ap-northeast-2.rds.amazonaws.com:3306/coordikitty-develop
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    username: admin
-#    password: qwer1234
-#  datasource:
-#    url: ${AWS_URL}
-#    driver-class-name: ${AWS_DRIVER_CLASS_NAME}
-#    username: ${AWS_USERNAME}
-#    password: ${AWS_PASSWORD}
+
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     open-in-view: false
@@ -33,15 +23,15 @@ spring:
         default_batch_fetch_size: 100
   data:
     redis:
-      host: localhost
-      port: 6379
+#      host: localhost
+#      port: 6379
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
   security:
     oauth2:
       client:
         registration:
           google:
-#            client-id: 482387727195-pu5htji2hv3bbj1b0ce8e7edaqcs0mb7.apps.googleusercontent.com
-#            client-secret: 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
             client-id: ${OAUTH2_GOOGLE_CLIENT_ID}
             client-secret: ${OAUTH2_GOOGLE_CLIENT_SECRET}
   main:
@@ -52,17 +42,10 @@ jwt:
   secret_key: ${JWT_SECRET_KEY}
   access_expiration: ${JWT_ACCESS_EXPIRATION}
   refresh_expiration: ${JWT_REFRESH_EXPIRATION}
-#  issuer: coordikitty
-#  secret_key: 37d5fc606779aa85f1b693a734a1fdd9621d97d91a4a2f929aaf0f2b6a23c903
-#  access_expiration: 86400000
-#  refresh_expiration: 432000000
 
 openweathermap:
-#  key: 42fa4f50e3e2a2044810b650e67e088a
   key: ${OPENWEATERMAP_KEY}
-
 fcm:
-#  key: coordikitty-firebase-adminsdk-1ld5i-ca22d4f0a5.json
   key: ${FCM_KEY}
 
 #server:
