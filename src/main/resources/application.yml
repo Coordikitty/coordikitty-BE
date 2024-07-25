@@ -5,7 +5,7 @@ logging:
 
 spring:
   datasource:
-    url: ${AWS_RDS_URL}
+    url: ${AWS_RDS_URL_DEVELOP}
     driver-class-name: ${AWS_RDS_DRIVER}
     username: ${AWS_RDS_USERNAME}
     password: ${AWS_RDS_PASSWORD}
