@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.Date;
+import java.util.UUID;
 
 @Slf4j
 @Component
@@ -69,7 +70,7 @@ public class JwtTokenProvider {
         try {
             Claims claims = parseClaims(token);
 
-            if (userRepository.findById(claims.get("auth", String.class)).isEmpty()) {
+            if (userRepository.findById(UUID.fromString(claims.get("auth", String.class))).isEmpty()) {
                 throw new CoordikittyException(ErrorType.MEMBER_NOT_FOUND);
             }
             if(claims.getExpiration().before(new Date())){
