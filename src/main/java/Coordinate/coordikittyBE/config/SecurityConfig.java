@@ -30,8 +30,7 @@ public class SecurityConfig {
                                 "/auth/token",
                                 "/auth/login/google",
                                 "/oauth2/authorization/google",
-                                "/post",
-                                "/admin/user/**"
+                                "/post"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
