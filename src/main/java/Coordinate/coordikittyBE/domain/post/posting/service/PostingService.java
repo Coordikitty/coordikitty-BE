@@ -85,8 +85,10 @@ public class PostingService {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CoordikittyException(ErrorType.POST_NOT_FOUND));
 
+        List<Attach> attaches = attachRepository.findAllByPostId(postId);
+
         //attach 지우고
-        attachRepository.deleteAllByPostId(postId);
+        //attachRepository.deleteAllByPostId(postId);
 
         //기존 이미지 지우고(firebase)
         postDao.delete(postId);
@@ -99,7 +101,10 @@ public class PostingService {
         postUpdateRequestDto.postImgs().forEach(img -> postImages.add(PostImage.from(postDao.upload(img, postId), post)));
 
         //새 attach 생성
-        List<Attach> attaches = createAttaches(postUpdateRequestDto.clothIds(), post);
+        //List<Attach> attaches = createAttaches(postUpdateRequestDto.clothIds(), post);
+
+        // 기존 attach 내 postId 변경?
+
         post.update(postUpdateRequestDto, attaches, postImages);
         return PostUpdateResponseDto.from(attaches);
     }

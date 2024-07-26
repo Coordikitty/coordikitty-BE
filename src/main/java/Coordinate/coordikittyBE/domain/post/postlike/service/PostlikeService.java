@@ -31,7 +31,6 @@ public class PostlikeService {
                 .orElseGet(() -> History.of(user, post));
 
         history.toggleLike();
-        historyRepository.save(history); // 필요없지 않나요?
 
         if (history.getIsLiked()) post.like();
         else post.unlike();

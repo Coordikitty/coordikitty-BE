@@ -46,7 +46,6 @@ public class RecommendService {
         List<RecommendRequestDto> clothImages = clothes.stream()
                 .map(cloth -> RecommendRequestDto.of(cloth, temperature))
                 .toList();
-//                .collect(Collectors.toList()); 필요 하나요?
 
         // type 에 따라 ML 서버랑 통신
         switch (type) {
