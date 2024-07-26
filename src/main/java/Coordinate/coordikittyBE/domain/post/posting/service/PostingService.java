@@ -58,7 +58,7 @@ public class PostingService {
     }
 
     public PostResponseDto upload(PostUploadRequestDto postUploadRequestDto, List<MultipartFile> images, String email) {
-        User user = userRepository.findById(email)
+        User user = userRepository.findByEmail(email)
                 .orElseThrow(()-> new CoordikittyException(ErrorType.MEMBER_NOT_FOUND));
         Post post = PostUploadRequestDto.toEntity(postUploadRequestDto, user);
         List<String> postImageUrls = new ArrayList<>();
@@ -68,9 +68,9 @@ public class PostingService {
                     PostImage postImage = PostImage.from(imageUrl, post);
                     post.addImageUrl(postImage);
                     postImageRepository.save(postImage);
+                    postImageUrls.add(imageUrl);
                     return imageUrl;
-                })
-                .forEach(postImageUrls::add);
+                });
         postRepository.save(post);
 
         History history = History.of(user, post);
