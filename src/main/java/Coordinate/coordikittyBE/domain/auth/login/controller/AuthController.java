@@ -1,20 +1,17 @@
 package Coordinate.coordikittyBE.domain.auth.login.controller;
 
-import Coordinate.coordikittyBE.domain.auth.login.dto.JwtTokenRequestDto;
-import Coordinate.coordikittyBE.domain.auth.login.dto.LoginResponseDto;
-import Coordinate.coordikittyBE.domain.auth.login.dto.LoginRequestDto;
-import Coordinate.coordikittyBE.domain.auth.login.dto.SocialLoginRequestDto;
+import Coordinate.coordikittyBE.domain.auth.login.dto.request.JwtTokenRequestDto;
+import Coordinate.coordikittyBE.domain.auth.login.dto.response.LoginResponseDto;
+import Coordinate.coordikittyBE.domain.auth.login.dto.request.LoginRequestDto;
+import Coordinate.coordikittyBE.domain.auth.login.dto.request.SocialLoginRequestDto;
 import Coordinate.coordikittyBE.domain.auth.login.service.TokenService;
 import Coordinate.coordikittyBE.domain.auth.login.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-
-import java.net.URI;
 
 @RequiredArgsConstructor
 @RestController
@@ -31,7 +28,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> signIn(@RequestBody LoginRequestDto loginRequestDto){
-            return ResponseEntity.ok().body(userService.signIn(loginRequestDto));
+        return ResponseEntity.ok().body(userService.signIn(loginRequestDto));
     }
 
     @PostMapping("/login/google")
@@ -40,9 +37,7 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<String> logout(
-            @AuthenticationPrincipal UserDetails userDetails
-    ){
+    public ResponseEntity<String> logout(@AuthenticationPrincipal UserDetails userDetails){
         return ResponseEntity.ok().body(userService.logout(userDetails.getUsername()));
     }
 }

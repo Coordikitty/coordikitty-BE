@@ -21,15 +21,16 @@ public class SecurityConfig {
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/swagger-ui/**",
-                        "/v3/api-docs/**",
-                        "/auth/signUp",
-                        "/auth/signUp/dupCheck",
-                        "/auth/login",
-                        "/auth/token",
-                        "/auth/login/google",
-                        "/oauth2/authorization/google",
-                        "/post"
+                        .requestMatchers(
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/auth/signUp",
+                                "/auth/signUp/dupCheck",
+                                "/auth/login",
+                                "/auth/token",
+                                "/auth/login/google",
+                                "/oauth2/authorization/google",
+                                "/post"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

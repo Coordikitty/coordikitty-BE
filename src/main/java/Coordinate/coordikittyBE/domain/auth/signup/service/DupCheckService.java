@@ -1,6 +1,5 @@
 package Coordinate.coordikittyBE.domain.auth.signup.service;
 
-import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,7 +10,7 @@ public class DupCheckService {
     private final UserRepository userRepository;
 
     public Boolean emailDupCheck(String email) {
-        return userRepository.findById(email).isEmpty();
+        return userRepository.findByEmail(email).isEmpty();
     }
 
     public Boolean nicknameDupCheck(String nickname) {

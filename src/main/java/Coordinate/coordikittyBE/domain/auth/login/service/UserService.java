@@ -2,10 +2,10 @@ package Coordinate.coordikittyBE.domain.auth.login.service;
 
 import Coordinate.coordikittyBE.domain.auth.entity.RefreshToken;
 import Coordinate.coordikittyBE.domain.auth.entity.User;
-import Coordinate.coordikittyBE.domain.auth.login.dto.LoginResponseDto;
-import Coordinate.coordikittyBE.domain.auth.login.dto.SocialLoginRequestDto;
+import Coordinate.coordikittyBE.domain.auth.login.dto.response.LoginResponseDto;
+import Coordinate.coordikittyBE.domain.auth.login.dto.request.SocialLoginRequestDto;
 import Coordinate.coordikittyBE.domain.auth.login.dto.TokenDto;
-import Coordinate.coordikittyBE.domain.auth.login.dto.LoginRequestDto;
+import Coordinate.coordikittyBE.domain.auth.login.dto.request.LoginRequestDto;
 import Coordinate.coordikittyBE.exception.CoordikittyException;
 import Coordinate.coordikittyBE.exception.ErrorType;
 import Coordinate.coordikittyBE.security.jwt.JwtTokenProvider;
@@ -25,7 +25,8 @@ public class UserService {
     private final RefreshTokenRepository refreshTokenRepository;
 
     public LoginResponseDto signIn(LoginRequestDto loginRequestDto) {
-        User user = userRepository.findById(loginRequestDto.email()).orElseThrow(()-> new CoordikittyException(ErrorType.MEMBER_NOT_FOUND));
+        User user = userRepository.findByEmail(loginRequestDto.email())
+                .orElseThrow(()-> new CoordikittyException(ErrorType.MEMBER_NOT_FOUND));
         if(PasswordUtil.comparePassWord(loginRequestDto.password(), user.getPassword())) {
             return grantLoginPermission(user);
         }
@@ -33,7 +34,9 @@ public class UserService {
     }
 
     public String logout(String email) {
-        refreshTokenRepository.deleteByUserId(email);
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new CoordikittyException(ErrorType.MEMBER_NOT_FOUND));
+        refreshTokenRepository.deleteByUserId(user.getId());
         return "Logout success";
     }
 
@@ -43,12 +46,11 @@ public class UserService {
         return grantLoginPermission(user);
     }
 
-
     private LoginResponseDto grantLoginPermission(User user){
-        RefreshToken refreshTokenInfo = refreshTokenRepository.findByUserId(user.getEmail()).orElse(null);
+        RefreshToken refreshTokenInfo = refreshTokenRepository.findByUserId(user.getId()).orElse(null);
         TokenDto tokenDto = jwtTokenProvider.generateToken(user);
         if(refreshTokenInfo==null) {
-            refreshTokenRepository.save(RefreshToken.of(user.getEmail(), tokenDto.refreshToken()));
+            refreshTokenRepository.save(RefreshToken.of(user.getId(), tokenDto.refreshToken()));
             return LoginResponseDto.of(user, tokenDto);
         }
         refreshTokenInfo.update(tokenDto.refreshToken());

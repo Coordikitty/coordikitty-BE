@@ -1,10 +1,11 @@
 package Coordinate.coordikittyBE.domain.closet.service;
 
+import Coordinate.coordikittyBE.domain.attach.repository.AttachRepository;
 import Coordinate.coordikittyBE.domain.auth.entity.User;
 import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
-import Coordinate.coordikittyBE.domain.closet.dto.ClosetCategorizationResponseDto;
-import Coordinate.coordikittyBE.domain.closet.dto.ClosetGetResponseDto;
-import Coordinate.coordikittyBE.domain.closet.dto.ClosetPostRequestDto;
+import Coordinate.coordikittyBE.domain.closet.dto.response.ClosetCategorizationResponseDto;
+import Coordinate.coordikittyBE.domain.closet.dto.response.ClosetGetResponseDto;
+import Coordinate.coordikittyBE.domain.closet.dto.request.ClosetPostRequestDto;
 import Coordinate.coordikittyBE.domain.closet.entity.Cloth;
 import Coordinate.coordikittyBE.domain.closet.repository.ClothDao;
 import Coordinate.coordikittyBE.domain.closet.repository.ClothRepository;
@@ -33,22 +34,27 @@ public class ClosetService {
     private final UserRepository userRepository;
     private final ClothRepository clothRepository;
     private final ClothDao clothDao;
+    private final AttachRepository attachRepository;
 
     @Transactional
     public List<ClosetGetResponseDto> getAllClothes(String email) {
-        return clothRepository.findAllByUserEmail(email).stream()
+        return clothRepository.findAllByUserId(
+                    userRepository.findByEmail(email)
+                        .orElseThrow(() -> new CoordikittyException(ErrorType.MEMBER_NOT_FOUND))
+                        .getId()
+                )
+                .stream()
                 .map(ClosetGetResponseDto::fromEntity)
                 .toList();
     }
 
     @Transactional
     public String postCloth(String email, ClosetPostRequestDto closetPostRequestDto, MultipartFile clothImg) {
-        User user = userRepository.findById(email)
-                .orElseThrow(() -> new CoordikittyException(ErrorType.EMAIL_NOT_FOUND));
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new CoordikittyException(ErrorType.MEMBER_NOT_FOUND));
         Cloth cloth = Cloth.of(closetPostRequestDto, user);
 
-        String imageUrl = clothDao.upload(clothImg, cloth.getId());
-        cloth.addImageUrl(imageUrl);
+        cloth.addImageUrl(clothDao.upload(clothImg, cloth.getId()));
         clothRepository.save(cloth);
         return "업로드 성공";
     }
@@ -69,6 +75,7 @@ public class ClosetService {
 
     @Transactional
     public void deleteCloth(UUID clothId) {
+        attachRepository.deleteAllByClothId(clothId);
         clothRepository.deleteById(clothId);
         clothDao.delete(clothId);
     }

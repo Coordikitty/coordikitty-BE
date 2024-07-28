@@ -3,6 +3,8 @@ package Coordinate.coordikittyBE.domain.auth.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.UUID;
+
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -14,19 +16,19 @@ public class RefreshToken {
     private Long id;
 
     @Column(name = "user_id", nullable = false, unique = true)
-    private String userId;
+    private UUID userId;
 
     @Column(name = "refresh_token", nullable = false)
     private String refreshToken;
 
     @Builder
-    public RefreshToken(String userId, String refreshToken) {
+    public RefreshToken(UUID userId, String refreshToken) {
         this.userId = userId;
         this.refreshToken = refreshToken;
     }
 
-    public static RefreshToken of(String email, String refreshToken) {
-        return new RefreshToken(email, refreshToken);
+    public static RefreshToken of(UUID userId, String refreshToken) {
+        return new RefreshToken(userId, refreshToken);
     }
 
     public RefreshToken update(String refreshToken) {

@@ -15,13 +15,13 @@ import org.springframework.stereotype.Service;
 public class SignUpService {
     private final UserRepository userRepository;
     public SignUpResponseDto signUp(SignUpRequestDto signUpRequestDto) {
-        if(userRepository.existsById(signUpRequestDto.email())){
+        if(userRepository.existsByEmail(signUpRequestDto.email())){
             throw new CoordikittyException(ErrorType.DUPLICATED_EMAIL_ERROR);
         }
         return SignUpResponseDto.fromEntity(userRepository.save(SignUpRequestDto.toEntity(signUpRequestDto)));
     }
     public User signUpSocial(SignUpSocialRequestDto signUpSocialRequestDto){
-        if(userRepository.existsById(signUpSocialRequestDto.email())){
+        if(userRepository.existsByEmail(signUpSocialRequestDto.email())){
             throw new CoordikittyException(ErrorType.DUPLICATED_EMAIL_ERROR);
         }
         return userRepository.save(SignUpSocialRequestDto.toEntity(signUpSocialRequestDto));

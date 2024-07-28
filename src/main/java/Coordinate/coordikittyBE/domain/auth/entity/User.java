@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @AllArgsConstructor
@@ -24,6 +25,10 @@ import java.util.List;
 @Entity(name="user")
 public class User implements UserDetails {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id")
+    private UUID id;
+
     @Email
     @Column(name="email")
     private String email;
@@ -92,11 +97,9 @@ public class User implements UserDetails {
     @JoinColumn(name = "tags_id")
     private Tags tags;
 
-    public User update(String nickname){
+    public void update(String nickname){
         this.nickname = nickname;
-        return this;
     }
-
 
     public void settingLike() {
         this.alarm_like = !this.alarm_like;
@@ -121,7 +124,8 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.getName();
+//        return this.getName();
+        return this.getEmail();
     }
 
     @Override

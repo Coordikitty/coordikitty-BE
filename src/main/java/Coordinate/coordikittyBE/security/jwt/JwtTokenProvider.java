@@ -7,7 +7,6 @@ import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
 import Coordinate.coordikittyBE.exception.CoordikittyException;
 import Coordinate.coordikittyBE.exception.ErrorType;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,6 +18,7 @@ import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.Date;
+import java.util.UUID;
 
 @Slf4j
 @Component
@@ -53,7 +53,7 @@ public class JwtTokenProvider {
                 .subject(user.getUsername())
                 .issuer(issuer)
                 .expiration(new Date(System.currentTimeMillis() + access_expiration))
-                .claim("auth", user.getEmail())//UUID pk로 수정 필요
+                .claim("auth", user.getId())//UUID pk로 수정 필요
                 .signWith(secretKey)
                 .compact();
         // Refresh Token 생성
@@ -70,7 +70,7 @@ public class JwtTokenProvider {
         try {
             Claims claims = parseClaims(token);
 
-            if (userRepository.findById(claims.get("auth", String.class)).isEmpty()) {
+            if (userRepository.findById(UUID.fromString(claims.get("auth", String.class))).isEmpty()) {
                 throw new CoordikittyException(ErrorType.MEMBER_NOT_FOUND);
             }
             if(claims.getExpiration().before(new Date())){
@@ -84,9 +84,9 @@ public class JwtTokenProvider {
 
     public Authentication getAuthentication(String accessToken) {
         Claims claims = parseClaims(accessToken);
-        String username = claims.getSubject();
+        String email = claims.getSubject();
 
-        UserDetails userDetails = userDetailService.loadUserByUsername(username);
+        UserDetails userDetails = userDetailService.loadUserByUsername(email);
         return new UsernamePasswordAuthenticationToken(userDetails, accessToken, userDetails.getAuthorities());
     }
 

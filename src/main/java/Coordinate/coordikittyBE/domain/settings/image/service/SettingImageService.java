@@ -21,7 +21,7 @@ public class SettingImageService {
 
     public SettingImageResponseDto getSettingImage(String email) {
         // user id 로 profile_url 찾기
-        User user = userRepository.findById(email)
+        User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new CoordikittyException(ErrorType.EMAIL_NOT_FOUND));
 
         return SettingImageResponseDto.fromEntity(user);
@@ -30,7 +30,7 @@ public class SettingImageService {
     @Transactional
     public String changeSettingImage(String email, MultipartFile profileImg) {
         // user id 로 찾아서 profile Img 변경
-        User user = userRepository.findById(email)
+        User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new CoordikittyException(ErrorType.EMAIL_NOT_FOUND));
 
         // 기존 이미지가 있는 경우, 기존 이미지 삭제
@@ -45,7 +45,7 @@ public class SettingImageService {
 
     @Transactional
     public String deleteSettingImage(String email) {
-        User user = userRepository.findById(email)
+        User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new CoordikittyException(ErrorType.EMAIL_NOT_FOUND));
 
         // 기존 이미지가 있는 경우, 기존 이미지 삭제
