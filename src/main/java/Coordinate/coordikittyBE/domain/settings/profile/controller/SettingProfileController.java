@@ -2,6 +2,7 @@ package Coordinate.coordikittyBE.domain.settings.profile.controller;
 
 import Coordinate.coordikittyBE.domain.settings.profile.dto.SettingProfileRequestDto;
 import Coordinate.coordikittyBE.domain.settings.profile.service.SettingProfileService;
+import Coordinate.coordikittyBE.global.common.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -26,7 +27,7 @@ public class SettingProfileController {
     }
 
     @PostMapping(value = "/profile")
-    public ResponseEntity<String> setSettingProfile(
+    public ResponseEntity<?> setSettingProfile(
             @RequestBody SettingProfileRequestDto nickname,
             @AuthenticationPrincipal UserDetails userDetails
     ) {
@@ -35,6 +36,6 @@ public class SettingProfileController {
         // user nickname 수정
 
         settingProfileService.setSettingProfile(userDetails.getUsername(), nickname);
-        return ResponseEntity.ok().body("닉네임 변경 성공");
+        return ResponseEntity.ok().body(SuccessResponse.from("닉네임 변경 성공"));
     }
 }
