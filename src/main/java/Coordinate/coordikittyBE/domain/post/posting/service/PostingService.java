@@ -81,29 +81,17 @@ public class PostingService {
     }
 
     public PostUpdateResponseDto update(UUID postId, PostUpdateRequestDto postUpdateRequestDto) {
-        //post 찾고
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CoordikittyException(ErrorType.POST_NOT_FOUND));
 
         List<Attach> attaches = attachRepository.findAllByPostId(postId);
 
-        //attach 지우고
-        //attachRepository.deleteAllByPostId(postId);
-
-        //기존 이미지 지우고(firebase)
         postDao.delete(postId);
 
-        //postImgs 변경
         postImageRepository.deleteAllByPostId(postId);
 
-        //새 이미지 업로드(firebase)
         List<PostImage> postImages = new ArrayList<>();
         postUpdateRequestDto.postImgs().forEach(img -> postImages.add(PostImage.from(postDao.upload(img, postId), post)));
-
-        //새 attach 생성
-        //List<Attach> attaches = createAttaches(postUpdateRequestDto.clothIds(), post);
-
-        // 기존 attach 내 postId 변경?
 
         post.update(postUpdateRequestDto, attaches, postImages);
         return PostUpdateResponseDto.from(attaches);
@@ -118,13 +106,6 @@ public class PostingService {
             attachRepository.save(attach);
             attaches.add(attach);
         });
-//        for (UUID clothId : clothIds) {
-//            Cloth cloth = clothRepository.findById(clothId)
-//                    .orElseThrow(() -> new CoordikittyException(ErrorType.CLOTH_NOT_FOUND));
-//            Attach attach = Attach.of(cloth, post);
-//            attachRepository.save(attach);
-//            attaches.add(attach);
-//        }
         return attaches;
     }
 

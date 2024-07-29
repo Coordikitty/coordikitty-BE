@@ -8,6 +8,7 @@ import Coordinate.coordikittyBE.domain.post.entity.Post;
 import Coordinate.coordikittyBE.domain.post.repository.PostRepository;
 import Coordinate.coordikittyBE.exception.CoordikittyException;
 import Coordinate.coordikittyBE.exception.ErrorType;
+import Coordinate.coordikittyBE.global.common.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +23,7 @@ public class PostlikeService {
     private final HistoryRepository historyRepository;
     private final UserRepository userRepository;
 
-    public String like(UUID postId, String email) {
+    public SuccessResponse<String> like(UUID postId, String email) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CoordikittyException(ErrorType.POST_NOT_FOUND));
         User user = userRepository.findByEmail(email)
@@ -32,10 +33,13 @@ public class PostlikeService {
 
         history.toggleLike();
 
-        if (history.getIsLiked()) post.like();
-        else post.unlike();
+        if (history.getIsLiked()){
+            post.like();
+            SuccessResponse.from("좋아요 성공");
+        }
 
-        return "좋아요 토글 성공";
+        post.unlike();
+        return SuccessResponse.from("좋아요 취소 성공");
     }
 
 }
