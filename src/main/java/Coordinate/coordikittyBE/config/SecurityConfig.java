@@ -1,6 +1,6 @@
 package Coordinate.coordikittyBE.config;
 
-import Coordinate.coordikittyBE.security.jwt.JwtAuthenticationFilter;
+import Coordinate.coordikittyBE.domain.security.jwt.JwtAuthenticationFilter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

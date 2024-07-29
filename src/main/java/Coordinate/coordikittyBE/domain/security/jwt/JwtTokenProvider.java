@@ -1,8 +1,8 @@
-package Coordinate.coordikittyBE.security.jwt;
+package Coordinate.coordikittyBE.domain.security.jwt;
 
 import Coordinate.coordikittyBE.domain.user.entity.User;
 import Coordinate.coordikittyBE.domain.auth.login.dto.TokenDto;
-import Coordinate.coordikittyBE.domain.auth.login.service.UserDetailServiceImpl;
+import Coordinate.coordikittyBE.domain.security.common.UserDetailServiceImpl;
 import Coordinate.coordikittyBE.domain.user.repository.UserRepository;
 import Coordinate.coordikittyBE.exception.CoordikittyException;
 import Coordinate.coordikittyBE.exception.ErrorType;

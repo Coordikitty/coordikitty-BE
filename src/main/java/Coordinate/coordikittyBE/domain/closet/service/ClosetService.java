@@ -49,14 +49,13 @@ public class ClosetService {
     }
 
     @Transactional
-    public String postCloth(String email, ClosetPostRequestDto closetPostRequestDto, MultipartFile clothImg) {
+    public void postCloth(String email, ClosetPostRequestDto closetPostRequestDto, MultipartFile clothImg) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new CoordikittyException(ErrorType.MEMBER_NOT_FOUND));
         Cloth cloth = Cloth.of(closetPostRequestDto, user);
 
         cloth.addImageUrl(clothDao.upload(clothImg, cloth.getId()));
         clothRepository.save(cloth);
-        return "업로드 성공";
     }
 
     public ClosetCategorizationResponseDto clothCategorization(MultipartFile clothImg){

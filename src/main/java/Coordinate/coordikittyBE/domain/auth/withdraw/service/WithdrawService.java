@@ -13,8 +13,7 @@ public class WithdrawService {
     private final UserRepository userRepository;
 
     @Transactional
-    public String withdraw(String email) {
+    public void withdraw(String email) {
         userRepository.deleteByEmail(email);
-        return "삭제 성공";
     }
 }

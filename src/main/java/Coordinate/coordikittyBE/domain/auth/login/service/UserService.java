@@ -8,7 +8,7 @@ import Coordinate.coordikittyBE.domain.auth.login.dto.TokenDto;
 import Coordinate.coordikittyBE.domain.auth.login.dto.request.LoginRequestDto;
 import Coordinate.coordikittyBE.exception.CoordikittyException;
 import Coordinate.coordikittyBE.exception.ErrorType;
-import Coordinate.coordikittyBE.security.jwt.JwtTokenProvider;
+import Coordinate.coordikittyBE.domain.security.jwt.JwtTokenProvider;
 import Coordinate.coordikittyBE.domain.auth.login.util.PasswordUtil;
 import Coordinate.coordikittyBE.domain.auth.repository.RefreshTokenRepository;
 import Coordinate.coordikittyBE.domain.user.repository.UserRepository;
