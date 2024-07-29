@@ -2,14 +2,18 @@ package Coordinate.coordikittyBE.global.common.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.time.Duration;
 import java.util.UUID;
 
-public class RefreshTokenProvider implements  JwtTokenProvider{
+@Component
+@Qualifier("refreshTokenProvider")
+public class RefreshTokenProvider implements JwtTokenProvider{
     private final SecretKey secretKey;
     private final Duration refreshTokenDuration;
     private final String issuer;
