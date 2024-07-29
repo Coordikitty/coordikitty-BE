@@ -1,11 +1,10 @@
 package Coordinate.coordikittyBE.domain.recommend.service;
 
-import Coordinate.coordikittyBE.domain.auth.entity.User;
-import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
+import Coordinate.coordikittyBE.domain.user.entity.User;
+import Coordinate.coordikittyBE.domain.user.repository.UserRepository;
 import Coordinate.coordikittyBE.domain.closet.entity.Cloth;
 import Coordinate.coordikittyBE.domain.closet.enums.Style;
 import Coordinate.coordikittyBE.domain.closet.repository.ClothRepository;
-import Coordinate.coordikittyBE.domain.post.enums.Situation;
 import Coordinate.coordikittyBE.domain.recommend.dto.CoordinatesDto;
 import Coordinate.coordikittyBE.domain.recommend.dto.RecommendGetResponseDto;
 import Coordinate.coordikittyBE.domain.recommend.dto.RecommendRequestDto;

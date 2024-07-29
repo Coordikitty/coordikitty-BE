@@ -1,6 +1,6 @@
-package Coordinate.coordikittyBE.domain.auth.signup.dto;
+package Coordinate.coordikittyBE.domain.user.dto;
 
-import Coordinate.coordikittyBE.domain.auth.entity.User;
+import Coordinate.coordikittyBE.domain.user.entity.User;
 import Coordinate.coordikittyBE.domain.auth.login.util.PasswordUtil;
 import Coordinate.coordikittyBE.domain.closet.enums.Style;
 

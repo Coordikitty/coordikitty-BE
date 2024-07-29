@@ -1,8 +1,8 @@
 package Coordinate.coordikittyBE.domain.closet.service;
 
 import Coordinate.coordikittyBE.domain.attach.repository.AttachRepository;
-import Coordinate.coordikittyBE.domain.auth.entity.User;
-import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
+import Coordinate.coordikittyBE.domain.user.entity.User;
+import Coordinate.coordikittyBE.domain.user.repository.UserRepository;
 import Coordinate.coordikittyBE.domain.closet.dto.response.ClosetCategorizationResponseDto;
 import Coordinate.coordikittyBE.domain.closet.dto.response.ClosetGetResponseDto;
 import Coordinate.coordikittyBE.domain.closet.dto.request.ClosetPostRequestDto;

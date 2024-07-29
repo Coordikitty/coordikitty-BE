@@ -1,6 +1,6 @@
-package Coordinate.coordikittyBE.domain.auth.signup.controller;
+package Coordinate.coordikittyBE.domain.user.controller;
 
-import Coordinate.coordikittyBE.domain.auth.signup.service.DupCheckService;
+import Coordinate.coordikittyBE.domain.user.service.DupCheckService;
 import Coordinate.coordikittyBE.exception.CoordikittyException;
 import Coordinate.coordikittyBE.exception.ErrorType;
 import lombok.RequiredArgsConstructor;

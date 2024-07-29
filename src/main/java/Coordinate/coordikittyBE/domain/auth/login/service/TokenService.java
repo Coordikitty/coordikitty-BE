@@ -1,10 +1,10 @@
 package Coordinate.coordikittyBE.domain.auth.login.service;
 
 import Coordinate.coordikittyBE.domain.auth.entity.RefreshToken;
-import Coordinate.coordikittyBE.domain.auth.entity.User;
+import Coordinate.coordikittyBE.domain.user.entity.User;
 import Coordinate.coordikittyBE.domain.auth.login.dto.response.LoginResponseDto;
 import Coordinate.coordikittyBE.domain.auth.login.dto.TokenDto;
-import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
+import Coordinate.coordikittyBE.domain.user.repository.UserRepository;
 import Coordinate.coordikittyBE.exception.CoordikittyException;
 import Coordinate.coordikittyBE.exception.ErrorType;
 import Coordinate.coordikittyBE.security.jwt.JwtTokenProvider;

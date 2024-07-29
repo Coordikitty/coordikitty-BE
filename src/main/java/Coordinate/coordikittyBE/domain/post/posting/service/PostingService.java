@@ -3,8 +3,8 @@ package Coordinate.coordikittyBE.domain.post.posting.service;
 
 import Coordinate.coordikittyBE.domain.attach.entity.Attach;
 import Coordinate.coordikittyBE.domain.attach.repository.AttachRepository;
-import Coordinate.coordikittyBE.domain.auth.entity.User;
-import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
+import Coordinate.coordikittyBE.domain.user.entity.User;
+import Coordinate.coordikittyBE.domain.user.repository.UserRepository;
 import Coordinate.coordikittyBE.domain.closet.entity.Cloth;
 import Coordinate.coordikittyBE.domain.closet.repository.ClothRepository;
 import Coordinate.coordikittyBE.domain.history.entity.History;

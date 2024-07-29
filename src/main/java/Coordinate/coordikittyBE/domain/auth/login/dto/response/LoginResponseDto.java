@@ -1,6 +1,6 @@
 package Coordinate.coordikittyBE.domain.auth.login.dto.response;
 
-import Coordinate.coordikittyBE.domain.auth.entity.User;
+import Coordinate.coordikittyBE.domain.user.entity.User;
 import Coordinate.coordikittyBE.domain.auth.login.dto.TokenDto;
 
 public record LoginResponseDto(
