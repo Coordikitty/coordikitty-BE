@@ -1,6 +1,5 @@
 package Coordinate.coordikittyBE.config;
 
-import Coordinate.coordikittyBE.domain.security.jwt.JwtAuthenticationEntryPoint;
 import Coordinate.coordikittyBE.domain.security.jwt.JwtAuthenticationFilter;
 import Coordinate.coordikittyBE.domain.security.jwt.JwtExceptionFilter;
 import Coordinate.coordikittyBE.global.util.JwtHelper;
@@ -16,10 +15,6 @@ public class SecurityFilterConfig {
     private final JwtHelper jwtHelper;
     private final UserDetailsService userDetailsService;
     private final ObjectMapper objectMapper;
-    @Bean
-    public JwtAuthenticationEntryPoint authenticationEntryPoint() {
-        return new JwtAuthenticationEntryPoint(objectMapper);
-    }
 
     @Bean
     public JwtExceptionFilter jwtExceptionFilter(){
