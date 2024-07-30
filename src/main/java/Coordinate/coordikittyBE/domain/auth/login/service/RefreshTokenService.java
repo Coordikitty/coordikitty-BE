@@ -16,22 +16,25 @@ import java.util.UUID;
 public class RefreshTokenService {
     private final RedisUtil redisUtil;
     private final JwtHelper jwtHelper;
-
+    @Value("${prefix.refresh_token_prefix}")
+    private String refreshTokenPrefix;
     @Value("${jwt.refresh-expiration}")
     private Long refreshExpiration;
 
     public void saveRefreshToken(UUID userId, String refreshToken) {
-        redisUtil.save(userId.toString(), refreshToken);
+        String key = refreshTokenPrefix + userId.toString();
+        redisUtil.save(key, refreshToken);
         redisUtil.saveExpire(userId.toString(), refreshExpiration);
     }
 
     public boolean getRefreshToken(String token) {
         Claims claims = jwtHelper.parseClaims(token);
-        return redisUtil.get(claims.get("userId", String.class));
+        String key = refreshTokenPrefix + claims.get("userId", String.class);
+        return redisUtil.get(key);
     }
 
     public void deleteRefreshToken(String userId) {
-        redisUtil.delete(userId);
+        redisUtil.delete(refreshTokenPrefix+userId);
     }
 
     public String reIssueAccessToken(String refreshToken) {
