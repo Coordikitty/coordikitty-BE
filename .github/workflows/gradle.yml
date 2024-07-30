@@ -53,6 +53,17 @@ jobs:
       - name: Upload to S3
         run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://${{ env.S3_BUCKET_NAME }}/$GITHUB_SHA.zip
 
+      # 4. ec2 pull
+      - name: execute redis
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          port: ${{ secrets.SERVER_SSH_PORT }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_KEY }}
+          script: |
+            docker stop coordikitty-redis
+            docker run --name coordikitty-redis -p ${{secrets.REDIS_PORT}}:${{secrets.REDIS_PORT}} -d redis
         # [6]
       - name: Code Deploy
         run: |
