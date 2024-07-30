@@ -28,14 +28,14 @@ public class AuthController {
     private final CookieUtil cookieUtil;
 
     @PostMapping("/token")
-    public ResponseEntity<?> createNewAccessToken(@CookieValue("refreshToken") String refreshToken) {
+    public ResponseEntity<?> reIssueToken(@CookieValue("refreshToken") String refreshToken) {
         if(refreshToken == null) {
             throw new CoordikittyException(ErrorType.INVALID_TOKEN);
         }
         TokenDto tokenDto = authService.reissueToken(refreshToken);
 
         Map<String, Object> responseBody = new HashMap<>();
-        responseBody.put("newAccessToken", tokenDto.accessToken());
+        responseBody.put("accessToken", tokenDto.accessToken());
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .header(cookieUtil.addRtkCookie("refreshToken", tokenDto.refreshToken()).toString()).body(responseBody);
