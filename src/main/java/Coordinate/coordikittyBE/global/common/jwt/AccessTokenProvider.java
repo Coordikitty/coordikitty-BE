@@ -22,7 +22,7 @@ public class AccessTokenProvider implements JwtTokenProvider{
     private final String issuer;
 
     public AccessTokenProvider(
-            @Value("${jwt.secret}") String secretKey,
+            @Value("${jwt.secret_key}") String secretKey,
             @Value("${jwt.access_expiration}") Duration accessTokenExpiration,
             @Value("${jwt.issuer}") String issuer
     ){
