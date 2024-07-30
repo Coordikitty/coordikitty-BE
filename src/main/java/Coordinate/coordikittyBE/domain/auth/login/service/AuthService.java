@@ -17,13 +17,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
-public class UserService {
+public class AuthService {
     private final UserRepository userRepository;
     private final JwtHelper jwtHelper;
     private final RefreshTokenRepository refreshTokenRepository;
     private final RefreshTokenService refreshTokenService;
 
+    @Transactional(readOnly = true)
     public LoginResponseDto signIn(LoginRequestDto loginRequestDto) {
         User user = userRepository.findByEmail(loginRequestDto.email())
                 .orElseThrow(()-> new CoordikittyException(ErrorType.MEMBER_NOT_FOUND));
@@ -33,13 +33,14 @@ public class UserService {
         throw new CoordikittyException(ErrorType.MEMBER_NOT_FOUND);
     }
 
+    @Transactional(readOnly = true)
     public String logout(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new CoordikittyException(ErrorType.MEMBER_NOT_FOUND));
         refreshTokenRepository.deleteByUserId(user.getId());
         return "Logout success";
     }
-    @Transactional(readOnly = true)
+
     public TokenDto reissueToken(String refreshToken){
         if(!refreshTokenService.getRefreshToken(refreshToken)){
             throw new CoordikittyException(ErrorType.TOKEN_NOT_FOUND);
@@ -49,6 +50,7 @@ public class UserService {
         return TokenDto.of(newAccessToken, newRefreshToken);
     }
 
+    @Transactional(readOnly = true)
     public LoginResponseDto socialSignIn(SocialLoginRequestDto socialLoginRequestDto) {
         User user = userRepository.findByEmail(socialLoginRequestDto.email())
                 .orElseThrow(()-> new CoordikittyException(ErrorType.MEMBER_NOT_FOUND));
