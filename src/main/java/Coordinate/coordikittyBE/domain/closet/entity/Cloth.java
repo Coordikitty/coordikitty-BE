@@ -1,7 +1,7 @@
 package Coordinate.coordikittyBE.domain.closet.entity;
 
 import Coordinate.coordikittyBE.domain.attach.entity.Attach;
-import Coordinate.coordikittyBE.domain.auth.entity.User;
+import Coordinate.coordikittyBE.domain.user.entity.User;
 import Coordinate.coordikittyBE.domain.closet.dto.request.ClosetPostRequestDto;
 import Coordinate.coordikittyBE.domain.closet.enums.*;
 import jakarta.persistence.*;

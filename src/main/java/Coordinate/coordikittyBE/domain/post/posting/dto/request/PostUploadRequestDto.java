@@ -1,6 +1,6 @@
 package Coordinate.coordikittyBE.domain.post.posting.dto.request;
 
-import Coordinate.coordikittyBE.domain.auth.entity.User;
+import Coordinate.coordikittyBE.domain.user.entity.User;
 import Coordinate.coordikittyBE.domain.closet.enums.Style;
 import Coordinate.coordikittyBE.domain.post.entity.Post;
 

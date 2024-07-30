@@ -16,20 +16,10 @@ import java.util.UUID;
 public class PostBookmarkController {
     private final PostBookmarkService postBookmarkService;
     @PostMapping("/bookmark")
-    public ResponseEntity<String> addBookmark(
+    public ResponseEntity<?> addBookmark(
             @RequestBody UUID postId,
             @AuthenticationPrincipal UserDetails userDetails
     ){
-        return ResponseEntity.status(HttpStatus.CREATED).body(postBookmarkService.bookmark(postId, userDetails.getUsername()));
-        // 제안
-        // return ResponseEntity.ok(postBookmarkService.addBookmark(postId, userDetails.getUsername()));
-    }
-    @DeleteMapping("/bookmark")
-    public ResponseEntity<String> deleteBookmark(
-            @RequestBody UUID postId,
-            @AuthenticationPrincipal UserDetails userDetails
-    ){
-         return ResponseEntity.ok(postBookmarkService.deleteBookmark(postId, userDetails.getUsername()));
-
+        return ResponseEntity.ok(postBookmarkService.bookmark(postId, userDetails.getUsername()));
     }
 }

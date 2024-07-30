@@ -2,6 +2,7 @@ package Coordinate.coordikittyBE.domain.settings.alarm.controller;
 
 import Coordinate.coordikittyBE.domain.settings.alarm.dto.*;
 import Coordinate.coordikittyBE.domain.settings.alarm.service.SettingAlarmService;
+import Coordinate.coordikittyBE.global.common.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,12 +24,12 @@ public class SettingAlarmController {
     }
 
     @PostMapping(value = "/alarm")
-    public ResponseEntity<String> setSettingAlarm(
+    public ResponseEntity<?> setSettingAlarm(
             @RequestBody SettingAlarmRequestDto type,
             @AuthenticationPrincipal UserDetails userDetails
     ) {
         settingService.changeSettingAlarm(userDetails.getUsername(), type);
-        return ResponseEntity.ok().body("타입 변환 성공");
+        return ResponseEntity.ok().body(SuccessResponse.from("타입 변환 성공"));
     }
 
 }

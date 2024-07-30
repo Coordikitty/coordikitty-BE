@@ -1,6 +1,6 @@
 package Coordinate.coordikittyBE.domain.settings.alarm.dto;
 
-import Coordinate.coordikittyBE.domain.auth.entity.User;
+import Coordinate.coordikittyBE.domain.user.entity.User;
 
 public record SettingAlarmResponseDto(boolean alarm_like, boolean alarm_feed, boolean alarm_follow) {
     public static SettingAlarmResponseDto from(User user) {

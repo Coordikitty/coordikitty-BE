@@ -1,4 +1,4 @@
-package Coordinate.coordikittyBE.domain.auth.entity;
+package Coordinate.coordikittyBE.domain.user.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

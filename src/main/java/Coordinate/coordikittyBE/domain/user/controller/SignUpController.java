@@ -1,15 +1,15 @@
-package Coordinate.coordikittyBE.domain.auth.signup.controller;
+package Coordinate.coordikittyBE.domain.user.controller;
 
-import Coordinate.coordikittyBE.domain.auth.signup.dto.SignUpRequestDto;
-import Coordinate.coordikittyBE.domain.auth.signup.dto.SignUpResponseDto;
-import Coordinate.coordikittyBE.domain.auth.signup.service.SignUpService;
+import Coordinate.coordikittyBE.domain.user.dto.SignUpRequestDto;
+import Coordinate.coordikittyBE.domain.user.dto.SignUpResponseDto;
+import Coordinate.coordikittyBE.domain.user.service.SignUpService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/auth")
+@RequestMapping("/user")
 public class SignUpController {
     private final SignUpService signUpService;
 

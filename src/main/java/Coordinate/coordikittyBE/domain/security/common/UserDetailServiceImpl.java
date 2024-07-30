@@ -1,6 +1,6 @@
-package Coordinate.coordikittyBE.domain.auth.login.service;
+package Coordinate.coordikittyBE.domain.security.common;
 
-import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
+import Coordinate.coordikittyBE.domain.user.repository.UserRepository;
 import Coordinate.coordikittyBE.exception.CoordikittyException;
 import Coordinate.coordikittyBE.exception.ErrorType;
 import lombok.RequiredArgsConstructor;

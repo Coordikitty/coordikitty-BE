@@ -27,6 +27,7 @@ spring:
 #      port: 6379
       host: ${REDIS_HOST}
       port: ${REDIS_PORT}
+
   security:
     oauth2:
       client:
@@ -42,7 +43,9 @@ jwt:
   secret_key: ${JWT_SECRET_KEY}
   access_expiration: ${JWT_ACCESS_EXPIRATION}
   refresh_expiration: ${JWT_REFRESH_EXPIRATION}
-
+prefix:
+  refresh_token_prefix: ${REDIS_REFRESH_PREFIX}
+  alarm_prefix: ${REDIS_ALARM_PREFIX}
 openweathermap:
   key: ${OPENWEATERMAP_KEY}
 fcm:
