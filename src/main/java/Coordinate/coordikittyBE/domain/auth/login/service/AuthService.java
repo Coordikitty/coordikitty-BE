@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthService {
     private final UserRepository userRepository;
     private final JwtHelper jwtHelper;
-    private final RefreshTokenRepository refreshTokenRepository;
     private final RefreshTokenService refreshTokenService;
 
     @Transactional(readOnly = true)
@@ -34,11 +33,10 @@ public class AuthService {
     }
 
     @Transactional(readOnly = true)
-    public String logout(String email) {
+    public void logout(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new CoordikittyException(ErrorType.MEMBER_NOT_FOUND));
-        refreshTokenRepository.deleteByUserId(user.getId());
-        return "Logout success";
+        refreshTokenService.deleteRefreshToken(user.getId().toString());
     }
 
     public TokenDto reissueToken(String refreshToken){

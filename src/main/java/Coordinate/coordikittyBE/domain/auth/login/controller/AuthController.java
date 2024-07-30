@@ -8,6 +8,7 @@ import Coordinate.coordikittyBE.domain.auth.login.dto.request.SocialLoginRequest
 import Coordinate.coordikittyBE.domain.auth.login.service.AuthService;
 import Coordinate.coordikittyBE.exception.CoordikittyException;
 import Coordinate.coordikittyBE.exception.ErrorType;
+import Coordinate.coordikittyBE.global.common.response.SuccessResponse;
 import Coordinate.coordikittyBE.global.util.cookie.CookieUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -57,7 +58,8 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<String> logout(@AuthenticationPrincipal UserDetails userDetails){
-        return ResponseEntity.ok().body(authService.logout(userDetails.getUsername()));
+    public ResponseEntity<?> logout(@AuthenticationPrincipal UserDetails userDetails){
+        authService.logout(userDetails.getUsername());
+        return ResponseEntity.ok().body(SuccessResponse.from("로그아웃 성공"));
     }
 }
