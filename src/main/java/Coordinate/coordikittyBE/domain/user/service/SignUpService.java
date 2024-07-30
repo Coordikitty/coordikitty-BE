@@ -1,10 +1,10 @@
-package Coordinate.coordikittyBE.domain.auth.signup.service;
+package Coordinate.coordikittyBE.domain.user.service;
 
-import Coordinate.coordikittyBE.domain.auth.entity.User;
-import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
-import Coordinate.coordikittyBE.domain.auth.signup.dto.SignUpRequestDto;
-import Coordinate.coordikittyBE.domain.auth.signup.dto.SignUpResponseDto;
-import Coordinate.coordikittyBE.domain.auth.signup.dto.SignUpSocialRequestDto;
+import Coordinate.coordikittyBE.domain.user.entity.User;
+import Coordinate.coordikittyBE.domain.user.repository.UserRepository;
+import Coordinate.coordikittyBE.domain.user.dto.SignUpRequestDto;
+import Coordinate.coordikittyBE.domain.user.dto.SignUpResponseDto;
+import Coordinate.coordikittyBE.domain.user.dto.SignUpSocialRequestDto;
 import Coordinate.coordikittyBE.exception.CoordikittyException;
 import Coordinate.coordikittyBE.exception.ErrorType;
 import lombok.RequiredArgsConstructor;

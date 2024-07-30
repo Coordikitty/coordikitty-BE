@@ -1,6 +1,6 @@
-package Coordinate.coordikittyBE.domain.auth.signup.service;
+package Coordinate.coordikittyBE.domain.user.service;
 
-import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
+import Coordinate.coordikittyBE.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

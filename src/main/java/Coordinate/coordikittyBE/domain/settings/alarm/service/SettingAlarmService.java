@@ -1,7 +1,7 @@
 package Coordinate.coordikittyBE.domain.settings.alarm.service;
 
-import Coordinate.coordikittyBE.domain.auth.entity.User;
-import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
+import Coordinate.coordikittyBE.domain.user.entity.User;
+import Coordinate.coordikittyBE.domain.user.repository.UserRepository;
 import Coordinate.coordikittyBE.domain.settings.alarm.dto.SettingAlarmRequestDto;
 import Coordinate.coordikittyBE.domain.settings.alarm.dto.SettingAlarmResponseDto;
 import Coordinate.coordikittyBE.exception.CoordikittyException;

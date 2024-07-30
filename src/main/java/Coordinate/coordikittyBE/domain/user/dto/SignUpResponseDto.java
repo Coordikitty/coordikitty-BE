@@ -1,6 +1,6 @@
-package Coordinate.coordikittyBE.domain.auth.signup.dto;
+package Coordinate.coordikittyBE.domain.user.dto;
 
-import Coordinate.coordikittyBE.domain.auth.entity.User;
+import Coordinate.coordikittyBE.domain.user.entity.User;
 
 public record SignUpResponseDto(String email, String name) {
     public static SignUpResponseDto fromEntity(User user){

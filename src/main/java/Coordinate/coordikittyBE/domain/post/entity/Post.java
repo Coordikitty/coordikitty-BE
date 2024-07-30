@@ -1,14 +1,13 @@
 package Coordinate.coordikittyBE.domain.post.entity;
 
 import Coordinate.coordikittyBE.domain.attach.entity.Attach;
-import Coordinate.coordikittyBE.domain.auth.entity.User;
+import Coordinate.coordikittyBE.domain.user.entity.User;
 import Coordinate.coordikittyBE.domain.closet.enums.Style;
 import Coordinate.coordikittyBE.domain.history.entity.History;
 import Coordinate.coordikittyBE.domain.post.posting.dto.request.PostUpdateRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

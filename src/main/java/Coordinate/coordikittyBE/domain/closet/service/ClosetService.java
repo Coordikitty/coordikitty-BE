@@ -1,8 +1,8 @@
 package Coordinate.coordikittyBE.domain.closet.service;
 
 import Coordinate.coordikittyBE.domain.attach.repository.AttachRepository;
-import Coordinate.coordikittyBE.domain.auth.entity.User;
-import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
+import Coordinate.coordikittyBE.domain.user.entity.User;
+import Coordinate.coordikittyBE.domain.user.repository.UserRepository;
 import Coordinate.coordikittyBE.domain.closet.dto.response.ClosetCategorizationResponseDto;
 import Coordinate.coordikittyBE.domain.closet.dto.response.ClosetGetResponseDto;
 import Coordinate.coordikittyBE.domain.closet.dto.request.ClosetPostRequestDto;
@@ -49,14 +49,13 @@ public class ClosetService {
     }
 
     @Transactional
-    public String postCloth(String email, ClosetPostRequestDto closetPostRequestDto, MultipartFile clothImg) {
+    public void postCloth(String email, ClosetPostRequestDto closetPostRequestDto, MultipartFile clothImg) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new CoordikittyException(ErrorType.MEMBER_NOT_FOUND));
         Cloth cloth = Cloth.of(closetPostRequestDto, user);
 
         cloth.addImageUrl(clothDao.upload(clothImg, cloth.getId()));
         clothRepository.save(cloth);
-        return "업로드 성공";
     }
 
     public ClosetCategorizationResponseDto clothCategorization(MultipartFile clothImg){

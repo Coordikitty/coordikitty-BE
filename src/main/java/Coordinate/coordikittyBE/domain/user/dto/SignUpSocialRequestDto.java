@@ -1,6 +1,6 @@
-package Coordinate.coordikittyBE.domain.auth.signup.dto;
+package Coordinate.coordikittyBE.domain.user.dto;
 
-import Coordinate.coordikittyBE.domain.auth.entity.User;
+import Coordinate.coordikittyBE.domain.user.entity.User;
 import java.util.UUID;
 
 public record SignUpSocialRequestDto(String email) {
@@ -10,9 +10,5 @@ public record SignUpSocialRequestDto(String email) {
                 .email(signUpSocialRequestDto.email())
                 .password(UUID.randomUUID().toString())
                 .build();
-    }
-
-    public static SignUpSocialRequestDto from(String email) {
-        return new SignUpSocialRequestDto(email);
     }
 }

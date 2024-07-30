@@ -1,8 +1,8 @@
 package Coordinate.coordikittyBE.domain.settings.image.service;
 
-import Coordinate.coordikittyBE.domain.auth.entity.User;
+import Coordinate.coordikittyBE.domain.user.entity.User;
 
-import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
+import Coordinate.coordikittyBE.domain.user.repository.UserRepository;
 import Coordinate.coordikittyBE.domain.settings.image.dto.SettingImageResponseDto;
 import Coordinate.coordikittyBE.domain.settings.image.repository.ImageDao;
 import Coordinate.coordikittyBE.exception.CoordikittyException;

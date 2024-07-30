@@ -1,6 +1,6 @@
 package Coordinate.coordikittyBE.domain.history.entity;
 
-import Coordinate.coordikittyBE.domain.auth.entity.User;
+import Coordinate.coordikittyBE.domain.user.entity.User;
 import Coordinate.coordikittyBE.domain.post.entity.Post;
 import jakarta.persistence.*;
 import lombok.*;

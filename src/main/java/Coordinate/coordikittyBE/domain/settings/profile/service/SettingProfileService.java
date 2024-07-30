@@ -1,7 +1,7 @@
 package Coordinate.coordikittyBE.domain.settings.profile.service;
 
-import Coordinate.coordikittyBE.domain.auth.entity.User;
-import Coordinate.coordikittyBE.domain.auth.repository.UserRepository;
+import Coordinate.coordikittyBE.domain.user.entity.User;
+import Coordinate.coordikittyBE.domain.user.repository.UserRepository;
 import Coordinate.coordikittyBE.domain.settings.profile.dto.SettingProfileRequestDto;
 import Coordinate.coordikittyBE.domain.settings.profile.dto.SettingProfileResponseDto;
 import Coordinate.coordikittyBE.exception.CoordikittyException;
