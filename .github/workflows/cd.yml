@@ -26,10 +26,6 @@ jobs:
           script: |
             sudo docker restart coordikitty-redis
 
-      - name: Build with Gradle Wrapper
-        run: ./gradlew build -x test
-
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
