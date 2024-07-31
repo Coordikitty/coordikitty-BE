@@ -19,7 +19,7 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_KEY }}
           script: |
-            sudo docker stop coordikitty-redis
+            sudo docker restart coordikitty-redis
             sudo docker run --name coordikitty-redis -p ${{secrets.REDIS_PORT}}:${{secrets.REDIS_PORT}} -d redis
         # [6]
       - name: Code Deploy
