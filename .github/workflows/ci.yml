@@ -13,9 +13,7 @@ on:
 
 env:
   S3_BUCKET_NAME: coordikittycd
-  RESOURCE_PATH: src/main/resources/application.yml
-  CODE_DEPLOY_APPLICATION_NAME: coordikitty-backend
-  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: coordikitty-backend-group
+
 
 jobs:
   build:
@@ -34,3 +32,19 @@ jobs:
 
       - name: Build with Gradle Wrapper
         run: ./gradlew build -x test
+
+      - name: Make zip file
+        run: zip -r ./$GITHUB_SHA.zip .
+        shell: bash
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+          # [5]
+      - name: Upload to S3
+        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://${{ env.S3_BUCKET_NAME }}/$GITHUB_SHA.zip
+
