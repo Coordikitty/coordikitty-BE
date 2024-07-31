@@ -3,8 +3,6 @@ package Coordinate.coordikittyBE.domain.post.posting.service;
 
 import Coordinate.coordikittyBE.domain.attach.entity.Attach;
 import Coordinate.coordikittyBE.domain.attach.repository.AttachRepository;
-import Coordinate.coordikittyBE.domain.user.entity.User;
-import Coordinate.coordikittyBE.domain.user.repository.UserRepository;
 import Coordinate.coordikittyBE.domain.closet.entity.Cloth;
 import Coordinate.coordikittyBE.domain.closet.repository.ClothRepository;
 import Coordinate.coordikittyBE.domain.history.entity.History;
@@ -15,18 +13,21 @@ import Coordinate.coordikittyBE.domain.post.posting.dto.request.PostUpdateReques
 import Coordinate.coordikittyBE.domain.post.posting.dto.request.PostUploadRequestDto;
 import Coordinate.coordikittyBE.domain.post.posting.dto.response.PostResponseDto;
 import Coordinate.coordikittyBE.domain.post.posting.dto.response.PostUpdateResponseDto;
-import Coordinate.coordikittyBE.domain.post.repository.PostDao;
 import Coordinate.coordikittyBE.domain.post.repository.PostImageRepository;
 import Coordinate.coordikittyBE.domain.post.repository.PostRepository;
-
+import Coordinate.coordikittyBE.domain.user.entity.User;
+import Coordinate.coordikittyBE.domain.user.repository.UserRepository;
 import Coordinate.coordikittyBE.exception.CoordikittyException;
 import Coordinate.coordikittyBE.exception.ErrorType;
+import Coordinate.coordikittyBE.global.util.FirebaseHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -37,7 +38,7 @@ public class PostingService {
     private final AttachRepository attachRepository;
     private final HistoryRepository historyRepository;
     private final UserRepository userRepository;
-    private final PostDao postDao;
+    private final FirebaseHelper firebaseHelper;
     private final PostImageRepository postImageRepository;
 
     public List<PostResponseDto> getAllPosts() {
@@ -54,7 +55,7 @@ public class PostingService {
 
     public void delete(UUID postId) {
         postRepository.deleteById(postId);
-        postDao.delete(postId);
+        firebaseHelper.deletePostImage(postId);
     }
 
     public PostResponseDto upload(PostUploadRequestDto postUploadRequestDto, List<MultipartFile> images, String email) {
@@ -64,7 +65,7 @@ public class PostingService {
         List<String> postImageUrls = new ArrayList<>();
         images.stream()
                 .map(image -> {
-                    String imageUrl = postDao.upload(image, post.getId());
+                    String imageUrl = firebaseHelper.uploadPostImage(image, post.getId());
                     PostImage postImage = PostImage.from(imageUrl, post);
                     post.addImageUrl(postImage);
                     postImageRepository.save(postImage);
@@ -86,12 +87,12 @@ public class PostingService {
 
         List<Attach> attaches = attachRepository.findAllByPostId(postId);
 
-        postDao.delete(postId);
+        firebaseHelper.deletePostImage(postId);
 
         postImageRepository.deleteAllByPostId(postId);
 
         List<PostImage> postImages = new ArrayList<>();
-        postUpdateRequestDto.postImgs().forEach(img -> postImages.add(PostImage.from(postDao.upload(img, postId), post)));
+        postUpdateRequestDto.postImgs().forEach(img -> postImages.add(PostImage.from(firebaseHelper.uploadPostImage(img, postId), post)));
 
         post.update(postUpdateRequestDto, attaches, postImages);
         return PostUpdateResponseDto.from(attaches);
