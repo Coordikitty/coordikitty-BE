@@ -8,7 +8,6 @@ env:
   RESOURCE_PATH: src/main/resources/application.yml
   CODE_DEPLOY_APPLICATION_NAME: coordikitty-backend
   CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: coordikitty-backend-group
-  S3_BUCKET_NAME: coordikittycd
 jobs:
   deploy:
     runs-on: ubuntu-latest
