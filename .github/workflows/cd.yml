@@ -1,8 +1,7 @@
 name: coordikitty CD with gradle
 
 on:
-  #push:
-  pull_request:
+  push:
     branches: ["develop"]
 
 env:
