@@ -23,6 +23,15 @@ jobs:
           key: ${{ secrets.SERVER_KEY }}
           script: |
             sudo docker restart coordikitty-redis
+
+      - name: setEnv
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          port: ${{ secrets.SERVER_SSH_PORT }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_KEY }}
+          script: |
             source .bashrc
 
       - name: Configure AWS credentials
