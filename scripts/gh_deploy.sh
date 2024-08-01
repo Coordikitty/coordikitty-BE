@@ -15,7 +15,7 @@ else
   kill -9 $CURRENT_PID
   sleep 5
 fi
-
+source ~/.bashrc
 echo "> $JAR_PATH에 실행권한 추가"
 chmod +x $JAR_PATH
 
