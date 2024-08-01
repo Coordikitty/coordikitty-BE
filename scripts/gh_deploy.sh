@@ -15,9 +15,11 @@ else
   kill -9 $CURRENT_PID
   sleep 5
 fi
-source ~/.bashrc
+
 echo "> $JAR_PATH에 실행권한 추가"
 chmod +x $JAR_PATH
+
+source ~/.bashrc
 
 nohup java -jar $JAR_PATH >> $REPOSITORY/build/libs/nohup.out 2>&1 &
 echo "> Deploy - $JAR_PATH "
