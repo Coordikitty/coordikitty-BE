@@ -23,6 +23,7 @@ jobs:
           key: ${{ secrets.SERVER_KEY }}
           script: |
             sudo docker restart coordikitty-redis
+            source .bashrc
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
