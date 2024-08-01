@@ -3,7 +3,7 @@ name: coordikitty CI with Gradle
 
 on:
   pull_request:
-  #push:
+  push:
     branches: [ "develop" ]
 
 env:

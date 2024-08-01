@@ -31,7 +31,7 @@ public class FirebaseConfig {
                         .build();
                 FirebaseApp.initializeApp(options);
         } catch (IOException e) {
-            log.error("firebase 초기화 실패");
+            log.error(e.getMessage());
         }
     }
 }
