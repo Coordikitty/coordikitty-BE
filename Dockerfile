@@ -5,7 +5,7 @@ COPY build.gradle .
 COPY settings.gradle .
 COPY src src
 RUN chmod +x ./gradlew
-RUN apk add --no-cache findutils
+RUN apt-get update && apt-get install -y findutils
 RUN ./gradlew build -x test
 
 FROM openjdk:21
