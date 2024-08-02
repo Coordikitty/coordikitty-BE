@@ -50,7 +50,9 @@ openweathermap:
   key: ${OPENWEATERMAP_KEY}
 fcm:
   key: ${FCM_KEY}
-
+domain:
+  local: ${LOCAL_DOMAIN}
+  server: ${SERVER_DOMAIN}
 #server:
 #  ssl:
 #    key-store: keystore.p12
