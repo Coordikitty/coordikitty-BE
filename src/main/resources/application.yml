@@ -40,7 +40,7 @@ spring:
 
 jwt:
   issuer: ${JWT_ISSUER}
-  secret_key: ${JWT_SECRET_KEY}
+  secret_key: ${JWT_SECRET}
   access_expiration: ${JWT_ACCESS_EXPIRATION}
   refresh_expiration: ${JWT_REFRESH_EXPIRATION}
 prefix:
