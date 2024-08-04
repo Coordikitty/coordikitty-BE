@@ -1,10 +1,6 @@
 package Coordinate.coordikittyBE.global.security.jwt;
 
 import java.io.IOException;
-import java.util.Date;
-
-import Coordinate.coordikittyBE.exception.CoordikittyException;
-import Coordinate.coordikittyBE.exception.ErrorType;
 import Coordinate.coordikittyBE.global.util.JwtHelper;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
@@ -28,7 +24,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         String token = resolveToken(request);
 
-        if (token!=null && validateToken(token)) {
+        if (token!=null) {
             Authentication authentication = getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
@@ -41,21 +37,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return bearerToken.substring(7);
         }
         return null;
-    }
-
-    public boolean validateToken(String token) {
-        try {
-            Claims claims = jwtHelper.parseClaims(token);
-            if (claims==null) {
-                throw new CoordikittyException(ErrorType.INVALID_TOKEN);
-            }
-            if(claims.getExpiration().before(new Date())){
-                throw new CoordikittyException(ErrorType.INVALID_TOKEN);
-            }
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
     }
 
     public Authentication getAuthentication(String accessToken) {
