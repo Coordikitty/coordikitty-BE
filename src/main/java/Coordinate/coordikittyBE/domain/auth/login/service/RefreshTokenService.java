@@ -4,12 +4,14 @@ import Coordinate.coordikittyBE.global.util.JwtHelper;
 import Coordinate.coordikittyBE.global.util.RedisUtil;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 @Transactional
@@ -22,8 +24,11 @@ public class RefreshTokenService {
     private Long refreshExpiration;
 
     public void saveRefreshToken(UUID userId, String refreshToken) {
+        System.out.println(refreshToken);
         String key = refreshTokenPrefix + userId.toString();
+        log.info("토큰프리픽스 추가" + refreshToken);
         redisUtil.save(key, refreshToken);
+        log.info("토큰 저장");
         redisUtil.saveExpire(userId.toString(), refreshExpiration);
     }
 

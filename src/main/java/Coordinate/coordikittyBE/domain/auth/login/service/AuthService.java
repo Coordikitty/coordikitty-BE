@@ -11,9 +11,11 @@ import Coordinate.coordikittyBE.domain.auth.login.util.PasswordUtil;
 import Coordinate.coordikittyBE.domain.user.repository.UserRepository;
 import Coordinate.coordikittyBE.global.util.JwtHelper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -57,7 +59,7 @@ public class AuthService {
     private LoginResponseDto grantLoginPermission(User user){
         String accessToken = jwtHelper.generateAccessToken(user.getEmail(), user.getId());
         String refreshToken = jwtHelper.generateRefreshToken(user.getEmail(), user.getId());
-
+        log.info("토큰 생성");
         refreshTokenService.saveRefreshToken(user.getId(), refreshToken);
         return LoginResponseDto.of(user, accessToken, refreshToken);
     }
