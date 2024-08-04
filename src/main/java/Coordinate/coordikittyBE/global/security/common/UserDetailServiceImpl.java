@@ -1,4 +1,4 @@
-package Coordinate.coordikittyBE.domain.security.common;
+package Coordinate.coordikittyBE.global.security.common;
 
 import Coordinate.coordikittyBE.domain.user.repository.UserRepository;
 import Coordinate.coordikittyBE.exception.CoordikittyException;

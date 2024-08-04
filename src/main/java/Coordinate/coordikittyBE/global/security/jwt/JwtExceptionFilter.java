@@ -1,4 +1,4 @@
-package Coordinate.coordikittyBE.domain.security.jwt;
+package Coordinate.coordikittyBE.global.security.jwt;
 
 import Coordinate.coordikittyBE.exception.ErrorType;
 import Coordinate.coordikittyBE.global.common.response.ErrorResponse;

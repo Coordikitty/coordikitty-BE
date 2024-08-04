@@ -1,6 +1,6 @@
 package Coordinate.coordikittyBE.config;
 
-import Coordinate.coordikittyBE.domain.security.jwt.JwtAuthenticationEntryPoint;
+import Coordinate.coordikittyBE.global.security.jwt.JwtAuthenticationEntryPoint;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

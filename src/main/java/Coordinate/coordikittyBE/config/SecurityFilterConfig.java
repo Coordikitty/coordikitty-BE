@@ -1,7 +1,7 @@
 package Coordinate.coordikittyBE.config;
 
-import Coordinate.coordikittyBE.domain.security.jwt.JwtAuthenticationFilter;
-import Coordinate.coordikittyBE.domain.security.jwt.JwtExceptionFilter;
+import Coordinate.coordikittyBE.global.security.jwt.JwtAuthenticationFilter;
+import Coordinate.coordikittyBE.global.security.jwt.JwtExceptionFilter;
 import Coordinate.coordikittyBE.global.util.JwtHelper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
