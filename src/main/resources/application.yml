@@ -46,6 +46,7 @@ jwt:
 prefix:
   refresh_token_prefix: ${REDIS_REFRESH_PREFIX}
   alarm_prefix: ${REDIS_ALARM_PREFIX}
+
 openweathermap:
   key: ${OPENWEATERMAP_KEY}
 fcm:

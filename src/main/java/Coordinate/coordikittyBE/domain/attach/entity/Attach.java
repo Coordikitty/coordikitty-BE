@@ -2,7 +2,6 @@ package Coordinate.coordikittyBE.domain.attach.entity;
 
 import Coordinate.coordikittyBE.domain.closet.entity.Cloth;
 import Coordinate.coordikittyBE.domain.post.entity.Post;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 
