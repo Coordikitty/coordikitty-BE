@@ -1,4 +1,4 @@
-package Coordinate.coordikittyBE.domain.security.jwt;
+package Coordinate.coordikittyBE.global.security.jwt;
 
 import java.io.IOException;
 import java.util.Date;

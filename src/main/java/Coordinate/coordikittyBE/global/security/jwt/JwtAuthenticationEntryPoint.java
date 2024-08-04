@@ -1,7 +1,6 @@
-package Coordinate.coordikittyBE.domain.security.jwt;
+package Coordinate.coordikittyBE.global.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
