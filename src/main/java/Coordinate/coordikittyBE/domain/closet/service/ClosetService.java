@@ -55,7 +55,6 @@ public class ClosetService {
                 .orElseThrow(() -> new CoordikittyException(ErrorType.MEMBER_NOT_FOUND));
         Cloth cloth = ClosetPostRequestDto.of(closetPostRequestDto, user);
         clothRepository.save(cloth);
-        System.out.println(cloth.getId());
         cloth.addImageUrl(firebaseHelper.uploadClothImage(clothImg, cloth.getId()));
     }
 
