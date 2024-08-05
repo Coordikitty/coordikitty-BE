@@ -27,8 +27,8 @@ public class WebSecurityConfig {
                         .requestMatchers(
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
-                                "/auth/signUp",
-                                "/auth/signUp/dupCheck",
+                                "/user/signUp",
+                                "/user/signUp/dupCheck",
                                 "/auth/login",
                                 "/auth/token",
                                 "/auth/login/google",
