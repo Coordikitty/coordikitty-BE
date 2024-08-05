@@ -53,10 +53,10 @@ public class ClosetService {
     public void postCloth(String email, ClosetPostRequestDto closetPostRequestDto, MultipartFile clothImg) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new CoordikittyException(ErrorType.MEMBER_NOT_FOUND));
-        Cloth cloth = Cloth.of(closetPostRequestDto, user);
-
-        cloth.addImageUrl(firebaseHelper.uploadClothImage(clothImg, cloth.getId()));
+        Cloth cloth = ClosetPostRequestDto.of(closetPostRequestDto, user);
         clothRepository.save(cloth);
+        System.out.println(cloth.getId());
+        cloth.addImageUrl(firebaseHelper.uploadClothImage(clothImg, cloth.getId()));
     }
 
     public ClosetCategorizationResponseDto clothCategorization(MultipartFile clothImg){

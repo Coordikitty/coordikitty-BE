@@ -1,6 +1,5 @@
 package Coordinate.coordikittyBE.domain.closet.controller;
 
-import Coordinate.coordikittyBE.domain.closet.dto.request.ClosetDeleteRequestDto;
 import Coordinate.coordikittyBE.domain.closet.dto.request.ClosetPostRequestDto;
 import Coordinate.coordikittyBE.domain.closet.service.ClosetService;
 import Coordinate.coordikittyBE.global.common.response.SuccessResponse;
@@ -11,6 +10,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/closet")
@@ -45,9 +46,9 @@ public class ClosetController {
 
     @DeleteMapping(value = "")
     public ResponseEntity<?> deleteCloth(
-            @RequestParam(value = "closetDeleteRequestDto") ClosetDeleteRequestDto closetDeleteRequestDto
-    ) {
-        closetService.deleteCloth(closetDeleteRequestDto.clothId());
+            @RequestParam(value = "clothId") UUID clothId
+            ) {
+        closetService.deleteCloth(clothId);
         return ResponseEntity.ok().body(SuccessResponse.from("옷 삭제 성공"));
     }
 }

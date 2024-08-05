@@ -1,9 +1,8 @@
 package Coordinate.coordikittyBE.domain.closet.entity;
 
 import Coordinate.coordikittyBE.domain.attach.entity.Attach;
-import Coordinate.coordikittyBE.domain.user.entity.User;
-import Coordinate.coordikittyBE.domain.closet.dto.request.ClosetPostRequestDto;
 import Coordinate.coordikittyBE.domain.closet.enums.*;
+import Coordinate.coordikittyBE.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -60,18 +59,6 @@ public class Cloth {
     @Builder.Default
     private List<Attach> attaches = new ArrayList<>();
 
-    public static Cloth of(ClosetPostRequestDto closetPostRequestDto, User user){
-        return Cloth.builder()
-                .user(user)
-                .large(closetPostRequestDto.large())
-                .medium(closetPostRequestDto.medium())
-                .small(closetPostRequestDto.small())
-                .fit(closetPostRequestDto.fit())
-                .gender(closetPostRequestDto.gender())
-                .style(closetPostRequestDto.style())
-                .thickness(closetPostRequestDto.thickness())
-                .build();
-    }
 
     public void addImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;

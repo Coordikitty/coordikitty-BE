@@ -24,11 +24,8 @@ public class RefreshTokenService {
     private Long refreshExpiration;
 
     public void saveRefreshToken(UUID userId, String refreshToken) {
-        System.out.println(refreshToken);
         String key = refreshTokenPrefix + userId.toString();
-        log.info("토큰프리픽스 추가" + key);
         redisUtil.save(key, refreshToken);
-        log.info("토큰 저장");
         redisUtil.saveExpire(userId.toString(), refreshExpiration);
     }
 
