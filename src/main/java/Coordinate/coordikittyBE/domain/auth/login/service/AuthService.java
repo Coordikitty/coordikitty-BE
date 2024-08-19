@@ -15,6 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -62,6 +64,12 @@ public class AuthService {
         log.info("토큰 생성");
         refreshTokenService.saveRefreshToken(user.getId(), refreshToken);
         return LoginResponseDto.of(user, accessToken, refreshToken);
+    }
+
+    @Transactional(readOnly = true)
+    public LoginResponseDto getUserInfo(String email){
+        User user = userRepository.findByEmail(email).orElseThrow(()-> new CoordikittyException(ErrorType.MEMBER_NOT_FOUND));
+        return LoginResponseDto.fromEntity(user);
     }
 
 }
