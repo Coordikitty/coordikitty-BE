@@ -29,6 +29,8 @@ jobs:
         with:
           name: "./src/main/resources/coordikitty-firebase-adminsdk-1ld5i-ca22d4f0a5.json"
           json: ${{ secrets.FIREBASE_PRODUCTION_JSON }}
+        env:
+          AWS_RDS_PASSWORD: ${{secrets.AWS_RDS_PASSWORD}}
 
       # 3. Docker 이미지 build 및 push
       - name: docker build and push
