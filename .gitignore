@@ -7,3 +7,5 @@ Docker-compose.yaml
 .idea
 build
 .gradle
+
+src/main/resources/coordikitty-firebase-adminsdk-1ld5i-ca22d4f0a5.json
