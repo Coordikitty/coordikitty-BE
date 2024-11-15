@@ -33,10 +33,10 @@ public class PostlikeService {
                 .orElseGet(() -> History.of(user, post));
 
         history.toggleLike();
-
+        System.out.println(history.getIsLiked());
         if (history.getIsLiked()){
             post.like();
-            SuccessResponse.from("좋아요 성공");
+            return SuccessResponse.from("좋아요 성공");
         }
 
         post.unlike();
