@@ -13,6 +13,7 @@ import Coordinate.coordikittyBE.exception.CoordikittyException;
 import Coordinate.coordikittyBE.exception.ErrorType;
 import Coordinate.coordikittyBE.global.util.FirebaseHelper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -37,6 +38,9 @@ public class ClosetService {
     private final FirebaseHelper firebaseHelper;
     private final AttachRepository attachRepository;
 
+    @Value("${domain.ai_server}")
+    String url;
+
     @Transactional
     public List<ClosetGetResponseDto> getAllClothes(String email) {
         return clothRepository.findAllByUserId(
@@ -59,7 +63,6 @@ public class ClosetService {
     }
 
     public ClosetCategorizationResponseDto clothCategorization(MultipartFile clothImg){
-        String url = "http://localhost:8000/categorization";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
