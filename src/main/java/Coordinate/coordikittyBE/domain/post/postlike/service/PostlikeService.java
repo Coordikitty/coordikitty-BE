@@ -23,6 +23,7 @@ public class PostlikeService {
     private final HistoryRepository historyRepository;
     private final UserRepository userRepository;
 
+    @Transactional
     public SuccessResponse<String> like(UUID postId, String email) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CoordikittyException(ErrorType.POST_NOT_FOUND));
