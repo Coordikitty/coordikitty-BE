@@ -39,7 +39,7 @@ public class ClosetService {
     private final AttachRepository attachRepository;
 
     @Value("${domain.ai_server}")
-    String url;
+    String aiServer;
 
     @Transactional
     public List<ClosetGetResponseDto> getAllClothes(String email) {
@@ -63,6 +63,7 @@ public class ClosetService {
     }
 
     public ClosetCategorizationResponseDto clothCategorization(MultipartFile clothImg){
+        String url = aiServer + "/categorization";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);

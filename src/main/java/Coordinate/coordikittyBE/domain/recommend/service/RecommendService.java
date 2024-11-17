@@ -33,8 +33,11 @@ public class RecommendService {
     @Value("${openweathermap.key}")
     private String apiKey;
 
+    @Value("${domain.ai_server}")
+    private String aiServer;
+
     public List<RecommendGetResponseDto> getRecommend(String email, Type type, String value, CoordinatesDto coordinatesDto) {
-        String url = "https://e4f9-119-201-76-250.ngrok-free.app/recommend";
+        String url = aiServer + "/recommend";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
@@ -54,7 +57,7 @@ public class RecommendService {
                     HttpEntity<List<RecommendRequestDto>> request = new HttpEntity<>(clothImages, headers);
                     RestTemplate restTemplate = new RestTemplate();
                     List<RecommendGetResponseDto> response = restTemplate.exchange(
-                            url,
+                            url + "/style",
                             HttpMethod.POST,
                             request,
                             new ParameterizedTypeReference<List<RecommendGetResponseDto>>() {
