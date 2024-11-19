@@ -13,6 +13,7 @@ import Coordinate.coordikittyBE.exception.CoordikittyException;
 import Coordinate.coordikittyBE.exception.ErrorType;
 import Coordinate.coordikittyBE.global.util.FirebaseHelper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpEntity;
@@ -31,6 +32,7 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class ClosetService {
 
     private final UserRepository userRepository;
@@ -69,6 +71,8 @@ public class ClosetService {
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
         HttpEntity<MultiValueMap<String, Object>> request = getMultiValueMapHttpEntity(clothImg, headers);
+
+        log.info("url: {}, request: {}", url, request);
 
         RestTemplate restTemplate = new RestTemplate();
         CategorizedResponse response = restTemplate.postForObject(url, request, CategorizedResponse.class);

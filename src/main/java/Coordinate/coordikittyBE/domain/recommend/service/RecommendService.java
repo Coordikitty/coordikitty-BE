@@ -13,6 +13,7 @@ import Coordinate.coordikittyBE.domain.recommend.util.WeatherResponse;
 import Coordinate.coordikittyBE.exception.CoordikittyException;
 import Coordinate.coordikittyBE.exception.ErrorType;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -25,6 +26,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 @Transactional
+@Slf4j
 public class RecommendService {
 
     private final ClothRepository clothRepository;
@@ -49,6 +51,8 @@ public class RecommendService {
                 .map(cloth -> RecommendRequestDto.of(cloth, temperature))
                 .toList();
 
+        log.info("URL: {}, Type: {}, Value: {}, Coordinates: {}, temperature: {}", url, type, value, coordinatesDto, temperature);
+
         // type 에 따라 ML 서버랑 통신
         switch (type) {
             //case SITUATION -> {}
@@ -66,10 +70,14 @@ public class RecommendService {
                     assert response != null;
                     return response;
                 } catch (Exception e){
+                    log.error("Style: {}", e.getMessage());
                     throw new CoordikittyException(ErrorType.ML_DL_SERVER_ERROR);
                 }
             }
-            default -> throw new CoordikittyException(ErrorType.ML_DL_SERVER_ERROR);
+            default -> {
+                log.error("Default");
+                throw new CoordikittyException(ErrorType.ML_DL_SERVER_ERROR);
+            }
         }
     }
 
