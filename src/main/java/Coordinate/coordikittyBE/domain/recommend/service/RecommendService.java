@@ -46,7 +46,8 @@ public class RecommendService {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new CoordikittyException(ErrorType.MEMBER_NOT_FOUND));
         List<Cloth> clothes = clothRepository.findAllByUserIdAndStyle(user.getId(), Style.valueOf(value));
 
-        int temperature = getTemperature(coordinatesDto);
+//        int temperature = getTemperature(coordinatesDto);
+        int temperature = 10;   // 날씨 주작
         List<RecommendRequestDto> clothImages = clothes.stream()
                 .map(cloth -> RecommendRequestDto.of(cloth, temperature))
                 .toList();
