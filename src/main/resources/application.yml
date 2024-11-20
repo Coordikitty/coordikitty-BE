@@ -1,4 +1,3 @@
-
 logging:
   level:
     org.hibernate.SQL: debug
@@ -10,6 +9,9 @@ spring:
     driver-class-name: ${AWS_RDS_DRIVER}
     username: ${AWS_RDS_USERNAME}
     password: ${AWS_RDS_PASSWORD}
+
+  profiles:
+    active: dev
 
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
@@ -46,14 +48,14 @@ prefix:
   alarm_prefix: ${REDIS_ALARM_PREFIX}
 
 openweathermap:
-  key: ${OPENWEATERMAP_KEY}
+  key: ${OPENWEATHERMAP_KEY}
 fcm:
   key: ${FCM_KEY}
 domain:
   local: ${LOCAL_DOMAIN}
   server: ${SERVER_DOMAIN}
-#server:
-#  ssl:
-#    key-store: keystore.p12
-#    key-store-type: PKCS12
-#    key-store-password: dlxogns831~
+---
+spring:
+  config:
+    activate:
+      on-profile: dev

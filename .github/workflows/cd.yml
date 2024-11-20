@@ -10,10 +10,11 @@ jobs:
 
     steps:
       # 1. Compare branch 코드 내려 받기
-      - name: Checkout PR
-        uses: actions/checkout@v3
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
 
       # 2. 자바 환경 설정
       - name: Set up JDK 17
@@ -29,6 +30,15 @@ jobs:
           name: "./src/main/resources/coordikitty-firebase-adminsdk-1ld5i-ca22d4f0a5.json"
           json: ${{ secrets.FIREBASE_PRODUCTION_JSON }}
 
+      - name: make application-dev.yml
+        run: |
+          cd ./src/main/resources
+
+          touch ./application-dev.yml
+
+          echo "${{ secrets.DEV }}" >> ./application-dev.yml
+
+        shell: bash
       # 3. Docker 이미지 build 및 push
       - name: docker build and push
         run: |
@@ -45,9 +55,8 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_KEY }}
           script: |
+            docker pull ${{ secrets.DOCKER_USERNAME }}/coordikitty:latest
             docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-            docker system prune -a -f
             docker-compose down
             docker rmi ${{ secrets.DOCKER_USERNAME }}/coordikitty:latest
-            docker pull ${{ secrets.DOCKER_USERNAME }}/coordikitty:latest
             docker-compose up -d
