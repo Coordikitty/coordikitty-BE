@@ -3,6 +3,7 @@ name: coordikitty CD with gradle
 on:
   push:
     branches: ["develop"]
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -29,6 +30,23 @@ jobs:
         with:
           name: "./src/main/resources/coordikitty-firebase-adminsdk-1ld5i-ca22d4f0a5.json"
           json: ${{ secrets.FIREBASE_PRODUCTION_JSON }}
+#        env:
+#          AWS_RDS_URL_DEVELOP: ${{ secrets.AWS_RDS_URL_DEVELOP }}
+#          AWS_RDS_DRIVER: ${{ secrets.AWS_RDS_DRIVER }}
+#          AWS_RDS_USERNAME: ${{ secrets.AWS_RDS_USERNAME }}
+#          AWS_RDS_PASSWORD: ${{ secrets.AWS_RDS_PASSWORD }}
+#          REDIS_HOST: ${{ secrets.REDIS_HOST }}
+#          REDIS_PORT: ${{ secrets.REDIS_PORT }}
+#          OAUTH2_GOOGLE_CLIENT_ID: ${{ secrets.OAUTH2_GOOGLE_CLIENT_ID }}
+#          OAUTH2_GOOGLE_CLIENT_SECRET: ${{ secrets.OAUTH2_GOOGLE_CLIENT_SECRET }}
+#          JWT_ISSUER: ${{ secrets.JWT_ISSUER }}
+#          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+#          JWT_ACCESS_EXPIRATION: ${{ secrets.JWT_ACCESS_EXPIRATION }}
+#          JWT_REFRESH_EXPIRATION: ${{ secrets.JWT_REFRESH_EXPIRATION }}
+#          OPENWEATHERMAP_KEY: ${{ secrets.OPENWEATHERMAP_KEY }}
+#          FCM_KEY: ${{ secrets.FCM_KEY }}
+#          LOCAL_DOMAIN: ${{ secrets.LOCAL_DOMAIN }}
+#          SERVER_DOMAIN: ${{ secrets.SERVER_DOMAIN }}
 
       - name: make application-dev.yml
         run: |

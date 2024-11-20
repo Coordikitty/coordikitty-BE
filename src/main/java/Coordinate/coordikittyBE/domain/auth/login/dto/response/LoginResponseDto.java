@@ -11,4 +11,8 @@ public record LoginResponseDto(
     public static LoginResponseDto of(User user, String accessToken, String refreshToken) {
         return new LoginResponseDto(user.getEmail(), user.getNickname(), accessToken, refreshToken);
     }
+
+    public static LoginResponseDto fromEntity(User user) {
+        return new LoginResponseDto(user.getEmail(), user.getNickname(), null, null);
+    }
 }

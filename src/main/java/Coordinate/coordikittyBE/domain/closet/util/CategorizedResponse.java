@@ -11,17 +11,22 @@ import lombok.Data;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CategorizedResponse {
-    @JsonProperty("large")
+    @JsonProperty("large_category")
     private Category.Large large;
-    @JsonProperty("medium")
+    @JsonProperty("medium_category")
     private Category.Medium medium;
-    @JsonProperty("small")
+    @JsonProperty("small_category")
     private Category.Small small;
 
-    @JsonProperty("fit")
-    private Fit fit;
-    @JsonProperty("gender")
-    private Gender gender;
-    @JsonProperty("style")
-    private Style style;
+//    @JsonProperty("fit")
+//    private Fit fit;
+//    @JsonProperty("gender")
+//    private Gender gender;
+//    @JsonProperty("style")
+//    private Style style;
+
+    @JsonProperty("major_style")
+    private Style majorStyle;
+    @JsonProperty("minor_style")
+    private Style minorStyle;
 }

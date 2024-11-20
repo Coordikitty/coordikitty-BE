@@ -23,6 +23,7 @@ public class PostlikeService {
     private final HistoryRepository historyRepository;
     private final UserRepository userRepository;
 
+    @Transactional
     public SuccessResponse<String> like(UUID postId, String email) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CoordikittyException(ErrorType.POST_NOT_FOUND));
@@ -32,10 +33,10 @@ public class PostlikeService {
                 .orElseGet(() -> History.of(user, post));
 
         history.toggleLike();
-
+        System.out.println(history.getIsLiked());
         if (history.getIsLiked()){
             post.like();
-            SuccessResponse.from("좋아요 성공");
+            return SuccessResponse.from("좋아요 성공");
         }
 
         post.unlike();

@@ -1,3 +1,4 @@
+
 logging:
   level:
     org.hibernate.SQL: debug
@@ -54,6 +55,12 @@ fcm:
 domain:
   local: ${LOCAL_DOMAIN}
   server: ${SERVER_DOMAIN}
+  ai_server: ${AI_SERVER_DOMAIN}
+#server:
+#  ssl:
+#    key-store: keystore.p12
+#    key-store-type: PKCS12
+#    key-store-password: dlxogns831~
 ---
 spring:
   config:

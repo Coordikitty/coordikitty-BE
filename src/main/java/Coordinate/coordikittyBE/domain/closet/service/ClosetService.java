@@ -13,6 +13,8 @@ import Coordinate.coordikittyBE.exception.CoordikittyException;
 import Coordinate.coordikittyBE.exception.ErrorType;
 import Coordinate.coordikittyBE.global.util.FirebaseHelper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -30,12 +32,16 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class ClosetService {
 
     private final UserRepository userRepository;
     private final ClothRepository clothRepository;
     private final FirebaseHelper firebaseHelper;
     private final AttachRepository attachRepository;
+
+    @Value("${domain.ai_server}")
+    String aiServer;
 
     @Transactional
     public List<ClosetGetResponseDto> getAllClothes(String email) {
@@ -59,12 +65,14 @@ public class ClosetService {
     }
 
     public ClosetCategorizationResponseDto clothCategorization(MultipartFile clothImg){
-        String url = "http://localhost:8000/categorization";
+        String url = aiServer + "/categorization";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
         HttpEntity<MultiValueMap<String, Object>> request = getMultiValueMapHttpEntity(clothImg, headers);
+
+        log.info("url: {}, request: {}", url, request);
 
         RestTemplate restTemplate = new RestTemplate();
         CategorizedResponse response = restTemplate.postForObject(url, request, CategorizedResponse.class);

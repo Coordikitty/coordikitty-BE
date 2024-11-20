@@ -13,6 +13,7 @@ import Coordinate.coordikittyBE.domain.recommend.util.WeatherResponse;
 import Coordinate.coordikittyBE.exception.CoordikittyException;
 import Coordinate.coordikittyBE.exception.ErrorType;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -25,6 +26,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 @Transactional
+@Slf4j
 public class RecommendService {
 
     private final ClothRepository clothRepository;
@@ -33,18 +35,24 @@ public class RecommendService {
     @Value("${openweathermap.key}")
     private String apiKey;
 
+    @Value("${domain.ai_server}")
+    private String aiServer;
+
     public List<RecommendGetResponseDto> getRecommend(String email, Type type, String value, CoordinatesDto coordinatesDto) {
-        String url = "https://e4f9-119-201-76-250.ngrok-free.app/recommend";
+        String url = aiServer + "/recommend";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         User user = userRepository.findByEmail(email).orElseThrow(() -> new CoordikittyException(ErrorType.MEMBER_NOT_FOUND));
         List<Cloth> clothes = clothRepository.findAllByUserIdAndStyle(user.getId(), Style.valueOf(value));
 
-        int temperature = getTemperature(coordinatesDto);
+//        int temperature = getTemperature(coordinatesDto);
+        int temperature = 10;   // 날씨 주작
         List<RecommendRequestDto> clothImages = clothes.stream()
                 .map(cloth -> RecommendRequestDto.of(cloth, temperature))
                 .toList();
+
+        log.info("URL: {}, Type: {}, Value: {}, Coordinates: {}, temperature: {}", url, type, value, coordinatesDto, temperature);
 
         // type 에 따라 ML 서버랑 통신
         switch (type) {
@@ -54,7 +62,7 @@ public class RecommendService {
                     HttpEntity<List<RecommendRequestDto>> request = new HttpEntity<>(clothImages, headers);
                     RestTemplate restTemplate = new RestTemplate();
                     List<RecommendGetResponseDto> response = restTemplate.exchange(
-                            url,
+                            url + "/style",
                             HttpMethod.POST,
                             request,
                             new ParameterizedTypeReference<List<RecommendGetResponseDto>>() {
@@ -63,10 +71,14 @@ public class RecommendService {
                     assert response != null;
                     return response;
                 } catch (Exception e){
+                    log.error("Style: {}", e.getMessage());
                     throw new CoordikittyException(ErrorType.ML_DL_SERVER_ERROR);
                 }
             }
-            default -> throw new CoordikittyException(ErrorType.ML_DL_SERVER_ERROR);
+            default -> {
+                log.error("Default");
+                throw new CoordikittyException(ErrorType.ML_DL_SERVER_ERROR);
+            }
         }
     }
 

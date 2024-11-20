@@ -8,9 +8,11 @@ public record ClosetCategorizationResponseDto(
         Category.Large large,
         Category.Medium medium,
         Category.Small small,
-        Fit fit,
-        Gender gender,
-        Style style
+//        Fit fit,
+//        Gender gender,
+//        Style style
+        Style majorStyle,
+        Style minorStyle
         //Season season,
         //Thickness thickness
 ) {
@@ -20,9 +22,11 @@ public record ClosetCategorizationResponseDto(
                 response.getLarge(),
                 response.getMedium(),
                 response.getSmall(),
-                response.getFit(),
-                response.getGender(),
-                response.getStyle()
+//                response.getFit(),
+//                response.getGender(),
+//                response.getStyle()
+                response.getMajorStyle(),
+                response.getMajorStyle()
         );
     }
 }

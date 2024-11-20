@@ -62,4 +62,9 @@ public class AuthController {
         authService.logout(userDetails.getUsername());
         return ResponseEntity.ok().body(SuccessResponse.from("로그아웃 성공"));
     }
+
+    @PostMapping("/verify")
+    public ResponseEntity<?> getUserInfo(@AuthenticationPrincipal UserDetails userDetails){
+        return ResponseEntity.ok().body(authService.getUserInfo(userDetails.getUsername()));
+    }
 }
