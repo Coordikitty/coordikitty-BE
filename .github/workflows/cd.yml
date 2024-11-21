@@ -73,8 +73,8 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_KEY }}
           script: |
-            docker pull ${{ secrets.DOCKER_USERNAME }}/coordikitty:latest
             docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-            docker-compose down
-            docker rmi ${{ secrets.DOCKER_USERNAME }}/coordikitty:latest
-            docker-compose up -d
+            docker pull ${{ secrets.DOCKER_USERNAME }}/coordikitty:latest
+            docker stop coordikitty:latest
+            docker rm coordikitty:latest
+            docker run --name coordikitty:latest -d -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/sponjy-app-server
