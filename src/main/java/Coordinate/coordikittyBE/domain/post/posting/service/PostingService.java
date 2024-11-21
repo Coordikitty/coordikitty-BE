@@ -124,7 +124,7 @@ public class PostingService {
     }
 
     public List<PostResponseDto> findByEmailAndBookmark(String email) {
-        return postRepository.findAllByEmailAndIsBookmarked(email, true).stream()
+        return postRepository.findAllByEmailAndIsBookmarkedOrderByCreatedAtDesc(email, true).stream()
             .map(this::findAllImageUrlByPostId).toList();
     }
 }
