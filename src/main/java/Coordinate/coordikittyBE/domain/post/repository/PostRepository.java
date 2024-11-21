@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface PostRepository extends JpaRepository<Post, UUID> {
 
-    List<Post> findAllByOrderByCreatedAtDesc();
+    List<Post> findAllByOrderByCreatedAtAsc();
 
     List<Post> findAllByOrderByLikeCountDesc();
 

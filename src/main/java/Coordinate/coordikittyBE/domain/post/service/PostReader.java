@@ -25,7 +25,7 @@ public class PostReader {
     }
 
     public List<Post> findAllByOrderByCreatedAtDesc() {
-        return postRepository.findAllByOrderByCreatedAtDesc();
+        return postRepository.findAllByOrderByCreatedAtAsc();
     }
 
     public Post findById(UUID postId) {
