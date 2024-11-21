@@ -3,8 +3,7 @@ package Coordinate.coordikittyBE.domain.post.posting.controller;
 
 import Coordinate.coordikittyBE.domain.post.posting.dto.request.PostUpdateRequestDto;
 import Coordinate.coordikittyBE.domain.post.posting.dto.request.PostUploadRequestDto;
-import Coordinate.coordikittyBE.domain.post.posting.dto.response.PostResponseDto;
-import Coordinate.coordikittyBE.domain.post.posting.service.PostingService;
+import Coordinate.coordikittyBE.domain.post.posting.usecase.PostingUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +12,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,14 +19,13 @@ import java.util.UUID;
 @RequestMapping("/post")
 @RequiredArgsConstructor
 public class PostingController {
-    private final PostingService postingService;
-
+    private final PostingUseCase postingUseCase;
     @GetMapping(value = "")
     public ResponseEntity<?> getPostsLoggedIn(
         @AuthenticationPrincipal UserDetails userDetails
             //@RequestParam(value = "page") int page,
     ) {
-        return ResponseEntity.ok(postingService.getAllPosts(userDetails.getUsername()));
+        return ResponseEntity.ok(postingUseCase.readAllPosts(userDetails.getUsername()));
     }
 
     @PutMapping(value = "/{postId}")
@@ -36,7 +33,7 @@ public class PostingController {
             @PathVariable("postId") UUID postId,
             @RequestBody PostUpdateRequestDto postUpdateRequestDto
     ) {
-        return ResponseEntity.ok(postingService.update(postId, postUpdateRequestDto));
+        return ResponseEntity.ok(postingUseCase.update(postId, postUpdateRequestDto));
     }
 
     @GetMapping(value = "/get/{postId}")
@@ -44,36 +41,30 @@ public class PostingController {
             @PathVariable("postId") UUID postId,
             @AuthenticationPrincipal UserDetails userDetails
     ) {
-        return ResponseEntity.ok(postingService.findById(postId, userDetails.getUsername()));
+        return ResponseEntity.ok(postingUseCase.readById(postId, userDetails.getUsername()));
     }
 
     @GetMapping("/user")
     public ResponseEntity<?> readPostsByUserId(
         @AuthenticationPrincipal UserDetails userDetails
     ) {
-        return ResponseEntity.ok(postingService.findByEmail(userDetails.getUsername()));
+        return ResponseEntity.ok(postingUseCase.readByEmail(userDetails.getUsername()));
     }
 
-    @GetMapping("/user/bookmark")
-    public ResponseEntity<?> readBookmarkedPostsByUserId(
-        @AuthenticationPrincipal UserDetails userDetails
-    ) {
-        return ResponseEntity.ok(postingService.findByEmailAndBookmark(userDetails.getUsername()));
-    }
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadPost(
             @RequestPart PostUploadRequestDto postUploadRequestDto,
             @RequestPart List<MultipartFile> postImgs,
             @AuthenticationPrincipal UserDetails userDetails
     ) {
-        return ResponseEntity.ok(postingService.upload(postUploadRequestDto, postImgs, userDetails.getUsername()));
+        return ResponseEntity.ok(postingUseCase.upload(postUploadRequestDto, postImgs, userDetails.getUsername()));
     }
 
     @DeleteMapping("/delete")
     public ResponseEntity<String> deletePost(
             @RequestParam UUID postId
     ) {
-        postingService.delete(postId);
+        postingUseCase.delete(postId);
         return ResponseEntity.ok("게시글 삭제 성공");
     }
 }

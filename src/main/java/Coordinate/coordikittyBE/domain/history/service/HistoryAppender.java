@@ -14,6 +14,8 @@ public class HistoryAppender {
 
     public History append(User user, Post post) {
         History history = History.of(user, post);
-        return historyRepository.save(history);
+        historyRepository.save(history);
+        post.getHistorys().add(history);
+        return history;
     }
 }
