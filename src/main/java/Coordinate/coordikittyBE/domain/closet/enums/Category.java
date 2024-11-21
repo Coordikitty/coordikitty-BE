@@ -6,7 +6,7 @@ public class Category {
 
     public enum Medium {
         HOODED_ZIP_UP, BLOUSON, BLAZER, CARDIGAN, COAT, WIND_BREAKER, PADDING,
-        TOPS_LONG, TOPS_SHORT, LESS,
+        TOPS_LONG, TOPS_SHORT, TOPS_LESS,
         BOTTOMS_LONG, BOTTOMS_SHORT,
         SKIRTS_LONG, MIDI, MINI
     }

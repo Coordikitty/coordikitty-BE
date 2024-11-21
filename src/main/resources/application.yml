@@ -1,4 +1,3 @@
-
 logging:
   level:
     org.hibernate.SQL: debug
@@ -57,10 +56,10 @@ domain:
   server: ${SERVER_DOMAIN}
   ai_server: ${AI_SERVER_DOMAIN}
 #server:
-#  ssl:
-#    key-store: keystore.p12
-#    key-store-type: PKCS12
-#    key-store-password: dlxogns831~
+#ssl:
+#  key-store: keystore.p12
+#  key-store-type: PKCS12
+#  key-store-password: dlxogns831~
 ---
 spring:
   config:
