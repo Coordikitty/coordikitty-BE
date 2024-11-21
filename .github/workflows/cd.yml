@@ -76,5 +76,5 @@ jobs:
             docker pull ${{ secrets.DOCKER_USERNAME }}/coordikitty
             docker stop coordikittyWas
             docker rm coordikittyWas
-            docker run --name coordikittyWas -d -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/coordikitty
+            docker run --name coordikittyWas -d -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/coordikitty
             docker image prune -f
