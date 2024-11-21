@@ -31,12 +31,12 @@ public class PostBookmarkService {
 
         Optional<History> history = historyRepository.findByUserIdAndPostId(user.getId(), postId);
         if (history.isPresent()) {
-            history.get().toggleBookmarked();
+            history.get().toggleIsBookmarked();
             return SuccessResponse.from(history.get().getIsBookmarked());
         }
 
         History newHistory = History.of(user, post);
-        newHistory.toggleBookmarked();
+        newHistory.toggleIsBookmarked();
         historyRepository.save(newHistory);
 
         return SuccessResponse.from(newHistory.getIsBookmarked());

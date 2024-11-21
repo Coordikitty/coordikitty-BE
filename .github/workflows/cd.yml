@@ -2,7 +2,7 @@ name: coordikitty CD with gradle
 
 on:
   push:
-    branches: ["develop"]
+    branches: ["develop", "feature/architecture-refactoring"]
   workflow_dispatch:
 
 jobs:

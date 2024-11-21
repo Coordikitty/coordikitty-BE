@@ -33,7 +33,7 @@ public class History {
     @Builder.Default
     private Boolean isLiked = false;
 
-    public void toggleBookmarked() {
+    public void toggleIsBookmarked() {
         this.isBookmarked = !this.isBookmarked;
     }
 

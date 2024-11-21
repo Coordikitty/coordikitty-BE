@@ -1,6 +1,8 @@
 package Coordinate.coordikittyBE.domain.post.postbookmark.controller;
 
 import Coordinate.coordikittyBE.domain.post.postbookmark.service.PostBookmarkService;
+import Coordinate.coordikittyBE.domain.post.postbookmark.usecase.PostBookmarkUseCase;
+import Coordinate.coordikittyBE.global.common.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,12 +16,13 @@ import java.util.UUID;
 @RequestMapping("/post")
 @RequiredArgsConstructor
 public class PostBookmarkController {
-    private final PostBookmarkService postBookmarkService;
+    private final PostBookmarkUseCase postBookmarkUseCase;
     @PostMapping("/bookmark")
     public ResponseEntity<?> addBookmark(
             @RequestBody UUID postId,
             @AuthenticationPrincipal UserDetails userDetails
     ){
-        return ResponseEntity.ok(postBookmarkService.bookmark(postId, userDetails.getUsername()));
+        return ResponseEntity.ok(
+            SuccessResponse.from(postBookmarkUseCase.toggleBookmark(postId, userDetails.getUsername())));
     }
 }
