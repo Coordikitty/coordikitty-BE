@@ -62,7 +62,7 @@ public class AuthService {
         String accessToken = jwtHelper.generateAccessToken(user.getEmail(), user.getId());
         String refreshToken = jwtHelper.generateRefreshToken(user.getEmail(), user.getId());
         log.info("토큰 생성");
-        refreshTokenService.saveRefreshToken(user.getId(), refreshToken);
+//        refreshTokenService.saveRefreshToken(user.getId(), refreshToken);
         return LoginResponseDto.of(user, accessToken, refreshToken);
     }
 
