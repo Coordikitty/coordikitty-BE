@@ -45,11 +45,11 @@ public class PostingController {
         return ResponseEntity.ok(postingService.findById(postId));
     }
 
-    @GetMapping("/user/{userId}")
+    @GetMapping("/user")
     public ResponseEntity<?> readPostsByUserId(
-        @PathVariable("userId") UUID userId
+        @AuthenticationPrincipal UserDetails userDetails
     ) {
-        return ResponseEntity.ok(postingService.findByUserId(userId));
+        return ResponseEntity.ok(postingService.findByEmail(userDetails.getUsername()));
     }
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadPost(

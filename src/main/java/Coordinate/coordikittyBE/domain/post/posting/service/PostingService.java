@@ -118,8 +118,8 @@ public class PostingService {
         return PostResponseDto.fromEntity(post, postImages, history);
     }
 
-    public List<PostResponseDto> findByUserId(UUID userId) {
-        return postRepository.findAllByUserIdOrderByCreatedAtDesc(userId).stream()
+    public List<PostResponseDto> findByEmail(String email) {
+        return postRepository.findAllByEmailOrderByCreatedAtDesc(email).stream()
             .map(this::findAllImageUrlByPostId).toList();
     }
 }
