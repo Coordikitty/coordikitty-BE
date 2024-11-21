@@ -51,6 +51,13 @@ public class PostingController {
     ) {
         return ResponseEntity.ok(postingService.findByEmail(userDetails.getUsername()));
     }
+
+    @GetMapping("/user/bookmark")
+    public ResponseEntity<?> readBookmarkedPostsByUserId(
+        @AuthenticationPrincipal UserDetails userDetails
+    ) {
+        return ResponseEntity.ok(postingService.findByEmailAndBookmark(userDetails.getUsername()));
+    }
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadPost(
             @RequestPart PostUploadRequestDto postUploadRequestDto,

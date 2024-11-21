@@ -119,7 +119,12 @@ public class PostingService {
     }
 
     public List<PostResponseDto> findByEmail(String email) {
-        return postRepository.findAllByEmailOrderByCreatedAtDesc(email).stream()
+        return postRepository.findAllByUserEmailOrderByCreatedAtDesc(email).stream()
+            .map(this::findAllImageUrlByPostId).toList();
+    }
+
+    public List<PostResponseDto> findByEmailAndBookmark(String email) {
+        return postRepository.findAllByEmailAndIsBookmarked(email, true).stream()
             .map(this::findAllImageUrlByPostId).toList();
     }
 }
