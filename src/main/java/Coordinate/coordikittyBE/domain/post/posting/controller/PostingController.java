@@ -25,9 +25,10 @@ public class PostingController {
 
     @GetMapping(value = "")
     public ResponseEntity<?> getPostsLoggedIn(
+        @AuthenticationPrincipal UserDetails userDetails
             //@RequestParam(value = "page") int page,
     ) {
-        return ResponseEntity.ok(postingService.getAllPosts());
+        return ResponseEntity.ok(postingService.getAllPosts(userDetails.getUsername()));
     }
 
     @PutMapping(value = "/{postId}")
@@ -40,9 +41,10 @@ public class PostingController {
 
     @GetMapping(value = "/get/{postId}")
     public ResponseEntity<?> getPostByPostId(
-            @PathVariable("postId") UUID postId
+            @PathVariable("postId") UUID postId,
+            @AuthenticationPrincipal UserDetails userDetails
     ) {
-        return ResponseEntity.ok(postingService.findById(postId));
+        return ResponseEntity.ok(postingService.findById(postId, userDetails.getUsername()));
     }
 
     @GetMapping("/user")

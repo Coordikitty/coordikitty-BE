@@ -20,14 +20,13 @@ import Coordinate.coordikittyBE.domain.user.repository.UserRepository;
 import Coordinate.coordikittyBE.exception.CoordikittyException;
 import Coordinate.coordikittyBE.exception.ErrorType;
 import Coordinate.coordikittyBE.global.util.FirebaseHelper;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 @Service
 @Transactional
@@ -41,16 +40,16 @@ public class PostingService {
     private final FirebaseHelper firebaseHelper;
     private final PostImageRepository postImageRepository;
 
-    public List<PostResponseDto> getAllPosts() {
+    public List<PostResponseDto> getAllPosts(String email) {
         return postRepository.findAllByOrderByCreatedAtDesc().stream()
-                .map(this::findAllImageUrlByPostId)
-                .toList();
+            .map(post -> findAllImageUrlByPostId(post, email))
+            .toList();
     }
 
-    public PostResponseDto findById(UUID postId) {
+    public PostResponseDto findById(UUID postId, String email) {
         Post post = postRepository.findById(postId)
-                .orElseThrow(()-> new CoordikittyException(ErrorType.POST_NOT_FOUND));
-        return findAllImageUrlByPostId(post);
+            .orElseThrow(() -> new CoordikittyException(ErrorType.POST_NOT_FOUND));
+        return findAllImageUrlByPostId(post, email);
     }
 
     public void delete(UUID postId) {
@@ -60,17 +59,17 @@ public class PostingService {
 
     public PostResponseDto upload(PostUploadRequestDto postUploadRequestDto, List<MultipartFile> images, String email) {
         User user = userRepository.findByEmail(email)
-                .orElseThrow(()-> new CoordikittyException(ErrorType.MEMBER_NOT_FOUND));
+            .orElseThrow(() -> new CoordikittyException(ErrorType.MEMBER_NOT_FOUND));
         Post post = PostUploadRequestDto.toEntity(postUploadRequestDto, user);
         List<String> postImageUrls = new ArrayList<>();
         postRepository.save(post);
         images.forEach(image -> {
-                    String imageUrl = firebaseHelper.uploadPostImage(image, post.getId());
-                    PostImage postImage = PostImage.from(imageUrl, post);
-                    postImageRepository.save(postImage);
-                    post.addImageUrl(postImage);
-                    postImageUrls.add(imageUrl);
-                });
+            String imageUrl = firebaseHelper.uploadPostImage(image, post.getId());
+            PostImage postImage = PostImage.from(imageUrl, post);
+            postImageRepository.save(postImage);
+            post.addImageUrl(postImage);
+            postImageUrls.add(imageUrl);
+        });
 
         History history = History.of(user, post);
         historyRepository.save(history);
@@ -81,7 +80,7 @@ public class PostingService {
 
     public PostUpdateResponseDto update(UUID postId, PostUpdateRequestDto postUpdateRequestDto) {
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new CoordikittyException(ErrorType.POST_NOT_FOUND));
+            .orElseThrow(() -> new CoordikittyException(ErrorType.POST_NOT_FOUND));
 
         List<Attach> attaches = attachRepository.findAllByPostId(postId);
 
@@ -90,7 +89,8 @@ public class PostingService {
         postImageRepository.deleteAllByPostId(postId);
 
         List<PostImage> postImages = new ArrayList<>();
-        postUpdateRequestDto.postImgs().forEach(img -> postImages.add(PostImage.from(firebaseHelper.uploadPostImage(img, postId), post)));
+        postUpdateRequestDto.postImgs()
+            .forEach(img -> postImages.add(PostImage.from(firebaseHelper.uploadPostImage(img, postId), post)));
 
         post.update(postUpdateRequestDto, attaches, postImages);
         return PostUpdateResponseDto.from(attaches);
@@ -100,7 +100,7 @@ public class PostingService {
         List<Attach> attaches = new ArrayList<>();
         clothIds.forEach(clothId -> {
             Cloth cloth = clothRepository.findById(clothId)
-                    .orElseThrow(()-> new CoordikittyException(ErrorType.CLOTH_NOT_FOUND));
+                .orElseThrow(() -> new CoordikittyException(ErrorType.CLOTH_NOT_FOUND));
             Attach attach = Attach.of(cloth, post);
             attachRepository.save(attach);
             attaches.add(attach);
@@ -108,23 +108,25 @@ public class PostingService {
         return attaches;
     }
 
-    private PostResponseDto findAllImageUrlByPostId(Post post) {
+    private PostResponseDto findAllImageUrlByPostId(Post post, String email) {
         List<String> postImages = postImageRepository.findAllByPostId(post.getId())
-                .stream()
-                .map(PostImage::getImageUrl)
-                .toList();
-        History history = historyRepository.findByUserIdAndPostId(post.getUser().getId(), post.getId())
-                .orElseThrow(()-> new CoordikittyException(ErrorType.HISTORY_NOT_FOUND));
+            .stream()
+            .map(PostImage::getImageUrl)
+            .toList();
+        User user = userRepository.findByEmail(email)
+            .orElseThrow(() -> new CoordikittyException(ErrorType.EMAIL_NOT_FOUND));
+        History history = historyRepository.findByUserIdAndPostId(user.getId(), post.getId())
+            .orElseGet(() -> historyRepository.save(History.of(user, post)));
         return PostResponseDto.fromEntity(post, postImages, history);
     }
 
     public List<PostResponseDto> findByEmail(String email) {
         return postRepository.findAllByUserEmailOrderByCreatedAtDesc(email).stream()
-            .map(this::findAllImageUrlByPostId).toList();
+            .map(post -> findAllImageUrlByPostId(post, email)).toList();
     }
 
     public List<PostResponseDto> findByEmailAndBookmark(String email) {
         return postRepository.findAllByEmailAndIsBookmarkedOrderByCreatedAtDesc(email, true).stream()
-            .map(this::findAllImageUrlByPostId).toList();
+            .map(post -> findAllImageUrlByPostId(post, email)).toList();
     }
 }

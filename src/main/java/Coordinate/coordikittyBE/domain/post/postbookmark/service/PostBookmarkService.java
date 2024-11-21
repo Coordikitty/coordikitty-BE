@@ -29,7 +29,7 @@ public class PostBookmarkService {
         Post post = postRepository.findById(postId)
             .orElseThrow(() -> new CoordikittyException(ErrorType.POST_NOT_FOUND));
 
-        Optional<History> history = historyRepository.findByUserIdAndPostId(post.getUser().getId(), postId);
+        Optional<History> history = historyRepository.findByUserIdAndPostId(user.getId(), postId);
         if (history.isPresent()) {
             history.get().toggleBookmarked();
             return SuccessResponse.from(history.get().getIsBookmarked());
