@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 @UseCase
@@ -51,12 +52,14 @@ public class PostingUseCase {
     private final ClothRepository clothRepository;
     private final AttachRepository attachRepository;
 
+    @Transactional(readOnly = true)
     public List<PostResponseDto> readAllPosts(String email) {
         return postReader.findAllByOrderByCreatedAtDesc().stream()
             .map(post -> generateResponse(post, email))
             .toList();
     }
 
+    @Transactional
     public PostUpdateResponseDto update(UUID postId, PostUpdateRequestDto postUpdateRequestDto) {
         Post post = postReader.findById(postId);
         List<Attach> attaches = attachReader.readAllByPostId(postId);
@@ -70,12 +73,14 @@ public class PostingUseCase {
         return PostUpdateResponseDto.from(attaches);
     }
 
+    @Transactional(readOnly = true)
     public PostResponseDto readById(UUID postId, String email) {
         Post post = postReader.findById(postId);
 
         return generateResponse(post, email);
     }
 
+    @Transactional
     public PostResponseDto upload(PostUploadRequestDto postUploadRequestDto, List<MultipartFile> images, String email) {
         User user = userReader.readByEmail(email);
         Post post = postAppender.append(postUploadRequestDto, user);
@@ -95,9 +100,16 @@ public class PostingUseCase {
         return PostResponseDto.fromEntity(post, postImageUrls, history);
     }
 
+    @Transactional(readOnly = true)
     public List<PostResponseDto> readByEmail(String email) {
         return postReader.findAllByEmailOrderByCreatedAtDesc(email).stream()
             .map(post -> generateResponse(post, email)).toList();
+    }
+
+    @Transactional
+    public void delete(UUID postId) {
+        postRemover.removeById(postId);
+        firebaseHelper.deletePostImage(postId);
     }
 
     private PostResponseDto generateResponse(Post post, String email) {
@@ -119,10 +131,5 @@ public class PostingUseCase {
             attachRepository.save(attach);
             return attach;
         }).toList();
-    }
-
-    public void delete(UUID postId) {
-        postRemover.removeById(postId);
-        firebaseHelper.deletePostImage(postId);
     }
 }
