@@ -69,7 +69,6 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SERVER_HOST }}
-          port: ${{ secrets.SERVER_SSH_PORT }}
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_KEY }}
           script: |
@@ -77,4 +76,4 @@ jobs:
             docker pull ${{ secrets.DOCKER_USERNAME }}/coordikitty:latest
             docker stop coordikitty:latest
             docker rm coordikitty:latest
-            docker run --name coordikitty:latest -d -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/coordikitty:latest
+            docker run --name coordikitty-was -d -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/coordikitty:latest
