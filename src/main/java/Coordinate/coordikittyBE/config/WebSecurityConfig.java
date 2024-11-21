@@ -23,20 +23,20 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authz -> authz
-                        .requestMatchers(
-                                "/swagger-ui/**",
-                                "/v3/api-docs/**",
-                                "/user/signUp",
-                                "/user/signUp/dupCheck",
-                                "/auth/login",
-                                "/auth/token",
-                                "/auth/login/google",
-                                "/oauth2/authorization/google",
-                                "/post"
-                        ).permitAll()
-                        .anyRequest().authenticated()
-                )
+                .authorizeHttpRequests(request -> {
+                    request.requestMatchers(
+                            "/swagger-ui/**",
+                            "/v3/api-docs/**",
+                            "/auth/token",
+                            "/auth/login/google",
+                            "/oauth2/authorization/google",
+                            "/post").permitAll();
+                    request.requestMatchers(
+                        "/auth/login",
+                        "/user/signUp",
+                        "/user/signUp/dupCheck").anonymous();
+                    request.anyRequest().authenticated();
+                })
                 .exceptionHandling(exception-> exception.authenticationEntryPoint(authenticationEntryPoint))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtExceptionFilter, JwtAuthenticationFilter.class)

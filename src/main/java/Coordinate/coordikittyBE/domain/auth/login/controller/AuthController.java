@@ -13,6 +13,7 @@ import Coordinate.coordikittyBE.global.util.cookie.CookieUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +43,7 @@ public class AuthController {
                 .header(cookieUtil.addRtkCookie("refreshToken", tokenDto.refreshToken()).toString()).body(responseBody);
     }
 
+    @PreAuthorize("isAnonymous()")
     @PostMapping("/login")
     public ResponseEntity<?> signIn(@RequestBody LoginRequestDto loginRequestDto){
         LoginResponseDto loginResponseDto = authService.signIn(loginRequestDto);

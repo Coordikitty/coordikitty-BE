@@ -56,7 +56,6 @@ public class RecommendService {
 
         // type 에 따라 ML 서버랑 통신
         switch (type) {
-            //case SITUATION -> {}
             case STYLE -> {
                 try {
                     HttpEntity<List<RecommendRequestDto>> request = new HttpEntity<>(clothImages, headers);
@@ -93,6 +92,6 @@ public class RecommendService {
         RestTemplate restTemplate = new RestTemplate();
         WeatherResponse temperature = restTemplate.getForObject(url, WeatherResponse.class);
 
-        return temperature != null ? (int) Math.round(temperature.getMain().getTemp()) : 30;
+        return temperature != null ? (int) Math.round(temperature.getMain().getTemp()) : 15;
     }
 }
