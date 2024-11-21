@@ -63,16 +63,14 @@ public class PostingService {
                 .orElseThrow(()-> new CoordikittyException(ErrorType.MEMBER_NOT_FOUND));
         Post post = PostUploadRequestDto.toEntity(postUploadRequestDto, user);
         List<String> postImageUrls = new ArrayList<>();
-        images.stream()
-                .map(image -> {
+        postRepository.save(post);
+        images.forEach(image -> {
                     String imageUrl = firebaseHelper.uploadPostImage(image, post.getId());
                     PostImage postImage = PostImage.from(imageUrl, post);
-                    post.addImageUrl(postImage);
                     postImageRepository.save(postImage);
+                    post.addImageUrl(postImage);
                     postImageUrls.add(imageUrl);
-                    return imageUrl;
                 });
-        postRepository.save(post);
 
         History history = History.of(user, post);
         historyRepository.save(history);
