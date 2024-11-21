@@ -77,4 +77,4 @@ jobs:
             docker pull ${{ secrets.DOCKER_USERNAME }}/coordikitty:latest
             docker stop coordikitty:latest
             docker rm coordikitty:latest
-            docker run --name coordikitty:latest -d -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/sponjy-app-server
+            docker run --name coordikitty:latest -d -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/coordikitty:latest
