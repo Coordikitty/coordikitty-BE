@@ -74,6 +74,7 @@ jobs:
           script: |
             docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
             docker pull ${{ secrets.DOCKER_USERNAME }}/coordikitty:latest
-            docker stop coordikitty:latest
-            docker rm coordikitty:latest
+            docker stop coordikitty-was
+            docker rm coordikitty-was
             docker run --name coordikitty-was -d -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/coordikitty:latest
+            docker image prune -f
