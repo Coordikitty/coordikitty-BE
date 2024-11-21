@@ -39,13 +39,18 @@ public class PostingController {
     }
 
     @GetMapping(value = "/get/{postId}")
-    public ResponseEntity<PostResponseDto> getPostByPostId(
+    public ResponseEntity<?> getPostByPostId(
             @PathVariable("postId") UUID postId
     ) {
         return ResponseEntity.ok(postingService.findById(postId));
     }
 
-
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<?> readPostsByUserId(
+        @PathVariable("userId") UUID userId
+    ) {
+        return ResponseEntity.ok(postingService.findByUserId(userId));
+    }
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadPost(
             @RequestPart PostUploadRequestDto postUploadRequestDto,

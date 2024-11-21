@@ -13,4 +13,7 @@ public interface PostRepository extends JpaRepository<Post, UUID> {
     List<Post> findAllByOrderByLikeCountDesc();
 
     List<Post> findAllByUserId(UUID userId);
+
+
+    List<Post> findAllByUserIdOrderByCreatedAtDesc(UUID userId);
 }

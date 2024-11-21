@@ -117,4 +117,9 @@ public class PostingService {
                 .orElseThrow(()-> new CoordikittyException(ErrorType.HISTORY_NOT_FOUND));
         return PostResponseDto.fromEntity(post, postImages, history);
     }
+
+    public List<PostResponseDto> findByUserId(UUID userId) {
+        return postRepository.findAllByUserIdOrderByCreatedAtDesc(userId).stream()
+            .map(this::findAllImageUrlByPostId).toList();
+    }
 }
